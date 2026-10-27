@@ -1,46 +1,62 @@
-# lm-benchmark
+# LM Studio Multi-Scenario Test Project
 
-LM Studio Local Model Test Scripts  
+Scripts that let you run the same set of models against many independent test scenarios.
 
-Simple Python scripts that automate running the same set of questions against every model you select in LM Studio. Results are written as markdown files that match the style of a manual LM Studio export.
+## Quick start
 
-## Files
+1. Make sure the LM Studio server is running.
+2. Edit `config.json` if needed.
+3. Run `python get_models.py` and edit `models.json` to set only the models you want to use.
+4. Create a scenario folder under `scenarios/` with at least `test.json` and `question1.md`.
+5. Run `python get_scenarios.py` to build `scenarios.json`.
+6. Edit modes in `scenarios.json` (default is `none`).
+7. Run `python run_tests.py`.
 
-- `config.json` — LM Studio address and optional API token
-- `test.json` — name and description for this test run
-- `questions.json` — array of questions (asked in order)
-- `models.json` — created by `get_models.py` (edit to keep only the models you want)
-- `get_models.py` — fetches models from LM Studio and writes `models.json`
-- `run_tests.py` — loads each model, runs the questions, writes results
+## Modes (set in scenarios.json)
 
-## Setup
+- `none` — skip the scenario
+- `update` — run only models that do not already have a result file
+- `refresh` — run every model currently in `models.json` (overwrites those files; leaves old removed model results alone)
 
-1. Make sure the LM Studio local server is running (Developer tab or `lms server start`).
-2. Copy these files into a test folder (example: `tests/weather-app/`).
-3. Edit `config.json` if your server is not on `localhost:1234`. Add an API token if you enabled one.
-4. Edit `test.json` and `questions.json` for the test you want to run.
+## System prompt
 
-## Run
-
-```bash
-python get_models.py
-# edit models.json if needed
-python run_tests.py
-```
-
-## Output
-
-Everything lands in a `results/` folder:
-
-- One markdown file per model (named `Model Name - 2026-10-24 23.07.md`)
-- `test_summary.md` with the test name, description, and list of models
-- `results.md` (empty, ready for you to paste the cloud evaluation)
-
-The model markdown files include the conversation turns plus a short stats line on each assistant reply (tokens/s, token count, time, context percent).
+- If `test.json` has `"system_prompt": false`, no system message is used.
+- Otherwise the runner uses `scenarios/<name>/system.md` if it exists, else the root `system.md`.
 
 ## Notes
 
-- The scripts use the model defaults you already set in LM Studio.
-- Files are overwritten if they already exist.
-- After a run you can start a cloud chat, paste your evaluation instructions, and save the answer into `results.md`.
-- The whole test folder is easy to keep in git.
+- Result files use a stable name based on the model key so update mode can find them.
+- A copy of `models.json` is saved inside each results folder as a snapshot.
+- Configurable values sit at the top of each script.
+- Models are sorted from smallest to largest.
+
+## Layout
+
+```
+config.json
+get_models.py
+get_scenarios.py
+run_tests.py
+models.json
+scenarios.json
+system.md                  ← optional root system prompt
+README.md
+
+scenarios/
+  weather app/
+    test.json
+    question1.md
+    question2.md
+    system.md              ← optional (overrides root)
+  code 1/
+    ...
+
+results/
+  weather app/
+    models.json            ← snapshot used for this run
+    <model-key>.md
+    test_summary.md
+    results.md
+  code 1/
+    ...
+```

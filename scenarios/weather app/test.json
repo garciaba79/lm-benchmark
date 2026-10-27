@@ -1,0 +1,7 @@
+{
+  "name": "Weather App Planning",
+  "description": "Test how different local models handle planning, feedback, and component requests for a simple weather app.",
+  "test": "weather app",
+  "system_prompt": true,
+  "notes": ""
+}

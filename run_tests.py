@@ -3,6 +3,9 @@
 Run the full test suite against every model listed in models.json.
 Loads each model, asks every question in order, captures stats,
 writes one markdown file per model, plus a test summary and empty results.md.
+
+run_tests.py
+version 0.0.0
 """
 
 import json
@@ -39,18 +42,6 @@ def safe_filename(name):
     keep = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_ ."
     cleaned = "".join(c if c in keep else "-" for c in name)
     return cleaned.strip().replace("  ", " ")[:80]
-
-def params_sort_key(params):
-    """Extract a numeric value from params strings like '7B', '1.5B', '26B-A4B' for sorting."""
-    if not params:
-        return 0.0
-    match = re.search(r"([\d.]+)", str(params))
-    if match:
-        try:
-            return float(match.group(1))
-        except ValueError:
-            return 0.0
-    return 0.0
 
 def format_context(context_length):
     if not context_length:
@@ -128,9 +119,6 @@ def main():
     test_info = load_json(TEST_PATH)
     models = load_json(MODELS_PATH)
     questions = load_json(QUESTIONS_PATH)
-
-    # Sort by params (smallest first) so runs are ordered consistently
-    models.sort(key=lambda m: params_sort_key(m.get("params")))
 
     if not isinstance(questions, list) or not questions:
         print("questions.json must be a non-empty array of strings")

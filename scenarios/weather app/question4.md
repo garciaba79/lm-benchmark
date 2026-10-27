@@ -1,0 +1,1 @@
+Provide me an example react component for the daily view.

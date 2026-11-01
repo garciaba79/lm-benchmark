@@ -1,11 +1,11 @@
 # Nvidia NVIDIA Nemotron Nano 9B v2
 Model: nvidia_nvidia-nemotron-nano-9b-v2
 Test: Weather App Planning
-Created: 10/27/2026, 07:27:03 AM
+Created: 10/28/2026, 12:45:34 AM
 Exported from: LM Studio (via test script)
 Context 16K
 
-### User
+> #### 💬 User
 
 I am about to work on a new project and create a Weather app. Here is my development plan. Do not provide me code or examples unless I ask you to. Stand by for next instructions.
 
@@ -219,206 +219,211 @@ When ready to start implementation, you can work on:
 - IndexedDB schema examples
 - Service worker caching strategy
 
-### Assistant
+> #### 🤖 Assistant
 
-Understood! I'm ready to assist with your Weather PWA project as you proceed. Feel free to ask questions about any part of the plan, from scaffolding the project to implementing specific features like geocoding, caching strategies, or accessibility enhancements. Just let me know what you need next!
+Understood! I'm ready to assist with your Weather PWA project step-by-step as you direct. Whether you need help with architecture decisions, component design, API integration, or any other part of the plan, just let me know what you'd like to tackle next.  
 
-97 t/s, 473 tokens, 6s, 19%
+**What would you like to address first?**  
+(Examples: scaffolding setup, component structure ideas, IndexedDB schema design, service worker logic, etc.)
 
-### User
+97 t/s, 458 tokens, 6s, 19%
+
+> #### 💬 User
 
 What do you think about the app plan? Does it sound good, any issues, any improvements?
 
-### Assistant
+> #### 🤖 Assistant
 
-Your app plan looks **excellent** overall! It’s well-structured, covers critical PWA features (offline support, caching, accessibility), and balances ambition with realism for a portfolio project. Below are some thoughts on strengths, potential issues, and improvements:
+Your Weather PWA development plan looks **very solid** and well-structured! It balances ambition with practicality, covering core functionality, polish, and modern web best practices. Below are my thoughts on strengths, potential issues, and suggested improvements:
 
 ---
 
 ### **Strengths**
-1. **Clear Goals & Scope**  
-   - The MVP is focused (location search, daily/10-day views) without overcomplicating the scope.  
-   - Future parts (e.g., multiple APIs, sharing) are modular and optional, avoiding scope creep.
+1. **Clear MVP Focus**:  
+   - The MVP (location selection, daily/10-day views) is achievable and portfolio-friendly. It avoids over-engineering while delivering a functional app.
+   - Offline support via IndexedDB and service workers is a strong differentiator for a PWA.
 
-2. **Tech Stack Choices**  
-   - React + Vite + TypeScript is a solid, modern stack for performance and maintainability.  
-   - Using Open-Meteo (no API key) simplifies setup and avoids commercial dependencies.  
-   - IndexedDB for caching aligns well with PWA goals.
+2. **Tech Stack Choices**:  
+   - React + Vite + TypeScript is a modern, performant stack.  
+   - Using Open-Meteo (no API key) simplifies setup, though attribution requirements are noted.  
+   - Custom visuals (SVG/canvas) and parallax effects align with portfolio goals.
 
-3. **Accessibility & Polish**  
-   - Accessibility is baked into the plan (contrast, keyboard nav, reduced motion), which is critical for a portfolio app.  
-   - Custom visuals (parallax, themes) add unique value for a portfolio.
+3. **Accessibility & UX**:  
+   - Explicit attention to contrast, keyboard navigation, and reduced motion is commendable.  
+   - Loading states, error handling, and time zone awareness show thoughtful UX design.
 
-4. **Testing & CI**  
-   - Vitest and GitHub Actions ensure code quality and reproducibility.  
-   - Error boundaries and loading states show foresight for user experience.
+4. **Progressive Enhancement**:  
+   - The plan accounts for edge cases (e.g., geolocation denial, stale cache) and prioritizes graceful degradation.
 
-5. **PWA Focus**  
-   - Manual service worker setup (instead of relying on plugins) gives you full control.  
-   - Offline/refresh logic is well-planned.
-
----
-
-### **Potential Issues or Areas to Watch**
-1. **Open-Meteo Limitations**  
-   - The free tier is non-commercial, so if the app grows in popularity, you might hit usage limits.  
-   - Consider adding a fallback API (e.g., OpenWeatherMap) later if needed, but this could complicate the MVP.
-
-2. **Parallax Performance**  
-   - Parallax effects can be resource-intensive on mobile devices. Test thoroughly to ensure smoothness, especially on lower-end hardware or older browsers.
-
-3. **Service Worker Caching Strategy**  
-   - You’ll need a robust caching strategy (e.g., cache-first for static assets, network-first for dynamic data). Ensure cache invalidation works when new data is fetched.
-
-4. **Geocoding Fallbacks**  
-   - Open-Meteo’s geocoding coverage is inconsistent. Your fallback plan (e.g., coordinates) is good, but test edge cases (e.g., rural areas, ambiguous city names).
-
-5. **Accessibility Implementation**  
-   - While planned, accessibility can be easy to overlook in custom components (e.g., canvas/SVG charts). Use tools like Axe or Lighthouse to audit during development.
-
-6. **Version Management**  
-   - Pinning dependency versions is good, but ensure you’re not stuck with outdated libraries (e.g., React 18.x is fine, but check for breaking changes in newer versions).
+5. **Deployment & CI**:  
+   - Vercel deployment with GitHub Actions ensures a polished release pipeline.  
+   - Lighthouse audits and PWA compliance are built into the process.
 
 ---
 
-### **Suggestions for Improvement**
-1. **Add a Backup API Early**  
-   - Even if not used immediately, document or prototype a fallback API (e.g., OpenWeatherMap) in case Open-Meteo’s free tier becomes restrictive.
+### **Potential Issues or Risks**
+1. **Open-Meteo Limitations**:  
+   - The free tier is non-commercial, so ensure this aligns with your portfolio use case.  
+   - Geocoding via Open-Meteo has inconsistent postal code support—consider a fallback (e.g., default to city/coordinates if postal code fails).
 
-2. **Prioritize Accessibility Testing**  
-   - Allocate time early to test keyboard navigation and screen reader compatibility, especially for custom visuals.
+2. **Service Worker Update Strategy**:  
+   - The plan mentions an update prompt but doesn’t detail how to handle versioning (e.g., cache invalidation, user consent). This could lead to confusion if not implemented carefully.
 
-3. **Simplify Parallax**  
-   - Use subtle parallax effects (e.g., background shifts on scroll) rather than complex animations to balance visual appeal and performance.
+3. **Time Zone Handling**:  
+   - While you’re fetching timezone data from the API, ensure the app handles daylight saving time transitions smoothly (Open-Meteo should provide this, but edge cases exist).
 
-4. **Document Caching Logic**  
-   - Clearly comment or document how caching works (e.g., TTL for API responses, cache keys) to make maintenance easier later.
+4. **Parallax Performance**:  
+   - Custom parallax effects can be resource-intensive. Test on low-end devices to avoid lag, especially on mobile.
 
-5. **Consider PWA Prompt Timing**  
-   - Decide whether to prompt users to install the PWA immediately or after first use. A delayed prompt might improve initial load performance.
+5. **IndexedDB Schema Design**:  
+   - The plan doesn’t specify how location data or cache entries will be structured. A clear schema (e.g., versioning, expiration) is critical for scalability.
 
-6. **Lighthouse Targets**  
-   - Set specific Lighthouse scores (e.g., 90+ for PWA) as a benchmark during testing to ensure quality.
+6. **Pull-to-Refresh Fallback**:  
+   - Native pull-to-refresh doesn’t work well on iOS PWAs. Your fallback should be robust but lightweight to avoid bloat.
+
+---
+
+### **Suggested Improvements**
+1. **Geocoding Strategy**:  
+   - Explicitly document fallback logic (e.g., prioritize city names over postal codes, use coordinates as a last resort).  
+   - Consider adding a "search as you type" feature for better UX.
+
+2. **Service Worker Best Practices**:  
+   - Implement cache versioning (e.g., increment a version number in the manifest when new data is deployed).  
+   - Add a manual cache-clearing UI option (as a nice-to-have) for debugging.
+
+3. **Time Zone Edge Cases**:  
+   - Test with locations spanning multiple time zones (e.g., New York vs. Tokyo) to ensure correct display of sunrise/sunset times.
+
+4. **Accessibility Testing**:  
+   - Use tools like Axe or Lighthouse to audit accessibility early. Ensure custom charts/SVG elements have ARIA labels.
+
+5. **Performance Optimization**:  
+   - Lazy-load non-critical assets (e.g., weather icons, parallax backgrounds) to improve initial load times.  
+   - Consider Web Workers for heavy data processing (e.g., 10-day forecast rendering).
+
+6. **Documentation & README**:  
+   - Start drafting the README early with setup instructions, architecture diagrams, and API attribution notes.  
+   - Include a section on how to test offline functionality locally.
 
 ---
 
 ### **Final Thoughts**
-This plan is **very strong** for a portfolio project. It demonstrates technical depth (PWA, caching, accessibility) while staying focused on deliverables. The only real risks are around API limitations and performance of visual effects, but these are manageable with careful testing. If you follow the plan as written, you’ll end up with a polished, functional app that showcases key modern web skills.
+This plan is **well-thought-out** and covers all critical aspects of a modern PWA. The only real risks are around Open-Meteo’s terms and edge cases in geocoding/time zones. If you address those and maintain a focus on progressive enhancement, this should be a strong showcase project.  
 
-Let me know if you’d like to dive deeper into any specific part (e.g., caching strategy, accessibility implementation)!
+Would you like to dive into any specific part next (e.g., scaffolding, IndexedDB schema, service worker logic)?
 
-100 t/s, 1662 tokens, 17s, 27%
+96 t/s, 1776 tokens, 19s, 27%
 
-### User
+> #### 💬 User
 
 What tech documentation would help you understand the app plan better?
 
-### Assistant
+> #### 🤖 Assistant
 
-To better understand and implement your Weather PWA project, here’s a breakdown of **key technical documentation** that would clarify the plan’s components, architecture, and best practices:
+To better understand and implement your Weather PWA plan, here’s a curated list of **tech documentation** and resources that would clarify key components of the project. These focus on the core technologies, APIs, and best practices you’ll need:
 
 ---
 
 ### **1. Core Tech Stack Documentation**
-#### **React & TypeScript**
-- **Official React Docs**:  
-  - [React Guide](https://react.dev/learn) (focus on components, hooks, Context API, and routing).  
-  - [TypeScript + React Guide](https://react.dev/learn/type-checking-in-react) (for type definitions and interfaces).  
-- **Vite Docs**:  
-  - [Vite Guide](https://vitejs.dev/guide/) (build process, plugins, and PWA setup).  
-- **React Router**:  
-  - [react-router-dom Docs](https://reactrouter.com/en/main) (routing patterns for single-page apps).  
+#### **React**
+- [React Official Docs](https://react.dev):  
+  - Components, hooks (`useState`, `useEffect`), context API, routing with `react-router-dom`.
+  - TypeScript integration (type definitions, interfaces).
+- [React Hooks Guide](https://react.dev/learn/hooks): For managing state and side effects (e.g., data fetching, caching).
+
+#### **TypeScript**
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html):  
+  - Type definitions, interfaces, and type safety for React components.
+- [TypeScript + React Examples](https://react-typescript-cheatsheet.com): Practical patterns for state management and API calls.
+
+#### **Vite**
+- [Vite Documentation](https://vitejs.dev):  
+  - Project setup, routing configuration, and build process details.
+  - Plugin system (e.g., `vite-plugin-pwa` if you switch to it later).
+
+#### **IndexedDB**
+- [MDN Web Docs: IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API):  
+  - CRUD operations, schema design, and caching strategies.
+- [idb Library Docs](https://github.com/jakearchibald/idb):  
+  - Simplifies IndexedDB usage with promises (critical for your caching logic).
 
 #### **Open-Meteo API**
-- **Open-Meteo API Docs**:  
-  - [Open-Meteo Documentation](https://open-meteo.com/en/docs) (geocoding, forecasts, time zones, and attribution requirements).  
-- **API Usage Examples**:  
-  - GitHub repos or tutorials showing how to fetch weather data (e.g., geocoding with city names/coordinates).  
-
-#### **IndexedDB & Caching**
-- **IDB Library Docs**:  
-  - [idb Wrapper Documentation](https://github.com/ericbidelman/promise-idb) (for IndexedDB interactions in React).  
-- **Caching Strategies**:  
-  - [Service Worker Caching Guide](https://developer.chrome.com/docs/serviceworkers/cache-strategies/) (cache-first, network-first patterns).  
-
-#### **Accessibility**
-- **W3C Accessibility Guidelines**:  
-  - [WCAG 2.1 Standards](https://www.w3.org/WAI/WCAG21/quickref/) (contrast ratios, keyboard nav, reduced motion).  
-- **ARIA Authoring Practices**:  
-  - [ARIA Guide](https://www.w3.org/ARIA/practices/) (for custom components like charts or modals).  
-
-#### **PWA & Service Workers**
-- **Web.dev PWA Guide**:  
-  - [Build a Progressive Web App](https://web.dev/progressive-web-apps/) (manifest, service workers, installability).  
-- **Service Worker Spec**:  
-  - [MDN Service Worker Docs](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) (registration, caching, offline events).  
+- [Open-Meteo API Docs](https://open-meteo.com/en/docs):  
+  - Geocoding endpoints (`/geocode`), forecasts (`/forecast`), and time zone handling.
+  - Attribution requirements (must display their logo/credit).
 
 ---
 
-### **2. App-Specific Architecture Docs**
-#### **Data Flow & State Management**
-- **React Context API Guide**:  
-  - [React Context Docs](https://react.dev/reference/react/context) (how to structure global state for location/units).  
-- **Custom Hooks Documentation**:  
-  - [Custom Hooks Guide](https://react.dev/learn/custom-hooks) (for data-fetching or caching logic).  
+### **2. PWA-Specific Documentation**
+- [PWA Best Practices (Google)](https://developer.chrome.com/docs/pwa/):  
+  - Service worker setup, manifest.json requirements, offline strategies.
+- [Service Worker Guide](https://developer.chrome.com/docs/web-platform/service-workers/):  
+  - Caching strategies (e.g., cache-first, network-first) and versioning.
+- [Manifest.json Generator Tools](https://manifest.json-generator.com):  
+  - Helps create valid manifests for icons, themes, and display modes.
 
-#### **Caching & Offline Logic**
-- **IndexedDB Schema Design**:  
-  - Document your IndexedDB structure (e.g., tables for locations, cached weather data).  
-- **Cache Invalidation Strategy**:  
-  - Explain how you’ll handle stale data (e.g., TTL for API responses, manual refresh).  
+---
 
-#### **Visuals & Parallax**
-- **SVG/Canvas Basics**:  
-  - [SVG Guide](https://developer.mozilla.org/en-US/docs/Web/SVG) (for weather icons or charts).  
+### **3. Accessibility & UX**
+- [W3C Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/WCAG21/quickref/):  
+  - Contrast ratios, keyboard navigation, reduced motion support.
+- [A11Y Project](https://a11yproject.com):  
+  - Practical examples for accessible UI patterns (e.g., focus states, ARIA labels).
+- [Lighthouse Audits Guide](https://developer.chrome.com/docs/lighthouse/):  
+  - How to run audits locally and fix accessibility/performance issues.
+
+---
+
+### **4. API & Data Handling**
+- [Fetch API Docs](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API):  
+  - Async/await patterns for data fetching.
+- [Geolocation API Guide](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API):  
+  - Handling user location permissions and fallback logic.
+
+---
+
+### **5. Performance & Testing**
+- [Vitest Docs](https://vitest.dev):  
+  - Writing unit tests for React components and caching logic.
+- [Lighthouse Performance Report](https://developer.chrome.com/docs/lighthouse/performance/):  
+  - Optimizing load times, lazy loading, and critical rendering path.
+
+---
+
+### **6. Project-Specific Resources**
+- **Open-Meteo Attribution**:  
+  - Ensure you document how to display their logo/credit (required by their terms).
+- **Time Zone Handling**:  
+  - JavaScript `Intl.DateTimeFormat` with time zone support (`timezone=auto` from Open-Meteo).
 - **Parallax Effects**:  
-  - [CSS Parallax Tutorials](https://css-tricks.com/snippets/css/parallax-scrolling-effects/) (transform-based vs. `background-attachment`).  
-
----
-
-### **3. Testing & Deployment**
-- **Vitest Docs**:  
-  - [Vitest Guide](https://vitest.dev/docs/) (unit testing for API/data logic).  
-- **GitHub Actions CI/CD**:  
-  - [GitHub Actions Docs](https://docs.github.com/en/actions) (workflow setup for tests/builds).  
-- **Vercel Deployment**:  
-  - [Vercel Docs](https://vercel.com/docs) (PWA deployment, custom domains).  
-
----
-
-### **4. Best Practices & Style Guides**
-- **Biome Linter**:  
-  - [Biome Config Examples](https://biomejs.dev/) (for consistent code style).  
-- **Accessibility Testing Tools**:  
-  - [Lighthouse Audit Guide](https://developer.chrome.com/docs/lighthouse/overview/) (PWA, performance, a11y scores).  
-- **Responsive Design**:  
-  - [CSS Grid/Flexbox Guides](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) (for mobile-first layouts).  
+  - CSS transform-based parallax (avoid `background-attachment: fixed`). Look for tutorials on scroll-driven animations.
 
 ---
 
 ### **Why This Documentation Matters**
-- **Clarity on Open-Meteo**: The API’s attribution rules and geocoding quirks are critical to avoid compliance issues.  
-- **PWA Implementation**: Manual service worker setup requires understanding lifecycle events and caching strategies.  
-- **Accessibility**: WCAG standards ensure the app meets your project’s "accessible by design" goal.  
-- **Performance**: Caching and parallax docs help balance visual polish with smooth UX.  
+- **Clarity on APIs**: Open-Meteo’s geocoding and forecast endpoints have specific parameters (e.g., `timezone=auto`).
+- **PWA Compliance**: Manual service worker setup requires understanding cache strategies.
+- **Accessibility**: WCAG compliance is non-negotiable for your project goals.
+- **Performance**: IndexedDB and caching logic need to be efficient to avoid slow app behavior.
 
-By referencing these resources, you’ll have a solid foundation to implement each part of the plan while staying aligned with modern web best practices. Let me know if you’d like links or summaries for any specific section!
+Would you like me to dive deeper into any of these areas (e.g., IndexedDB schema examples, service worker code structure)?
 
-101 t/s, 1795 tokens, 18s, 34%
+96 t/s, 1564 tokens, 17s, 32%
 
-### User
+> #### 💬 User
 
 Provide me an example react component for the daily view.
 
-### Assistant
+> #### 🤖 Assistant
 
-Here's an example React component for the **Daily Weather View** that aligns with your project plan. This component focuses on displaying current conditions and today's forecast, with unit toggling and caching via IndexedDB:
+Here's an example React component for the **Daily Weather View**, following your project plan's requirements. This component focuses on displaying current conditions, sunrise/sunset times, and hourly forecasts with unit toggles. It includes placeholders for custom visuals (SVG/canvas) and accessibility features.
 
 ```tsx
-// DailyView.tsx
+// DailyWeatherView.tsx
 import React, { useState, useEffect } from 'react';
-import idb from 'idb'; // IndexedDB wrapper
-import './DailyView.css'; // Custom styles
+import { useLocationContext } from '../context/LocationContext'; // Assume this provides location data
+import './DailyWeatherView.css'; // Custom styles for cards, parallax, etc.
 
 interface WeatherData {
   current: {
@@ -427,148 +432,156 @@ interface WeatherData {
     windSpeed: number;
     humidity: number;
   };
-  daily: {
-    temperature_2m: number[];
-    feels_like_2m: number[];
-    wind_speed_10m: number[];
-    humidity: number[];
-    sunrise: string;
+  forecast: {
+    sunrise: string; // Local time zone
     sunset: string;
+    hourly: { time: string; temperature: number }[]; // Simplified for example
   };
 }
 
-const DailyView: React.FC = () => {
+const DailyWeatherView: React.FC = () => {
+  const { location } = useLocationContext(); // Get current location (city, coords)
+  const [units, setUnits] = useState('metric'); // Default to metric (°C, km/h)
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [units, setUnits] = useState('metric'); // 'metric' or 'imperial'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Get location from context or props (simplified here)
-  const [lat, lon] = [40.7128, -74.0060]; // Example coordinates
-
-  // Fetch data from Open-Meteo API
+  // Fetch weather data from Open-Meteo (mocked here)
   useEffect(() => {
+    if (!location.coords) return; // Handle missing coordinates
+
     const fetchWeather = async () => {
       try {
-        // Check cache first
-        const cachedData = await idb.openDB('weather-cache').get('daily');
-        if (cachedData && Date.now() - cachedData.timestamp < 3 * 60 * 60 * 1000) {
-          setWeatherData(cachedData);
-          setLoading(false);
-          return;
-        }
-
         const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?lat=${lat}&lon=${lon}&current_weather=true&daily=temperature_2m,feels_like_2m,wind_speed_10m,humidity,sunrise,sunset&timezone=auto`
+          `https://api.open-meteo.com/v1/forecast?latitude=${location.coords.lat}&longitude=${location.coords.lon}&timezone=auto`
         );
         const data = await response.json();
 
-        // Save to cache
-        await idb.openDB('weather-cache').put({
-          timestamp: Date.now(),
-          data,
+        // Map Open-Meteo data to our structure
+        setWeatherData({
+          current: {
+            temperature: data.current_temperature,
+            feelsLike: data.current_feelslike,
+            windSpeed: data.current_wind_speed,
+            humidity: data.current_humidity,
+          },
+          forecast: {
+            sunrise: new Date(data.sunrise).toLocaleTimeString([], { timeZone: data.timezone }),
+            sunset: new Date(data.sunset).toLocaleTimeString([], { timeZone: data.timezone }),
+            hourly: data.hourly_2t.map((item) => ({
+              time: new Date(item.time).toLocaleTimeString([], { timeZone: data.timezone }),
+              temperature: item.temperature,
+            })),
+          },
         });
-
-        setWeatherData(data);
-        setLoading(false);
       } catch (err) {
-        setError('Failed to fetch weather data');
+        setError('Failed to load weather data. Please try again.');
+      } finally {
         setLoading(false);
       }
     };
 
     fetchWeather();
-  }, [lat, lon]);
-
-  // Unit conversion helpers
-  const convertTemperature = (temp: number): number => 
-    units === 'metric' ? temp : (temp * 9/5) + 32;
-  const convertWindSpeed = (speed: number): number => 
-    units === 'metric' ? speed : speed * 2.237;
-
-  // Unit toggle handler
-  const toggleUnits = () => {
-    setUnits((prev) => (prev === 'metric' ? 'imperial' : 'metric'));
-    idb.openDB('weather-cache').put({ units: units });
-  };
+  }, [location.coords]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  if (!weatherData) return null;
-
-  // Format time in local time zone
-  const formatTime = (time: string): string => {
-    const date = new Date(time);
-    return date.toLocaleTimeString([], { hour12: false });
-  };
-
-  // Convert data based on units
-  const currentTemp = convertTemperature(weatherData.current.temperature);
-  const feelsLike = convertTemperature(weatherData.current.feelsLike);
-  const windSpeed = convertWindSpeed(weatherData.current.windSpeed);
-
   return (
     <div className="daily-view">
-      <h1>Today's Weather</h1>
-      
-      <div className="units-toggle">
-        {units === 'metric' ? 
-          <button onClick={toggleUnits}>°F / mph</button> :
-          <button onClick={toggleUnits}>°C / km/h</button>
-        }
-      </div>
-
+      {/* Current Conditions Card */}
       <div className="weather-card">
-        <div className="current-conditions">
-          <p>Temperature: {currentTemp}°{units === 'metric' ? 'C' : 'F'}</p>
-          <p>Feels Like: {feelsLike}°{units === 'metric' ? 'C' : 'F'}</p>
-          <p>Wind: {windSpeed}{units === 'metric' ? ' km/h' : ' mph'}</p>
-          <p>Humidity: {weatherData.current.humidity}%</p>
-        </div>
-
-        <div className="daily-forecast">
-          <p>Sunrise: {formatTime(weatherData.daily.sunrise)}</p>
-          <p>Sunset: {formatTime(weatherData.daily.sunset)}</p>
-          {/* Add hourly breakdown visualization here (canvas/SVG) */}
+        <h2>{location.city}</h2>
+        <div className="metrics">
+          <div>
+            <span>Temperature:</span>
+            {units === 'metric' ? `${weatherData.current.temperature}°C` : `${weatherData.current.temperature}°F`}
+          </div>
+          <div>
+            <span>Feels Like:</span>
+            {units === 'metric' ? `${weatherData.current.feelsLike}°C` : `${weatherData.current.feelsLike}°F`}
+          </div>
+          <div>
+            <span>Wind:</span>
+            {units === 'metric' ? `${weatherData.current.windSpeed} km/h` : `${weatherData.current.windSpeed} mph`}
+          </div>
+          <div>
+            <span>Humidity:</span>
+            {weatherData.current.humidity}%
+          </div>
         </div>
       </div>
+
+      {/* Sunrise/Sunset Times */}
+      <div className="time-section">
+        <h3>Today's Times</h3>
+        <p>Sunrise: {weatherData.forecast.sunrise}</p>
+        <p>Sunset: {weatherData.forecast.sunset}</p>
+      </div>
+
+      {/* Hourly Forecast Visualization (Placeholder for SVG/Canvas) */}
+      <div className="hourly-forecast">
+        <h3>Hourly Forecast</h3>
+        <div className="hourly-chart">
+          {/* Replace with custom SVG/canvas chart here */}
+          {weatherData.forecast.hourly.map((hour, index) => (
+            <div key={index} style={{ margin: '5px 0' }}>
+              {hour.time}: {hour.temperature}{units === 'metric' ? '°C' : '°F'}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Unit Toggle Button */}
+      <button
+        className="unit-toggle"
+        onClick={() => setUnits((prev) => (prev === 'metric' ? 'imperial' : 'metric'))}
+      >
+        {units === 'metric' ? '°F / mph' : '°C / km/h'}
+      </button>
     </div>
   );
 };
 
-export default DailyView;
+export default DailyWeatherView;
 ```
 
 ---
 
 ### Key Features Implemented:
-1. **Data Fetching**:
-   - Uses Open-Meteo API with `timezone=auto` for local time zones.
-   - Falls back to cached data if available (3-hour TTL).
+1. **Data Fetching**:  
+   - Uses Open-Meteo API with `timezone=auto` for local time zone handling.
+   - Mocked data structure for clarity (replace with real API parsing).
 
-2. **Unit Handling**:
-   - Toggles between metric/imperial units.
-   - Saves preferences to IndexedDB.
+2. **Unit Toggle**:  
+   - Switches between metric/imperial units and updates display.
+   - Could later store preference in IndexedDB.
 
-3. **Caching**:
-   - Stores data in IndexedDB with a timestamp for freshness checks.
+3. **Time Zone Handling**:  
+   - Formats sunrise/sunset times using the location's time zone from the API.
 
-4. **UI Elements**:
-   - Clean card-based layout with flexbox (via CSS Modules).
-   - Time formatting for sunrise/sunset.
+4. **Accessibility Placeholders**:  
+   - Semantic HTML structure (headings, lists).
+   - ARIA labels could be added for charts/SVG elements.
 
-5. **Error Handling**:
-   - Displays loading states and error messages.
+5. **Error Handling**:  
+   - Displays loading state and error messages.
+
+6. **Custom Visuals**:  
+   - Placeholder for SVG/canvas hourly chart (aligns with your plan for custom graphics).
 
 ---
 
-### Next Steps for This Component:
-1. Add **hourly breakdown visualization** (canvas/SVG) as per your plan.
-2. Integrate with the app's **location context** instead of hardcoded coordinates.
-3. Implement **keyboard navigation** and **screen reader support**.
-4. Add **loading skeletons** for dynamic content.
+### Next Steps to Enhance This Component:
+1. **IndexedDB Integration**:  
+   - Store unit preference in IndexedDB instead of local state.
+2. **Error Boundaries**:  
+   - Wrap in a React Error Boundary to handle API failures gracefully.
+3. **Custom Graphics**:  
+   - Replace placeholder hourly chart with SVG/canvas visuals.
+4. **Testing**:  
+   - Add unit tests for data mapping and cache logic (as per your plan).
 
-Would you like me to expand on any specific part (e.g., caching logic, visualization, or accessibility)?
+Would you like me to expand on any specific part (e.g., IndexedDB storage, SVG charts, or error boundaries)?
 
-101 t/s, 2818 tokens, 28s, 47%
+96 t/s, 2211 tokens, 23s, 43%

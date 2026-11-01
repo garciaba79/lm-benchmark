@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Scan the scenarios folder and write scenarios.json.
-Overwrites the file each run.
-Default mode is "none".
+Scan the scenarios folder and write scenarios.json and scenarios.md.
+Overwrites both files each run. Default mode is "none".
 
 get_scenarios.py
-version 0.5.1
+version 0.5.2
 """
 
 import json
@@ -13,6 +12,7 @@ import os
 import re
 from pathlib import Path
 from datetime import datetime
+import requests
 
 # ==========================================
 # CONFIGURATION
@@ -20,20 +20,28 @@ from datetime import datetime
 SCENARIOS_DIR = "scenarios"
 RESULTS_DIR = "results"
 MODELS_PATH = "models.json"
-OUTPUT_PATH = "scenarios.json"
-DEFAULT_MODE = "update"          # none | update | refresh
+OUTPUT_JSON = "scenarios.json"
+OUTPUT_MD = "scenarios.md"
+CONFIG_PATH = "config.json"
+DEFAULT_MODE = "none"
 REQUIRE_TEST_JSON = True
 REQUIRE_AT_LEAST_ONE_QUESTION = True
 
-def load_models():
-    if not os.path.exists(MODELS_PATH):
-        return []
+# Helper model prompt (used only if model is set in config.json and reachable)
+HELPER_PROMPT = """Summarize the current state of these test scenarios in 2-3 short sentences. Mention how many are complete, partial, or not started. Keep it plain and useful."""
+
+def load_json(path):
+    if not os.path.exists(path):
+        return None
     try:
-        with open(MODELS_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else []
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
     except Exception:
-        return []
+        return None
+
+def load_models():
+    data = load_json(MODELS_PATH)
+    return data if isinstance(data, list) else []
 
 def has_questions(scenario_path):
     for p in scenario_path.glob("question*.md"):
@@ -46,15 +54,12 @@ def get_result_status(scenario_name, models):
     if not results_path.exists():
         return "none", None
 
-    # Look for any .md result files (ignore test_summary.md and results.md)
     result_files = [p for p in results_path.glob("*.md")
-                    if p.name.lower() not in ("test_summary.md", "results.md")]
+                    if p.name.lower() not in ("test.md", "results.md", "stats.md")]
 
     if not result_files:
         return "none", None
 
-    # Simple check: if we have at least as many result files as models, call it complete
-    # (more precise matching can be added later)
     if models and len(result_files) >= len(models):
         status = "complete"
     elif result_files:
@@ -62,21 +67,101 @@ def get_result_status(scenario_name, models):
     else:
         status = "none"
 
-    # Best-effort last run date from newest file
     newest = max(result_files, key=lambda p: p.stat().st_mtime)
     last_run = datetime.fromtimestamp(newest.stat().st_mtime).strftime("%Y-%m-%d %H:%M")
-
     return status, last_run
+
+def try_helper_summary(config, scenarios):
+    model = config.get("model") if config else None
+    if not model:
+        return "Here is the summary results."
+
+    base_url = config.get("base_url", "http://localhost:1234").rstrip("/")
+    token = config.get("api_token", "")
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    # Build a short context for the model
+    lines = [f"- {s['scenario']} ({s['status']})" for s in scenarios]
+    context = "Scenarios:\n" + "\n".join(lines)
+
+    try:
+        resp = requests.post(
+            f"{base_url}/api/v0/chat/completions",
+            headers=headers,
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": HELPER_PROMPT},
+                    {"role": "user", "content": context}
+                ],
+                "stream": False,
+                "max_tokens": 200
+            },
+            timeout=60
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        text = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+        return text or "Here is the summary results."
+    except Exception:
+        return "Here is the summary results."
+
+def build_scenarios_md(scenarios, summary):
+    complete = [s for s in scenarios if s["status"] == "complete"]
+    partial = [s for s in scenarios if s["status"] == "partial"]
+    none = [s for s in scenarios if s["status"] == "none"]
+
+    lines = [
+        "# Scenarios",
+        "",
+        "## Summary",
+        "",
+        summary,
+        "",
+        f"## Scenarios",
+        "",
+        f"There are {len(scenarios)} scenarios.",
+        ""
+    ]
+    for s in scenarios:
+        lines.append(f"- {s['scenario']} ({s['status']})")
+
+    if none:
+        lines.extend(["", "## Uncompleted Scenarios", ""])
+        for s in none:
+            lines.append(f"- {s['scenario']}")
+
+    if partial:
+        lines.extend(["", "## Partially Completed Scenarios", ""])
+        for s in partial:
+            lines.append(f"- {s['scenario']}")
+
+    if complete:
+        lines.extend(["", "## Completed Scenarios", ""])
+        for s in complete:
+            lines.append(f"- {s['scenario']}")
+
+    lines.extend([
+        "",
+        "## Suggestions",
+        "",
+        "Set modes in scenarios.json and run the tests to complete remaining scenarios."
+    ])
+
+    return "\n".join(lines) + "\n"
 
 def main():
     scenarios_path = Path(SCENARIOS_DIR)
     if not scenarios_path.exists():
-        print(f"No {SCENARIOS_DIR}/ folder found. Creating empty scenarios.json")
-        with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+        print(f"No {SCENARIOS_DIR}/ folder found.")
+        with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
             json.dump([], f, indent=2)
         return
 
     models = load_models()
+    config = load_json(CONFIG_PATH) or {}
     scenarios = []
 
     for item in sorted(scenarios_path.iterdir()):
@@ -96,17 +181,12 @@ def main():
 
         status, last_run = get_result_status(name, models)
 
-        # Load name/description from test.json if present
         display_name = name
         description = ""
         if has_test:
-            try:
-                with open(test_json_path, "r", encoding="utf-8") as f:
-                    t = json.load(f)
-                    display_name = t.get("name", name)
-                    description = t.get("description", "")
-            except Exception:
-                pass
+            t = load_json(test_json_path) or {}
+            display_name = t.get("name", name)
+            description = t.get("description", "")
 
         scenarios.append({
             "scenario": name,
@@ -118,12 +198,16 @@ def main():
             "last_run": last_run
         })
 
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(scenarios, f, indent=2)
 
-    print(f"Wrote {len(scenarios)} scenarios to {OUTPUT_PATH}")
+    summary = try_helper_summary(config, scenarios)
+    md = build_scenarios_md(scenarios, summary)
+    Path(OUTPUT_MD).write_text(md, encoding="utf-8")
+
+    print(f"Wrote {len(scenarios)} scenarios to {OUTPUT_JSON}")
+    print(f"Wrote {OUTPUT_MD}")
     print(f"Default mode: {DEFAULT_MODE}")
-    print("Edit modes in scenarios.json if needed, then run run_tests.py")
 
 if __name__ == "__main__":
     main()

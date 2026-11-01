@@ -1,11 +1,11 @@
 # Ornith 1.5 9B
 Model: ornith-1.5-9b
 Test: Weather App Planning
-Created: 10/27/2026, 07:27:03 AM
+Created: 10/28/2026, 12:45:34 AM
 Exported from: LM Studio (via test script)
 Context 16K
 
-### User
+> #### 💬 User
 
 I am about to work on a new project and create a Weather app. Here is my development plan. Do not provide me code or examples unless I ask you to. Stand by for next instructions.
 
@@ -219,197 +219,264 @@ When ready to start implementation, you can work on:
 - IndexedDB schema examples
 - Service worker caching strategy
 
-### Assistant
+> #### 🤖 Assistant
 
-Got it — I've read through your Weather PWA plan carefully and I'm standing by for your next instructions. No code or examples unless you ask.
+Got it — I've read through your Weather PWA plan carefully and I'm standing by for your next instructions. Here's a quick summary of what I understand so you can confirm or redirect:
 
-A few things I want to flag so we're aligned when you do start:
+**Scope & stack**
+- Vanilla React + TypeScript, Vite build tool, react-router-dom routing, Context/hooks state (no external state libs)
+- Open-Meteo as the weather API (free tier, non-commercial, attribution required)
+- IndexedDB via `idb` for caching/storage, manual PWA setup (manifest + service worker), Biome + Vitest + GitHub Actions tooling
 
-**On the version decision (Part 1)** — Your plan leaves this deliberately open, which is good. When you get there, my recommendation would be to check current stable majors on npm and lean toward the latest React/Vite/react-router set *if* they're compatible with each other, since that reads as more current on a resume. But staying on 18/5.4 is perfectly defensible if it keeps things stable. Either way, record the reasoning in the README as you've planned.
+**Phasing**
+- Phase 1: MVP foundation — Parts 1–3 (setup, daily view, 10-day forecast → deploy to Vercel)
+- Phase 2: Polish & PWA — Part 4 (visuals), then Parts 5–6 (caching/offline, installability)
+- Future modular parts (7–12) as stretch goals
 
-**On scope sequencing** — Your flow (MVP first via Parts 1–3, then polish/PWA) is sound and realistic. One thing worth keeping in mind: Part 5 says to register the service worker *in that part*, not later — good call, because offline behavior can't be tested until it exists.
+**Key decisions flagged in the plan that I'll respect when you ask me to dig in:**
+- Version policy: deliberate React/Vite/react-router major choice (not just `latest`)
+- Geocoding spike first — postal code coverage is inconsistent, so city + coordinates fallbacks are expected
+- Time zones via `timezone=auto` from Open-Meteo, not the browser's local zone
+- Reduced-motion support throughout; transform-based parallax instead of `background-attachment: fixed`
+- Error boundaries wrapping views; reusable loading/empty/error states
 
-**On Open-Meteo compliance** — You've correctly captured the non-commercial/free-tier attribution requirement, which is easy to trip over and worth getting right early (the footer credit in Part 1 handles this).
+**One thing worth flagging for when we get to scaffolding:** since you're on Windows 11 with Git Bash, a couple of the tooling choices (Biome config format, service worker registration in Vite) have small gotchas that are easy to trip over early — but I'll only raise these if they come up as part of your next instruction.
 
-**A couple of things I'll watch for when you start:**
-- The geocoding spike (Part 1) will likely surface real-world gaps in postal-code coverage — your fallback plan (city + coordinates) is the pragmatic move.
-- Time zone handling (`timezone=auto`) is a common source of subtle bugs, so testing with a location outside your own zone early is smart.
+I'm ready whenever you'd like to start. A few ways we could begin:
+- Scaffold the project structure and folder layout first
+- Work through the Open-Meteo geocoding spike (search strategy, fallbacks)
+- Draft the IndexedDB schema or service worker caching strategy
+- Brainstorm component/view ideas
 
-I'm ready whenever you are. You can start with anything from:
-- Project scaffolding and folder structure
-- Component ideas
-- IndexedDB schema examples
-- Service worker caching strategy
-- Or any other part of the plan you'd like to tackle first
+Just tell me where you'd like to start.
 
-Just let me know what you want to work on next, and whether you'd like code/examples or continued planning.
+118 t/s, 601 tokens, 6s, 19%
 
-118 t/s, 535 tokens, 5s, 19%
-
-### User
+> #### 💬 User
 
 What do you think about the app plan? Does it sound good, any issues, any improvements?
 
-### Assistant
+> #### 🤖 Assistant
 
-Overall, this is a strong plan — well-scoped, realistic for a portfolio piece, and thoughtful in ways that most projects aren't (accessibility as ongoing work, testing + CI included, deliberate version policy). Here's my honest read on where the risks are and what I'd adjust.
+Overall this is a strong, well-thought-out plan — genuinely portfolio-grade in ambition and clarity. You've done the hard part: scoping something realistic while still hitting the things that look good on a resume (custom visuals, PWA/offline, accessibility, CI). I'll give you my honest read though, because "does it sound good" deserves more than agreement.
 
-## What's genuinely good
+## What's working well
 
-- **Accessibility throughout, not as a final pass.** This is rare and worth keeping.
-- **Version policy left open** — leaning latest in 2026 reads better on a resume than pinning to 18/5.4 unless there's a real reason not to. Good instinct.
-- **Two caching layers are acknowledged**, which is the honest way to do it (SW for static/offline assets, IndexedDB for structured app data + freshness logic).
-- **Geocoding spike before committing** — smart, because postal-code gaps will bite you otherwise.
+- **The phased structure is smart.** MVP-first with deploy + CI at the milestone means you always have something shareable, and polish/PWA come later when they're lower-risk to add incrementally.
+- **Open-Meteo is a great choice** for this — no key, free tier, and it handles time zones natively via `timezone=auto`, which saves you real work in Part 2. Your instinct to test with a location in a different zone than yours is exactly right; that's one of the trickier bits and you've flagged it correctly.
+- **Accessibility as ongoing work** rather than a final pass is the mature approach — most people bolt it on at the end and it shows.
+- **Custom SVG/canvas over libraries** is a genuine portfolio differentiator, and avoiding `background-attachment: fixed` shows you know your mobile constraints.
 
-## The real risks I'd flag
+## Real concerns worth thinking about
 
-**1. Part 4 is your biggest time trap.** "Dynamic scenes," hand-built SVGs/icons for *every* condition (rain levels, snow, storm), plus parallax across all of them — that's a lot of custom visual work crammed into one part. Parallax especially tends to consume disproportionate effort and can eat Parts 1–3 combined. My suggestion: treat Part 4 as "impressive but bounded." A few clean SVG icons + CSS gradient scenes get you portfolio-ready faster than a full parallax scene system. Keep parallax as the *showcase* element, not the foundation.
+**1. Scope creep risk in Phase 2.** Parts 4–6 are a lot for one project — custom visuals *and* full caching *and* service worker *and* offline *and* installability. PWA is where projects tend to balloon: iOS Safari install testing, the update-prompt flow, and pull-to-refresh fallbacks are all fiddly and can eat time unexpectedly. My suggestion: treat Parts 5–6 as "nice if you have time" rather than a hard Phase 2 deliverable. Better to ship a polished daily view + forecast that works online than a half-finished offline system.
 
-**2. Weather staleness UX is a design decision you should make now.** This matters more for your app than almost any other because weather's entire point is *current* conditions. If offline mode serves yesterday's forecast, showing "Using cached data" can actively mislead someone about what to wear. Decide early: does cached weather show with clear staleness labeling and a prominent refresh? Or degrade gracefully (e.g., last-known + big "stale" indicator)? Don't defer this — it shapes the Part 5/6 UX.
+**2. The version policy note is more consequential than it reads.** You say "either latest or older is fine," but there are real compatibility landmines:
+   - If you go **latest React (19)**, react-router-dom v6 has known issues with the new router API — and react-router **v7** now exists specifically for React 19. Mixing v6 + React 19 is a footgun.
+   - `vite-plugin-pwa` has had compatibility friction with newer Vite majors, which matters since you list it as an optional fallback in Part 6.
+   
+   So "check current versions" should really be "check version *compatibility*," not just "what's newest."
 
-**3. Two caching layers need crisp division of labor.** SW caches network responses; IndexedDB caches API data with freshness logic. If these overlap, you'll end up double-caching or fighting each other (e.g., SW serves a cached weather response while IndexedDB has its own). Document the split explicitly in your architecture note before coding — it prevents rework later.
+**3. Open-Meteo reliability.** It's a public research API — occasionally slow or flaky, and the free tier has rate limits. For a portfolio piece you want it to look reliable. I'd at least build in awareness of this (and your Part 7 plan is the right long-term answer), even if you don't implement multi-API support now.
 
-## Smaller things to watch
+**4. IndexedDB caching adds real complexity.** The freshness logic is cleanly testable, but serving from cache on load across a service worker + `idb` combo — especially in Vite's dev environment with HMR — can get subtle and hard to debug. It's fine for a portfolio piece, just be ready to spend time here.
 
-- **Canvas/SVG vs accessibility tension.** Your philosophy says custom graphics, but your accessibility section demands meaningful labels + text alternatives for charts/graphics. Be deliberate about which visuals are decorative (`aria-hidden`) vs. informative (real labels). Parallax transforms on interactive elements also complicate focus management — worth planning now.
-- **Time zone edge cases.** `timezone=auto` is fine, but DST transitions and multi-zone locations can surprise you. Sunrise/sunset near extreme latitudes can be weird too. Your "test with a location in another zone" plan covers this well.
-- **Geolocation needs secure context.** Vercel gives you HTTPS so production's fine; just remember it won't fire on plain `http://localhost` unless your dev setup handles that (Vite + modern browsers treat localhost as secure, so likely OK).
-- **The SW update flow is a real learning curve.** The "update available" banner requires intercepting activation events and getting `skipWaiting`/`clients.claim` right. It's doable but non-trivial — budget time for it in Part 5 rather than assuming it'll be easy.
+## Smaller things I'd add or sharpen
 
-## Minor additions worth considering
+- **First-visit UX matters most.** Crestview, FL as the default is fine as placeholder, but that prompt-to-change interaction is literally the user's first touch with your app — make it feel good there and it sets the tone for everything else.
+- **Denied geolocation needs a graceful path**, not just an error state. Since location is central to this app, denial should immediately offer search rather than leaving them stuck. You flagged handling it; I'd push on making the fallback UX clean.
+- **Consider one e2e test** (Playwright) for the offline/refresh flow — unit tests cover logic well, but the service worker + IndexedDB behavior is exactly the kind of thing that's hard to catch without an integration pass. Optional, but high value for a PWA.
+- **SEO/meta tags** are cheap wins for a publicly deployed SPA (Open Graph, descriptions) even though they don't affect your stated goals — worth 15 minutes.
 
-- Add an explicit **data-layer diagram** to your README/architecture note early (SW vs IndexedDB responsibilities) — directly addresses risk #3 above.
-- Since freshness logic is time-based, a small unit test on the staleness boundary (e.g., exactly at 6 hours) will catch subtle off-by-one bugs cheaply.
+## My honest bottom line
 
----
+The plan is good and I'd lean into it as-is. If I were picking where to spend my energy first, I'd **trim Phase 2 scope** (Parts 4–6 are the riskiest) and **resolve the version compatibility question deliberately before scaffolding**, since that decision ripples through every dependency choice. Everything else is solid — you've thought about the right edge cases (time zones, reduced motion, error boundaries, attribution).
 
-Bottom line: keep it as-is structurally, but **watch Part 4 scope and make the offline-staleness decision early** — those are the two things most likely to derail a smooth MVP→polish flow. Want me to dig into any of these next?
+Want me to dig into any of these next? For example, I could help you reason through the React/Vite/react-router version matrix so you make that call with confidence, or sketch out how to keep Phase 2 scope realistic.
 
-107 t/s, 2935 tokens, 28s, 36%
+102 t/s, 2412 tokens, 24s, 34%
 
-### User
+> #### 💬 User
 
 What tech documentation would help you understand the app plan better?
 
-### Assistant
+> #### 🤖 Assistant
 
-Good question — since you've already given me a detailed plan, here's where the gaps are that would most improve my understanding when we start implementing:
+Good question — and since you've already given me a thorough plan, I'd rather tell you what's genuinely missing than ask for the basics that are already covered. Here's what would meaningfully sharpen my understanding, roughly in order of value:
 
-## 1. Design & visual direction (highest value)
-This is your portfolio centerpiece (Part 4), and visuals are subjective, so this matters more than anything else for avoiding rework. Specifically:
-- **Reference images or screenshots** of apps/websites you like *and* dislike — even rough mockups help me match the "clean Google-style" feel to something concrete rather than guessing.
-- **Color palette preferences** — do you have specific colors, or should I propose one? Weather scenes (sunny/cloudy/rain/snow) will drive your whole visual language.
-- **Typography choices** — font families, sizes, spacing rhythm.
+## 1. The version decision (highest priority)
+The plan deliberately defers this ("check npm and decide"), but it's actually the single most consequential unknown because it ripples through every dependency. Specifically I'd want to know once you've decided:
+- **React 18 vs 19** — this matters a lot, since React 19 has known friction with react-router-dom v6 (and v7 now exists specifically for React 19). Picking the wrong combo is a footgun.
+- **Vite 5 vs 6**, and whether you've checked `vite-plugin-pwa` compatibility with whichever Vite major you land on — since that plugin is your optional fallback in Part 6.
 
-## 2. Environment & tooling specifics
-You've listed the tools but not the setup details that affect scaffolding:
-- **Node.js version** on your machine (affects which Vite/React majors are compatible).
-- Whether you have a **GitHub account and Vercel set up**, or if we should plan for those.
-- Your comfort level with **command-line / Git Bash workflows**.
+If you'd rather not decide yet, I can research the current stable versions and their compatibility matrix for you so the decision is informed rather than arbitrary.
 
-## 3. Open-Meteo API exploration status
-The geocoding spike (Part 1) is the first real technical decision point:
-- Have you already **explored the Open-Meteo endpoints** and seen response shapes, or should we plan to do that together?
-- Any specific fields/metrics you're *excited* about beyond what's in the plan (e.g., UV index, precipitation probability)?
+## 2. Visual direction
+"Google's clean style" is a starting point but pretty vague — and since Part 4 is all custom visuals, matching your actual taste matters more than guessing. A quick reference would help:
+- **A link or screenshot** of something you like (a real app, a design you admire). Even one image tells me a lot about spacing, density, and tone.
+- Rough preferences on **color palette**, **typography feel**, and **layout density**.
 
-## 4. Constraints & priorities
-These shape how we sequence work:
-- **Timeline** — is there a deadline or portfolio submission date?
-- **Effort per week** and whether this is solo.
-- Any features you're *particularly* excited about that aren't in the plan yet (nice-to-haves like share functionality, weather history).
+## 3. The complete data surface
+You listed the core metrics per view (temp, feels-like, wind, humidity, sunrise/sunset), but I'd want the full list to scope the mapping logic correctly — things like precipitation probability, UV index, pressure, visibility, cloud cover, etc. Knowing exactly what you intend to display on each screen prevents scope creep and clarifies what "daily view" vs "forecast drill-down" should contain.
 
-## 5. Testing depth & comfort level
-You've included Vitest + CI, but:
-- How comfortable are you with **writing unit tests**? This determines how much I should guide vs. just provide test structure.
-- Do you want to prioritize testing the **caching/freshness logic** (which is time-based and error-prone) or cover more broadly?
+## 4. PWA specifics (for Parts 5–6)
+A few concrete decisions that affect implementation:
+- **Display mode** — standalone vs fullscreen?
+- **Theme color / accent colors**, and whether you want maskable icons.
+- Your preference on the **update flow** — banner ("reload to update") vs auto-activate-on-next-launch.
 
-## 6. Accessibility target
-You treat this as ongoing, which is great — but a concrete target helps:
-- Are you aiming for **WCAG 2.1 AA**? Do you have a screen reader to test with, or will Lighthouse be your main check?
+## 5. Testing philosophy (optional)
+I suggested adding an e2e test for the offline/refresh flow beyond Vitest unit tests. Knowing whether you're open to that, or want strictly unit-level testing, helps me plan realistically.
 
 ---
 
-If I had to prioritize, the first three (design references, Node version, and Open-Meteo exploration status) would give me the biggest lift when we start. The rest can come as we go.
+**What I'd skip asking about:** folder structure conventions, exact Biome rules, and most of the accessibility specifics — those are things we can decide together as we build, and they don't block understanding the plan itself.
 
-Want to walk through any of these now, or shall we just dive into Part 1 scaffolding and figure out the environment details then?
+If you want to move fast, the two that matter most right now are **#1 (versions)** and **#2 (a visual reference)**. Want me to go research current React/Vite/react-router compatibility so you have a concrete recommendation for #1?
 
-111 t/s, 1531 tokens, 14s, 33%
+110 t/s, 1973 tokens, 18s, 38%
 
-### User
+> #### 💬 User
 
 Provide me an example react component for the daily view.
 
-### Assistant
+> #### 🤖 Assistant
 
-Since you've explicitly asked for one now, here's an example. I'll keep it focused rather than dumping the entire daily view into a single component — Part 2 has several concerns (units, time zones, accessibility), so this slice demonstrates those patterns without becoming unwieldy. It's illustrative, not production-ready.
+Here's a representative Daily View component built to match your stack — vanilla React + TypeScript, Context-driven props, CSS Modules, flexbox layout. I've kept the component presentational (it receives typed data rather than doing its own fetching), which keeps it testable and matches how you'd want Part 2 structured.
 
-```tsx
-import type { ReactNode } from "react";
+## Types (`types/weather.ts`)
 
-interface WeatherMetricsProps {
-  // Values come from the Open-Meteo daily response; units are resolved by the app.
-  temperature: number | null;   // °C from API (convert to °F client-side)
-  feelsLike: number | null;
-  windSpeedKmh: number | null;
-  humidity: number | null;      // percent, 0–100
-  sunrise: string | null;       // ISO local-time string in the location's zone
-  sunset: string | null;
-  timezone: string;             // e.g. "America/New_York" from timezone=auto
-  unitSystem: "metric" | "imperial";
+```typescript
+// WMO weather codes mapped to human-readable conditions + rain levels
+export type WeatherCondition = 'clear' | 'cloudy' | 'fog' | 'rain' | 'snow' | 'storm';
+
+export interface DailyWeather {
+  time: string;
+  temperature_2m_max: number;
+  temperature_2m_min: number;
+  weather_code: number;
+  apparent_temperature: number;
+  relative_humidity_2m: number;
+  wind_speed_10m: number;
+  sunrise: string;
+  sunset: string;
 }
 
-function WeatherMetrics({ ... }: WeatherMetricsProps) {
-  const fmt = (value: number, kind: "temp" | "wind") => {
-    if (unitSystem === "metric") return `${Math.round(value)} ${kind === "temp" ? "°C" : "km/h"}`;
-    // Convert °C→°F and km/h→mph here so the API stays unit-agnostic.
-    const f = kind === "temp" ? (value * 9) / 5 + 32 : value * 0.621371;
-    return `${Math.round(f)} ${kind === "temp" ? "°F" : "mph"}`;
-  };
+export interface UnitPreferences {
+  temperatureUnit: 'C' | 'F';
+  windUnit: 'kmh' | 'mph';
+}
 
-  const fmtTime = (iso: string | null, label: string) => {
-    if (!iso) return null;
-    // Render in the location's own zone, not the browser's.
-    return new Intl.DateTimeFormat("medium", {
-      timeZone: timezone,
-      hour: "numeric",
-      minute: "2-digit",
-    }).format(new Date(iso));
-  };
+// Open-Meteo returns timezone info at the top of every response
+export interface TimezoneInfo {
+  tz: string; // e.g. "America/New_York" — this is what you display, not browser local time
+  offset_string: string;
+}
+```
 
-  const metric = (label: string, value: ReactNode) => (
-    <div className="metric">
-      <dt>{label}</dt>
-      <dd aria-hidden="true">{value}</dd>
-    </div>
-  );
+## Unit helper (`utils/units.ts`)
+
+This one's small but worth isolating because it comes up repeatedly (daily view + forecast drill-down) and your plan wants it unit-tested.
+
+```typescript
+export function convertTemperature(celsius: number, unit: 'C' | 'F'): number {
+  return unit === 'F' ? celsius * 9 / 5 + 32 : celsius;
+}
+
+export function formatWindSpeed(kmh: number, unit: 'kmh' | 'mph'): string {
+  const value = unit === 'mph' ? kmh * 0.621371 : kmh;
+  return `${value.toFixed(0)} ${unit}`;
+}
+```
+
+## Daily View component (`views/DailyView.tsx`)
+
+```tsx
+import type { DailyWeather, TimezoneInfo } from '../types/weather';
+import { convertTemperature, formatWindSpeed } from '../utils/units';
+import './DailyView.module.css';
+
+interface Props {
+  locationName: string;
+  timezone: TimezoneInfo;
+  day: DailyWeather;
+  unitPrefs: UnitPreferences;
+}
+
+export function DailyView({ locationName, timezone, day, unitPrefs }: Props) {
+  const temp = convertTemperature(day.temperature_2m_max, unitPrefs.temperatureUnit);
+  const feelsLike = convertTemperature(day.apparent_temperature, unitPrefs.temperatureUnit);
 
   return (
-    <section className="metrics" aria-label="Current conditions">
-      {metric("Temperature", fmt(temperature!, "temp"))}
-      {metric("Feels like", fmt(feelsLike!, "temp"))}
-      {metric("Wind", fmt(windSpeedKmh!, "wind"))}
-      {metric("Humidity", `${humidity ?? 0}%`)}
-      <div className="sun">
-        <dt>Sunrise</dt>
-        <dd>{fmtTime(sunrise, "Sunrise")}</dd>
-        <dt>Sunset</dt>
-        <dd>{fmtTime(sunset, "Sunset")}</dd>
+    <section aria-labelledby="daily-heading" className="daily-view">
+      <header>
+        <h1 id="daily-heading">{locationName}</h1>
+        <p className="tz-label">
+          {timezone.tz} · {day.time} local time
+        </p>
+      </header>
+
+      <div className="hero-metrics" role="group" aria-label="Current conditions">
+        <div className="temp-hero">
+          <span className="sr-only">{Math.round(temp)} degrees</span>
+          {temp.toFixed(1)}°
+        </div>
+        <p className="feels-like">Feels like {feelsLike.toFixed(1)}°</p>
       </div>
+
+      <dl className="metrics-grid">
+        <Metric title="High / Low" value={`${Math.round(temp)}° / ${Math.round(convertTemperature(day.temperature_2m_min, unitPrefs.temperatureUnit))}°`} />
+        <Metric title="Humidity" value={`${day.relative_humidity_2m}%`} />
+        <Metric title="Wind" value={formatWindSpeed(day.wind_speed_10m, unitPrefs.windUnit)} />
+        <Metric title="Sunrise" value={day.sunrise} />
+        <Metric title="Sunset" value={day.sunset} />
+      </dl>
     </section>
   );
 }
 
-export default WeatherMetrics;
+function Metric({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="metric">
+      <dt>{title}</dt>
+      <dd>{value}</dd>
+    </div>
+  );
+}
 ```
 
-A few deliberate choices worth flagging:
+## `DailyView.module.css`
 
-- **Unit conversion happens client-side.** The API always returns metric values, so the component takes a `unitSystem` prop and converts on display. This keeps your data layer unit-agnostic — you store one set of numbers in IndexedDB regardless of user preference.
-- **Timezone is passed as a prop**, not read from `Intl.DateTimeFormat().timeZone`. That's because Open-Meteo returns the location's zone via `timezone=auto`, and you want to render in *that* zone, not the browser's.
-- **`aria-hidden` on decorative values** — the metric labels are `<dt>`/`<dd>` pairs (semantic), but the numeric display is visually hidden from assistive tech since it's redundant with the label. Adjust if your design needs the value announced separately.
+```css
+.daily-view { padding: var(--spacing-lg); }
 
-Given you're still in planning and haven't scaffolded yet, I'd suggest we don't lock into this exact shape until Part 1 establishes your folder structure and context — e.g., where `unitSystem` comes from (Context) and how props flow down to an hourly breakdown component.
+.hero-metrics { display: flex; align-items: baseline; gap: var(--spacing-md); }
+.temp-hero { font-size: var(--font-display-xl); font-weight: 700; margin: 0; }
+.feels-like { color: var(--text-muted); margin: 0; }
 
-Want me to show the **hourly breakdown** piece next (canvas/SVG), or something else?
+.metrics-grid {
+  display: flex; flex-wrap: wrap; gap: var(--spacing-sm);
+}
+.metric { min-width: 120px; }
+.metric dt { font-size: var(--font-caption); color: var(--text-muted); }
+.metric dd { margin: 0; font-weight: 600; }
 
-118 t/s, 1730 tokens, 15s, 39%
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+```
+
+---
+
+## How this maps to your plan's Part 2 requirements
+
+- **Time zones** — Open-Meteo already returns `timezone.tz` via `timezone=auto`, so the component just displays it. No manual conversion needed (good news).
+- **Unit toggle** — `unitPrefs` is passed in from Context; the actual storage lives in IndexedDB elsewhere, and this helper is exactly what your Vitest unit tests would cover.
+- **Loading/error states** — I left those out of this component on purpose: they belong at the view/hook layer (e.g., a wrapper that renders skeletons while fetching). The component assumes valid data so it stays focused.
+
+## A couple of things worth deciding before you build this
+
+1. **Where does caching plug in?** This component is presentational, so the fetch + IndexedDB freshness logic lives in a hook or view layer above it. That's where Part 5's "check timestamp on load" belongs — I'd keep them separate rather than baking cache into the component.
+2. **The hourly breakdown** (canvas/SVG) you mentioned is a natural next slice off this same structure — want me to sketch that too?
+
+Want me to show the data-fetching layer/hook next, or move on to something else from your plan?
+
+122 t/s, 2911 tokens, 24s, 47%

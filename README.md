@@ -5,10 +5,10 @@ Scripts that let you run the same set of models against many independent test sc
 ## Quick start
 
 1. Make sure the LM Studio server is running.
-2. Edit `config.json` if needed.
-3. Run `python get_models.py` and edit `models.json` to set only the models you want to use.
-4. Create a scenario folder under `scenarios/` with at least `test.json` and `question1.md`.
-5. Run `python get_scenarios.py` to build `scenarios.json`.
+2. Edit `config.json` set the `model` field for helper summaries if you want a summary.
+3. Run `python get_models.py` then update `models.json` to set only the models you want to use.
+4. Create a scenario folder under `scenarios/` with `test.json` and `question1.md`.
+5. Run `python get_scenarios.py`.
 6. Edit modes in `scenarios.json` (default is `none`).
 7. Run `python run_tests.py`.
 
@@ -17,6 +17,7 @@ Scripts that let you run the same set of models against many independent test sc
 - `none` — skip the scenario
 - `update` — run only models that do not already have a result file
 - `refresh` — run every model currently in `models.json` (overwrites those files; leaves old removed model results alone)
+
 
 ## System prompt
 
@@ -27,7 +28,7 @@ Scripts that let you run the same set of models against many independent test sc
 
 - Result files use a stable name based on the model key so update mode can find them.
 - A copy of `models.json` is saved inside each results folder as a snapshot.
-- Configurable values sit at the top of each script.
+- Configurable values and helper prompts sit at the top of each script.
 - Models are sorted from smallest to largest.
 
 ## Layout
@@ -39,24 +40,33 @@ get_scenarios.py
 run_tests.py
 models.json
 scenarios.json
-system.md                  ← optional root system prompt
+scenarios.md
+system.md
 README.md
 
 scenarios/
   weather app/
     test.json
     question1.md
-    question2.md
-    system.md              ← optional (overrides root)
-  code 1/
     ...
+    system.md              ← optional
 
 results/
   weather app/
-    models.json            ← snapshot used for this run
+    models.json            ← snapshot
     <model-key>.md
-    test_summary.md
-    results.md
-  code 1/
-    ...
+    test.md
+    stats.md
+    stats.json
+    results.md             ← paste cloud evaluation here
 ```
+
+
+
+## Files written per scenario
+
+- `test.md` — short overview
+- `stats.md` — test statistics
+- `stats.json` — raw numbers for later reports
+- `results.md` — empty file for the cloud evaluation
+- `models.json` — snapshot of the models used

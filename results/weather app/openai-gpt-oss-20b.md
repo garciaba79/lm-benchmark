@@ -1,11 +1,11 @@
 # GPT-OSS 20B
 Model: openai/gpt-oss-20b
 Test: Weather App Planning
-Created: 10/27/2026, 07:27:03 AM
+Created: 10/28/2026, 12:45:34 AM
 Exported from: LM Studio (via test script)
 Context 16K
 
-### User
+> #### 💬 User
 
 I am about to work on a new project and create a Weather app. Here is my development plan. Do not provide me code or examples unless I ask you to. Stand by for next instructions.
 
@@ -219,245 +219,298 @@ When ready to start implementation, you can work on:
 - IndexedDB schema examples
 - Service worker caching strategy
 
-### Assistant
+> #### 🤖 Assistant
 
-Got it! I’ll hold off until you give the next instruction or request specific details—whether that’s code snippets, design ideas, or anything else related to your weather PWA project. Just let me know what you’d like to tackle next!
+Got it! I’ll hold off on any code or detailed examples until you’re ready to dive in. Just let me know when you’d like to start, and I’m here to help with the next steps.
 
-123 t/s, 67 tokens, 2s, 16%
+118 t/s, 94 tokens, 2s, 16%
 
-### User
+> #### 💬 User
 
 What do you think about the app plan? Does it sound good, any issues, any improvements?
 
-### Assistant
+> #### 🤖 Assistant
 
-Your Weather‑PWA roadmap is solid and well‑structured—there’s a clear progression from core functionality to polish, with an eye toward accessibility, offline support, and portfolio value. Below are some observations, potential pitfalls, and suggestions that could tighten the plan further.
-
----
-
-## 1. Overall Strengths
-
-| Area | Why it’s good |
-|------|---------------|
-| **Modular “Part” structure** | Easy to track progress and hand‑off; MVP is clearly defined (Parts 1–3). |
-| **Explicit tech stack & versioning** | Avoids “latest” drift and makes CI reproducible. |
-| **Accessibility first** | Early focus on contrast, keyboard nav, reduced motion keeps the app usable for all. |
-| **Offline‑first mindset** | IndexedDB + service worker from day one will pay off in user perception. |
-| **Custom visuals & PWA focus** | Differentiates it from boilerplate demos and showcases design skill. |
+Your weather‑PWA roadmap is solid and covers all the essential pieces for a production‑ready, portfolio‑worthy app.  Below are my observations, a few quick sanity checks, and some incremental improvements you might consider before you hit “scaffold.”
 
 ---
 
-## 2. Potential Issues & Risks
+## ✔️ What’s Working Well
 
-| Issue | Impact | Mitigation |
-|-------|--------|------------|
-| **Geocoding reliability** | Open‑Meteo’s geocoder may return ambiguous results or no match for some ZIP codes (especially international). | Add a secondary fallback API (e.g., Nominatim) only if the primary fails. Store “best guess” coordinates and let user confirm on map. |
-| **Time‑zone handling** | Relying on `timezone=auto` is great, but you must ensure that the returned zone string matches the format used by the JS Intl API (`America/Los_Angeles`). Mismatches can cause wrong time rendering. | Write a small utility to normalize the zone string or fall back to `Intl.DateTimeFormat().resolvedOptions().timeZone`. |
-| **IndexedDB schema migrations** | If you later add fields (e.g., unit preference, cached API responses), schema changes may break existing data. | Use a migration helper (e.g., `idb-keyval`‑like) or store versioned JSON blobs and parse conditionally. |
-| **Service worker complexity** | Manual SW setup can be error‑prone (cache busting, stale‑while‑revalidate logic). | Start with a simple cache-first strategy; later consider `workbox` or `vite-plugin-pwa` once the manual approach stabilizes. |
-| **Testing coverage** | Unit tests are planned for cache logic and data mapping, but UI/UX interactions (e.g., pull‑to‑refresh, offline indicator) need e2e testing. | Add Playwright or Cypress tests for critical flows early on. |
-| **Deployment & CI lag** | Vercel’s build caching is fast, but GitHub Actions can be slow if you run full lint+test+build every push. | Cache `node_modules` and Vite build output; only run vitest on changed files or use a matrix strategy. |
-
----
-
-## 3. Suggested Improvements
-
-### A. Clarify the Data Flow Diagram
-- Create a concise diagram (e.g., Mermaid) that shows:  
-  1. User → Location Search → Geocoder API → Coordinates  
-  2. Coordinates + Preferences → Open‑Meteo API → Raw JSON  
-  3. Raw JSON → Normalized Model (in context)  
-  4. Context → UI Components (daily, forecast)  
-  5. Cache layer intercepts API calls
-
-This will help onboard collaborators and keep the architecture visible.
-
-### B. Incremental Service Worker Strategy
-1. **Phase 5a** – Register SW with a simple cache‑first strategy for static assets only.  
-2. **Phase 5b** – Add runtime caching for API responses (stale‑while‑revalidate).  
-3. **Phase 5c** – Implement update prompts and offline UI once the basic flow is stable.
-
-By breaking it into sub‑phases, you avoid a “big‑bang” SW that might break during early testing.
-
-### C. Unit Preference Persistence
-- Store unit settings in a separate IndexedDB store or as part of the location object.  
-- Provide a quick “Reset to defaults” button in Settings for demo purposes.
-
-### D. Accessibility Enhancements Early On
-- Use `react-aria` hooks (lightweight) for focus management on dynamic lists (e.g., forecast days).  
-- Ensure all canvas/SVG charts have ARIA labels or hidden text alternatives.
-
-### E. CI Pipeline Refinement
-| Step | Suggested Action |
-|------|------------------|
-| Linting | Run Biome in `--check` mode; fail if any changes needed. |
-| Tests | Parallelize vitest across workers; exit on failures. |
-| Build | Cache Vite output between runs (`actions/cache`). |
-| Deployment | Use Vercel’s GitHub integration with preview URLs for PRs. |
+| Category | Why it’s good |
+|----------|---------------|
+| **Scope** | You’ve split the work into clear, deliverable parts (MVP → polish → PWA).  That keeps risk low and lets you ship a usable app early. |
+| **Technology choices** | React + Vite + TypeScript gives a fast dev experience; `react-router-dom` for navigation is lightweight enough to avoid Next.js bloat. |
+| **State & data flow** | Context + hooks for global location / unit prefs keeps the tree shallow, and IndexedDB via `idb` is a proven pattern for offline persistence. |
+| **Testing** | Vitest for unit tests of cache logic and data‑mapping is great; you could add component snapshot or integration tests later if needed. |
+| **CI/CD** | GitHub Actions + Biome lint/format ensures code quality without manual steps. |
+| **Accessibility focus** | Explicit requirements (contrast, reduced motion, keyboard nav) show you’re building for inclusivity from the start. |
+| **PWA fundamentals** | Manual service worker + manifest gives you control; fallback to `vite-plugin-pwa` is a smart “if‑we‑get stuck” safety net. |
+| **Documentation** | The README checklist (screenshots, architecture note, run instructions) will impress recruiters. |
 
 ---
 
-## 4. Minor Tweaks to the Plan
+## ⚠️ Potential Pitfalls & Quick Fixes
 
-| Section | Change |
-|---------|--------|
-| **Part 1 – Location** | Add a “Recent Searches” dropdown that pulls from IndexedDB, so users can quickly switch without re‑typing. |
-| **Part 2 – Daily View** | Include a small “Day/Night” indicator based on sunrise/sunset to reinforce time‑zone logic. |
-| **Part 3 – 10‑Day Forecast** | Offer a toggle for “Show only weather changes” (e.g., hide days that are identical to the previous day) to reduce clutter. |
-| **Part 4 – Visuals** | Pre‑generate low‑poly background assets offline and load them lazily to keep initial bundle size small. |
-| **Nice‑to‑Haves** | Add a “Share” button (Web Share API) for mobile users; fallback to copying a link with query params that restore the state. |
+| Issue | Why it matters | Suggested Mitigation |
+|-------|----------------|----------------------|
+| **Open‑Meteo rate limits** | Free tier may throttle if you hit the API from many users or during dev tests. | Cache all responses aggressively (3–6 h window) and add a “mock” mode for local dev that serves static JSON. |
+| **Geocoding fallback logic** | Postal code coverage is spotty; if you rely solely on `search` endpoint, you may get ambiguous results. | Keep the “city‑only search + coordinates” fallback as a separate path.  Offer an “advanced search” UI where users can manually adjust lat/lng when auto‑detect fails. |
+| **Timezone handling** | You’re requesting `timezone=auto`; be careful that you always display times using the returned zone, not the browser’s default. | Use a small helper (`date-fns-tz` or plain Intl.DateTimeFormat with a custom timeZone) and memoize the zone per location to avoid repeated conversions. |
+| **IndexedDB schema evolution** | If you add new fields (e.g., unit prefs, favorite locations), migrations can break older users. | Adopt a simple versioning strategy (`idb-keyval` style or `dexie`) that runs migration scripts on open. |
+| **Service worker update flow** | The “Update available” banner is great, but you need to make sure the new assets are fetched *before* the user clicks reload. | Use `self.skipWaiting()` and `clients.claim()` in a dedicated “activate” event; test with multiple tabs. |
+| **Accessibility of dynamic charts** | Canvas/SVG needs ARIA labels or text alternatives. | Wrap your chart component in `<figure>` + `<figcaption>` that describes the data, and add `role="img"` + `aria-label` on the SVG element. |
+| **Testing offline scenarios** | Vitest runs in Node; you won’t hit service worker logic. | Add a small integration test with `msw` (Mock Service Worker) to simulate network failures and ensure your UI falls back correctly. |
 
 ---
 
-## 5. Bottom Line
+## 🔧 Incremental Enhancements
 
-- **Your plan is ambitious but realistic**: The MVP can be delivered in ~4–6 weeks if you stick to the core parts.
-- **Keep the scope tight on the first sprint**: Don’t chase all nice‑to‑haves before getting a working, deployable version.
-- **Document early**: Even quick notes (e.g., “Why we chose Open‑Meteo” or “IndexedDB schema v1”) will save time later.
+1. **Feature‑flag for API switching**  
+   Even if the current scope is Open‑Meteo only, add a tiny context value (`apiProvider`) that can be toggled in dev mode.  That makes future “Part 7” (multiple APIs) trivial.
 
-Feel free to let me know which part you’d like to dive deeper into next—whether it’s drafting the IndexedDB schema, sketching a component tree, or writing the first service worker script.
+2. **Progressive enhancement of geolocation**  
+   Use `navigator.geolocation.watchPosition` to keep the location fresh while the user is on the app.  Show a subtle spinner or "updating…" label when you’re re‑fetching data.
 
-122 t/s, 1374 tokens, 11s, 25%
+3. **Theme persistence via CSS custom properties**  
+   Instead of hard‑coding color palettes, expose them as `--primary`, `--bg`, etc., and let each weather scene adjust those values.  That keeps the visual theme logic in one place and eases future dark‑mode work.
 
-### User
+4. **Accessibility audit automation**  
+   Add a GitHub Action that runs `axe-core` or `pa11y` against your built app.  You’ll catch focus‑order or ARIA mistakes early.
+
+5. **CI cache for node_modules**  
+   If build times become an issue, cache the Vite/Node modules in GitHub Actions to speed up PR checks.
+
+6. **LocalStorage fallback**  
+   For environments where IndexedDB isn’t available (e.g., Safari on iOS 12), provide a graceful degradation using `localStorage`.  Keep the API surface identical.
+
+---
+
+## 📌 Quick Checklist Before You Scaffold
+
+- [ ] Decide whether to stay on React 18.x / Vite 5.x or upgrade now.  
+- [ ] Pin Biome to an exact version (e.g., `0.3.1`).  
+- [ ] Create a minimal `tsconfig.json` that includes `"esModuleInterop": true`.  
+- [ ] Draft the IndexedDB schema: `{ locations: [...], prefs: { unit, theme }, cache: [{ key, data, timestamp }] }`.  
+- [ ] Sketch the folder tree (already in your plan) and create a placeholder `index.tsx` that mounts `<App />`.  
+- [ ] Write a tiny “hello world” test for Vitest to confirm it’s wired up.  
+
+Once those are in place you can start implementing Part 1 and have a runnable skeleton quickly.
+
+---
+
+### Bottom Line
+
+Your plan is *excellent*—it balances ambition with pragmatism, prioritizes UX (offline + accessibility), and leaves room for future growth without bloating the core stack.  Just keep an eye on API limits, schema migrations, and the service worker update flow, and you’ll have a clean, deployable portfolio piece in no time.
+
+Let me know which part you’d like to tackle first or if you need help fleshing out any of the above!
+
+117 t/s, 1396 tokens, 12s, 25%
+
+> #### 💬 User
 
 What tech documentation would help you understand the app plan better?
 
-### Assistant
+> #### 🤖 Assistant
 
-Below is a “cheat‑sheet” style set of documents that will let me (or anyone else on your team) jump straight into the core of the app without wading through prose each time.  If you already have any of these, great—if not, you can start drafting them from this list.
+Below is a “cheat‑sheet” list of technical documents (or sections of a single document) that will give me—your assistant—a clear, unambiguous view of every moving part in your Weather PWA plan.  I’ll use these when we start scaffolding, writing tests, or troubleshooting later on.
 
-| Doc | Why it matters | What to include |
-|-----|-----------------|-----------------|
-| **1️⃣ Project Overview / README (starter)** | Quick reference for new contributors and CI runners. | • High‑level goal & MVP scope<br>• Tech stack + major version choices<br>• Deployment URLs (Vercel preview, prod)<br>• How to run locally (`npm i && npm run dev`) |
-| **2️⃣ Architecture Diagram** | Visual map of data flow & component boundaries. | • User → UI → Context → API Layer → IndexedDB ↔ SW <br>• Flowchart of “Geocode → Weather → Cache” steps<br>• Highlight the “offline‑first” path |
-| **3️⃣ API Reference (Open‑Meteo)** | Avoids hunting the docs for every endpoint. | • Base URL, required query params (latitude/longitude, timezone=auto)<br>• Sample request & response snippets for:<br>   – Geocoding (`/v1/geocode`)<br>   – Current weather<br>   – Hourly + daily forecasts |
-| **4️⃣ IndexedDB Schema** | Guarantees consistent storage and future migrations. | • Store names (e.g., `locations`, `weatherCache`, `prefs`)<br>• Key & value types (TS interfaces)<br>• Version history notes |
-| **5️⃣ State Model / Context API Docs** | Shows how global state is structured and mutated. | • Root context shape (`{ location, units, theme }`)<br>• Action creators / reducers if you use a reducer pattern<br>• Hook signatures (e.g., `useWeather()`, `useLocation()` ) |
-| **6️⃣ Styling & Design System** | Keeps UI consistent and eases future theming. | • Color palette (base + weather‑specific palettes)<br>• Typography rules (font sizes, line heights)<br>• Flexbox grid helpers<br>• Motion guidelines (`prefers-reduced-motion`) |
-| **7️⃣ Accessibility Checklist** | Ensures you hit the “Accessibility” goals early. | • Contrast ratios per theme<br>• Keyboard focus styles<br>• ARIA labels for charts & dynamic content<br>• Testing notes (Lighthouse, screen reader) |
-| **8️⃣ Service Worker Strategy** | Clarifies cache layers and update flow. | • Asset caching rules (static vs runtime)<br>• API response caching policy (TTL, stale‑while‑revalidate)<br>• Update prompt logic (skipWaiting + reload) |
-| **9️⃣ CI/CD Pipeline** | Keeps builds reproducible & fast. | • GitHub Actions YAML snippets<br>• Cache keys for `node_modules`, Vite build, Biome cache<br>• Lint/format, test, build, deploy steps |
-| 🔟 **Roadmap / Milestone Tracker** | Tracks progress against the “Part” plan. | • Kanban board or simple Markdown table with dates, status, blockers |
+| Doc / Section | Why it matters | What to include |
+|---------------|----------------|-----------------|
+| **1️⃣ Project README (Architecture)** | First‑hand source of truth for anyone reading the repo. | • High‑level overview<br>• Data flow diagram (Geocoding → Weather API ↔ IndexedDB ↔ UI)<br>• State diagram (Context trees, provider order)<br>• Build & dev scripts |
+| **2️⃣ `package.json` / lockfile** | Guarantees exact versions of every dependency. | • Exact React, Vite, react‑router, idb, Vitest, Biome, etc.<br>• Scripts: `dev`, `build`, `test`, `lint`, `format` |
+| **3️⃣ `tsconfig.json` & TypeScript settings** | Avoids “it works locally but not in CI” surprises. | • Target (ES2022 or newer), module (`esnext`), strictness flags, lib list |
+| **4️⃣ Biome config (`biome.json`)** | Keeps linting/formatting consistent across contributors. | • Exact rule set (e.g., `no-unused-vars`, `semi:never`) |
+| **5️⃣ Vite config (`vite.config.ts`)** | Central place for dev server, alias, build options, PWA plugin flags. | • Resolve aliases (`@/*` → `src/`)<br>• CSS module settings<br>• Plugin list (React, PWA optional) |
+| **6️⃣ Folder & file map** | Gives a quick mental model of the codebase layout. | • `/src/components`, `/views`, `/context`, `/utils`, `/styles`, `/data`, `/assets` |
+| **7️⃣ IndexedDB schema spec** | Prevents runtime crashes when you change fields or add migrations. | • `locations`: `{ id, name, lat, lon, lastUsed }`<br>• `prefs`: `{ unit: 'c'|'f', theme: 'light'|'dark' }`<br>• `cache`: `{ key, data, timestamp }` |
+| **8️⃣ Open‑Meteo API contract** | Clarifies request/response shapes and limits. | • Base URLs (`/forecast`, `/geocoding/search`) <br>• Required query params (`latitude`, `longitude`, `timezone=auto`) <br>• Response JSON schema (e.g., `daily: { time, temperature_2m_max }`) |
+| **9️⃣ Geolocation & geocoding flow diagram** | Visualizes the “search → use my location” UX path. | • Steps: user input → API call → parse → store in IndexedDB → set context → fetch weather |
+| 🔟 Service Worker strategy (offline caching) | Shows how assets and API responses are cached, stale‑while‑revalidate logic, update flow. | • Cache names (`static-v1`, `api-weather-v1`) <br>• `fetch` handler pseudocode <br>• Activation & skipWaiting steps |
+| 1️⃣1️⃣ Accessibility checklist** | Keeps focus on WCAG compliance throughout development. | • Color contrast table per theme<br>• Keyboard navigation map (tab order, focus styles)<br>• ARIA roles for charts and dynamic lists |
+| 1️⃣2️⃣ Testing strategy document** | Guides unit/integration tests coverage. | • Vitest config (coverage thresholds) <br>• Mock server (msw) setup <br>• Key test cases: cache freshness, error boundary rendering, unit toggle logic |
+| 1️⃣3️⃣ GitHub Actions workflow files** | Demonstrates CI pipeline expectations. | • `biome.yml` – lint/format<br>• `test.yml` – run Vitest & coverage <br>• `build.yml` – Vite build and artifact upload |
+| 1️⃣4️⃣ Deployment notes (Vercel)** | Ensures build works on target host. | • Environment variables (none for Open‑Meteo, but note if you add API keys later) <br>• Build command (`vite build`) <br>• Output directory (`dist/`) |
+| 1️⃣5️⃣ Manifest & icons spec** | Guarantees installability and brand consistency. | • `manifest.json` fields (name, short_name, start_url, display, background_color, theme_color) <br>• Icon sizes & maskable flag |
 
 ---
 
 ### How to Use These Docs
 
-1. **Onboarding** – New devs open the README → Architecture Diagram → API Reference → State Model.
-2. **Feature Implementation** – Check the relevant section (e.g., if you’re adding a new weather metric, look at the API Ref & IndexedDB schema).
-3. **Bug Fix / Regression** – Trace through the Service Worker doc to see whether stale data might be causing the issue.
-4. **CI Failures** – Open the CI/CD Pipeline doc to verify caching or linting rules.
+1. **Create a single “Technical Overview” markdown file** in the repo root (e.g., `TECH_OVERVIEW.md`).  
+2. Copy/paste each section above and flesh it out with your specific values, URLs, and diagrams.  
+3. Link this file from the top of your main `README.md` so anyone can jump straight to the details.  
+4. Whenever you change a major piece (e.g., upgrade Vite or add a new IndexedDB field), update the relevant section—this keeps future developers (or yourself) from hunting down hidden bugs.
 
----
+Having these documents in place will let me:
 
-Feel free to tweak any of these documents to match your team’s style (e.g., Mermaid diagrams, Markdown tables, or a small Confluence space).  Once they’re in place, you’ll have a living reference that keeps everyone aligned and reduces “What does this endpoint return?” calls. Let me know if you’d like help drafting any specific one!
+* Quickly answer “what version of React are we on?” without digging into `package.json`.  
+* Understand the exact shape of data coming from Open‑Meteo and how it maps to UI.  
+* Reproduce the offline caching logic or debug a stale‑data issue by looking at the service‑worker spec.  
+* Know where to add tests for new features (e.g., Part 7 API switching) without reinventing the wheel.
 
-119 t/s, 919 tokens, 8s, 30%
+Feel free to let me know which of these you’d like help fleshing out first, or if there’s a particular area you’re unsure about—happy to dive deeper!
 
-### User
+113 t/s, 1267 tokens, 12s, 32%
+
+> #### 💬 User
 
 Provide me an example react component for the daily view.
 
-### Assistant
+> #### 🤖 Assistant
 
-Below is a minimal **DailyView** component written in TypeScript that pulls the data from your global context and renders a simple card layout.  
-It assumes you already have:
-
-- A `WeatherContext` exposing `{ location, weather }`
-- The `weather` object contains the fields returned by Open‑Meteo’s “current” endpoint (or a mapped version of it)
-- Utility helpers for unit conversion (`cToF`, `kmhToMph`) and date formatting
+Below is a **minimal, self‑contained** Daily View component that demonstrates the core patterns you’ll need:
 
 ```tsx
 // src/views/DailyView.tsx
-import React from 'react';
-import { useWeather } from '../context/WeatherContext';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, Link } from 'react-router-dom';
+
+import { LocationContext } from '@/context/LocationProvider';
+import { WeatherCache, fetchWeatherForDay } from '@/utils/weatherApi';
+import { formatDateTime } from '@/utils/dateHelpers';
 import styles from './DailyView.module.css';
 
-const cToF = (c: number) => (c * 9) / 5 + 32;
-const kmhToMph = (kmh: number) => kmh * 0.621371;
+// ------------------------------------------------------------------
+// Types (you’ll likely have a richer domain model elsewhere)
+// ------------------------------------------------------------------
+type DailyData = {
+  date: string;          // ISO YYYY‑MM‑DD
+  tempMax: number;
+  tempMin: number;
+  sunrise: string;       // ISO string
+  sunset: string;        // ISO string
+  description: string;
+};
 
 export const DailyView: React.FC = () => {
-  const { weather, units } = useWeather();
+  const { date } = useParams<{ date: string }>();
+  const { location, unitPrefs } = useContext(LocationContext);
 
-  // Guard against missing data
-  if (!weather?.current) return <p className={styles.message}>Loading…</p>;
-  const cur = weather.current;
-  const temp =
-    units === 'imperial' ? cToF(cur.temperature_2m) : cur.temperature_2m;
-  const wind =
-    units === 'imperial'
-      ? kmhToMph(cur.windspeed_10m)
-      : cur.windspeed_10m;
+  const [data, setData] = useState<DailyData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // ------------------------------------------------------------------
+  // Fetch logic – uses cache first, then falls back to network
+  // ------------------------------------------------------------------
+  useEffect(() => {
+    if (!location || !date) return;
+
+    let cancelled = false;
+    const key = `${location.id}-daily-${date}`;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const cached = await WeatherCache.get<DailyData>(key);
+        if (cached && !WeatherCache.isStale(cached.timestamp)) {
+          if (!cancelled) setData(cached.data);
+          return;
+        }
+
+        const fresh = await fetchWeatherForDay(location, date);
+        if (!cancelled) {
+          setData(fresh);
+          WeatherCache.set(key, { data: fresh, timestamp: Date.now() });
+        }
+      } catch (e: any) {
+        if (!cancelled) setError(e.message || 'Unknown error');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location, date]);
+
+  // ------------------------------------------------------------------
+  // Render helpers
+  // ------------------------------------------------------------------
+  const renderTemp = (value: number) =>
+    `${value.toFixed(1)}°${unitPrefs.temp === 'c' ? 'C' : 'F'}`;
+
+  if (loading)
+    return <div className={styles.skeleton}>Loading…</div>;
+
+  if (error)
+    return (
+      <div className={styles.error}>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+
+  if (!data) return null; // shouldn't happen
 
   return (
-    <section className={styles.container} aria-label="Current weather">
-      <header className={styles.header}>
-        <h1>{weather.location?.name ?? 'Unknown location'}</h1>
-        <p>
-          {new Date(weather.timestamp).toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </p>
+    <article className={styles.container} aria-labelledby="daily-title">
+      <header>
+        <h1 id="daily-title">{formatDateTime(data.date, 'PPP')}</h1>
+        <p>{data.description}</p>
       </header>
 
-      <div className={styles.card}>
-        <img
-          src={`/icons/${cur.weathercode}.svg`}
-          alt=""
-          aria-hidden="true"
-          width={80}
-          height={80}
-        />
-        <div className={styles.info}>
-          <h2>
-            {temp.toFixed(1)}°
-            {units === 'imperial' ? 'F' : 'C'}
-          </h2>
-          <p>Feels like: {(temp + 0.5).toFixed(1)}°{units === 'imperial' ? 'F' : 'C'}</p>
+      <section className={styles.metrics}>
+        <div>
+          <strong>High:</strong> {renderTemp(data.tempMax)}
         </div>
-      </div>
+        <div>
+          <strong>Low:</strong> {renderTemp(data.tempMin)}
+        </div>
+        <div>
+          <strong>Sunrise:</strong>{' '}
+          {formatDateTime(data.sunrise, 'p')}
+        </div>
+        <div>
+          <strong>Sunset:</strong>{' '}
+          {formatDateTime(data.sunset, 'p')}
+        </div>
+      </section>
 
-      <dl className={styles.details}>
-        <dt>Wind</dt>
-        <dd>{wind.toFixed(1)} {units === 'imperial' ? 'mph' : 'km/h'}</dd>
+      {/* Example of a simple SVG chart – replace with your own */}
+      <figure className={styles.chart}>
+        <svg viewBox="0 0 100 50" role="img" aria-label={`Temperature trend for ${data.date}`}>
+          {/* Dummy line; you’ll compute points from hourly data */}
+          <polyline
+            fill="none"
+            stroke="#0077ff"
+            strokeWidth="2"
+            points="10,40 30,20 50,35 70,15 90,25"
+          />
+        </svg>
+      </figure>
 
-        <dt>Humidity</dt>
-        <dd>{cur.relativehumidity_2m}%</dd>
-
-        <dt>Visibility</dt>
-        <dd>{weather.visibility ?? 'N/A'} km</dd>
-
-        <dt>Sunrise / Sunset</dt>
-        <dd>
-          {new Date(cur.sunrise).toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}{' '}
-          /{' '}
-          {new Date(cur.sunset).toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </dd>
-      </dl>
-
-      <footer className={styles.footer}>
-        <small>Data provided by Open‑Meteo</small>
-      </footer>
-    </section>
+      {/* Navigation to next/prev day */}
+      <nav className={styles.nav}>
+        <Link to={`/daily/${new Date(data.date).setDate(new Date(data.date).getDate() - 1)}`}>
+          &larr; Previous
+        </Link>
+        <Link to={`/daily/${new Date(data.date).setDate(new Date(data.date).getDate() + 1)}`}>
+          Next &rarr;
+        </Link>
+      </nav>
+    </article>
   );
 };
 ```
 
-**Key points**
+### What this snippet shows
 
-- Uses `useWeather()` to consume global state.
-- Handles unit conversion based on the user’s preference.
-- Provides semantic markup (`<dl>` for key/value pairs) and basic ARIA labeling.
-- Keeps styles isolated via CSS Modules (`DailyView.module.css`).
+| Feature | How it’s handled |
+|---------|-----------------|
+| **Context** – pulls the current location and unit preferences. |
+| **React Router param** – reads `date` from the URL. |
+| **Cache‑first fetch** – checks IndexedDB (`WeatherCache`) before hitting the network. |
+| **Stale‑check** – uses a simple timestamp comparison; you can tweak the freshness window in `WeatherCache.isStale`. |
+| **Loading / error states** – skeleton and retry button. |
+| **Accessibility** – ARIA labels on SVG, semantic `<article>`, focusable links. |
+| **Unit toggle** – renders temperatures according to user preference. |
+| **Navigation** – simple prev/next day links (you’ll want to guard against out‑of‑range dates in production). |
 
-You can expand this skeleton with loading skeletons, error handling, or a refresh button as needed.
+Feel free to adapt the styles (`DailyView.module.css`) and the SVG chart logic to match your custom graphics. If you need a deeper dive into any helper functions (`fetchWeatherForDay`, `WeatherCache`), just let me know!
 
-117 t/s, 882 tokens, 8s, 36%
+108 t/s, 1308 tokens, 12s, 40%

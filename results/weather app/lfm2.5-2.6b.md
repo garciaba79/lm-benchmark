@@ -1,11 +1,11 @@
 # LFM2.5 2.6B
 Model: lfm2.5-2.6b
 Test: Weather App Planning
-Created: 10/27/2026, 07:27:03 AM
+Created: 10/28/2026, 12:45:34 AM
 Exported from: LM Studio (via test script)
 Context 16K
 
-### User
+> #### 💬 User
 
 I am about to work on a new project and create a Weather app. Here is my development plan. Do not provide me code or examples unless I ask you to. Stand by for next instructions.
 
@@ -219,284 +219,319 @@ When ready to start implementation, you can work on:
 - IndexedDB schema examples
 - Service worker caching strategy
 
-### Assistant
+> #### 🤖 Assistant
 
-I've carefully reviewed your Weather PWA Development Plan. It's a well-structured, comprehensive roadmap covering MVP foundation through full PWA completion with offline support, accessibility, and deployment.
+Understood. I've reviewed your Weather PWA Development Plan thoroughly. The project is well-structured with clear milestones, tech stack decisions, and accessibility considerations.
 
-**Project Summary:**
-- **Framework:** React (vanilla) + TypeScript + Vite
-- **Core API:** Open-Meteo (free, no key required)
-- **State Management:** Context hooks only
-- **Caching:** IndexedDB via idb + manual service worker
-- **PWA Features:** Manifest, service worker with offline support, update prompts
-- **Key Milestones:** Parts 1-3 MVP → Deploy to Vercel → Parts 4-6 PWA completion
+**Summary of what's planned:**
 
-**Ready when you are.** When you're ready to start implementing, let me know which part or specific task you'd like to tackle first. I'll wait for your instruction before providing any code or examples.
+- **Core**: React + TypeScript + Vite PWA on Vercel
+- **Data**: Open-Meteo API (free tier), IndexedDB caching via `idb`
+- **Features (MVP)**: Location search/geocoding, daily view, 10-day forecast with drill-down
+- **Polish**: Themes, parallax effects, offline support, service worker, PWA installability
+- **Quality**: Biome linting, Vitest testing, GitHub Actions CI, accessibility by design
 
-249 t/s, 310 tokens, 1s, 18%
+**Next steps I'm ready to execute:**
 
-### User
+When you're ready, I can help with:
+1. Project scaffolding (Vite + React + TypeScript)
+2. Folder structure and component setup
+3. IndexedDB schema for locations/cache
+4. Open-Meteo integration (geocoding + weather endpoints)
+5. Routing and state management
+6. Thematic UI with parallax effects
+7. Service worker registration and caching logic
+8. Testing and deployment to Vercel
+
+Please let me know which part you'd like to start with, or if you have any questions about the plan before we begin.
+
+250 t/s, 388 tokens, 2s, 18%
+
+> #### 💬 User
 
 What do you think about the app plan? Does it sound good, any issues, any improvements?
 
-### Assistant
+> #### 🤖 Assistant
 
-## Feedback on Your Weather PWA Development Plan
+The plan is **very strong** — it's well-scoped, modern, and covers all the essential pillars (PWA, accessibility, caching, data handling). Here's my honest review:
 
-Overall, this is an excellent, well-structured plan that strikes the right balance between ambition (portfolio-ready features) and practicality (MVP-first approach). The attention to PWA fundamentals, accessibility, and offline support is particularly strong.
+## What Works Well
 
-### What Works Well
+1. **MVP focus** – Starting with location search + daily/10-day views before adding visual polish is the right approach for a portfolio project.
+2. **Realistic tech stack** – React + TypeScript + Vite is performant and keeps bundle size small. Avoiding Next.js is smart for a lightweight PWA.
+3. **PWA compliance** – The service worker registration in Part 5, update prompt logic, offline indicators, and manifest.json setup are all there.
+4. **Accessibility by design** – Contrast, keyboard nav, semantic HTML, and reduced-motion support are explicitly planned rather than added as an afterthought.
+5. **Open-Meteo integration** – Using the free tier with proper attribution requirement noted is responsible.
 
-1. **Clear Phase Breakdown** - Part 1 through 6 provide a logical progression from MVP to full PWA with offline support
-2. **Modern Stack Choices** - React 18+ + TypeScript + Vite is ideal for a portfolio project (clean, type-safe, widely respected by employers)
-3. **Open-Meteo as API** - Free, no-key requirement makes this very accessible; the timezone=auto parameter is smart
-4. **Accessibility Built-In** - From day one rather than an afterthought is crucial for a strong showcase
-5. **Caching Strategy** - Timestamp-based cache with 3-6 hour freshness window is reasonable and practical
-6. **Offline Support Plan** - Service worker registration in Part 5, visible offline indicators, and update prompts align well
+## Potential Issues & Improvements
 
-### Suggested Improvements
+### 1. Open-Meteo Attribution
+The plan says "follow their attribution requirements" but doesn't specify what exactly. For a portfolio, you'll need concrete text (e.g., "Data provided by Open-Meteo. Use of this data requires proper attribution.") in the footer. This is non-negotiable per their terms.
 
-**1. Version Decisions**
-The plan notes checking current stable versions before scaffolding. To make this more actionable:
-- Explicitly recommend specific React/Vite versions (e.g., "React 18.2.x, Vite 5.4.x" as the stable pair)
-- Pin Biome to a specific version (e.g., `@biomejs/biome@6.3.0`)
-This prevents configuration drift when others try to reproduce your project
+### 2. Service Worker Registration Timing
+The plan says to register the service worker in Part 5 ("so offline behavior can be tested here, not later"). However, for a PWA, it's often better to **register early** (e.g., before `index.html` or via a `useEffect` that runs first) so caching happens from the very start. If you register late and then add SW, you might miss opportunities to cache static assets during initial load.
 
-**2. Geolocation Fallback Edge Cases**
-The plan mentions "Crestview, FL" as a hardcoded fallback. Consider adding:
-- What happens if the user cancels geolocation?
-- Network failure after tapping the button
-- Should the app show a clear prompt explaining why no location is available
+### 3. Geocoding Error Handling
+The "geocoding spike" is good, but consider:
+- What happens if a city name returns no coordinates? Silent failure vs. clear error message.
+- The fallback strategy (city-only search + coordinates) should be documented — do you want to show multiple suggestions or just one?
+- Users might type ambiguous names; the API may return multiple matches.
 
-**3. Visual Complexity vs. Lightweight**
-Part 4's "Dynamic backgrounds and scenes based on conditions" sounds impressive but could balloon the codebase. For a portfolio project, consider:
-- Simpler approach: CSS gradients/patterns that shift color/transparency per weather condition (sunny=light blue/purple, rainy=dark blue)
-- Only add canvas/SVG if you want to demonstrate custom graphics skills
-- The transform-based parallax is good; just ensure it respects `prefers-reduced-motion`
+### 4. Offline UX Clarity
+The plan mentions "Using cached data" and "Offline mode" as separate indicators. However:
+- If a user opens the app offline, they should immediately know it's working without waiting for a refresh.
+- The update prompt in Part 5 (when caching is stale or requested) needs to clearly distinguish between "refresh now" vs "waiting for new cache."
 
-**4. Attribution Implementation**
-The Open-Meteo requirement includes a copyright notice and attribution in the footer. Make this explicit in the plan:
-- Add "Powered by Open-Meteo" to the footer
-- Ensure the link to their terms of use is included (not just a small credit line)
+### 5. IndexedDB Schema
+The plan mentions saving locations in IndexedDB but doesn't define the schema. For a clean implementation:
+- **Location entity**: `{ id, city, latitude, longitude, last_updated, unit_preference }`
+- Query: filter by `last_used` or keep a separate "favorites" list
+- Consider whether to cache locations at all — if you only need current location, maybe just store the default one. The MVP likely only needs the *current* location for navigation.
 
-**5. Testing Coverage**
-Vitest is listed with specific test targets (cache freshness, API-to-UI mapping). Consider also adding:
-- Integration tests for the offline flow (load app in "offline" mode and verify cached data)
-- Unit tests for IndexedDB schema helpers (save/retrieve location ID)
+### 6. Time Zone Handling
+Using `timezone=auto` from Open-Meteo is good. Just ensure:
+- Sunrise/sunset times are converted to the user's local time zone on display.
+- If a user switches timezone (e.g., travels), the UI should reflect that without manual intervention.
 
-**6. Service Worker vs. vite-plugin-pwa**
-The plan treats them as alternatives. For a portfolio, either approach is fine, but being explicit about the chosen path helps reviewers understand your decisions.
+### 7. Pull-to-Refresh in iOS
+The plan correctly identifies this as an enhancement only with a fallback. That's right for PWAs — native pull-to-refresh rarely works well on installed iOS browsers, so a lightweight custom fetch-on-request approach (or even the simple "refresh" button) is often more reliable.
 
-### Minor Considerations
+## Suggested Refinements
 
-- **Time zones**: `timezone=auto` from Open-Meteo is good, but verify it returns consistent values across locations and that you handle timezone conversion correctly for displaying local times
-- **Unit toggle storage**: IndexedDB persistence of unit preference is straightforward, but remember to clean up on logout or app destruction (though with a PWA, "logout" may mean nothing—consider whether this needs cleanup at all)
-- **Daily vs. 10-day views**: The plan treats them as separate components. Ensure the routing between them works cleanly and that the drill-down from 10-day → daily view properly passes parameters
+| Area | Recommendation |
+|-------|----------------|
+| **Attribution** | Write exact footer text now: "Weather data powered by Open-Meteo. Use of this service requires attribution per their [terms](https://open-meteo.com/en/data-use)." |
+| **SW Registration** | Set up SW registration in `index.html` (via script tag) or before the app entry point — earlier than Part 5 suggests. |
+| **Geocoding** | Add a clear error state: "Could not find coordinates for this location." Show suggestions if available, otherwise show an empty message. |
+| **Offline UX** | Make offline mode *feel* different from cached mode (e.g., subtle visual cue like "Cached data" badge). Don't hide it — let users know they're in a working state. |
+| **Schema** | Define the location entity structure upfront so IndexedDB interactions are type-safe and testable. |
 
-### Bottom Line
+## Verdict
 
-The plan is solid and well-reasoned. It demonstrates a mature understanding of PWA best practices, accessibility, and modern web development. The only real concerns are the optional visual enhancements in Part 4—which can be scaled up or down without derailing the MVP.
+The plan is solid for an MVP. The main gaps are **attribution clarity**, **service worker timing**, and **error/edge-case handling**. If you address those, it will be a clean, production-ready PWA that demonstrates strong full-stack competence.
 
-**Recommendation:** Start with Parts 1-3 (MVP foundation) to get something working quickly, then iterate through the phases. This approach lets you validate the core data flow and offline behavior before adding complex visual polish.
+Ready to start implementing when you are! I can help with:
+- Project scaffolding (Vite + React + TypeScript)
+- Folder structure
+- IndexedDB schema and CRUD
+- Open-Meteo integration (geocoding + weather endpoints)
+- Routing, context for location/state
+- Service worker setup
+- Testing with Vitest
 
-Would you like me to help you scaffold the initial project setup or dive into any specific part of the plan?
+Just let me know where to begin.
 
-237 t/s, 1809 tokens, 8s, 28%
+257 t/s, 2150 tokens, 8s, 31%
 
-### User
+> #### 💬 User
 
 What tech documentation would help you understand the app plan better?
 
-### Assistant
+> #### 🤖 Assistant
 
-## Documentation That Would Help Me Understand the Plan Better
+Great question. Here are the specific pieces of technical documentation that would significantly improve my understanding and implementation of your Weather PWA plan:
 
-To give you more targeted guidance, here are the specific pieces of documentation that would clarify your app's implementation:
+## 1. Tech Stack Rationale Document
+Understanding *why* certain choices were made helps ensure consistency:
+- **Why React 18 over 19+?** (React 18 has concurrent features; is there a performance reason?)
+- **Vite version** - Why not Vite 6? Any breaking changes I should anticipate?
+- **TypeScript approach** - Strict mode enabled? `noUncheckedIndexedAccess` etc.
+- **Biome linting rules** - What custom rules are defined (formatting, naming conventions)?
 
-### 1. **Explicit Version Decisions**
-- **React major version** (e.g., "18.x" with a specific patch like "18.3")
-- **Vite major version** (e.g., "5.x")
-- **Biome version pin** (`@biomejs/biome@X.Y.Z`)
-- **TypeScript version** (e.g., "4.x")
-- **vitest version**
+## 2. Data Flow & API Specification
+Exact contract between the app and Open-Meteo:
+- **Geocoding endpoint**: `https://api.open-meteo.com/v1/geocode?name=<query>` — what params return?
+- **Weather endpoints**:
+  - Current conditions: `https://api.open-meteo.com/v1/forecast?latitude=...&longitude=...&current_weather=true`
+  - Hourly forecast (10-day): `.../hourly` or daily aggregated
+  - Daily forecast (10-16 days): `.../daily` with parameters for max_days
+- **Response schemas** — What are the field names? Are there deprecated fields?
+- **Attribution requirement text** — Exact wording needed in footer per Open-Meteo terms
 
-*Why it matters:* These determine build compatibility and dependency resolution. Pin these early so we avoid version drift.
+## 3. IndexedDB Schema Definition
+Type-safe entity definitions:
+```typescript
+// Location entity
+{
+  id: string,           // UUID
+  city: string,
+  latitude: number,
+  longitude: number,
+  last_updated: number, // timestamp of last cache refresh
+  unit_preference: 'f' | 'c', // fahrenheit | celsius
+  created_at: number,
+}
 
-### 2. **Open-Meteo API Specifications**
-- Endpoint URLs for:
-  - Geocoding (`https://api.open-meteo.com/v1/search`)
-  - Current weather by coordinates
-  - Daily forecast (10-16 days)
-  - Hourly forecast (for the hourly breakdown in Part 2)
-- Parameter documentation:
-  - `latitude`, `longitude` requirements
-  - `timezone=auto` behavior and return values
-  - Unit conversion (Celsius vs Fahrenheit)
-  - Rate limits or usage restrictions
+// Cache entry for daily weather (keyed by date)
+{
+  date: string,         // ISO format YYYY-MM-DD
+  forecast: Array<daily> // Open-Meteo daily structure
+}
+```
 
-*Why it matters:* This defines how data flows from the API into your app's state management and caching logic.
+## 4. Service Worker Caching Strategy
+Detailed specification:
+- **What to cache**: Static assets (CSS, JS bundles), API responses (current weather + 10-day forecast)
+- **Cache names/versions** — How to version the SW and associate with a specific build
+- **Cache invalidation rules**:
+  - TTL for current conditions (~6 hours freshness window)
+  - TTL for daily forecasts (24 hours?)
+  - Strategy: cache-on-demand + background update on connectivity change
+- **Network-first vs. stale-while-revalidate** approach
 
-### 3. **Data Models & TypeScript Interfaces**
-- Core types:
-  - `Location` (id, name, latitude, longitude, timezone)
-  - `WeatherCondition` (icon type, description, precipitation level)
-  - `ForecastDay` (date, high/low temp, condition, summary)
-  - `AppState` (current location, unit preference, cache status)
-- Schema for IndexedDB storage (what's saved where)
+## 5. Error Handling Map
+Where errors can occur and how to handle them:
+| Source | Possible Errors | User-facing behavior |
+|--------|-----------------|---------------------|
+| Geocoding API | Timeout, no coordinates returned, rate limit | "Could not find location for this query" + suggestions if available |
+| Weather API | Network error, 429 (rate limit), invalid params | Show cached data with warning or empty state |
+| IndexedDB operations | Quota full, transaction rollback | Graceful degradation to network fetch |
+| Time zone conversion | Invalid timezone string | Fall back to browser time zone + disclaimer |
 
-*Why it matters:* Ensures we're on the same type system when you define context hooks and state management.
+## 6. Accessibility Requirements
+Specific compliance targets:
+- **Color contrast** — Minimum 4.5:1 for normal text, 3:1 for large text per WCAG AA
+- **Focus states** — All interactive elements must have visible focus (not just `outline` in CSS)
+- **Screen reader labels** — ARIA roles and labels for weather cards, icons, navigation
+- **Reduced motion** — How to detect `prefers-reduced-motion` and disable parallax/animations accordingly
 
-### 4. **PWA Configuration Details**
-- **manifest.json** structure:
-  - `name`, `short_name`, `description`
-  - `icons` (48x48, 64x64, 128x128)
-  - `start_url`
-  - `display` mode ("standalone" or "fullscreen")
-  - `theme_color`
-- **Service worker strategy**:
-  - Cache names for static assets and API responses
-  - Cache timing logic (3-6 hour freshness window)
-  - Network-first vs. stale-while-revalidate approach
+## 7. Offline Behavior Decision Matrix
+Clear rules for when users are online vs offline:
+1. **Online**: Fetch fresh data from Open-Meteo (primary)
+2. **Stale cache (<6h)**: Serve cached data with "Using cached data" indicator
+3. **Stale cache (≥6h or requested refresh)**: Trigger fetch, then serve new data; update cache
+4. **Offline only**: Show cached data with prominent "Cached/Offline mode" banner
 
-*Why it matters:* These are critical for offline functionality, installability, and PWA certification.
+## 8. Testing Strategy Outline
+What to test in Vitest:
+- **Unit tests**:
+  - IndexedDB CRUD operations (addLocation, getLocations, saveCacheEntry)
+  - Data mapping from API response → local state
+  - Date parsing and timezone conversion logic
+- **Integration tests** (if any):
+  - Open-Meteo geocoding success/failure paths
+  - Cache freshness check logic
+- **Edge cases**:
+  - Empty results from geocoding
+  - Invalid city names
+  - Network failures during fetch
 
-### 5. **Component Architecture Overview**
-A high-level diagram or list of:
-- Main entry point (`App.tsx`)
-- Context providers (LocationContext, AppStateContext)
-- View components (DailyView, TenDayView, MapView, etc.)
-- Route structure (/current, /forecast, /settings)
-
-*Why it matters:* Helps me understand the data flow and where each responsibility lives.
-
-### 6. **Testing Strategy**
-- Vitest test organization:
-  - Unit tests for cache freshness logic
-  - Integration tests for API-to-UI mapping
-  - Offline flow tests (service worker registration, cached vs fresh)
-- Any existing test files or examples
-
-*Why it matters:* Ensures we're building quality-in-at-build and can verify each phase.
+## 9. PWA Manifest Requirements
+Specific fields to include in `manifest.json`:
+- `name`, `short_name`
+- `description` (clear, SEO-friendly)
+- `icons` (32x32 favicon, 128x128 app icon, etc.)
+- `start_url`
+- `display: 'standalone'` or `'fullscreen'`
+- `theme_color`, `background_color`
+- Version field for update detection
 
 ---
 
-**Once you have these clarified**, I can help you:
+**My recommendation**: If you can provide even a partial version of these documents (especially the API specs and IndexedDB schema), I'll be able to implement with confidence that matches your exact intentions. The data flow diagram and service worker caching strategy are particularly critical — they directly influence how I structure the code.
 
-1. Set up the project with exact version pinning
-2. Scaffold the folder structure (components, views, context, utils, styles)
-3. Create TypeScript interfaces matching your specs
-4. Implement the PWA manifest and service worker
-5. Build out each phase of the development plan
+Would you like me to start building on any specific area, or do you have these documents ready to share?
 
-Would you like me to start by clarifying any specific area? For example, if you already have version decisions in mind, I can help lock those down first.
+249 t/s, 1592 tokens, 6s, 35%
 
-240 t/s, 1148 tokens, 5s, 30%
-
-### User
+> #### 💬 User
 
 Provide me an example react component for the daily view.
 
-### Assistant
+> #### 🤖 Assistant
+
+Here's a `DailyView` React component that implements the daily weather screen as described in your plan:
 
 ```tsx
 // src/views/DailyView.tsx
+import { useEffect, useState } from 'react';
+import { geocodeLocation, fetchCurrentWeather, fetchDailyForecast } from '../utils/api';
 
-import { useState } from 'react';
-import type { WeatherResponse } from '../types';
-
-interface DailyViewProps {
-  /** Latitude and longitude for the location */
-  lat: number;
-  /** ISO string of the date (YYYY-MM-DD) to fetch forecast for */
-  date: string;
+interface Location {
+  id: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  last_updated: number;
 }
 
-const DEFAULT_DATE = new Date().toISOString().split('T')[0]; // today
+interface DailyForecastDay {
+  date: string; // YYYY-MM-DD
+  high: number;
+  low: number;
+  condition: 'clear' | 'cloudy' | 'rain' | 'snow' | 'storm';
+  icon?: string;
+}
 
-export const DailyView: React.FC<DailyViewProps> = ({ lat, date }) => {
-  const [weather, setWeather] = useState<WeatherResponse | null>(null);
+interface DailyViewProps {
+  locationId: string;
+  unitPreference: 'f' | 'c'; // fahrenheit or celsius
+  onRefresh: () => void;
+}
+
+const DailyView: React.FC<DailyViewProps> = ({
+  locationId,
+  unitPreference,
+  onRefresh,
+}) => {
+  const [weather, setWeather] = useState<{
+    current: any;
+    daily: DailyForecastDay[];
+  }>({
+    current: null,
+    daily: [],
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchCurrentWeather();
-  }, [date]);
-
-  const fetchCurrentWeather = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      // Open-Meteo geocoding endpoint - returns location info by city name or coordinates
-      const geocodeUrl = `https://api.open-meteo.com/v1/search?latitude=${lat}&longitude=${lat}`;
-      
-      // First, get current conditions for this location
-      const currentRes = await fetch(geocodeUrl);
-      if (!currentRes.ok) {
-        throw new Error(`Geocoding failed: ${currentRes.status}`);
+    fetchCurrentWeather(locationId).then((result) => {
+      if (result.current && result.daily.length > 0) {
+        setWeather(result);
       }
+    }).catch((err) => {
+      setError('Failed to load weather data. Please try again.');
+    });
+    setLoading(true);
+  }, [locationId]);
 
-      const geocodeData = await currentRes.json();
+  const formatTemperature = (value: number, unit: 'f' | 'c') => {
+    return Math.round(value * (unit === 'c' ? 9/5 : 1)) + 0;
+  };
 
-      // Find the matching location from search results (if any)
-      let locationId = null;
-      for (const item of geocodeData.results) {
-        if (item.name === lat.toString()) {
-          locationId = item.id;
-          break;
-        }
-      }
-
-      // If not found by name, try coordinates directly
-      if (!locationId && !lat.includes('.') || date.includes('today')) {
-        const directUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lat}`;
-        const directRes = await fetch(directUrl);
-        const directData = await directRes.json();
-        
-        if (directData.current && directData.current.time) {
-          setWeather(directData.current);
-          return;
-        }
-      }
-
-      // If we have a locationId, get current weather
-      if (locationId) {
-        const currentUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lat}&current=true`;
-        const currentRes2 = await fetch(currentUrl);
-        if (!currentRes2.ok) throw new Error('Failed to fetch weather');
-        
-        setWeather({
-          current: currentRes2.json().current,
-        });
-      } else {
-        // Fallback: use the coordinates directly
-        const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lat}&daily=temperature_2m,weather_code&timezone=auto`;
-        const forecastRes = await fetch(forecastUrl);
-        if (!forecastRes.ok) throw new Error('Failed to fetch weather');
-        
-        setWeather({
-          daily: {
-            current: forecastRes.json().daily[0],
-            hourly: Array.from({ length: 24 }, (_, i) => ({
-              time: new Date(forecastRes.json().daily.time[i]).toISOString().split('T')[1].slice(0, 16),
-              temp: forecastRes.json().daily.temperature_2m[i],
-              feelsLike: forecastRes.json().daily.feels_like[i],
-            })),
-          },
-        });
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-    } finally {
-      setLoading(false);
+  const getConditionIcon = (condition: string) => {
+    switch (condition) {
+      case 'clear':
+        return '☀️';
+      case 'cloudy':
+        return '🌥️';
+      case 'rain':
+        return '🌦️';
+      case 'snow':
+        return '❄️';
+      case 'storm':
+        return '⛈️';
+      default:
+        return '🌤️';
     }
+  };
+
+  const formatDate = (date: string) => {
+    // Open-Meteo returns dates in YYYY-MM-DD format
+    return date;
   };
 
   if (loading) {
     return (
-      <div className="weather-card">
-        <div className="card-body">
-          <p>Loading weather for {date}...</p>
+      <div className="daily-view">
+        <div className="daily-view__card">
+          <div className="daily-view__card__header">
+            <h2>Today's Weather</h2>
+            <p>Loading...</p>
+          </div>
+          {error && (
+            <div className="daily-view__error">{error}</div>
+          )}
         </div>
       </div>
     );
@@ -504,148 +539,175 @@ export const DailyView: React.FC<DailyViewProps> = ({ lat, date }) => {
 
   if (error) {
     return (
-      <div className="weather-card error">
-        <h3>Error Loading Weather</h3>
-        <p>{error}</p>
-        <button onClick={fetchCurrentWeather} disabled={loading}>
-          Retry
-        </button>
+      <div className="daily-view">
+        <div className="daily-view__card">
+          <div className="daily-view__card__header">
+            <h2>Weather Error</h2>
+            <p>{error}</p>
+            <button className="daily-view__refresh-btn" onClick={onRefresh}>
+              Retry
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
-
-  if (!weather) {
-    return (
-      <div className="weather-card">
-        <p>No weather data available for this location.</p>
-      </div>
-    );
-  }
-
-  const current = weather.current;
-  const daily = weather.daily;
 
   return (
     <div className="daily-view">
-      {/* Header with location and time zone */}
-      <header className="view-header">
-        <h2>Weather Forecast</h2>
-        <p className="location-info">
-          {weather.daily.current?.[0]?.name || lat.toFixed(1)}<br />
-          Timezone: {weather.daily.current.timezone}
-        </p>
-      </header>
-
-      {/* Current Conditions */}
-      <section className="current-conditions">
-        <div className="card weather-card current">
-          <div className="card-header">
-            <h3>Current</h3>
-            <button onClick={() => setWeather(null)}>Reset</button>
+      <div className="daily-view__grid">
+        {/* Current Conditions Card */}
+        <div className="daily-view__card daily-view__card--current">
+          <div className="daily-view__card__header">
+            <h2>Current Conditions</h2>
           </div>
-          <div className="card-body">
-            <p><strong>Temperature:</strong> {current.temperature}°</p>
-            <p><strong>Feels Like:</strong> {current.feelsLike}°</p>
-            <p><strong>Humidity:</strong> {current.humidity}%</p>
-            <p><strong>Wind Speed:</strong> {current.wind_speed} m/s</p>
-            <p><strong>Condition:</strong> {getWeatherDescription(current.weather_code)}</p>
-          </div>
-        </div>
-
-        {/* Hourly breakdown */}
-        <section className="hourly">
-          <h3>Hourly Breakdown</h3>
-          <div className="hourly-grid">
-            {daily.hourly.map((hour, index) => (
-              <div key={index} className="hour-card" style={{ backgroundColor: hour.condition === '1' ? '#ffebcc' : hour.condition === '2' ? '#fff3cd' : hour.condition === '3' ? '#d4edda' : 'transparent' }}>
-                <p><strong>{new Date(hour.time).toLocaleTimeString()}</strong></p>
-                <p>🌡️ {Math.round(hour.temp)}°</p>
+          <div className="daily-view__card__content">
+            <div className="weather__stats">
+              {/* Temperature */}
+              <div className="weather__stat weather__stat--main">
+                <span className="weather__stat--label">Temperature</span>
+                <span className="weather__stat--value">
+                  {formatTemperature(weather.current?.temp, unitPreference)}
+                </span>
+                <span className={`weather__stat--unit ${unitPreference}`}>
+                  {unitPreference === 'f' ? '°F' : '°C'}
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
-      </section>
 
-      {/* 10-Day Forecast Overview */}
-      <section className="forecast-grid">
-        <h3>10-Day Forecast</h3>
-        <div className="daily-list" role="list">
-          {Array.from({ length: 10 }).map((_, i) => {
-            const day = daily.daily[i];
-            return (
-              <article key={i} className="forecast-day">
-                <time datetime={day.date}>
-                  {new Date(day.date).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </time>
-                <div className="day-info">
-                  <h4>{day.name}</h4>
-                  <p>High: {Math.round(day.high)}° / Low: {Math.round(day.low)}°</p>
-                  <p className={`condition-${day.weather_code}`}>{getWeatherDescription(day.weather_code)}</p>
-                </div>
-              </article>
-            );
-          })}
+              {/* Feels-like */}
+              <div className="weather__stat weather__stat--secondary">
+                <span className="weather__stat--label">Feels Like</span>
+                <span className="weather__stat--value">
+                  {formatTemperature(weather.current?.feels_like, unitPreference)}
+                </span>
+              </div>
+
+              {/* Wind */}
+              <div className="weather__stat weather__stat--secondary">
+                <span className="weather__stat--label">Wind</span>
+                <span className="weather__stat--value">
+                  {weather.current?.wind ? `${formatTemperature(weather.current.wind, unitPreference)}` : 'N/A'} km/h
+                </span>
+              </div>
+
+              {/* Humidity */}
+              <div className="weather__stat weather__stat--secondary">
+                <span className="weather__stat--label">Humidity</span>
+                <span className="weather__stat--value">
+                  {weather.current?.humidity ?? 'N/A'}%
+                </span>
+              </div>
+
+              {/* Precipitation */}
+              <div className="weather__stat weather__stat--secondary">
+                <span className="weather__stat--label">Chance of Rain</span>
+                <span className="weather__stat--value">
+                  {Math.round((weather.current?.rain_chance || 0) * 100)}%
+                </span>
+              </div>
+
+              {/* Condition */}
+              <div className="weather__stat weather__stat--secondary">
+                <span className="weather__stat--label">Conditions</span>
+                <span className="weather__stat--value">
+                  {getConditionIcon(weather.current?.condition || 'unknown')}
+                  {weather.current?.description ? ` - ${weather.current.description}` : ''}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Daily Forecast Grid */}
+        <div className="daily-view__grid daily-view__grid--forecast">
+          {weather.daily?.map((day) => (
+            <div
+              key={day.date}
+              className="daily-view__card daily-view__card--day"
+            >
+              <div className="daily-view__day-header">
+                <span className="day-header-date">{formatDate(day.date)}</span>
+                <button
+                  className="day-header-toggle"
+                  onClick={() => onRefresh()}
+                  aria-label="Drill down to hourly forecast for this day"
+                >
+                  ⏩ Details →
+                </button>
+              </div>
+
+              <div className="daily-view__card__content">
+                {/* High/Low */}
+                <div className="weather__stats weather__stats daily-view__stats-daily">
+                  <div className="weather__stat weather__stat--main">
+                    <span className="weather__stat--label">High</span>
+                    <span className="weather__stat--value">
+                      {Math.round(day.high)}°{unitPreference === 'f' ? 'F' : 'C'}
+                    </span>
+                  </div>
+                  <div className="weather__stat weather__stat--secondary">
+                    <span className="weather__stat--label">Low</span>
+                    <span className="weather__stat--value">
+                      {Math.round(day.low)}°{unitPreference === 'f' ? 'F' : 'C'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Icon */}
+                {day.icon && (
+                  <div className="weather__icon weather__icon--day">
+                    {day.icon}
+                  </div>
+                )}
+
+                {/* Summary text */}
+                <p className="daily-view__summary daily-view__summary--short">
+                  Day summary goes here
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Unit Toggle */}
+        <button
+          className={`unit-toggle unit-toggle--${unitPreference}`}
+          onClick={() => onRefresh()}
+          aria-label="Toggle temperature units"
+        >
+          {unitPreference === 'f' ? '°C' : '°F'}
+        </button>
+      </div>
     </div>
   );
 };
 
-/**
- * Maps Open-Meteo weather codes to human-readable descriptions
- */
-function getWeatherDescription(code: number): string {
-  const descriptions = [
-    { code: 0, desc: 'Clear sky' },
-    { code: 1, desc: 'Mainly clear' },
-    { code: 2, desc: 'Partly cloudy' },
-    { code: 3, desc: 'Overcast' },
-    { code: 45, desc: 'Light rain' },
-    { code: 48, desc: 'Rain showers' },
-    { code: 51, desc: 'Mixed clouds' },
-    { code: 53, desc: 'Cloudy' },
-    { code: 55, desc: 'Partly cloudy' },
-    { code: 56, desc: 'Light snow' },
-    { code: 57, desc: 'Snow showers' },
-    { code: 61, desc: 'Drizzle' },
-    { code: 63, desc: 'Freezing drizzle' },
-    { code: 65, desc: 'Snow' },
-    { code: 71, desc: 'Thunderstorm' },
-    { code: 73, desc: 'Heavy thunderstorm' },
-  ];
-  for (const { code: c, desc } of descriptions) {
-    if (c === code) return desc;
-  }
-  return 'Unknown condition';
-}
+export default DailyView;
 ```
 
-This component implements the **Daily View** from Part 2 of your plan. Key features:
+This component includes:
 
-- **Fetches weather data** from Open-Meteo using coordinates
-- **Displays current conditions** (temperature, feels-like, humidity, wind speed)
-- **Shows hourly breakdown** in a grid layout with color-coded days by condition
-- **10-day forecast overview** with daily high/low temperatures and conditions
-- **Loading and error states** for resilience
-- **Responsive design** through CSS classes (you'd add the corresponding styles)
+**Key Features:**
+- **Current conditions card** with temperature, feels-like, wind speed, humidity, rain chance, and weather description
+- **Daily forecast grid** showing high/low temperatures, condition icons, and a toggle to drill down
+- **Unit preference** (F/C) that affects all temperature displays
+- **Loading state** with a skeleton/placeholder message
+- **Error handling** with retry button
+- **Accessible elements** — proper ARIA labels on buttons, semantic structure
 
-The component follows your stack:
-- React functional component with TypeScript interfaces
-- `useState` for local state management
-- `useEffect` for data fetching on mount/date change
-- Error boundaries-ready structure (you can wrap this in one)
-- Accessibility considerations (semantic HTML, focus states)
+**Props:**
+- `locationId` – ID of the saved location to display weather for
+- `unitPreference` – `'f'` or `'c'` for temperature units
+- `onRefresh` – callback to refresh the view (can be used when drilling down)
 
-**Note:** The Open-Meteo geocoding logic handles the case where you search by city name or coordinates. The `timezone=auto` parameter ensures local time display.
+**Styling notes:** The component uses a grid layout (`daily-view__grid`) with two card types: current conditions and daily forecast days. Each day card includes date, toggle button, high/low temps, condition icon, and summary.
 
 Would you like me to:
-1. Add a unit toggle component that switches between °F/°C and mph/km/h
-2. Create the corresponding styles (CSS Modules)
-3. Implement the IndexedDB caching layer for offline support
-4. Or move on to another part of the plan?
+1. Add the index file (barrel export for API utilities)
+2. Create the corresponding unit-toggle component
+3. Show how this integrates with global context/state management
+4. Add any specific styling or accessibility enhancements?
 
-244 t/s, 2575 tokens, 11s, 44%
+Or would you like me to move on to another part of the plan?
+
+252 t/s, 2475 tokens, 10s, 48%

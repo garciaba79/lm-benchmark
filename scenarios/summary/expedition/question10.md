@@ -1,0 +1,32 @@
+1. Core-Data Summary (Semantic Units)
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8, ~80,000 miles.
+- Oil practice: changes when the light comes on; Motorcraft 5W-20 and Motorcraft FL-820S. One exception around the time the knock started: independent shop used its own filter and oil. User now buys Motorcraft filters; shop still uses its oil. Previously Ford dealer service; now a different shop.
+- Knock onset: about a year before this chat; worsened over time. Initially mainly warm startups (~70%), occasionally cold; typically resolved while driving and gone by destination. Intensity varied (subtle to loud/hard). About a couple of months before this chat it also knocked on cold startups. Now constant; intensity mostly consistent but sometimes quieter or louder. User drives infrequently and short distances, so little data on a fully warm engine with the current always-on knock.
+- Sound: user cannot localize it; seems lower engine, distinct from cam ticking. Sequence is a knock then cam ticking/knocking. A startup rattle is now also present.
+- Stethoscope (from prior Expedition notes user supplied): loudest at back of intake manifold, front of driver-side valve cover, and bottom of driver side; quieter on passenger-side valve cover and bottom center.
+- Cam ticking: separate from the knock; user unsure if normal or excessive.
+- Performance: smooth, full power; no rough idle, misfires, or power loss. No check-engine light. AutoZone code check once, around when knock became consistent on cold and warm startups: no DTCs.
+- User theory: timing issue; doubted major hardware failure such as rod bearings.
+- PCV: integrated in passenger-side valve cover (left when facing the engine); thin hose to intake (intake manifold/throttle-body spacer). Disconnecting that hose: no vacuum or positive pressure, no stutter or RPM change. Driver-side valve cover (right when facing engine): fatter breather hose to intake, no valve. Compressed air into the PCV valve stem: pressure buildup and a flutter from the driver-side valve cover.
+- Oil-flow signs: timing chain looks dry with oil cap off; no oil splash with cap off while running; mist only after hot shutdown. No pressure or stutter when oil cap is removed. Recent change with Motorcraft 5W-20 and FL-820S.
+- Heat/smell: engine feels “really hot” and “toasty” after a few blocks; temperature gauge normal.
+- Spark plugs: replaced after the vehicle sat for weeks. Compressed air in sockets: driver side fuel smell, no dust; passenger side rust dust, especially front socket. Knock seemed better briefly, then worse within minutes.
+- Coolant: prior thermostat-housing gasket leak with coolant on the block; repaired, block cleaned, coolant topped off, lines squeezed to bleed air; levels stable, no further leak reported. Exact discovery date not stated.
+- Battery disconnect: knock worst afterward, then slightly reduced, later constant. User asked whether persistent cold-start knock began at that disconnect; answer from thread was no—cold-start persistence was already present about a couple of months earlier.
+- Parts/tools mentioned: VCT solenoids purchased, not installed. Scan-tool interest (Autel MaxiCOM). Roller followers considered less likely; OTC 6684 valve-spring compressor discussed for follower work without cam removal. Suspects discussed: VCT solenoids, cam phasers, oil pressure/flow, timing chain/tensioners; fuel/pre-ignition and sensors less likely given no codes and no power loss.
+- Comparison allowed only as Expedition context: 2013 F-150 5.0L Coyote shows PCV-hose removal shudder, oil-cap splatter, and a lubricated chain; Expedition does not.
+- User preference: this vehicle’s history only; do not pull unrelated F-150 threads. Shareable summary should keep structure across platforms. New thread label requested: “Expedition 2014 troubleshooting” or similar.
+2. Procedural Summary (Event Milestones)
+- User supplied two prior AI summaries of Expedition symptoms and asked they be combined and ordered.
+- Combined chronological summary was produced; user then asked for a platform-stable share format and pasted a preferred bullet style, correcting oil history, onset (“about a year ago”), cold-start persistence (“about a couple months ago”), limited driving, location uncertainty, and new startup rattle.
+- A Markdown artifact was made from that preferred format, then updated with stethoscope, PCV, dry-chain, plug, coolant, and battery-disconnect details from the second supplied summary.
+- User asked when persistent cold-start knock was noticed and whether it was the battery disconnect; answer: cold-start persistence preceded the disconnect by about a couple of months.
+- User defined memory scope: Expedition threads only; F-150 comparison inside an Expedition thread is relevant; other F-150 talk is not.
+- User asked when the coolant leak was found; only relative placement was available (before later knock progression); no exact date in the record.
+- User asked to start a new conversation labeled “Expedition 2014 troubleshooting.” A labeled Markdown recap artifact was produced in this same chat. User asked whether that was already the new thread or whether history had to be opened; answer given was that this chat was the new thread.
+- Current request: three-part dense handoff for a fresh session.
+3. Outcome Summary (Goal & State)
+- Primary objective: partially achieved. Combined, ordered, share-oriented Expedition symptom record exists in this chat; a separately opened history thread was not created by the user.
+- Posture: organizing and decisive about scope; wants one Expedition troubleshooting thread because long mixed threads are hard to track as symptoms change.
+- Open items: VCT solenoids bought but not installed; no oil-pressure measurement; PCV valve cover/hose not replaced; phasers and chain not inspected; no second code scan after the AutoZone check; coolant-leak date and battery-disconnect date not pinned to calendar dates; driving limited by user but failure risk from dry chain and constant knock was flagged.
+- Next session focus: continue only under “2014 Ford Expedition Troubleshooting,” using this handoff as the baseline, and take the next diagnostic step the user chooses (solenoids, PCV, oil pressure, or phaser/chain) without mixing in unrelated F-150 history.

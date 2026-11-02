@@ -56,7 +56,7 @@ RESULTS_DIR = "results"             # Folder where per-scenario results, stats, 
 
 DRY_RUN = False                     # Set to true to print what would run without loading models or writing results
 FORCE_MODE = "update"               # Overrides the mode in scenarios.json: None | "update" | "refresh" | "none"
-USE_CUSTOM_INFER = False            # Set to true to use inference settings from inference.json (or scenario override), set to false to use LM Studio defaults
+USE_CUSTOM_INFER = True             # Set to true to use inference settings from inference.json (or scenario override), set to false to use LM Studio defaults
 
 CHAT_TIMEOUT = 900                  # Max seconds to wait for a single chat response before timing out (default is 900 seconds, which is 15 minutes)
 

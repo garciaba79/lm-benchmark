@@ -1,0 +1,7 @@
+{
+  "name": "Question Personal Stocks",
+  "description": "Test how different local models respond to a question about personal advice.",
+  "test": "question personal stocks",
+  "system_prompt": true,
+  "notes": ""
+}

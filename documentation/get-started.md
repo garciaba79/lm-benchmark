@@ -46,7 +46,8 @@ Contains inference settings that are passed to LM Studio (keys match the API):
   "temperature": 0.7,
   "top_p": 0.95,
   "top_k": 40,
-  "repeat_penalty": 1.1
+  "repeat_penalty": 1.1,
+  "reasoning_effort": "none"
 }
 ```
 

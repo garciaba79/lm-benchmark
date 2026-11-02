@@ -1,0 +1,7 @@
+{
+  "name": "Question Personal Blueberry Desk",
+  "description": "Test how different local models respond to a question about personal advice.",
+  "test": "question personal blueberry desk",
+  "system_prompt": true,
+  "notes": ""
+}

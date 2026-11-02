@@ -10,8 +10,14 @@ Modes (per scenario):
 System prompt:
   - If test.json "system_prompt" is false, no system message is used.
   - If test.json "system" is set, use that for the system prompt.
-  - Otherwise use scenarios/<name>/system.md if it exists,
+  - Otherwise use scenarios/<relative-path>/system.md if it exists,
     else fall back to root system.md if it exists.
+
+Scenarios:
+  - The "scenario" field in scenarios.json may be a top-level folder name
+    (e.g. "weather app") or a nested relative path (e.g. "bug/null pointer").
+  - Both styles are supported. Results are written under the matching
+    relative path under results/.
 
 Inference:
   - USE_CUSTOM_INFER = False (default): do not send inference settings; LM Studio defaults are used.
@@ -19,7 +25,7 @@ Inference:
     otherwise use the root inference.json. Missing file = LM Studio defaults.
 
 run_tests.py
-version 0.6.0
+version 0.7.0
 """
 
 import json
@@ -216,7 +222,7 @@ def chat(base_url, headers, model_key, messages, inference):
         "stream": False,
         "max_tokens": -1
     }
-    for key in ("temperature", "top_p", "top_k", "repeat_penalty"):
+    for key in ("temperature", "top_p", "top_k", "repeat_penalty", "reasoning_effort"):
         if key in inference and inference[key] is not None:
             payload[key] = inference[key]
     resp = requests.post(url, headers=headers, json=payload, timeout=CHAT_TIMEOUT)
@@ -487,7 +493,7 @@ def run_one_model(base_url, headers, model, questions, system_prompt, inference,
         unload_model(base_url, headers, instance_id)
 
 def run_scenario(scenario, models, base_url, headers, config, base_ram_gb, dry_run=False):
-    name = scenario["scenario"]
+    name = scenario["scenario"]  # relative path: "weather app" or "bug/null pointer"
     mode = FORCE_MODE or scenario.get("mode", "none")
 
     if mode == "none":

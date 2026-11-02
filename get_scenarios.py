@@ -3,8 +3,12 @@
 Scan the scenarios folder and write scenarios.json and scenarios.md.
 Overwrites both files each run. Default mode is "none".
 
+Supports both top-level scenario folders and nested category folders.
+Any folder that contains a test.json is treated as a scenario.
+The "scenario" field stores the relative path (e.g. "weather app" or "bug/null pointer").
+
 get_scenarios.py
-version 0.5.2
+version 0.6.0
 """
 
 import json
@@ -43,6 +47,17 @@ def load_models():
     data = load_json(MODELS_PATH)
     return data if isinstance(data, list) else []
 
+def find_scenario_dirs(base: Path):
+    """Return sorted list of (relative_path, full_path) for every folder that has a test.json."""
+    found = []
+    for p in base.rglob("*"):
+        if not p.is_dir():
+            continue
+        if (p / "test.json").exists():
+            rel = p.relative_to(base).as_posix()
+            found.append((rel, p))
+    return sorted(found, key=lambda x: x[0].lower())
+
 def has_questions(scenario_path):
     for p in scenario_path.glob("question*.md"):
         if re.match(r"question\d+\.md$", p.name, re.IGNORECASE):
@@ -60,8 +75,8 @@ def get_display_name(test_data: dict, fallback_name: str) -> str:
 
     return fallback_name
 
-def get_result_status(scenario_name, models):
-    results_path = Path(RESULTS_DIR) / scenario_name
+def get_result_status(scenario_rel, models):
+    results_path = Path(RESULTS_DIR) / scenario_rel
     if not results_path.exists():
         return "none", None
 
@@ -175,13 +190,9 @@ def main():
     config = load_json(CONFIG_PATH) or {}
     scenarios = []
 
-    for item in sorted(scenarios_path.iterdir()):
-        if not item.is_dir():
-            continue
-
-        name = item.name
+    for rel_path, item in find_scenario_dirs(scenarios_path):
         test_json_path = item / "test.json"
-        has_test = test_json_path.exists()
+        has_test = True  # we only reach here if test.json exists
         has_q = has_questions(item)
 
         ready = True
@@ -190,17 +201,17 @@ def main():
         if REQUIRE_AT_LEAST_ONE_QUESTION and not has_q:
             ready = False
 
-        status, last_run = get_result_status(name, models)
+        status, last_run = get_result_status(rel_path, models)
 
-        display_name = name
+        display_name = rel_path
         description = ""
         if has_test:
             t = load_json(test_json_path) or {}
-            display_name = get_display_name(t, name)
+            display_name = get_display_name(t, rel_path)
             description = t.get("description", "")
 
         scenarios.append({
-            "scenario": name,
+            "scenario": rel_path,
             "name": display_name,
             "description": description,
             "ready": ready,

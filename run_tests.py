@@ -12,8 +12,13 @@ System prompt:
   - Otherwise use scenarios/<name>/system.md if it exists,
     else fall back to root system.md if it exists.
 
+Inference:
+  - USE_CUSTOM_INFER = False (default): do not send inference settings; LM Studio defaults are used.
+  - USE_CUSTOM_INFER = True: use inference.json from the scenario folder if present,
+    otherwise use the root inference.json. Missing file = LM Studio defaults.
+
 run_tests.py
-version 0.5.2
+version 0.6.0
 """
 
 import json
@@ -24,21 +29,36 @@ from datetime import datetime
 from pathlib import Path
 import requests
 
+try:
+    import psutil
+except ImportError:
+    psutil = None
+
 # ==========================================
 # CONFIGURATION
 # ==========================================
-CHAT_TIMEOUT = 900   # seconds (15 minutes)
-CONFIG_PATH = "config.json"
-MODELS_PATH = "models.json"
-SCENARIOS_PATH = "scenarios.json"
-SCENARIOS_DIR = "scenarios"
-RESULTS_DIR = "results"
-ROOT_SYSTEM_PROMPT = "system.md"
+CONFIG_PATH = "config.json"         # LM Studio connection settings (base_url, api_token, optional helper model)
+TEST_PATH = "test.json"             # Per scenario metadata (name, description, system_prompt flag, notes)
+MODELS_PATH = "models.json"         # Master list of models to test (created by get_models.py)
+SCENARIOS_PATH = "scenarios.json"   # List of scenarios with ready/status/mode (created by get_scenarios.py)
+INFERENCE_PATH = "inference.json"   # Optional inference settings (context, temperature, top_p, etc.) used when USE_CUSTOM_INFER is True
+HARDWARE_PATH = "hardware.json"     # Static hardware snapshot written at the start of each run
+ROOT_SYSTEM_PROMPT = "system.md"    # Fallback system prompt used if a scenario does not have its own system.md
+SCENARIOS_DIR = "scenarios"         # Folder containing one subfolder per test scenario
+RESULTS_DIR = "results"             # Folder where per-scenario results, stats, and snapshots are written
 
-DRY_RUN = False
-FORCE_MODE = None          # None | "update" | "refresh" | "none"
+DRY_RUN = False                     # Set to true to print what would run without loading models or writing results
+FORCE_MODE = "update"               # Overrides the mode in scenarios.json: None | "update" | "refresh" | "none"
+USE_CUSTOM_INFER = False            # Set to true to use inference settings from inference.json (or scenario override), set to false to use LM Studio defaults
 
-# Helper model prompt (optional, used only if model is set and reachable)
+CHAT_TIMEOUT = 900                  # Max seconds to wait for a single chat response before timing out (default is 900 seconds, which is 15 minutes)
+
+# Hardware spill detection
+INSTALLED_RAM_GB = 32               # Total system RAM in GB (used to calculate spill threshold)
+INSTALLED_VRAM_GB = 16              # Total GPU VRAM in GB (reference only)
+RAM_SPILL_THRESHOLD_PERCENT = 25    # If RAM usage rises by this percent during a test, then let's assume the model spilled into VRAM
+
+# Helper model prompt (optional, used only if a helper model is set and available)
 HELPER_PROMPT = """Write a short 2-3 sentence summary of these test results. Mention overall speed and any notable differences. Keep it plain."""
 
 def load_json(path, required=True):
@@ -69,7 +89,6 @@ def format_context(context_length):
     return str(context_length)
 
 def format_duration(seconds):
-    """Return a friendly duration string."""
     if seconds is None or seconds < 0:
         return "0 s"
     total = int(round(seconds))
@@ -82,6 +101,53 @@ def format_duration(seconds):
     hours = minutes // 60
     mins = minutes % 60
     return f"{hours}:{mins:02d} hours"
+
+def get_ram_used_gb():
+    if psutil is None:
+        return None
+    try:
+        return psutil.virtual_memory().used / (1024 ** 3)
+    except Exception:
+        return None
+
+def get_fits_memory(base_ram_gb, current_ram_gb):
+    """Return True if the model appears to have spilled into RAM."""
+    if base_ram_gb is None or current_ram_gb is None:
+        return False
+    increase = current_ram_gb - base_ram_gb
+    threshold = INSTALLED_RAM_GB * (RAM_SPILL_THRESHOLD_PERCENT / 100.0)
+    return increase >= threshold
+
+def load_inference(scenario_path):
+    if not USE_CUSTOM_INFER:
+        return {}
+    scenario_inf = scenario_path / "inference.json"
+    if scenario_inf.exists():
+        return load_json(scenario_inf, required=False) or {}
+    root_inf = Path(INFERENCE_PATH)
+    if root_inf.exists():
+        return load_json(root_inf, required=False) or {}
+    return {}
+
+def unload_all_models(base_url, headers):
+    try:
+        resp = requests.get(f"{base_url}/api/v1/models", headers=headers, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        instances = []
+        for m in data.get("models", []):
+            for inst in m.get("loaded_instances", []):
+                iid = inst.get("id")
+                if iid:
+                    instances.append(iid)
+        if not instances:
+            print("No models currently loaded.")
+            return
+        print(f"Unloading {len(instances)} loaded model(s)...")
+        for iid in instances:
+            unload_model(base_url, headers, iid)
+    except Exception as e:
+        print(f"Warning: could not unload existing models: {e}")
 
 def load_questions(scenario_path):
     questions = []
@@ -111,11 +177,13 @@ def result_file_for_model(results_path, model):
     key = model.get("key") or model.get("display_name") or "unknown"
     return results_path / f"{safe_filename(key)}.md"
 
-def load_model(base_url, headers, model_key):
+def load_model(base_url, headers, model_key, inference):
     url = f"{base_url}/api/v1/models/load"
     payload = {"model": model_key, "echo_load_config": True}
+    if inference.get("context_length"):
+        payload["context_length"] = inference["context_length"]
     print(f"  Loading {model_key} ...")
-    resp = requests.post(url, headers=headers, json=payload, timeout=120)
+    resp = requests.post(url, headers=headers, json=payload, timeout=180)
     resp.raise_for_status()
     data = resp.json()
     context = None
@@ -133,7 +201,7 @@ def unload_model(base_url, headers, instance_id):
     except Exception as e:
         print(f"  Warning: could not unload {instance_id}: {e}")
 
-def chat(base_url, headers, model_key, messages):
+def chat(base_url, headers, model_key, messages, inference):
     url = f"{base_url}/api/v0/chat/completions"
     payload = {
         "model": model_key,
@@ -141,6 +209,9 @@ def chat(base_url, headers, model_key, messages):
         "stream": False,
         "max_tokens": -1
     }
+    for key in ("temperature", "top_p", "top_k", "repeat_penalty"):
+        if key in inference and inference[key] is not None:
+            payload[key] = inference[key]
     resp = requests.post(url, headers=headers, json=payload, timeout=CHAT_TIMEOUT)
     resp.raise_for_status()
     return resp.json()
@@ -190,20 +261,19 @@ def build_test_md(test_info, name, created_str, summary_models):
         if "error" in sm:
             lines.append(f"- {sm['key']} — ERROR: {sm['error']}")
         else:
+            used = " (RAM)" if sm.get("used_ram") else ""
             lines.append(
                 f"- {sm.get('display_name') or sm['key']} "
                 f"({sm.get('params') or '?'} / {sm.get('quant') or '?'} / {sm.get('size_gb')} GB) "
-                f"Context: {sm.get('context')} → `{sm.get('file')}`"
+                f"Context: {sm.get('context')}{used} → `{sm.get('file')}`"
             )
     return "\n".join(lines) + "\n"
 
 def build_stats_md(stats):
-    """Build stats.md entirely from the stats.json content (all models)."""
     models = stats.get("models", []) if isinstance(stats, dict) else []
     if not models:
         return "# Stats\n\nNo models were run.\n"
 
-    # Determine max questions from any model
     question_count = 0
     for m in models:
         qtimes = m.get("question_times") or []
@@ -223,12 +293,13 @@ def build_stats_md(stats):
                 q_cells.append(format_duration(qtimes[i]))
             else:
                 q_cells.append("-")
-        rows.append([name, avg, total] + q_cells)
+        used = "yes" if ms.get("used_ram") else "no"
+        rows.append([name, avg, total, used] + q_cells)
 
     if not rows:
         return "# Stats\n\nNo successful model runs.\n"
 
-    headers = ["Model", "Avg t/s", "Total time"] + [f"Q{i+1}" for i in range(question_count)]
+    headers = ["Model", "Avg t/s", "Total time", "Used RAM"] + [f"Q{i+1}" for i in range(question_count)]
 
     col_widths = [len(h) for h in headers]
     for row in rows:
@@ -251,9 +322,6 @@ def build_stats_md(stats):
     return "\n".join(lines) + "\n"
 
 def merge_stats(existing_stats, new_model_stats, scenario_name, created_str):
-    """Keep old model entries; update or add the ones just tested.
-    overall_seconds is recalculated from all models in the file.
-    """
     if not existing_stats or not isinstance(existing_stats, dict):
         existing_stats = {"models": []}
 
@@ -323,16 +391,16 @@ def try_helper_summary(config, model_stats):
     except Exception:
         return "Here is the summary results."
 
-def run_one_model(base_url, headers, model, questions, system_prompt):
-    """Run the full conversation for one model. Returns turns + stats dict."""
+def run_one_model(base_url, headers, model, questions, system_prompt, inference, base_ram_gb):
     model_key = model.get("key")
     instance_id = None
     turns = []
     question_times = []
     tps_values = []
+    peak_ram = base_ram_gb
 
     try:
-        instance_id, context_length = load_model(base_url, headers, model_key)
+        instance_id, context_length = load_model(base_url, headers, model_key, inference)
         context_str = format_context(context_length)
 
         messages = []
@@ -342,8 +410,12 @@ def run_one_model(base_url, headers, model, questions, system_prompt):
         for q in questions:
             messages.append({"role": "user", "content": q})
             start = time.time()
-            response = chat(base_url, headers, model_key, messages)
+            response = chat(base_url, headers, model_key, messages, inference)
             elapsed = time.time() - start
+
+            current_ram = get_ram_used_gb()
+            if current_ram and (peak_ram is None or current_ram > peak_ram):
+                peak_ram = current_ram
 
             choice = response.get("choices", [{}])[0]
             assistant_text = choice.get("message", {}).get("content", "").strip()
@@ -384,6 +456,7 @@ def run_one_model(base_url, headers, model, questions, system_prompt):
 
         avg_tps = sum(tps_values) / len(tps_values) if tps_values else 0
         total_seconds = sum(question_times)
+        used_ram = get_fits_memory(base_ram_gb, peak_ram)
 
         model_stat = {
             "key": model_key,
@@ -394,7 +467,9 @@ def run_one_model(base_url, headers, model, questions, system_prompt):
             "context": context_str,
             "avg_tps": avg_tps,
             "total_seconds": total_seconds,
-            "question_times": question_times
+            "question_times": question_times,
+            "used_ram": used_ram,
+            "peak_ram_gb": round(peak_ram, 1) if peak_ram else None
         }
         return turns, model_stat, context_str
 
@@ -404,7 +479,7 @@ def run_one_model(base_url, headers, model, questions, system_prompt):
     finally:
         unload_model(base_url, headers, instance_id)
 
-def run_scenario(scenario, models, base_url, headers, config, dry_run=False):
+def run_scenario(scenario, models, base_url, headers, config, base_ram_gb, dry_run=False):
     name = scenario["scenario"]
     mode = FORCE_MODE or scenario.get("mode", "none")
 
@@ -428,8 +503,9 @@ def run_scenario(scenario, models, base_url, headers, config, dry_run=False):
         return
 
     system_prompt = load_system_prompt(scenario_path, test_info)
+    inference = load_inference(scenario_path)
 
-    print(f"\n=== {name}  mode={mode}  questions={len(questions)}  system={'yes' if system_prompt else 'no'} ===")
+    print(f"\n=== {name}  mode={mode}  questions={len(questions)}  system={'yes' if system_prompt else 'no'}  infer={'custom' if inference else 'lms'} ===")
 
     to_run = []
     for model in models:
@@ -448,16 +524,25 @@ def run_scenario(scenario, models, base_url, headers, config, dry_run=False):
             print(f"    - {m.get('key')}")
         return
 
-    shutil.copy(MODELS_PATH, results_path / "models.json")
+    # Snapshot models.json (merge by key)
+    models_snapshot_path = results_path / "models.json"
+    existing_models = load_json(models_snapshot_path, required=False) if models_snapshot_path.exists() else []
+    if not isinstance(existing_models, list):
+        existing_models = []
+    model_map = {m.get("key"): m for m in existing_models if m.get("key")}
+    for m in models:
+        if m.get("key"):
+            model_map[m["key"]] = m
+    merged_models = list(model_map.values())
+    models_snapshot_path.write_text(json.dumps(merged_models, indent=2), encoding="utf-8")
 
     created_str = datetime.now().strftime("%m/%d/%Y, %I:%M:%S %p")
     model_stats = []
-    scenario_start = time.time()
 
     for model in to_run:
         print(f"Testing {model.get('key')}")
         turns, model_stat, context_str = run_one_model(
-            base_url, headers, model, questions, system_prompt
+            base_url, headers, model, questions, system_prompt, inference, base_ram_gb
         )
 
         if turns:
@@ -469,19 +554,15 @@ def run_scenario(scenario, models, base_url, headers, config, dry_run=False):
 
         model_stats.append(model_stat)
 
-    overall_seconds = time.time() - scenario_start
-
     # Write test.md
     test_md = build_test_md(test_info, name, created_str, model_stats)
     (results_path / "test.md").write_text(test_md, encoding="utf-8")
 
-    # Merge with existing stats so removed models are kept
-    # overall_seconds is recalculated from all models in the file
+    # Merge and write stats
     stats_path = results_path / "stats.json"
     existing = load_json(stats_path, required=False) if stats_path.exists() else None
     merged = merge_stats(existing, model_stats, name, created_str)
 
-    # Write stats.md entirely from the merged stats.json content
     stats_md = build_stats_md(merged)
     helper = try_helper_summary(config, merged.get("models", []))
     if stats_md.startswith("# Stats"):
@@ -490,12 +571,21 @@ def run_scenario(scenario, models, base_url, headers, config, dry_run=False):
 
     (results_path / "stats.json").write_text(json.dumps(merged, indent=2), encoding="utf-8")
 
-    # Ensure results.md exists for cloud evaluation
     results_md = results_path / "results.md"
     if not results_md.exists():
         results_md.write_text("# Evaluation Results\n\nPaste the cloud model evaluation here.\n", encoding="utf-8")
 
     print(f"  Finished {name}")
+
+def write_hardware_json():
+    hw = {
+        "installed_ram_gb": INSTALLED_RAM_GB,
+        "installed_vram_gb": INSTALLED_VRAM_GB,
+        "ram_spill_threshold_percent": RAM_SPILL_THRESHOLD_PERCENT,
+        "base_ram_gb": get_ram_used_gb(),
+        "collected_at": datetime.now().isoformat()
+    }
+    Path(HARDWARE_PATH).write_text(json.dumps(hw, indent=2), encoding="utf-8")
 
 def main():
     start = time.time()
@@ -513,11 +603,21 @@ def main():
 
     print(f"Models available: {len(models)}")
     print(f"Scenarios: {len(scenarios)}")
+    print(f"Custom inference: {'on' if USE_CUSTOM_INFER else 'off (LMS defaults)'}")
+
+    base_ram_gb = get_ram_used_gb()
+    write_hardware_json()
+    if base_ram_gb:
+        print(f"Base RAM used: {base_ram_gb:.1f} GB")
+
+    if not DRY_RUN:
+        unload_all_models(base_url, headers)
+
     if DRY_RUN:
         print("DRY RUN — no models will be loaded\n")
 
     for scenario in scenarios:
-        run_scenario(scenario, models, base_url, headers, config, dry_run=DRY_RUN)
+        run_scenario(scenario, models, base_url, headers, config, base_ram_gb, dry_run=DRY_RUN)
 
     elapsed = time.time() - start
     print(f"\nDone in {format_duration(elapsed)}")

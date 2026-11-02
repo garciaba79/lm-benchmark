@@ -27,7 +27,7 @@ MODELS_PATH = "models.json"
 OUTPUT_JSON = "scenarios.json"
 OUTPUT_MD = "scenarios.md"
 CONFIG_PATH = "config.json"
-DEFAULT_MODE = "none"
+DEFAULT_MODE = "update"                 # Set the mode for updating the tests: "update" | "refresh" | "none"
 REQUIRE_TEST_JSON = True
 REQUIRE_AT_LEAST_ONE_QUESTION = True
 

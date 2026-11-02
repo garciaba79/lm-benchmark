@@ -144,6 +144,18 @@
     "paramEstimate": null
   },
   {
+    "key": "qwen3.5-4b",
+    "display_name": "Qwen3.5 4B",
+    "params": "4B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 3.15,
+    "architecture": "qwen35",
+    "format": "gguf",
+    "max_context_length": 262144,
+    "paramEstimate": null
+  },
+  {
     "key": "falcon-h1r-7b",
     "display_name": "Falcon H1R 7B",
     "params": "7B",
@@ -192,6 +204,18 @@
     "paramEstimate": null
   },
   {
+    "key": "granite-4.1-8b",
+    "display_name": "Granite 4.1 8B",
+    "params": "8B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 4.98,
+    "architecture": "granite",
+    "format": "gguf",
+    "max_context_length": 131072,
+    "paramEstimate": null
+  },
+  {
     "key": "lfm2.5-8b-a1b",
     "display_name": "LFM2.5 8B A1B",
     "params": "32x959M",
@@ -202,18 +226,6 @@
     "format": "gguf",
     "max_context_length": 128000,
     "paramEstimate": 8.0
-  },
-  {
-    "key": "meta-llama-3.1-8b-instruct",
-    "display_name": "Meta Llama 3.1 8B Instruct",
-    "params": "8B",
-    "quant": "Q4_K_M",
-    "bits_per_weight": 4,
-    "size_gb": 4.58,
-    "architecture": "llama",
-    "format": "gguf",
-    "max_context_length": 131072,
-    "paramEstimate": null
   },
   {
     "key": "ministral-3-8b-instruct-2512",
@@ -228,15 +240,15 @@
     "paramEstimate": null
   },
   {
-    "key": "qwen3-vl-8b-instruct",
-    "display_name": "Qwen3 VL 8B Instruct",
-    "params": "8B",
+    "key": "essentialai/rnj-1",
+    "display_name": "Rnj 1",
+    "params": "8.3B",
     "quant": "Q4_K_M",
     "bits_per_weight": 4,
-    "size_gb": 5.76,
-    "architecture": "qwen3vl",
+    "size_gb": 4.76,
+    "architecture": "gemma3",
     "format": "gguf",
-    "max_context_length": 262144,
+    "max_context_length": 32768,
     "paramEstimate": null
   },
   {
@@ -276,6 +288,18 @@
     "paramEstimate": null
   },
   {
+    "key": "google/gemma-4-12b-qat",
+    "display_name": "Gemma 4 12B QAT",
+    "params": "12B",
+    "quant": "Q4_0",
+    "bits_per_weight": 4,
+    "size_gb": 6.66,
+    "architecture": "gemma4",
+    "format": "gguf",
+    "max_context_length": 262144,
+    "paramEstimate": null
+  },
+  {
     "key": "qwen_qwen3-14b",
     "display_name": "Qwen Qwen3 14B",
     "params": "14B",
@@ -297,6 +321,18 @@
     "architecture": "qwen2",
     "format": "gguf",
     "max_context_length": 32768,
+    "paramEstimate": null
+  },
+  {
+    "key": "microsoft/phi-4",
+    "display_name": "Phi 4",
+    "params": "15B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 8.43,
+    "architecture": "phi3",
+    "format": "gguf",
+    "max_context_length": 16384,
     "paramEstimate": null
   },
   {

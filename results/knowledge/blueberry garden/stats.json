@@ -1,0 +1,583 @@
+{
+  "scenario": "knowledge/blueberry garden",
+  "run_time": "11/02/2026, 01:44:14 AM",
+  "overall_seconds": 1275.649937,
+  "models": [
+    {
+      "key": "lfm2.5-230m",
+      "display_name": "LFM2.5 230M",
+      "params": "230M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.16,
+      "context": "16K",
+      "avg_tps": 975.7530223058455,
+      "total_seconds": 1.991255,
+      "question_times": [
+        0.5521929999999999,
+        0.811498,
+        0.627564
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-230m.md"
+    },
+    {
+      "key": "lfm2.5-350m",
+      "display_name": "LFM2.5 350M",
+      "params": "350M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.24,
+      "context": "16K",
+      "avg_tps": 800.6662463351705,
+      "total_seconds": 2.007314,
+      "question_times": [
+        0.480676,
+        0.834915,
+        0.6917230000000001
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-350m.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "display_name": "LFM2.5 1.2B Instruct",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "16K",
+      "avg_tps": 571.6524229423451,
+      "total_seconds": 2.2771239999999997,
+      "question_times": [
+        0.380455,
+        1.12512,
+        0.7715489999999999
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-1.2b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "display_name": "LFM2.5 1.2B Thinking",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "16K",
+      "avg_tps": 576.5879537164238,
+      "total_seconds": 3.5668290000000002,
+      "question_times": [
+        0.971493,
+        1.004923,
+        1.590413
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-1.2b-thinking.md"
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "display_name": "Qwen2.5 Coder 1.5B Instruct",
+      "params": "1.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 0.92,
+      "context": "8K",
+      "avg_tps": 325.56220127437496,
+      "total_seconds": 5.573695,
+      "question_times": [
+        1.6632829999999998,
+        1.526064,
+        2.384348
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "qwen2.5-coder-1.5b-instruct.md"
+    },
+    {
+      "key": "google_-_gemma-2-2b-it",
+      "display_name": "Gemma 2 2B Instruct",
+      "params": "2B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.79,
+      "context": "8K",
+      "avg_tps": 229.88698901102478,
+      "total_seconds": 5.283017,
+      "question_times": [
+        1.189999,
+        2.1102980000000002,
+        1.98272
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "google_-_gemma-2-2b-it.md"
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "display_name": "LFM2.5 2.6B",
+      "params": "2.7B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.81,
+      "context": "16K",
+      "avg_tps": 281.69126751891116,
+      "total_seconds": 12.233365999999998,
+      "question_times": [
+        4.758782,
+        4.253143999999999,
+        3.22144
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-2.6b.md"
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "display_name": "LFM2.5 VL 3B",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.6,
+      "context": "16K",
+      "avg_tps": 286.01472567422815,
+      "total_seconds": 11.649411,
+      "question_times": [
+        4.062506,
+        5.399443,
+        2.187462
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-vl-3b.md"
+    },
+    {
+      "key": "microsoft_phi-4-mini-instruct",
+      "display_name": "Microsoft Phi 4 Mini Instruct",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.65,
+      "context": "16K",
+      "avg_tps": 202.78582888065998,
+      "total_seconds": 4.511502,
+      "question_times": [
+        1.275725,
+        1.395058,
+        1.8407189999999998
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "microsoft_phi-4-mini-instruct.md"
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "display_name": "Ministral 3 3B Instruct 2512",
+      "params": "3B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.78,
+      "context": "16K",
+      "avg_tps": 229.35685786449153,
+      "total_seconds": 8.656051,
+      "question_times": [
+        2.8224669999999996,
+        2.971993,
+        2.8615909999999998
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "ministral-3-3b-instruct-2512.md"
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "display_name": "Ministral 3 3B Reasoning 2512",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.3,
+      "context": "32K",
+      "avg_tps": 215.42251361415865,
+      "total_seconds": 5.8545620000000005,
+      "question_times": [
+        1.4910210000000002,
+        2.326076,
+        2.037465
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "ministral-3-3b-reasoning-2512.md"
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "display_name": "Nemotron 3 Nano 4B",
+      "params": "4.0B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.64,
+      "context": "16K",
+      "avg_tps": 224.02170313073756,
+      "total_seconds": 16.296877000000002,
+      "question_times": [
+        4.879263,
+        5.940842000000001,
+        5.4767719999999995
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "nvidia-nemotron-3-nano-4b.md"
+    },
+    {
+      "key": "qwen3.5-4b",
+      "display_name": "Qwen3.5 4B",
+      "params": "4B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.15,
+      "context": "16K",
+      "avg_tps": 174.68974802141554,
+      "total_seconds": 40.456869999999995,
+      "question_times": [
+        15.317888,
+        11.012362999999999,
+        14.126618999999998
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "qwen3.5-4b.md"
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "display_name": "Falcon H1R 7B",
+      "params": "7B",
+      "quant": "Q5_K_M",
+      "size_gb": 5.02,
+      "context": "16K",
+      "avg_tps": 101.74573478497155,
+      "total_seconds": 124.25191199999999,
+      "question_times": [
+        53.349543,
+        45.063345999999996,
+        25.839023
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 17.6,
+      "file": "falcon-h1r-7b.md"
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "display_name": "Qwen2.5 Coder 7B Instruct",
+      "params": "7B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.36,
+      "context": "16K",
+      "avg_tps": 145.64015094832385,
+      "total_seconds": 9.025076,
+      "question_times": [
+        2.996984,
+        2.4579,
+        3.570192
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "qwen2.5-coder-7b-instruct.md"
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "display_name": "Mamba Codestral 7B v0.1",
+      "params": "7.3B",
+      "quant": "IQ4_XS",
+      "size_gb": 3.65,
+      "context": "32K",
+      "avg_tps": 150.6027750018176,
+      "total_seconds": 8.835555,
+      "question_times": [
+        2.39687,
+        2.4604229999999996,
+        3.978262
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.1,
+      "file": "mamba-codestral-7b-v0.1.md"
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "display_name": "Deepseek Coder 6.7B Instruct",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.8,
+      "context": "16K",
+      "avg_tps": 151.71074023053578,
+      "total_seconds": 7.762415000000001,
+      "question_times": [
+        0.557798,
+        3.2837530000000004,
+        3.920864
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "deepseek-coder-6.7b-instruct.md"
+    },
+    {
+      "key": "granite-4.1-8b",
+      "display_name": "Granite 4.1 8B",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.98,
+      "context": "16K",
+      "avg_tps": 124.76591972507038,
+      "total_seconds": 12.435006000000001,
+      "question_times": [
+        3.400364,
+        4.455389,
+        4.5792530000000005
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "granite-4.1-8b.md"
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "display_name": "LFM2.5 8B A1B",
+      "params": "32x959M",
+      "quant": "Q5_K_M",
+      "size_gb": 5.62,
+      "context": "16K",
+      "avg_tps": 384.7589755318924,
+      "total_seconds": 6.891951,
+      "question_times": [
+        2.849643,
+        2.4057619999999997,
+        1.636546
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "lfm2.5-8b-a1b.md"
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "display_name": "Ministral 3 8B Instruct 2512",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.64,
+      "context": "16K",
+      "avg_tps": 125.14314201213658,
+      "total_seconds": 18.984704,
+      "question_times": [
+        4.644705,
+        8.571663999999998,
+        5.768335
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "ministral-3-8b-instruct-2512.md"
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "display_name": "Rnj 1",
+      "params": "8.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.76,
+      "context": "16K",
+      "avg_tps": 127.90579650734811,
+      "total_seconds": 8.160855,
+      "question_times": [
+        3.003393,
+        2.7872269999999997,
+        2.3702349999999996
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "essentialai-rnj-1.md"
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "display_name": "Nvidia NVIDIA Nemotron Nano 9B v2",
+      "params": "9B",
+      "quant": "Q5_K_M",
+      "size_gb": 6.58,
+      "context": "16K",
+      "avg_tps": 103.536772206656,
+      "total_seconds": 27.793868999999997,
+      "question_times": [
+        10.292665999999999,
+        7.455859,
+        10.045343999999998
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 18.3,
+      "file": "nvidia_nvidia-nemotron-nano-9b-v2.md"
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "display_name": "Ornith 1.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "16K",
+      "avg_tps": 122.31495367396099,
+      "total_seconds": 53.050883000000006,
+      "question_times": [
+        32.505509,
+        13.216454,
+        7.328919999999999
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "ornith-1.5-9b.md"
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "display_name": "Qwen3.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.1,
+      "context": "16K",
+      "avg_tps": 119.85212268158564,
+      "total_seconds": 81.964301,
+      "question_times": [
+        38.22393700000001,
+        26.717255,
+        17.023108999999998
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 16.0,
+      "file": "qwen-qwen3.5-9b.md"
+    },
+    {
+      "key": "google/gemma-4-12b-qat",
+      "display_name": "Gemma 4 12B QAT",
+      "params": "12B",
+      "quant": "Q4_0",
+      "size_gb": 6.66,
+      "context": "16K",
+      "avg_tps": 91.9700004815054,
+      "total_seconds": 24.100018000000002,
+      "question_times": [
+        5.640707,
+        9.425383000000002,
+        9.033928
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 19.2,
+      "file": "google-gemma-4-12b-qat.md"
+    },
+    {
+      "key": "qwen_qwen3-14b",
+      "display_name": "Qwen Qwen3 14B",
+      "params": "14B",
+      "quant": "Q8_0",
+      "size_gb": 14.62,
+      "context": "8K",
+      "avg_tps": 9.736114259753471,
+      "total_seconds": 369.973597,
+      "question_times": [
+        139.53710199999998,
+        124.91461199999999,
+        105.521883
+      ],
+      "used_ram": true,
+      "peak_ram_gb": 24.8,
+      "file": "qwen_qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "display_name": "Qwen2.5 Coder 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.37,
+      "context": "16K",
+      "avg_tps": 77.23969940197374,
+      "total_seconds": 18.508764,
+      "question_times": [
+        5.147783,
+        6.15962,
+        7.2013609999999995
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 18.0,
+      "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "16K",
+      "avg_tps": 80.3155897432897,
+      "total_seconds": 19.422412,
+      "question_times": [
+        4.960411,
+        8.122501,
+        6.3395
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 18.1,
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "16K",
+      "avg_tps": 127.3945876226688,
+      "total_seconds": 24.251124,
+      "question_times": [
+        10.752934000000002,
+        7.163893,
+        6.334296999999999
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 21.0,
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "16K",
+      "avg_tps": 114.17927586800583,
+      "total_seconds": 10.515363,
+      "question_times": [
+        2.937004,
+        3.3748959999999997,
+        4.203463
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 23.7,
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "16K",
+      "avg_tps": 108.86056800815886,
+      "total_seconds": 41.405152,
+      "question_times": [
+        13.817237,
+        15.011361999999998,
+        12.576553
+      ],
+      "used_ram": false,
+      "peak_ram_gb": 23.7,
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "16K",
+      "avg_tps": 5.6342775643992455,
+      "total_seconds": 287.95910699999996,
+      "question_times": [
+        69.33285099999999,
+        99.44220599999998,
+        119.18405
+      ],
+      "used_ram": true,
+      "peak_ram_gb": 29.8,
+      "file": "qwen2.5-coder-32b-instruct.md"
+    }
+  ]
+}

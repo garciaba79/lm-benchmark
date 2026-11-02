@@ -2,5 +2,6 @@
   "installed_ram_gb": 32,
   "installed_vram_gb": 16,
   "ram_spill_threshold_percent": 25,
-  "notes": "Static hardware snapshot. used_ram is calculated per model in stats.json."
+  "base_ram_gb": 15.950740814208984,
+  "collected_at": "2026-11-01T23:27:29.937452"
 }

@@ -1,13 +1,6 @@
 # CHANGELOG
 
-## 2026-11-02 
-
-### run_tests.py 0.9.1
-
-Added graceful Ctrl-C handling.
-
-- KeyboardInterrupt is caught at the top level of the run.
-- On interrupt the script prints a short message, calls `unload_models` to clear any loaded models, and exits cleanly (status 130) without a traceback.
+## 2026-11-02
 
 ### run_tests.py 0.9.0
 
@@ -22,3 +15,14 @@ Changed the main loop from scenario-first to model-first.
 - Per-scenario result files, stats merges, models snapshots, and test.md are still written as soon as a model finishes a scenario.
 
 All existing mode, system-prompt, and inference behaviors are unchanged.
+
+---
+
+Added graceful Ctrl-C handling.
+
+- KeyboardInterrupt is caught at the top level of the run.
+- On interrupt the script prints a short message, calls `unload_models` to clear any loaded models, and exits cleanly (status 130) without a traceback.
+
+---
+
+After a successful run, automatically calls `get_scenarios.py` (if present) so `scenarios.json` and `scenarios.md` reflect the latest status without a manual step.

@@ -30,11 +30,12 @@ Inference:
   - Only context_length causes a model reload. Other settings are applied per chat call.
 
 run_tests.py
-version 0.9.1
+version 0.9.0
 """
 
 import json
 import os
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -753,6 +754,18 @@ def main():
                         stats_md = f"# Stats\n\n{helper}\n\n" + "\n".join(stats_md.split("\n")[2:])
                     (results_path / "stats.md").write_text(stats_md, encoding="utf-8")
                     print(f"  Updated summary for {name}")
+
+        # Refresh scenario status files so scenarios.json and scenarios.md match the run
+        if not DRY_RUN:
+            scenarios_script = Path("get_scenarios.py")
+            if scenarios_script.exists():
+                print("\nUpdating scenario status...")
+                try:
+                    subprocess.run([sys.executable, str(scenarios_script)], check=False)
+                except Exception as e:
+                    print(f"Warning: could not run get_scenarios.py: {e}")
+            else:
+                print("\nNote: get_scenarios.py not found, scenario status not refreshed.")
 
         print(f"\nDone in {format_duration(elapsed)}")
 

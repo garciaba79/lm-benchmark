@@ -2,44 +2,42 @@
 
 ## Summary
 
-Most scenarios are complete or not started; a few remain in progress.  
-No active tests are underway in any category yet.  
-The overall testing effort is still emerging across these areas.
+All scenarios are mostly complete, with a few still in progress. Most tasks have finished successfully except for some partial ones. The overall picture shows active development across multiple areas.
 
 ## Scenarios
 
 There are 35 scenarios.
 
-- bug/cam parsing (none)
-- category/1 (none)
-- category/2 (none)
-- category/3 (none)
-- category/4 (none)
-- category/5 (none)
-- category/6 (none)
-- creative/fiction programmer (none)
-- function/fetch weather (none)
-- function/python list (none)
-- function/validate email (none)
-- knowledge/blueberry garden (none)
-- logic/snail (none)
-- personal/advice (none)
-- personal/blueberry desk (none)
-- personal/schedule (none)
-- personal/stocks (none)
-- personal/trip (none)
-- projects/weather app (none)
-- question/current regulation (none)
-- question/python name function (none)
-- question/react state (none)
-- question/self awareness (none)
-- question/tech history (none)
-- react components/count (none)
-- react hook/click outside (none)
-- react hook/debounce (none)
-- react hook/form (none)
-- react hook/local storage (none)
-- react hook/previous (none)
+- bug/cam parsing (complete)
+- category/1 (complete)
+- category/2 (complete)
+- category/3 (complete)
+- category/4 (complete)
+- category/5 (complete)
+- category/6 (complete)
+- creative/fiction programmer (complete)
+- function/fetch weather (complete)
+- function/python list (complete)
+- function/validate email (complete)
+- knowledge/blueberry garden (complete)
+- logic/snail (complete)
+- personal/advice (complete)
+- personal/blueberry desk (complete)
+- personal/schedule (complete)
+- personal/stocks (complete)
+- personal/trip (complete)
+- projects/weather app (complete)
+- question/current regulation (complete)
+- question/python name function (complete)
+- question/react state (complete)
+- question/self awareness (complete)
+- question/tech history (complete)
+- react components/count (complete)
+- react hook/click outside (complete)
+- react hook/debounce (complete)
+- react hook/form (complete)
+- react hook/local storage (complete)
+- react hook/previous (complete)
 - react hook/throttle (none)
 - react hook/window size (none)
 - summary/expedition (none)
@@ -47,6 +45,14 @@ There are 35 scenarios.
 - summary/ollama test (none)
 
 ## Uncompleted Scenarios
+
+- react hook/throttle
+- react hook/window size
+- summary/expedition
+- summary/extract languages
+- summary/ollama test
+
+## Completed Scenarios
 
 - bug/cam parsing
 - category/1
@@ -78,11 +84,6 @@ There are 35 scenarios.
 - react hook/form
 - react hook/local storage
 - react hook/previous
-- react hook/throttle
-- react hook/window size
-- summary/expedition
-- summary/extract languages
-- summary/ollama test
 
 ## Suggestions
 

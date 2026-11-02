@@ -34,7 +34,7 @@ You can override this per scenario with `FORCE_MODE`.
 - `results.md` — empty file where the user pastes a cloud-model evaluation
 ### Notable behaviors
 - Before tests start, the runner unloads all currently loaded models so the first test model gets clean VRAM.
-- System prompt: if `test.json` sets `"system_prompt": false` it is skipped; otherwise scenario `system.md` is used, falling back to root `system.md`.
+- System prompt: if `test.json` sets `"system_prompt": false` it is skipped; if enabled use test.json `system`, otherwise scenario `system.md` is used, falling back to root `system.md`.
 - Inference: when `USE_CUSTOM_INFER` is false, LM Studio defaults are used. When true, scenario `inference.json` overrides root `inference.json`.
 - RAM spill detection: records base RAM at start (via psutil). During each model it tracks peak RAM. If RAM rises by ≥25% of installed RAM (user has 32 GB RAM / 16 GB VRAM), the model is marked `"used_ram": true` in stats. This is a simple heuristic.
 - Result files use stable names based on the model key so update mode can detect missing results.

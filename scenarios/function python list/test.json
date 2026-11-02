@@ -1,0 +1,7 @@
+{
+  "name": "Function Python List",
+  "description": "Test how different local models handle creating a python function.",
+  "test": "function python list",
+  "system_prompt": false,
+  "notes": ""
+}

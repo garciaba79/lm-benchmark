@@ -9,6 +9,7 @@ Modes (per scenario):
 
 System prompt:
   - If test.json "system_prompt" is false, no system message is used.
+  - If test.json "system" is set, use that for the system prompt.
   - Otherwise use scenarios/<name>/system.md if it exists,
     else fall back to root system.md if it exists.
 
@@ -165,9 +166,15 @@ def load_questions(scenario_path):
 def load_system_prompt(scenario_path, test_info):
     if test_info.get("system_prompt") is False:
         return None
+    # Inline system prompt from test.json
+    inline = test_info.get("system")
+    if inline and str(inline).strip():
+        return str(inline).strip()
+    # Scenario system.md
     scenario_system = scenario_path / "system.md"
     if scenario_system.exists():
         return scenario_system.read_text(encoding="utf-8").strip()
+    # Root system.md
     root_system = Path(ROOT_SYSTEM_PROMPT)
     if root_system.exists():
         return root_system.read_text(encoding="utf-8").strip()

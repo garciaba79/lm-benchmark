@@ -1,0 +1,7 @@
+{
+  "name": "Question Python Name Function",
+  "description": "Test whether a model can write a small Python function that prefers a non-empty name field from a JSON dict, falls back to a title-cased test field, and uses a provided folder name if both are missing.",
+  "test": "question python name function",
+  "system_prompt": true,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Summary Ollama Test Harness",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "summary ollama test",
+  "system_prompt": true,
+  "notes": ""
+}

@@ -58,7 +58,7 @@ Written automatically at the start of each run. Records installed RAM/VRAM and t
 
 ### system.md
 
-Root system prompt. Used when a scenario does not provide its own `system.md` and when `test.json` does not set `"system_prompt": false`.
+Root system prompt. Used when a scenario does not provide its own `system.md` and when `test.json` does not set the system prompt.
 
 ## Scenario folder
 
@@ -100,9 +100,10 @@ For every scenario the runner creates a matching folder under `results/`.
 ## System prompt behavior
 
 1. If `test.json` contains `"system_prompt": false`, no system message is sent.
-2. Otherwise the runner looks for `scenarios/<name>/system.md`.
-3. If that file does not exist, it falls back to the root `system.md`.
-4. If neither exists, no system message is sent.
+2. If the system prompt `system` is set in `test.json`, it will be used. 
+3. Otherwise the runner looks for `scenarios/<name>/system.md`.
+4. If that file does not exist, it falls back to the root `system.md`.
+5. If neither exists, no system message is sent.
 
 ## Hardware and spill detection
 

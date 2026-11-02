@@ -1,8 +1,8 @@
-# LM Studio Multi-Scenario Test Project
+# LM Studio Model Test Harness
 
-A set of Python scripts for running the same set of local models against multiple independent test scenarios in LM Studio. Each scenario lives in its own folder, uses its own questions, and produces consistent markdown results plus statistics.
+A small set of Python scripts that run the same local models through the same conversations in LM Studio so you can compare them fairly.  
 
-The project is designed to be simple, file based, and friendly. You can add a new scenario by creating a folder, run only the models that are missing results, or refresh everything. Results are written as markdown so they are easy to read and easy to hand to a cloud model for evaluation.
+You put each test in its own folder. The scripts load the models one by one, ask the questions in order, and save the full chat plus speed and memory numbers. Results come out as plain markdown files. You can add a new test by making a folder, run only the models that are missing results, or re-run everything. Later you can hand the files to a cloud model for scoring.
 
 ## Features
 
@@ -51,7 +51,14 @@ scenarios.json
 scenarios.md
 system.md
 README.md
-USAGE.md
+
+documentation/
+  get-started.md
+  instructions.md
+  lm-benchmark.md
+  summary-app.md
+  summary-context.md
+  workflow.md
 
 scenarios/
   weather app/

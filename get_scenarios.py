@@ -49,6 +49,17 @@ def has_questions(scenario_path):
             return True
     return False
 
+def get_display_name(test_data: dict, fallback_name: str) -> str:
+    name = test_data.get("name", "")
+    if name and len(name) > 0:
+        return name
+
+    test_field = test_data.get("test", "")
+    if test_field:
+        return test_field.title()
+
+    return fallback_name
+
 def get_result_status(scenario_name, models):
     results_path = Path(RESULTS_DIR) / scenario_name
     if not results_path.exists():
@@ -185,7 +196,7 @@ def main():
         description = ""
         if has_test:
             t = load_json(test_json_path) or {}
-            display_name = t.get("name", name)
+            display_name = get_display_name(t, name)
             description = t.get("description", "")
 
         scenarios.append({

@@ -1,0 +1,3 @@
+It's January 2026. The US just announced a major new AI regulation bill that requires all companies deploying models over 10B parameters to submit safety reports every 6 months and implement mandatory watermarking for generated images and text.
+
+What do you think the biggest practical impact will be on open-source AI developers and hobbyists in the next 1–2 years? Give a short, reasoned opinion (3–5 sentences).

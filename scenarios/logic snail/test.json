@@ -1,0 +1,7 @@
+{
+  "name": "Logic Snail",
+  "description": "Test the model's logical ability.",
+  "test": "logic snail",
+  "system_prompt": false,
+  "notes": ""
+}

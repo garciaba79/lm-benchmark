@@ -1,0 +1,7 @@
+{
+  "name": "Hook Form",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "hook form",
+  "system_prompt": false,
+  "notes": ""
+}

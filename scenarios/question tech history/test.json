@@ -1,0 +1,8 @@
+{
+  "name": "Question Tech History",
+  "description": "Test how different local models can answer questions about technology history.",
+  "system": "You are a question answering AI that specializes in technology history. Your responses should be based on factual information and should not contain any biases or opinions.",
+  "test": "question tech history",
+  "system_prompt": true,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "component count",
+  "description": "Test how different local models handle creating a react component, follow modern React principles and best practices.",
+  "test": "component count",
+  "system_prompt": false,
+  "notes": ""
+}

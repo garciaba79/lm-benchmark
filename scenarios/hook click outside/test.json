@@ -1,0 +1,7 @@
+{
+  "name": "Hook Click Outside",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "hook click outside",
+  "system_prompt": false,
+  "notes": ""
+}

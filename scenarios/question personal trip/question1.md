@@ -1,0 +1,1 @@
+I'm planning a weekend getaway in Crestview, Florida. I love outdoor activities, good food, and relaxing spots, but I have a $300 budget for the whole weekend (excluding gas). Suggest a realistic 2-day itinerary with specific places to eat, things to do, and approximate costs. Make it fun and personal, like you're my friend giving advice.

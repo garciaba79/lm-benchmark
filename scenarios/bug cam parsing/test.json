@@ -1,0 +1,7 @@
+{
+  "name": "",
+  "description": "Test the model's ability to analyze information and solve the issue.",
+  "test": "bug cam parsing",
+  "system_prompt": true,
+  "notes": ""
+}

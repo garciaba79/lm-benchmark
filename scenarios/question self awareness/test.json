@@ -1,0 +1,7 @@
+{
+  "name": "Question Self Awareness",
+  "description": "Test how different local models respond to a question that tests the model's ability to help with software development.",
+  "test": "question self awareness",
+  "system_prompt": false,
+  "notes": ""
+}

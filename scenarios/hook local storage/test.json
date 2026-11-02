@@ -1,0 +1,7 @@
+{
+  "name": "Hook Local Storage",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "hook local storage",
+  "system_prompt": false,
+  "notes": ""
+}

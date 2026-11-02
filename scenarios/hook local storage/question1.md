@@ -1,0 +1,3 @@
+Write a React hook called useLocalStorage<T>(key: string, initialValue: T) in TypeScript that reads from and writes to localStorage, with automatic JSON parsing/stringifying and type safety. It should sync across tabs/windows if the key changes and handle errors gracefully. Include proper cleanup on unmount.
+
+Use React 18+, functional components, no external libraries. Explain the benefits, pros, cons, and any potential issues.

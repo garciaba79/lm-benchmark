@@ -1,0 +1,7 @@
+{
+  "name": "Question Current Regulation",
+  "description": "Test how different local models respond to a question about current AI regulations.",
+  "test": "question current regulation",
+  "system_prompt": false,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Function Validate Email",
+  "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
+  "test": "function validate email",
+  "system_prompt": false,
+  "notes": ""
+}

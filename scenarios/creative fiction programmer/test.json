@@ -1,0 +1,7 @@
+{
+  "name": "Creative Fiction Programmer",
+  "description": "Test how the model creative programmer can generate original and imaginative stories.",
+  "test": "creative fiction programmer",
+  "system_prompt": false,
+  "notes": ""
+}

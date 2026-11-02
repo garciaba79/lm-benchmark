@@ -1,0 +1,7 @@
+{
+  "name": "Hook Throttle",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "hook throttle",
+  "system_prompt": false,
+  "notes": ""
+}

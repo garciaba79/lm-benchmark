@@ -1,0 +1,7 @@
+{
+  "name": "Hook Debounce",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and provide pros and cons.",
+  "test": "hook debounce",
+  "system_prompt": false,
+  "notes": ""
+}

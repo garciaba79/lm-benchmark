@@ -1,0 +1,7 @@
+{
+  "name": "Question React State Management",
+  "description": "Test how different local models provide information for a medium-to-large app with frequent global state updates and complex async flows.",
+  "test": "question react state management",
+  "system_prompt": false,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Category 4",
+  "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
+  "test": "category 4",
+  "system_prompt": false,
+  "notes": ""
+}

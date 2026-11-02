@@ -1,0 +1,7 @@
+{
+  "name": "Summary Extract Languages",
+  "description": "Test how the model summarizes and extracts facts.",
+  "test": "summary extract languages",
+  "system_prompt": false,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "",
+  "description": "Test how different local models respond to a question about real world questions and how much knowledge they have.",
+  "test": "knowledge blueberry garden",
+  "system_prompt": true,
+  "notes": ""
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Hook Previous",
+  "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
+  "test": "hook previous",
+  "system_prompt": false,
+  "notes": ""
+}

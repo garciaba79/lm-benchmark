@@ -515,6 +515,8 @@ def main():
             model_scenario_stats = []
 
             for item in work:
+                print(f"  Running {item['name']}")
+                
                 needed = item["context"]
                 if needed != current_context:
                     unload_models(base_url, headers)

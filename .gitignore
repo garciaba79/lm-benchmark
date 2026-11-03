@@ -40,7 +40,7 @@ Thumbs.db
 # Project-specific
 hardware.json
 archive/
-results/
+# results/
 
 # Keep the scenarios folder but ignore nothing inside it by default
 # (models.json, scenarios.json, scenarios.md are intentional)

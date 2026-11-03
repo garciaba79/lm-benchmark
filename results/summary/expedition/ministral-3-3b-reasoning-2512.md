@@ -745,7 +745,7 @@ Understood. Here is the processed information according to your instructions:
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -781,7 +781,7 @@ Understood. Here is the processed information according to your instructions:
 - **Model:** 2014 Ford Expedition
 - **Engine:** 5.4L Triton V8 3-valve
 - **Mileage:** Approximately 90,000 miles
-- **Owner:** BillyJoe Garcia, Crestview, FL
+- **Owner:** Bob, Crestview, FL
 - **Drive radius up to:** 6 hours
 - **Annual mileage:** <7,000
 
@@ -880,7 +880,7 @@ Rules:
 
 **1. Core-Data Summary (Semantic Units)**
 - **Key entities:**
-  - Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve (~90,000 miles), owner BillyJoe Garcia, Crestview, FL.
+  - Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve (~90,000 miles), owner Bob, Crestview, FL.
   - Shops: Leavins Automotive (Crestview), Fraser reman, Jasper, Step One Ford Crestview.
   - Parts: NGK IX Iridium #372 spark plugs, MAF sensor, VCT solenoids, Melling oil pump, rockers, rollers, lifters, chain, guides, cams, gaskets.
 - **Central technical terms:**

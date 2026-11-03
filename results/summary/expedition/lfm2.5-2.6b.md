@@ -687,7 +687,7 @@ Standing by for the test results.
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -722,7 +722,7 @@ Standing by for the test results.
 
 ### **Vehicle & Issue Summary**
 - **Vehicle:** 2014 Ford Expedition XLT, 5.4L Triton V8 (3-valve), ~90,000 miles
-- **Owner:** BillyJoe Garcia, Crestview, FL
+- **Owner:** Bob, Crestview, FL
 - **Known history:** Thermostat housing coolant leak repaired; two adjacent spark-plug wells still contain residual coolant
 - **Primary symptom:** Intermittent engine knocking (70% warm starts ~1 year ago → consistent on cold/warm startups, louder with RPM but not getting harder; resolves while driving)
 - **Additional notes:** Startup rattle mild; no power loss, no shudder, drives fine
@@ -816,7 +816,7 @@ Rules:
 
 **Core-Data Summary (Semantic Units)**
 - Vehicle: 2014 Ford Expedition XLT, 5.4L Triton V8 (3-valve), ~90,000 miles
-- Owner: BillyJoe Garcia, Crestview, FL
+- Owner: Bob, Crestview, FL
 - Primary symptom: intermittent engine knocking (~70% warm starts ~1 year ago → consistent cold/warm startups; louder with RPM but not progressively harder; resolves while driving)
 - Additional symptoms: mild startup rattle, no power loss/shudder, drives fine
 - Parts completed: spark plugs NGK IX Iridium #372 (9/16"), MAF sensor replaced

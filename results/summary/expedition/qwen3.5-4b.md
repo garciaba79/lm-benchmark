@@ -413,7 +413,7 @@ received. All source notes regarding the 2014 Ford Expedition 5.4L Triton have b
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -442,7 +442,7 @@ received. All source notes regarding the 2014 Ford Expedition 5.4L Triton have b
 
 > #### 🤖 Assistant
 
-received. All source notes regarding the 2014 Ford Expedition 5.4L Triton have been processed across multiple turns. The technical details provided in Turn 9 (owner BillyJoe Garcia, Crestview FL; ~90k miles; shops like Leavins/Fraser/Jasper with specific cost ranges; DIY vs reman decision factors; no odometer reset) are recorded as vehicle facts and constraints without generating diagnostic advice yet. I am maintaining the constraint to focus on Expedition data only (F-150 comparison allowed only for test context). Please provide the final instruction or task regarding these accumulated notes (e.g., generate a final action plan, create a report, etc.).
+received. All source notes regarding the 2014 Ford Expedition 5.4L Triton have been processed across multiple turns. The technical details provided in Turn 9 (owner Bob, Crestview FL; ~90k miles; shops like Leavins/Fraser/Jasper with specific cost ranges; DIY vs reman decision factors; no odometer reset) are recorded as vehicle facts and constraints without generating diagnostic advice yet. I am maintaining the constraint to focus on Expedition data only (F-150 comparison allowed only for test context). Please provide the final instruction or task regarding these accumulated notes (e.g., generate a final action plan, create a report, etc.).
 
 145 t/s, 3307 tokens, 23s, 49%
 
@@ -480,7 +480,7 @@ Rules:
 > #### 🤖 Assistant
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90k miles. Owner: BillyJoe Garcia, Crestview, FL. Drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90k miles. Owner: Bob, Crestview, FL. Drive radius up to 6 hours; annual mileage <7,000.
 - Symptoms: Knock started intermittent warm-start (~70% of starts) -> consistent cold/warm start. Driver side loudest (stethoscope). Startup rattle present. No power loss, no DTCs. Dry timing chain observed. "Toasty" smell/heat.
 - Tests: VCT solenoid disconnect (no change), Spark plugs changed (NGK IX Iridium #372), MAF sensor replaced/compressed air in wells, PCV hose removed (passenger side integrated valve cover - no vacuum). Oil cap removal (dry chain vs F-150 splatter).
 - Shops/Parts: Leavins Automotive (Crestview) preferred for reman ($4,549–$5,750 avg $5,150). Fraser Reman (~$2,799 + shipping). Jasper (~$3,000–$3,500). DIY timing parts cost ~$2,159.

@@ -871,7 +871,7 @@ This summary captures the key symptoms and issues you’ve described, focusing o
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -1017,7 +1017,7 @@ Rules:
 
 ### Core-Data Summary (Semantic Units)
 - **Vehicle:** 2014 Ford Expedition, 5.4L Triton V8, ~90K miles.
-- **Owner:** BillyJoe Garcia, Crestview, FL.
+- **Owner:** Bob, Crestview, FL.
 - **Annual Mileage:** <7,000 miles; drive radius up to 6 hours.
 - **Symptom History:** No knock → intermittent warm-start knock (~70% of starts) → consistent cold-start knock over ~1 year. Variable loudness (driver side often louder), matches RPM cadence but not harder with higher RPMs, louder after RPM drop, better then worse hours apart, worsened after 600-mile trip + 4 days local driving; truck sat months before recent starts; mild startup rattle; no power loss, no shudder, drives fine.
 - **Prior Observations:** Dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.

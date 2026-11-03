@@ -485,7 +485,7 @@ Received — noted this eighth Core-Data Summary for the 2014 Expedition / 5.4L 
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -517,7 +517,7 @@ Received — noted this eighth Core-Data Summary for the 2014 Expedition / 5.4L 
 Received — noted this ninth Core-Data Summary for the 2014 Expedition / 5.4L Triton V8 (mileage now ~90,000).
 
 **Vehicle facts preserved:**
-- Owner BillyJoe Garcia, Crestview FL; drive radius up to 6 hours; annual mileage <7,000.
+- Owner Bob, Crestview FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom arc refined: no knock → intermittent warm-startup (~70%, ~1 year) → consistent cold-startup; variable loudness and side (driver often louder, never confirmed equal); matches RPM cadence but doesn't get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile trip + 4 days local driving; sat months before recent starts; startup rattle mild; no power loss/shudder/drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done (update): spark plugs NGK IX Iridium #372 with 9/16" socket + MAF sensor replaced; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -576,7 +576,7 @@ Rules:
 # Core-Data Summary (Semantic Units)
 
 **Entities / values**
-- Vehicle: 2014 Ford Expedition XLT, 5.4L Triton V8 3-valve ("v3" / 5.4L 3V). Owner BillyJoe Garcia, Crestview FL; drive radius up to 6 hours; annual mileage <7,000 (earlier notes said ~5K/year — minor inconsistency, keep both).
+- Vehicle: 2014 Ford Expedition XLT, 5.4L Triton V8 3-valve ("v3" / 5.4L 3V). Owner Bob, Crestview FL; drive radius up to 6 hours; annual mileage <7,000 (earlier notes said ~5K/year — minor inconsistency, keep both).
 - Mileage: ~80,000 miles (notes 1–8) → ~90,000 miles (note 9); treat as later update over time.
 - Comparison vehicle: 2013 F-150, 5.0L Coyote — held strictly as comparison; kept only where it explains an Expedition test (see below). Coyote 5.0 swap cost $10,000–$15,000 (decision context for rejecting a swap, not an Expedition test).
 - Parts cited: VCT solenoids ~Motorcraft 8L3Z-6M280-B (purchased, not installed); valve covers ~3L3Z-6582-CA (passenger w/ integrated PCV) / BA (driver); IMRC actuator ~3L3Z-9J559-AA; PCV hose ~3L3Z-6C324-AA; EV-261 rejected as wrong part. Spark plugs: Motorcraft SP-515 cited earlier; NGK IX Iridium #372 (9/16" socket) installed. Filters FL-820S; oil spec 5W-20 (Motorcraft). Tools: OTC 6024, OTC 6684 valve spring compressor (follower work without cam removal — method accepted); phaser torque 30 ft-lbs + 90°.

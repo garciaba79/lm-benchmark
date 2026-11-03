@@ -413,7 +413,7 @@ received. Standing by for your final instruction on how to process these source 
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -480,7 +480,7 @@ Rules:
 > #### 🤖 Assistant
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition XLT, 5.4L Triton V8 3-valve. Mileage ~80k to ~90k miles. Owner: BillyJoe Garcia, Crestview, FL. Comparison: 2013 F-150 5.0L Coyote (F-150 facts retained only for PCV side behavior and oil splash difference).
+- Vehicle: 2014 Ford Expedition XLT, 5.4L Triton V8 3-valve. Mileage ~80k to ~90k miles. Owner: Bob, Crestview, FL. Comparison: 2013 F-150 5.0L Coyote (F-150 facts retained only for PCV side behavior and oil splash difference).
 - Symptoms: Knocking on warm/cold starts; variable intensity, worse after RPM drop/battery disconnect. Loudest at driver-side valve cover front, back of intake manifold, bottom driver side. Dry timing chain observed (vs Coyote splash). Toasty smell. No DTCs/power loss.
 - Decisions: Prioritize non-invasive tests. Remanufactured engine (Leavins Fraser ~$5,150) preferred over DIY timing (~$2k parts) or Coyote swap (~$10k+). Odometer reset prohibited (legal).
 - Constraints: Annual mileage <7,000; drive radius ≤6 hours.

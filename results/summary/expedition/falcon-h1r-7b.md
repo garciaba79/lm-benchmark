@@ -619,7 +619,7 @@ Let me know when you have the test results or if you need clarification on any s
 > #### 💬 User
 
 1. Core-Data Summary (Semantic Units)
-- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner BillyJoe Garcia, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
+- Vehicle: 2014 Ford Expedition, 5.4L Triton V8 3-valve, ~90,000 miles; owner Bob, Crestview, FL; drive radius up to 6 hours; annual mileage <7,000.
 - Symptom history: no knock → intermittent warm-startup knock (~70% of starts, ~1 year) → consistent cold-startup knock; variable loudness and side (driver often louder, never confirmed equal); knock matches RPM cadence but does not get harder with RPM; louder after RPM drop; better then worse hours apart; worsened after a 600-mile one-way trip plus 4 days local driving; truck sat months before recent starts; startup rattle mild; no power loss, no shudder, drives fine.
 - Prior observations: dry timing chain, no oil splash, toasty smell; knock worse after battery disconnect/ECM reset; stethoscope loudest at driver-side valve cover, back of intake, bottom driver side.
 - Parts already done: spark plugs NGK IX Iridium #372 (9/16" socket), MAF sensor; integrated PCV in valve cover not replaced; VCT solenoid disconnect test previously no change.
@@ -657,7 +657,7 @@ Let me know when you have the test results or if you need clarification on any s
 
 | Category | Details |
 |---|---|
-| **Vehicle** | 2014 Ford Expedition XLT; 5.4 L Triton V8 DOHC 3‑valve; ≈ 90 k mi; Crestview, FL; owner: BillyJoe Garcia; average annual mileage ≤ 7 k mi; typical drive radius up to 6 h. |
+| **Vehicle** | 2014 Ford Expedition XLT; 5.4 L Triton V8 DOHC 3‑valve; ≈ 90 k mi; Crestview, FL; owner: Bob; average annual mileage ≤ 7 k mi; typical drive radius up to 6 h. |
 | **Oil practice** | Recent service: Motorcraft 5W‑20 oil with FL‑820S filter (≈ 3 months ago). Earlier shop used a non‑Ford oil/filter combo; now buying parts from independent shops but still using the same motor‑shop’s oil. |
 | **Knock history** | • **Initial onset:** ≈ 12 mo before chat → intermittent warm‑startup knock on ≈ 70 % of starts, resolved while driving within minutes; intensity varied from subtle to loud/hard.<br>• **Cold‑start persistence:** began ≈ 2 mo before battery disconnect; now constant on every start.<br>• **Current pattern:** loudest on driver side; knock matches RPM cadence but does not grow harder with higher RPM; occasionally quieter or louder on successive days; mild startup rattle present. |
 | **Localization (stethoscope)** | Loudest at rear of intake manifold, front driver‑side valve cover, lower driver side. Quieter on passenger‑side valve cover and bottom centre. No separate cam‑ticking heard as distinct from knock. |
@@ -751,7 +751,7 @@ Rules:
 > #### 🤖 Assistant
 
 **1️⃣ Core‑Data Summary**  
-- Vehicle: 2014 Ford Expedition XLT, 5.4 L Triton DOHC V8 3‑valve, ≈ 90 k mi; owner BillyJoe Garcia; Crestview, FL; avg annual mileage ≤7 k mi; max drive radius 6 h.  
+- Vehicle: 2014 Ford Expedition XLT, 5.4 L Triton DOHC V8 3‑valve, ≈ 90 k mi; owner Bob; Crestview, FL; avg annual mileage ≤7 k mi; max drive radius 6 h.  
 - Oil: recent Motorcraft 5W‑20 oil with FL‑820S filter installed; earlier non‑Ford oil/filter combo used at independent shop.  
 - Knock history: intermittent warm‑startup knock began ≈12 mo ago, occurring on ~70 % of starts and resolving while driving within minutes; cold‑start persistence started ≈2 mo before battery disconnect and is now constant; loudest driver side; matches RPM cadence but does not increase with higher RPM.  
 - Stethoscope localization: rear intake manifold, front driver‑side valve cover, lower driver side; quieter passenger‑side cover/bottom centre; no distinct cam tick heard as separate from knock.  

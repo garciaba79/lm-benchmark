@@ -101,7 +101,10 @@ def load_inference(scenario_path):
         return {}
     path = find_file_with_precedence(scenario_path, "inference.json")
     if path:
-        return load_json(path, required=False) or {}
+        data = load_json(path, required=False) or {}
+        # Keep a note of where it came from for debugging if needed
+        data["_source"] = str(path)
+        return data
     return {}
 
 
@@ -111,6 +114,13 @@ def load_system_prompt(scenario_path, test_info):
     inline = test_info.get("system")
     if inline and str(inline).strip():
         return str(inline).strip()
+
+    # inference.json "system" field wins over system.md at the same level
+    inference = load_inference(scenario_path)
+    system_from_inference = inference.get("system")
+    if system_from_inference and str(system_from_inference).strip():
+        return str(system_from_inference).strip()
+
     path = find_file_with_precedence(scenario_path, "system.md")
     if path:
         return path.read_text(encoding="utf-8").strip()

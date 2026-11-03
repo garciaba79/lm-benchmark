@@ -1,0 +1,74 @@
+[
+  {
+    "key": "lfm2.5-230m",
+    "display_name": "LFM2.5 230M",
+    "params": "230M",
+    "quant": "Q5_K_M",
+    "bits_per_weight": 5,
+    "size_gb": 0.16,
+    "architecture": "lfm2",
+    "format": "gguf",
+    "max_context_length": 128000,
+    "paramEstimate": null
+  },
+  {
+    "key": "lfm2.5-350m",
+    "display_name": "LFM2.5 350M",
+    "params": "350M",
+    "quant": "Q5_K_M",
+    "bits_per_weight": 5,
+    "size_gb": 0.24,
+    "architecture": "lfm2",
+    "format": "gguf",
+    "max_context_length": 128000,
+    "paramEstimate": null
+  },
+  {
+    "key": "lfm2.5-1.2b-instruct",
+    "display_name": "LFM2.5 1.2B Instruct",
+    "params": "1.2B",
+    "quant": "Q5_K_M",
+    "bits_per_weight": 5,
+    "size_gb": 0.79,
+    "architecture": "lfm2",
+    "format": "gguf",
+    "max_context_length": 128000,
+    "paramEstimate": null
+  },
+  {
+    "key": "lfm2.5-1.2b-thinking",
+    "display_name": "LFM2.5 1.2B Thinking",
+    "params": "1.2B",
+    "quant": "Q5_K_M",
+    "bits_per_weight": 5,
+    "size_gb": 0.79,
+    "architecture": "lfm2",
+    "format": "gguf",
+    "max_context_length": 128000,
+    "paramEstimate": null
+  },
+  {
+    "key": "qwen2.5-coder-1.5b-instruct",
+    "display_name": "Qwen2.5 Coder 1.5B Instruct",
+    "params": "1.5B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 0.92,
+    "architecture": "qwen2",
+    "format": "gguf",
+    "max_context_length": 32768,
+    "paramEstimate": null
+  },
+  {
+    "key": "lfm2.5-2.6b",
+    "display_name": "LFM2.5 2.6B",
+    "params": "2.7B",
+    "quant": "Q5_K_M",
+    "bits_per_weight": 5,
+    "size_gb": 1.81,
+    "architecture": "lfm2",
+    "format": "gguf",
+    "max_context_length": 131072,
+    "paramEstimate": null
+  }
+]

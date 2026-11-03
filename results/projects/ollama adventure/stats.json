@@ -1,0 +1,97 @@
+{
+  "scenario": "projects/ollama adventure",
+  "run_time": "11/02/2026, 11:19:29 PM",
+  "overall_seconds": 33.439543,
+  "models": [
+    {
+      "key": "lfm2.5-230m",
+      "display_name": "LFM2.5 230M",
+      "params": "230M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.16,
+      "context": "unknown",
+      "avg_tps": 957.9955784819455,
+      "total_seconds": 0.945551,
+      "question_times": [
+        0.945551
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-230m.md"
+    },
+    {
+      "key": "lfm2.5-350m",
+      "display_name": "LFM2.5 350M",
+      "params": "350M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.24,
+      "context": "unknown",
+      "avg_tps": 750.4053013248364,
+      "total_seconds": 1.222598,
+      "question_times": [
+        1.222598
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-350m.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "display_name": "LFM2.5 1.2B Instruct",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 530.3752102281219,
+      "total_seconds": 3.490799,
+      "question_times": [
+        3.490799
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-1.2b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "display_name": "LFM2.5 1.2B Thinking",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 534.3940623734771,
+      "total_seconds": 3.143754,
+      "question_times": [
+        3.143754
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-1.2b-thinking.md"
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "display_name": "Qwen2.5 Coder 1.5B Instruct",
+      "params": "1.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 0.92,
+      "context": "unknown",
+      "avg_tps": 306.1022278645543,
+      "total_seconds": 3.520429,
+      "question_times": [
+        3.520429
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen2.5-coder-1.5b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "display_name": "LFM2.5 2.6B",
+      "params": "2.7B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.81,
+      "context": "unknown",
+      "avg_tps": 280.5582079070552,
+      "total_seconds": 21.116412,
+      "question_times": [
+        21.116412
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-2.6b.md"
+    }
+  ]
+}

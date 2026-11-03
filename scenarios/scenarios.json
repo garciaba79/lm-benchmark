@@ -67,9 +67,9 @@
     "name": "Code Fim 1",
     "description": "Test the models capabilities of the code fim model.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 23:19"
   },
   {
     "scenario": "creative/fiction programmer",
@@ -175,18 +175,18 @@
     "name": "ollamas adventure",
     "description": "Test the model's ability to create a small self-contained game app.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 23:19"
   },
   {
     "scenario": "projects/weather app",
     "name": "Weather App Planning",
     "description": "Test how different local models handle planning, feedback, and component requests for a simple weather app.",
     "ready": true,
-    "status": "partial",
+    "status": "none",
     "mode": "update",
-    "last_run": "2026-11-02 04:42"
+    "last_run": null
   },
   {
     "scenario": "question/current regulation",
@@ -312,7 +312,7 @@
     "ready": true,
     "status": "partial",
     "mode": "update",
-    "last_run": "2026-11-02 14:09"
+    "last_run": "2026-11-02 23:05"
   },
   {
     "scenario": "summary/extract languages",

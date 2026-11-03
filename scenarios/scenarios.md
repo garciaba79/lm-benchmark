@@ -2,7 +2,7 @@
 
 ## Summary
 
-Most scenarios are in progress, with some complete and others still starting. Several items remain unfinished or not yet initiated.
+Most scenarios are in progress, with several still incomplete or just starting. The overall effort is spread across multiple categories and modules.
 
 ## Scenarios
 
@@ -15,7 +15,7 @@ There are 37 scenarios.
 - category/4 (partial)
 - category/5 (partial)
 - category/6 (partial)
-- code/fim 1 (none)
+- code/fim 1 (partial)
 - creative/fiction programmer (partial)
 - function/fetch weather (partial)
 - function/python list (partial)
@@ -27,8 +27,8 @@ There are 37 scenarios.
 - personal/schedule (partial)
 - personal/stocks (partial)
 - personal/trip (partial)
-- projects/ollama adventure (none)
-- projects/weather app (partial)
+- projects/ollama adventure (partial)
+- projects/weather app (none)
 - question/current regulation (partial)
 - question/python name function (partial)
 - question/react state (partial)
@@ -48,8 +48,7 @@ There are 37 scenarios.
 
 ## Uncompleted Scenarios
 
-- code/fim 1
-- projects/ollama adventure
+- projects/weather app
 
 ## Partially Completed Scenarios
 
@@ -60,6 +59,7 @@ There are 37 scenarios.
 - category/4
 - category/5
 - category/6
+- code/fim 1
 - creative/fiction programmer
 - function/fetch weather
 - function/python list
@@ -71,7 +71,7 @@ There are 37 scenarios.
 - personal/schedule
 - personal/stocks
 - personal/trip
-- projects/weather app
+- projects/ollama adventure
 - question/current regulation
 - question/python name function
 - question/react state

@@ -1,0 +1,112 @@
+{
+  "scenario": "code/fim 1",
+  "run_time": "11/02/2026, 11:19:44 PM",
+  "overall_seconds": 32.467135,
+  "models": [
+    {
+      "key": "lfm2.5-230m",
+      "display_name": "LFM2.5 230M",
+      "params": "230M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.16,
+      "context": "unknown",
+      "avg_tps": 962.2964634245794,
+      "total_seconds": 0.58975,
+      "question_times": [
+        0.58975
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-230m.md"
+    },
+    {
+      "key": "lfm2.5-350m",
+      "display_name": "LFM2.5 350M",
+      "params": "350M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.24,
+      "context": "unknown",
+      "avg_tps": 737.1351531175039,
+      "total_seconds": 0.6031449999999999,
+      "question_times": [
+        0.6031449999999999
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-350m.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "display_name": "LFM2.5 1.2B Instruct",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 528.8381696310264,
+      "total_seconds": 0.890583,
+      "question_times": [
+        0.890583
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-1.2b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "display_name": "LFM2.5 1.2B Thinking",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 521.3720474654642,
+      "total_seconds": 12.997630000000001,
+      "question_times": [
+        12.997630000000001
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-1.2b-thinking.md"
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "display_name": "Qwen2.5 Coder 1.5B Instruct",
+      "params": "1.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 0.92,
+      "context": "unknown",
+      "avg_tps": 297.39672787180484,
+      "total_seconds": 1.6128069999999999,
+      "question_times": [
+        1.6128069999999999
+      ],
+      "scenario": "code/fim 1",
+      "file": "qwen2.5-coder-1.5b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "display_name": "LFM2.5 2.6B",
+      "params": "2.7B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.81,
+      "context": "unknown",
+      "avg_tps": 252.6596736075388,
+      "total_seconds": 13.477694,
+      "question_times": [
+        13.477694
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-2.6b.md"
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "display_name": "LFM2.5 VL 3B",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.6,
+      "context": "unknown",
+      "avg_tps": 286.804231279648,
+      "total_seconds": 2.295526,
+      "question_times": [
+        2.295526
+      ],
+      "scenario": "code/fim 1",
+      "file": "lfm2.5-vl-3b.md"
+    }
+  ]
+}

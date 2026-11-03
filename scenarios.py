@@ -88,7 +88,7 @@ def try_helper_summary(scenarios):
                     {"role": "user", "content": context}
                 ],
                 "stream": False,
-                "max_tokens": 200
+                "max_tokens": 600
             },
             timeout=60
         )

@@ -11,7 +11,16 @@ from pathlib import Path
 # ==========================================
 BASE_URL = "http://localhost:1234"
 API_TOKEN = ""
-HELPER_MODEL = "lfm2.5-24b-a2b"                         # Optional helper model used for short summaries
+HELPER_MODEL = "lfm2.5-1.2b-thinking"                          # Optional helper model used for short summaries
+
+# ==========================================
+# PROMPTS
+#
+# Helper model prompt (optional, used only if a helper model is set and available)
+# Helper summaries are generated at the end of the full run, after all test models are unloaded.
+# ==========================================
+RUN_SUMMARY_PROMPT = """Write a short simple summary of these test results. Mention overall speed and any notable differences."""
+SCENARIOS_SUMMARY_PROMPT = """Provide a simple summary for the test scenarios. Mention how many tests are complete, partial, or not started."""
 
 # ==========================================
 # PATHS
@@ -68,12 +77,3 @@ REQUIRE_AT_LEAST_ONE_QUESTION = True
 REVERSE_PARAMS = False     # Smallest params first (e.g., 230M, 4B, 8B, 24B)
 REVERSE_NAME = False       # Descending name tie breaker (Z -> A / apple, banana order)
 REVERSE_SIZE = False       # Smallest file size catch-all
-
-# ==========================================
-# PROMPTS
-#
-# Helper model prompt (optional, used only if a helper model is set and available)
-# Helper summaries are generated at the end of the full run, after all test models are unloaded.
-# ==========================================
-RUN_SUMMARY_PROMPT = """Write a short 2-3 sentence summary of these test results. Mention overall speed and any notable differences. Keep it plain."""
-SCENARIOS_SUMMARY_PROMPT = """Summarize the current state of these test scenarios in 2-3 short sentences. Mention how many are complete, partial, or not started. Keep it plain and useful."""

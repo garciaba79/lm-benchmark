@@ -2,8 +2,7 @@
 
 ## Summary
 
-Most scenarios are complete, with several in full and some still starting.  
-The testing coverage appears solid across all categories and functions.
+All **20 tests** listed here are marked as **complete**. No partial or unstarted tasks were reported.
 
 ## Scenarios
 

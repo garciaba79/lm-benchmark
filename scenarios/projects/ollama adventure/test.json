@@ -1,0 +1,7 @@
+{
+  "name": "ollamas adventure",
+  "description": "Test the model's ability to create a small self-contained game app.",
+  "test": "ollamas adventure",
+  "system_prompt": true,
+  "notes": "Single-file endless runner. Clear success criteria (jump, obstacles, score, high score, retry, parallax, sounds) but the model must decide the implementation details."
+}

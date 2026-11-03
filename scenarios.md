@@ -2,7 +2,7 @@
 
 ## Summary
 
-Most scenarios have been completed, with several in full and some still in progress. The list shows a balanced mix of finished tasks and ongoing work. No major gaps detected overall.
+Most scenarios are complete, with a mix of partial and finished tasks. Several categories show full progress while others remain open or incomplete.
 
 ## Scenarios
 
@@ -38,13 +38,13 @@ There are 35 scenarios.
 - react hook/form (complete)
 - react hook/local storage (complete)
 - react hook/previous (complete)
-- react hook/throttle (none)
-- react hook/window size (none)
-- summary/expedition (none)
-- summary/extract languages (none)
-- summary/ollama test (none)
+- react hook/throttle (partial)
+- react hook/window size (partial)
+- summary/expedition (partial)
+- summary/extract languages (partial)
+- summary/ollama test (partial)
 
-## Uncompleted Scenarios
+## Partially Completed Scenarios
 
 - react hook/throttle
 - react hook/window size

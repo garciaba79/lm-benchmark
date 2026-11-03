@@ -1,0 +1,412 @@
+{
+  "scenario": "summary/ollama test",
+  "run_time": "11/02/2026, 02:10:26 PM",
+  "overall_seconds": 155.662305,
+  "models": [
+    {
+      "key": "lfm2.5-230m",
+      "display_name": "LFM2.5 230M",
+      "params": "230M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.16,
+      "context": "unknown",
+      "avg_tps": 725.6449934866805,
+      "total_seconds": 0.125863,
+      "question_times": [
+        0.125863
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-230m.md"
+    },
+    {
+      "key": "lfm2.5-350m",
+      "display_name": "LFM2.5 350M",
+      "params": "350M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.24,
+      "context": "unknown",
+      "avg_tps": 546.5109589829144,
+      "total_seconds": 0.153504,
+      "question_times": [
+        0.153504
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-350m.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "display_name": "LFM2.5 1.2B Instruct",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 359.8914788771386,
+      "total_seconds": 0.20250900000000002,
+      "question_times": [
+        0.20250900000000002
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-1.2b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "display_name": "LFM2.5 1.2B Thinking",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 483.9560415658425,
+      "total_seconds": 0.758803,
+      "question_times": [
+        0.758803
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-1.2b-thinking.md"
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "display_name": "Qwen2.5 Coder 1.5B Instruct",
+      "params": "1.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 0.92,
+      "context": "unknown",
+      "avg_tps": 265.7668027317833,
+      "total_seconds": 0.558635,
+      "question_times": [
+        0.558635
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen2.5-coder-1.5b-instruct.md"
+    },
+    {
+      "key": "google_-_gemma-2-2b-it",
+      "display_name": "Gemma 2 2B Instruct",
+      "params": "2B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.79,
+      "context": "unknown",
+      "avg_tps": 205.5273511528216,
+      "total_seconds": 0.425159,
+      "question_times": [
+        0.425159
+      ],
+      "scenario": "summary/ollama test",
+      "file": "google_-_gemma-2-2b-it.md"
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "display_name": "LFM2.5 2.6B",
+      "params": "2.7B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.81,
+      "context": "unknown",
+      "avg_tps": 256.17500578132507,
+      "total_seconds": 3.493192,
+      "question_times": [
+        3.493192
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-2.6b.md"
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "display_name": "LFM2.5 VL 3B",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.6,
+      "context": "unknown",
+      "avg_tps": 229.8705828618488,
+      "total_seconds": 1.046507,
+      "question_times": [
+        1.046507
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-vl-3b.md"
+    },
+    {
+      "key": "microsoft_phi-4-mini-instruct",
+      "display_name": "Microsoft Phi 4 Mini Instruct",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.65,
+      "context": "unknown",
+      "avg_tps": 171.29967164557678,
+      "total_seconds": 1.70875,
+      "question_times": [
+        1.70875
+      ],
+      "scenario": "summary/ollama test",
+      "file": "microsoft_phi-4-mini-instruct.md"
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "display_name": "Ministral 3 3B Instruct 2512",
+      "params": "3B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.78,
+      "context": "unknown",
+      "avg_tps": 210.2241477964586,
+      "total_seconds": 1.391309,
+      "question_times": [
+        1.391309
+      ],
+      "scenario": "summary/ollama test",
+      "file": "ministral-3-3b-instruct-2512.md"
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "display_name": "Ministral 3 3B Reasoning 2512",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.3,
+      "context": "unknown",
+      "avg_tps": 194.00480049087724,
+      "total_seconds": 2.033535,
+      "question_times": [
+        2.033535
+      ],
+      "scenario": "summary/ollama test",
+      "file": "ministral-3-3b-reasoning-2512.md"
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "display_name": "Nemotron 3 Nano 4B",
+      "params": "4.0B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.64,
+      "context": "unknown",
+      "avg_tps": 201.7215398589155,
+      "total_seconds": 1.9028530000000001,
+      "question_times": [
+        1.9028530000000001
+      ],
+      "scenario": "summary/ollama test",
+      "file": "nvidia-nemotron-3-nano-4b.md"
+    },
+    {
+      "key": "qwen3.5-4b",
+      "display_name": "Qwen3.5 4B",
+      "params": "4B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.15,
+      "context": "unknown",
+      "avg_tps": 158.62026028114266,
+      "total_seconds": 12.875598,
+      "question_times": [
+        12.875598
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen3.5-4b.md"
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "display_name": "Falcon H1R 7B",
+      "params": "7B",
+      "quant": "Q5_K_M",
+      "size_gb": 5.02,
+      "context": "unknown",
+      "avg_tps": 96.87503865206489,
+      "total_seconds": 13.229800000000001,
+      "question_times": [
+        13.229800000000001
+      ],
+      "scenario": "summary/ollama test",
+      "file": "falcon-h1r-7b.md"
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "display_name": "Qwen2.5 Coder 7B Instruct",
+      "params": "7B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.36,
+      "context": "unknown",
+      "avg_tps": 147.365441490813,
+      "total_seconds": 2.807603,
+      "question_times": [
+        2.807603
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen2.5-coder-7b-instruct.md"
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "display_name": "Mamba Codestral 7B v0.1",
+      "params": "7.3B",
+      "quant": "IQ4_XS",
+      "size_gb": 3.65,
+      "context": "unknown",
+      "avg_tps": 149.0333157203051,
+      "total_seconds": 1.74573,
+      "question_times": [
+        1.74573
+      ],
+      "scenario": "summary/ollama test",
+      "file": "mamba-codestral-7b-v0.1.md"
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "display_name": "Deepseek Coder 6.7B Instruct",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.8,
+      "context": "unknown",
+      "avg_tps": 149.81056344901097,
+      "total_seconds": 3.7523519999999997,
+      "question_times": [
+        3.7523519999999997
+      ],
+      "scenario": "summary/ollama test",
+      "file": "deepseek-coder-6.7b-instruct.md"
+    },
+    {
+      "key": "granite-4.1-8b",
+      "display_name": "Granite 4.1 8B",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.98,
+      "context": "unknown",
+      "avg_tps": 125.6122787138471,
+      "total_seconds": 3.16643,
+      "question_times": [
+        3.16643
+      ],
+      "scenario": "summary/ollama test",
+      "file": "granite-4.1-8b.md"
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "display_name": "LFM2.5 8B A1B",
+      "params": "32x959M",
+      "quant": "Q5_K_M",
+      "size_gb": 5.62,
+      "context": "unknown",
+      "avg_tps": 380.91857217359916,
+      "total_seconds": 2.043826,
+      "question_times": [
+        2.043826
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-8b-a1b.md"
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "display_name": "Ministral 3 8B Instruct 2512",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.64,
+      "context": "unknown",
+      "avg_tps": 127.32209352080602,
+      "total_seconds": 2.275048,
+      "question_times": [
+        2.275048
+      ],
+      "scenario": "summary/ollama test",
+      "file": "ministral-3-8b-instruct-2512.md"
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "display_name": "Rnj 1",
+      "params": "8.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.76,
+      "context": "unknown",
+      "avg_tps": 127.20172410999304,
+      "total_seconds": 1.315868,
+      "question_times": [
+        1.315868
+      ],
+      "scenario": "summary/ollama test",
+      "file": "essentialai-rnj-1.md"
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "display_name": "Nvidia NVIDIA Nemotron Nano 9B v2",
+      "params": "9B",
+      "quant": "Q5_K_M",
+      "size_gb": 6.58,
+      "context": "unknown",
+      "avg_tps": 101.12912795928048,
+      "total_seconds": 6.027140999999999,
+      "question_times": [
+        6.027140999999999
+      ],
+      "scenario": "summary/ollama test",
+      "file": "nvidia_nvidia-nemotron-nano-9b-v2.md"
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "display_name": "Ornith 1.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 124.02726183644911,
+      "total_seconds": 7.581565,
+      "question_times": [
+        7.581565
+      ],
+      "scenario": "summary/ollama test",
+      "file": "ornith-1.5-9b.md"
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "display_name": "Qwen3.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.1,
+      "context": "unknown",
+      "avg_tps": 120.72411315322289,
+      "total_seconds": 10.998,
+      "question_times": [
+        10.998
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen-qwen3.5-9b.md"
+    },
+    {
+      "key": "google/gemma-4-12b-qat",
+      "display_name": "Gemma 4 12B QAT",
+      "params": "12B",
+      "quant": "Q4_0",
+      "size_gb": 6.66,
+      "context": "unknown",
+      "avg_tps": 94.0657461435026,
+      "total_seconds": 3.9277249999999997,
+      "question_times": [
+        3.9277249999999997
+      ],
+      "scenario": "summary/ollama test",
+      "file": "google-gemma-4-12b-qat.md"
+    },
+    {
+      "key": "qwen_qwen3-14b",
+      "display_name": "Qwen Qwen3 14B",
+      "params": "14B",
+      "quant": "Q8_0",
+      "size_gb": 14.62,
+      "context": "unknown",
+      "avg_tps": 11.088703508638314,
+      "total_seconds": 68.149997,
+      "question_times": [
+        68.149997
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen_qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "display_name": "Qwen2.5 Coder 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.37,
+      "context": "unknown",
+      "avg_tps": 78.11096016941885,
+      "total_seconds": 1.965003,
+      "question_times": [
+        1.965003
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen-qwen2.5-coder-14b.md"
+    }
+  ]
+}

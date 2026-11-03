@@ -274,44 +274,44 @@
     "name": "Hook Throttle",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 14:10"
   },
   {
     "scenario": "react hook/window size",
     "name": "Hook Window Size",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 14:10"
   },
   {
     "scenario": "summary/expedition",
     "name": "summary expedition",
     "description": "Test how the model is capable of producing an accurate summary.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 14:09"
   },
   {
     "scenario": "summary/extract languages",
     "name": "Summary Extract Languages",
     "description": "Test how the model summarizes and extracts facts.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 14:10"
   },
   {
     "scenario": "summary/ollama test",
     "name": "Summary Ollama Test Harness",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "none",
+    "status": "partial",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-02 14:10"
   }
 ]

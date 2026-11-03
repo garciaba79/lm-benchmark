@@ -1,0 +1,7 @@
+{
+  "name": "Code Fim 1",
+  "description": "Test the models capabilities of the code fim model.",
+  "test": "code fim 1",
+  "system_prompt": false,
+  "notes": "This prompt is complex enough to stress the model (async + error handling + data transformation + edge cases) but still has a clear “fill this in” gap so non-FIM models will usually just dump extra commentary or code instead of cleanly completing the function."
+}

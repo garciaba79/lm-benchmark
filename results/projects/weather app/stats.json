@@ -1,0 +1,634 @@
+{
+  "scenario": "projects/weather app",
+  "run_time": "11/03/2026, 03:37:38 AM",
+  "overall_seconds": 3126.138178,
+  "models": [
+    {
+      "key": "lfm2.5-230m",
+      "display_name": "LFM2.5 230M",
+      "params": "230M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.16,
+      "context": "unknown",
+      "avg_tps": 926.7902837715961,
+      "total_seconds": 3.490203,
+      "question_times": [
+        0.222578,
+        0.562871,
+        1.059618,
+        0.7795230000000001,
+        0.8656130000000001
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-230m.md"
+    },
+    {
+      "key": "lfm2.5-350m",
+      "display_name": "LFM2.5 350M",
+      "params": "350M",
+      "quant": "Q5_K_M",
+      "size_gb": 0.24,
+      "context": "unknown",
+      "avg_tps": 740.8915482752121,
+      "total_seconds": 5.381738,
+      "question_times": [
+        2.1152480000000002,
+        0.9119769999999999,
+        0.601032,
+        0.9001869999999998,
+        0.853294
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-350m.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "display_name": "LFM2.5 1.2B Instruct",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 543.6345575010025,
+      "total_seconds": 8.207232,
+      "question_times": [
+        0.297082,
+        1.200313,
+        1.8286190000000002,
+        2.6526439999999996,
+        2.228574
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-1.2b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "display_name": "LFM2.5 1.2B Thinking",
+      "params": "1.2B",
+      "quant": "Q5_K_M",
+      "size_gb": 0.79,
+      "context": "unknown",
+      "avg_tps": 545.5783071838508,
+      "total_seconds": 10.337805,
+      "question_times": [
+        0.392978,
+        2.178611,
+        2.358364,
+        3.1722609999999998,
+        2.235591
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-1.2b-thinking.md"
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "display_name": "Qwen2.5 Coder 1.5B Instruct",
+      "params": "1.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 0.92,
+      "context": "unknown",
+      "avg_tps": 301.63016660549135,
+      "total_seconds": 18.041828,
+      "question_times": [
+        0.180751,
+        1.699145,
+        1.022682,
+        2.564465,
+        12.574785
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen2.5-coder-1.5b-instruct.md"
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "display_name": "LFM2.5 2.6B",
+      "params": "2.7B",
+      "quant": "Q5_K_M",
+      "size_gb": 1.81,
+      "context": "unknown",
+      "avg_tps": 277.52046386924445,
+      "total_seconds": 37.741228,
+      "question_times": [
+        1.946728,
+        6.369402,
+        5.345966,
+        9.295263,
+        14.783869000000001
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-2.6b.md"
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "display_name": "LFM2.5 VL 3B",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.6,
+      "context": "unknown",
+      "avg_tps": 271.0614592304297,
+      "total_seconds": 8.333574,
+      "question_times": [
+        0.24043,
+        1.5701910000000001,
+        2.062524,
+        2.481335,
+        1.9790940000000001
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-vl-3b.md"
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "display_name": "Ministral 3 3B Instruct 2512",
+      "params": "3B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.78,
+      "context": "unknown",
+      "avg_tps": 196.37642416884086,
+      "total_seconds": 37.213409,
+      "question_times": [
+        3.3186419999999996,
+        4.870302,
+        8.564234,
+        12.564096,
+        7.896135
+      ],
+      "scenario": "projects/weather app",
+      "file": "ministral-3-3b-instruct-2512.md"
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "display_name": "Ministral 3 3B Reasoning 2512",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.3,
+      "context": "unknown",
+      "avg_tps": 182.3891610942721,
+      "total_seconds": 30.901118,
+      "question_times": [
+        8.229449,
+        5.379048,
+        4.053676,
+        9.301847,
+        3.9370979999999998
+      ],
+      "scenario": "projects/weather app",
+      "file": "ministral-3-3b-reasoning-2512.md"
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "display_name": "Nemotron 3 Nano 4B",
+      "params": "4.0B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.64,
+      "context": "unknown",
+      "avg_tps": 213.71957856481612,
+      "total_seconds": 13.096515,
+      "question_times": [
+        0.342888,
+        3.749034,
+        2.00889,
+        3.772132,
+        3.2235709999999997
+      ],
+      "scenario": "projects/weather app",
+      "file": "nvidia-nemotron-3-nano-4b.md"
+    },
+    {
+      "key": "qwen3.5-4b",
+      "display_name": "Qwen3.5 4B",
+      "params": "4B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.15,
+      "context": "unknown",
+      "avg_tps": 164.59658197042,
+      "total_seconds": 39.836715,
+      "question_times": [
+        1.6692069999999999,
+        8.041719,
+        4.092471,
+        20.297803,
+        5.735515
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen3.5-4b.md"
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "display_name": "Falcon H1R 7B",
+      "params": "7B",
+      "quant": "Q5_K_M",
+      "size_gb": 5.02,
+      "context": "unknown",
+      "avg_tps": 97.73956393246397,
+      "total_seconds": 167.777515,
+      "question_times": [
+        5.644054,
+        38.495371999999996,
+        43.019387,
+        56.347694000000004,
+        24.271008
+      ],
+      "scenario": "projects/weather app",
+      "file": "falcon-h1r-7b.md"
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "display_name": "Qwen2.5 Coder 7B Instruct",
+      "params": "7B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.36,
+      "context": "unknown",
+      "avg_tps": 136.33214405132847,
+      "total_seconds": 18.994423,
+      "question_times": [
+        0.6021,
+        3.9309170000000004,
+        3.099444,
+        6.544136,
+        4.817826
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen2.5-coder-7b-instruct.md"
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "display_name": "Mamba Codestral 7B v0.1",
+      "params": "7.3B",
+      "quant": "IQ4_XS",
+      "size_gb": 3.65,
+      "context": "unknown",
+      "avg_tps": 147.30809380856002,
+      "total_seconds": 100.09771,
+      "question_times": [
+        16.061347,
+        27.695878,
+        47.402686,
+        2.616018,
+        6.321781
+      ],
+      "scenario": "projects/weather app",
+      "file": "mamba-codestral-7b-v0.1.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 137.373304225215,
+      "total_seconds": 27.979711,
+      "question_times": [
+        1.8788340000000001,
+        6.829896,
+        4.112371,
+        7.398941000000001,
+        7.759669
+      ],
+      "scenario": "projects/weather app",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "display_name": "Deepseek Coder 6.7B Instruct",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.8,
+      "context": "unknown",
+      "avg_tps": 110.94481025912694,
+      "total_seconds": 27.343765,
+      "question_times": [
+        1.5349670000000002,
+        4.222996,
+        7.684917,
+        5.525199,
+        8.375686
+      ],
+      "scenario": "projects/weather app",
+      "file": "deepseek-coder-6.7b-instruct.md"
+    },
+    {
+      "key": "granite-4.1-8b",
+      "display_name": "Granite 4.1 8B",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.98,
+      "context": "unknown",
+      "avg_tps": 110.0543848312029,
+      "total_seconds": 40.629899,
+      "question_times": [
+        6.178185999999999,
+        6.81646,
+        8.478864000000002,
+        9.051169,
+        10.10522
+      ],
+      "scenario": "projects/weather app",
+      "file": "granite-4.1-8b.md"
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "display_name": "LFM2.5 8B A1B",
+      "params": "32x959M",
+      "quant": "Q5_K_M",
+      "size_gb": 5.62,
+      "context": "unknown",
+      "avg_tps": 367.315369333364,
+      "total_seconds": 17.221766,
+      "question_times": [
+        0.7090360000000001,
+        3.672588,
+        4.16421,
+        3.945055,
+        4.730877
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-8b-a1b.md"
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "display_name": "Ministral 3 8B Instruct 2512",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.64,
+      "context": "unknown",
+      "avg_tps": 111.67100240667169,
+      "total_seconds": 51.916474,
+      "question_times": [
+        6.930661,
+        12.111724,
+        12.220823000000001,
+        8.697991,
+        11.955275
+      ],
+      "scenario": "projects/weather app",
+      "file": "ministral-3-8b-instruct-2512.md"
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "display_name": "Rnj 1",
+      "params": "8.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.76,
+      "context": "unknown",
+      "avg_tps": 116.63299954292332,
+      "total_seconds": 26.051686,
+      "question_times": [
+        1.501078,
+        3.9990600000000005,
+        4.441054,
+        9.809522999999999,
+        6.3009710000000005
+      ],
+      "scenario": "projects/weather app",
+      "file": "essentialai-rnj-1.md"
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "display_name": "Nvidia NVIDIA Nemotron Nano 9B v2",
+      "params": "9B",
+      "quant": "Q5_K_M",
+      "size_gb": 6.58,
+      "context": "unknown",
+      "avg_tps": 100.22711878484726,
+      "total_seconds": 69.9207,
+      "question_times": [
+        5.1146210000000005,
+        16.721448,
+        18.03997,
+        19.885900999999997,
+        10.158760000000001
+      ],
+      "scenario": "projects/weather app",
+      "file": "nvidia_nvidia-nemotron-nano-9b-v2.md"
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "display_name": "Ornith 1.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 114.94184380090921,
+      "total_seconds": 30.766485,
+      "question_times": [
+        2.894688,
+        6.861384,
+        5.022244000000001,
+        8.353015,
+        7.635154000000001
+      ],
+      "scenario": "projects/weather app",
+      "file": "ornith-1.5-9b.md"
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "display_name": "Qwen3.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.1,
+      "context": "unknown",
+      "avg_tps": 114.84369823999683,
+      "total_seconds": 50.682049,
+      "question_times": [
+        2.0825769999999997,
+        13.261792999999999,
+        8.809944,
+        17.08137,
+        9.446365
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen3.5-9b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 73.46331651744472,
+      "total_seconds": 48.849718,
+      "question_times": [
+        1.9192459999999998,
+        10.473615,
+        7.447284,
+        18.760907000000003,
+        10.248666
+      ],
+      "scenario": "projects/weather app",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "display_name": "Qwen2.5 Coder 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.37,
+      "context": "unknown",
+      "avg_tps": 71.44437983289734,
+      "total_seconds": 46.048120000000004,
+      "question_times": [
+        1.370141,
+        6.7202,
+        10.993887,
+        17.440102000000003,
+        9.523790000000002
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 73.18848945090437,
+      "total_seconds": 62.026520000000005,
+      "question_times": [
+        1.900433,
+        15.180161,
+        16.286268,
+        11.345777,
+        17.313881000000002
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "unknown",
+      "avg_tps": 74.53845361839359,
+      "total_seconds": 45.240757,
+      "question_times": [
+        7.987183,
+        7.989631999999999,
+        8.01723,
+        10.613773000000002,
+        10.632939
+      ],
+      "scenario": "projects/weather app",
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "unknown",
+      "avg_tps": 181.2869863047711,
+      "total_seconds": 35.595876,
+      "question_times": [
+        0.8051679999999999,
+        7.927885,
+        7.503100000000001,
+        12.620099,
+        6.739624
+      ],
+      "scenario": "projects/weather app",
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "unknown",
+      "avg_tps": 134.10337678307846,
+      "total_seconds": 38.839006999999995,
+      "question_times": [
+        3.4581730000000004,
+        5.529933,
+        4.53583,
+        17.281261999999998,
+        8.033809
+      ],
+      "scenario": "projects/weather app",
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "unknown",
+      "avg_tps": 126.98550891295004,
+      "total_seconds": 94.487394,
+      "question_times": [
+        2.632607,
+        11.849590999999998,
+        14.842165,
+        43.799809,
+        21.363221999999997
+      ],
+      "scenario": "projects/weather app",
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 14.989372161453911,
+      "total_seconds": 461.184849,
+      "question_times": [
+        7.18182,
+        125.03324400000001,
+        75.113503,
+        167.339166,
+        86.517116
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 46.827824312379725,
+      "total_seconds": 40.612066,
+      "question_times": [
+        1.9020439999999998,
+        8.899978,
+        8.640889,
+        5.880956,
+        15.288199
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "unknown",
+      "avg_tps": 5.492143097718783,
+      "total_seconds": 1411.2903230000002,
+      "question_times": [
+        72.80504300000001,
+        194.039058,
+        204.398106,
+        530.619542,
+        409.428574
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen2.5-coder-32b-instruct.md"
+    }
+  ]
+}

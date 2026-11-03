@@ -1,7 +1,7 @@
 {
   "scenario": "summary/ollama test",
-  "run_time": "11/02/2026, 02:10:26 PM",
-  "overall_seconds": 155.662305,
+  "run_time": "11/03/2026, 03:42:17 AM",
+  "overall_seconds": 203.473582,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -347,6 +347,156 @@
       ],
       "scenario": "summary/ollama test",
       "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 141.81467835101438,
+      "total_seconds": 1.218146,
+      "question_times": [
+        1.218146
+      ],
+      "scenario": "summary/ollama test",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 81.46038570829275,
+      "total_seconds": 3.9286179999999997,
+      "question_times": [
+        3.9286179999999997
+      ],
+      "scenario": "summary/ollama test",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.05928572215906,
+      "total_seconds": 2.762165,
+      "question_times": [
+        2.762165
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "unknown",
+      "avg_tps": 80.15874179174484,
+      "total_seconds": 2.3114390000000005,
+      "question_times": [
+        2.3114390000000005
+      ],
+      "scenario": "summary/ollama test",
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "unknown",
+      "avg_tps": 189.01158752946313,
+      "total_seconds": 1.6942439999999999,
+      "question_times": [
+        1.6942439999999999
+      ],
+      "scenario": "summary/ollama test",
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "unknown",
+      "avg_tps": 142.31646734948922,
+      "total_seconds": 1.026222,
+      "question_times": [
+        1.026222
+      ],
+      "scenario": "summary/ollama test",
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "unknown",
+      "avg_tps": 137.72743921159446,
+      "total_seconds": 8.398375,
+      "question_times": [
+        8.398375
+      ],
+      "scenario": "summary/ollama test",
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 16.429428903480776,
+      "total_seconds": 44.679427,
+      "question_times": [
+        44.679427
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 61.12775768777065,
+      "total_seconds": 4.651443,
+      "question_times": [
+        4.651443
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "unknown",
+      "avg_tps": 6.327421628545884,
+      "total_seconds": 51.35282900000001,
+      "question_times": [
+        51.35282900000001
+      ],
+      "scenario": "summary/ollama test",
+      "file": "qwen2.5-coder-32b-instruct.md"
     }
   ]
 }

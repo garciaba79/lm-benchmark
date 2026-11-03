@@ -1,7 +1,7 @@
 {
   "scenario": "react hook/window size",
-  "run_time": "11/02/2026, 02:10:18 PM",
-  "overall_seconds": 481.2822719999999,
+  "run_time": "11/03/2026, 03:41:08 AM",
+  "overall_seconds": 301.820111,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -347,6 +347,156 @@
       ],
       "scenario": "react hook/window size",
       "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 143.9142310521671,
+      "total_seconds": 6.1379529999999995,
+      "question_times": [
+        6.1379529999999995
+      ],
+      "scenario": "react hook/window size",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 82.27449018585702,
+      "total_seconds": 7.61579,
+      "question_times": [
+        7.61579
+      ],
+      "scenario": "react hook/window size",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.56555852655404,
+      "total_seconds": 4.46358,
+      "question_times": [
+        4.46358
+      ],
+      "scenario": "react hook/window size",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "unknown",
+      "avg_tps": 80.67849488451438,
+      "total_seconds": 5.355322999999999,
+      "question_times": [
+        5.355322999999999
+      ],
+      "scenario": "react hook/window size",
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "unknown",
+      "avg_tps": 200.05607519728576,
+      "total_seconds": 2.732885,
+      "question_times": [
+        2.732885
+      ],
+      "scenario": "react hook/window size",
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "unknown",
+      "avg_tps": 145.54364014920495,
+      "total_seconds": 4.271119,
+      "question_times": [
+        4.271119
+      ],
+      "scenario": "react hook/window size",
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "unknown",
+      "avg_tps": 138.14930398163776,
+      "total_seconds": 11.189525999999999,
+      "question_times": [
+        11.189525999999999
+      ],
+      "scenario": "react hook/window size",
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 21.546059010346415,
+      "total_seconds": 11.314703,
+      "question_times": [
+        11.314703
+      ],
+      "scenario": "react hook/window size",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 63.92613888678169,
+      "total_seconds": 4.814284000000001,
+      "question_times": [
+        4.814284000000001
+      ],
+      "scenario": "react hook/window size",
+      "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "unknown",
+      "avg_tps": 6.261420145330313,
+      "total_seconds": 91.085545,
+      "question_times": [
+        91.085545
+      ],
+      "scenario": "react hook/window size",
+      "file": "qwen2.5-coder-32b-instruct.md"
     }
   ]
 }

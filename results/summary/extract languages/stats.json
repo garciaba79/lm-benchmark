@@ -1,7 +1,7 @@
 {
   "scenario": "summary/extract languages",
-  "run_time": "11/02/2026, 02:10:22 PM",
-  "overall_seconds": 123.20812500000001,
+  "run_time": "11/03/2026, 03:41:23 AM",
+  "overall_seconds": 101.753125,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -347,6 +347,156 @@
       ],
       "scenario": "summary/extract languages",
       "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 139.41535566833196,
+      "total_seconds": 0.9647939999999999,
+      "question_times": [
+        0.9647939999999999
+      ],
+      "scenario": "summary/extract languages",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 78.15462829146296,
+      "total_seconds": 1.648482,
+      "question_times": [
+        1.648482
+      ],
+      "scenario": "summary/extract languages",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.70796917878617,
+      "total_seconds": 1.7201359999999999,
+      "question_times": [
+        1.7201359999999999
+      ],
+      "scenario": "summary/extract languages",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "unknown",
+      "avg_tps": 80.46931926840625,
+      "total_seconds": 1.8520530000000002,
+      "question_times": [
+        1.8520530000000002
+      ],
+      "scenario": "summary/extract languages",
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "unknown",
+      "avg_tps": 200.55160565520032,
+      "total_seconds": 1.17773,
+      "question_times": [
+        1.17773
+      ],
+      "scenario": "summary/extract languages",
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "unknown",
+      "avg_tps": 142.22864805788385,
+      "total_seconds": 1.039066,
+      "question_times": [
+        1.039066
+      ],
+      "scenario": "summary/extract languages",
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "unknown",
+      "avg_tps": 137.5908280505697,
+      "total_seconds": 7.697535,
+      "question_times": [
+        7.697535
+      ],
+      "scenario": "summary/extract languages",
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 15.777755637430705,
+      "total_seconds": 9.492742,
+      "question_times": [
+        9.492742
+      ],
+      "scenario": "summary/extract languages",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 63.260434045107736,
+      "total_seconds": 2.437819,
+      "question_times": [
+        2.437819
+      ],
+      "scenario": "summary/extract languages",
+      "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "unknown",
+      "avg_tps": 6.847685735288119,
+      "total_seconds": 13.704658,
+      "question_times": [
+        13.704658
+      ],
+      "scenario": "summary/extract languages",
+      "file": "qwen2.5-coder-32b-instruct.md"
     }
   ]
 }

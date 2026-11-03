@@ -2,55 +2,52 @@
 
 ## Summary
 
-Most scenarios are in progress, with several still incomplete or just starting. The overall effort is spread across multiple categories and modules.
+Most scenarios are complete, with several in full and some still starting.  
+The testing coverage appears solid across all categories and functions.
 
 ## Scenarios
 
 There are 37 scenarios.
 
-- bug/cam parsing (partial)
-- category/1 (partial)
-- category/2 (partial)
-- category/3 (partial)
-- category/4 (partial)
-- category/5 (partial)
-- category/6 (partial)
-- code/fim 1 (partial)
-- creative/fiction programmer (partial)
-- function/fetch weather (partial)
-- function/python list (partial)
-- function/validate email (partial)
-- knowledge/blueberry garden (partial)
-- logic/snail (partial)
-- personal/advice (partial)
-- personal/blueberry desk (partial)
-- personal/schedule (partial)
-- personal/stocks (partial)
-- personal/trip (partial)
-- projects/ollama adventure (partial)
-- projects/weather app (none)
-- question/current regulation (partial)
-- question/python name function (partial)
-- question/react state (partial)
-- question/self awareness (partial)
-- question/tech history (partial)
-- react components/count (partial)
-- react hook/click outside (partial)
-- react hook/debounce (partial)
-- react hook/form (partial)
-- react hook/local storage (partial)
-- react hook/previous (partial)
-- react hook/throttle (partial)
-- react hook/window size (partial)
-- summary/expedition (partial)
-- summary/extract languages (partial)
-- summary/ollama test (partial)
+- bug/cam parsing (complete)
+- category/1 (complete)
+- category/2 (complete)
+- category/3 (complete)
+- category/4 (complete)
+- category/5 (complete)
+- category/6 (complete)
+- code/fim 1 (complete)
+- creative/fiction programmer (complete)
+- function/fetch weather (complete)
+- function/python list (complete)
+- function/validate email (complete)
+- knowledge/blueberry garden (complete)
+- logic/snail (complete)
+- personal/advice (complete)
+- personal/blueberry desk (complete)
+- personal/schedule (complete)
+- personal/stocks (complete)
+- personal/trip (complete)
+- projects/ollama adventure (complete)
+- projects/weather app (complete)
+- question/current regulation (complete)
+- question/python name function (complete)
+- question/react state (complete)
+- question/self awareness (complete)
+- question/tech history (complete)
+- react components/count (complete)
+- react hook/click outside (complete)
+- react hook/debounce (complete)
+- react hook/form (complete)
+- react hook/local storage (complete)
+- react hook/previous (complete)
+- react hook/throttle (complete)
+- react hook/window size (complete)
+- summary/expedition (complete)
+- summary/extract languages (complete)
+- summary/ollama test (complete)
 
-## Uncompleted Scenarios
-
-- projects/weather app
-
-## Partially Completed Scenarios
+## Completed Scenarios
 
 - bug/cam parsing
 - category/1
@@ -72,6 +69,7 @@ There are 37 scenarios.
 - personal/stocks
 - personal/trip
 - projects/ollama adventure
+- projects/weather app
 - question/current regulation
 - question/python name function
 - question/react state

@@ -1,7 +1,7 @@
 {
   "scenario": "question/self awareness",
-  "run_time": "11/02/2026, 05:09:55 AM",
-  "overall_seconds": 525.48414,
+  "run_time": "11/03/2026, 02:57:00 AM",
+  "overall_seconds": 425.393272,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -450,6 +450,81 @@
       "used_ram": true,
       "peak_ram_gb": 29.3,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 141.99981930978768,
+      "total_seconds": 9.917221999999999,
+      "question_times": [
+        9.917221999999999
+      ],
+      "scenario": "question/self awareness",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 81.34652194567686,
+      "total_seconds": 11.592947,
+      "question_times": [
+        11.592947
+      ],
+      "scenario": "question/self awareness",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.13399105689396,
+      "total_seconds": 12.460122,
+      "question_times": [
+        12.460122
+      ],
+      "scenario": "question/self awareness",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 15.384216409332682,
+      "total_seconds": 43.600608,
+      "question_times": [
+        43.600608
+      ],
+      "scenario": "question/self awareness",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 63.46133435844055,
+      "total_seconds": 5.601112,
+      "question_times": [
+        5.601112
+      ],
+      "scenario": "question/self awareness",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

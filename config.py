@@ -11,7 +11,7 @@ from pathlib import Path
 # ==========================================
 BASE_URL = "http://localhost:1234"
 API_TOKEN = ""
-HELPER_MODEL = "lfm2.5-1.2b-instruct"                   # Optional helper model used for short summaries
+HELPER_MODEL = "lfm2.5-24b-a2b"                         # Optional helper model used for short summaries
 
 # ==========================================
 # PATHS

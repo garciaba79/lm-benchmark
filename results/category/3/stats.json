@@ -1,7 +1,7 @@
 {
   "scenario": "category/3",
-  "run_time": "11/01/2026, 11:57:40 PM",
-  "overall_seconds": 105.223441,
+  "run_time": "11/03/2026, 02:34:06 AM",
+  "overall_seconds": 79.282698,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -450,6 +450,81 @@
       "used_ram": true,
       "peak_ram_gb": 30.2,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 94.6760501151892,
+      "total_seconds": 0.135552,
+      "question_times": [
+        0.135552
+      ],
+      "scenario": "category/3",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 69.7366280015807,
+      "total_seconds": 0.237832,
+      "question_times": [
+        0.237832
+      ],
+      "scenario": "category/3",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 52.87461665902923,
+      "total_seconds": 0.145228,
+      "question_times": [
+        0.145228
+      ],
+      "scenario": "category/3",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 17.785577082691077,
+      "total_seconds": 0.754675,
+      "question_times": [
+        0.754675
+      ],
+      "scenario": "category/3",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 54.901099590594654,
+      "total_seconds": 0.246651,
+      "question_times": [
+        0.246651
+      ],
+      "scenario": "category/3",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

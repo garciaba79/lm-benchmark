@@ -1,7 +1,7 @@
 {
   "scenario": "knowledge/blueberry garden",
-  "run_time": "11/02/2026, 01:44:14 AM",
-  "overall_seconds": 1275.649937,
+  "run_time": "11/03/2026, 02:53:18 AM",
+  "overall_seconds": 1240.6268989999999,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -506,6 +506,91 @@
       "used_ram": true,
       "peak_ram_gb": 29.8,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 142.3085454851896,
+      "total_seconds": 11.378197,
+      "question_times": [
+        1.554068,
+        5.530658000000001,
+        4.293471
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 79.86819709768213,
+      "total_seconds": 25.622663999999997,
+      "question_times": [
+        6.337835,
+        10.328012999999999,
+        8.956815999999998
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 78.50887226924924,
+      "total_seconds": 16.265006,
+      "question_times": [
+        2.7485480000000004,
+        7.118866,
+        6.3975919999999995
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 14.78998255026032,
+      "total_seconds": 299.479965,
+      "question_times": [
+        91.73858200000001,
+        118.00989899999999,
+        89.73148400000001
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 59.94468133776414,
+      "total_seconds": 16.099263999999998,
+      "question_times": [
+        4.2941199999999995,
+        5.666348,
+        6.138796
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

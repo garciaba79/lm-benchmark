@@ -1,7 +1,7 @@
 {
   "scenario": "function/fetch weather",
-  "run_time": "11/02/2026, 12:49:08 AM",
-  "overall_seconds": 481.500337,
+  "run_time": "11/03/2026, 02:52:27 AM",
+  "overall_seconds": 347.825742,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -450,6 +450,81 @@
       "used_ram": true,
       "peak_ram_gb": 30.0,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 143.91415923842794,
+      "total_seconds": 8.358837,
+      "question_times": [
+        8.358837
+      ],
+      "scenario": "function/fetch weather",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 81.95821940678086,
+      "total_seconds": 9.798604000000001,
+      "question_times": [
+        9.798604000000001
+      ],
+      "scenario": "function/fetch weather",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.58006017722703,
+      "total_seconds": 6.2921949999999995,
+      "question_times": [
+        6.2921949999999995
+      ],
+      "scenario": "function/fetch weather",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 22.592013033081297,
+      "total_seconds": 13.142832,
+      "question_times": [
+        13.142832
+      ],
+      "scenario": "function/fetch weather",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 62.29896288621258,
+      "total_seconds": 8.987625,
+      "question_times": [
+        8.987625
+      ],
+      "scenario": "function/fetch weather",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

@@ -4,332 +4,332 @@
     "name": "Bug Cam Parsing",
     "description": "Test the model's ability to analyze information and solve the issue.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-01 23:37"
+    "last_run": "2026-11-03 02:33"
   },
   {
     "scenario": "category/1",
     "name": "Category 1",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-01 23:46"
+    "last_run": "2026-11-03 02:34"
   },
   {
     "scenario": "category/2",
     "name": "Category 2",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-01 23:57"
+    "last_run": "2026-11-03 02:34"
   },
   {
     "scenario": "category/3",
     "name": "Category 3",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 00:05"
+    "last_run": "2026-11-03 02:34"
   },
   {
     "scenario": "category/4",
     "name": "Category 4",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 00:16"
+    "last_run": "2026-11-03 02:43"
   },
   {
     "scenario": "category/5",
     "name": "Category 5",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 00:24"
+    "last_run": "2026-11-03 02:51"
   },
   {
     "scenario": "category/6",
     "name": "Category 6",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 00:36"
+    "last_run": "2026-11-03 02:52"
   },
   {
     "scenario": "code/fim 1",
     "name": "Code Fim 1",
     "description": "Test the models capabilities of the code fim model.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 23:19"
+    "last_run": "2026-11-03 03:07"
   },
   {
     "scenario": "creative/fiction programmer",
     "name": "Creative Fiction Programmer",
     "description": "Test how the model creative programmer can generate original and imaginative stories.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 00:49"
+    "last_run": "2026-11-03 02:52"
   },
   {
     "scenario": "function/fetch weather",
     "name": "Function Fetch Weather",
     "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 01:02"
+    "last_run": "2026-11-03 02:52"
   },
   {
     "scenario": "function/python list",
     "name": "Function Python List",
     "description": "Test how different local models handle creating a python function.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 01:18"
+    "last_run": "2026-11-03 02:52"
   },
   {
     "scenario": "function/validate email",
     "name": "Function Validate Email",
     "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 01:44"
+    "last_run": "2026-11-03 02:52"
   },
   {
     "scenario": "knowledge/blueberry garden",
     "name": "Knowledge Blueberry Garden",
     "description": "Test how different local models respond to a question about real world questions and how much knowledge they have.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 02:13"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "logic/snail",
     "name": "Logic Snail",
     "description": "Test the model's logical ability.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 02:31"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "personal/advice",
     "name": "Question Personal Advice",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 02:40"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "personal/blueberry desk",
     "name": "Question Personal Blueberry Desk",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 02:53"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "personal/schedule",
     "name": "Question Personal Assistant",
     "description": "Test how different local models respond to a question.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 03:06"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "personal/stocks",
     "name": "Question Personal Stocks",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 03:18"
+    "last_run": "2026-11-03 02:53"
   },
   {
     "scenario": "personal/trip",
     "name": "Question Personal Trip",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 03:39"
+    "last_run": "2026-11-03 02:54"
   },
   {
     "scenario": "projects/ollama adventure",
     "name": "ollamas adventure",
     "description": "Test the model's ability to create a small self-contained game app.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 23:19"
+    "last_run": "2026-11-03 03:13"
   },
   {
     "scenario": "projects/weather app",
     "name": "Weather App Planning",
     "description": "Test how different local models handle planning, feedback, and component requests for a simple weather app.",
     "ready": true,
-    "status": "none",
+    "status": "complete",
     "mode": "update",
-    "last_run": null
+    "last_run": "2026-11-03 03:37"
   },
   {
     "scenario": "question/current regulation",
     "name": "Question Current Regulation",
     "description": "Test how different local models respond to a question about current AI regulations.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 04:51"
+    "last_run": "2026-11-03 02:56"
   },
   {
     "scenario": "question/python name function",
     "name": "Question Python Name Function",
     "description": "Test whether a model can write a small Python function that prefers a non-empty name field from a JSON dict, falls back to a title-cased test field, and uses a provided folder name if both are missing.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 05:00"
+    "last_run": "2026-11-03 02:56"
   },
   {
     "scenario": "question/react state",
     "name": "Question React State Management",
     "description": "Test how different local models provide information for a medium-to-large app with frequent global state updates and complex async flows.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 05:09"
+    "last_run": "2026-11-03 02:56"
   },
   {
     "scenario": "question/self awareness",
     "name": "Question Self Awareness",
     "description": "Test how different local models respond to a question that tests the model's ability to help with software development.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 05:24"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "question/tech history",
     "name": "Question Tech History",
     "description": "Test how different local models can answer questions about technology history.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 05:35"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "react components/count",
     "name": "component count",
     "description": "Test how different local models handle creating a react component, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 05:51"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "react hook/click outside",
     "name": "Hook Click Outside",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 06:22"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "react hook/debounce",
     "name": "Hook Debounce",
     "description": "Test how different local models handle creating a hook, follow modern React principles and provide pros and cons.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 06:44"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "react hook/form",
     "name": "Hook Form",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 06:54"
+    "last_run": "2026-11-03 02:57"
   },
   {
     "scenario": "react hook/local storage",
     "name": "Hook Local Storage",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 07:20"
+    "last_run": "2026-11-03 02:58"
   },
   {
     "scenario": "react hook/previous",
     "name": "Hook Previous",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 07:39"
+    "last_run": "2026-11-03 02:58"
   },
   {
     "scenario": "react hook/throttle",
     "name": "Hook Throttle",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 14:10"
+    "last_run": "2026-11-03 03:39"
   },
   {
     "scenario": "react hook/window size",
     "name": "Hook Window Size",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 14:10"
+    "last_run": "2026-11-03 03:41"
   },
   {
     "scenario": "summary/expedition",
     "name": "summary expedition",
     "description": "Test how the model is capable of producing an accurate summary.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 23:05"
+    "last_run": "2026-11-03 03:05"
   },
   {
     "scenario": "summary/extract languages",
     "name": "Summary Extract Languages",
     "description": "Test how the model summarizes and extracts facts.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 14:10"
+    "last_run": "2026-11-03 03:41"
   },
   {
     "scenario": "summary/ollama test",
     "name": "Summary Ollama Test Harness",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "partial",
+    "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-02 14:10"
+    "last_run": "2026-11-03 03:42"
   }
 ]

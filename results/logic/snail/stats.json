@@ -1,7 +1,7 @@
 {
   "scenario": "logic/snail",
-  "run_time": "11/02/2026, 02:13:18 AM",
-  "overall_seconds": 769.6311910000001,
+  "run_time": "11/03/2026, 02:53:27 AM",
+  "overall_seconds": 474.784721,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -450,6 +450,81 @@
       "used_ram": true,
       "peak_ram_gb": 29.7,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 143.88977449913472,
+      "total_seconds": 5.455743999999999,
+      "question_times": [
+        5.455743999999999
+      ],
+      "scenario": "logic/snail",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 81.77471576897621,
+      "total_seconds": 7.119508,
+      "question_times": [
+        7.119508
+      ],
+      "scenario": "logic/snail",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.65950461241212,
+      "total_seconds": 8.704938,
+      "question_times": [
+        8.704938
+      ],
+      "scenario": "logic/snail",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 20.058698821349925,
+      "total_seconds": 64.919199,
+      "question_times": [
+        64.919199
+      ],
+      "scenario": "logic/snail",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 63.040477758032,
+      "total_seconds": 6.890087,
+      "question_times": [
+        6.890087
+      ],
+      "scenario": "logic/snail",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

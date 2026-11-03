@@ -1,7 +1,7 @@
 {
   "scenario": "creative/fiction programmer",
-  "run_time": "11/02/2026, 12:36:53 AM",
-  "overall_seconds": 397.149024,
+  "run_time": "11/03/2026, 02:52:16 AM",
+  "overall_seconds": 320.573632,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -450,6 +450,81 @@
       "used_ram": true,
       "peak_ram_gb": 30.1,
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 144.1217635749329,
+      "total_seconds": 0.7196170000000001,
+      "question_times": [
+        0.7196170000000001
+      ],
+      "scenario": "creative/fiction programmer",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 82.48976877975588,
+      "total_seconds": 1.479309,
+      "question_times": [
+        1.479309
+      ],
+      "scenario": "creative/fiction programmer",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 79.90184959894427,
+      "total_seconds": 1.5826980000000002,
+      "question_times": [
+        1.5826980000000002
+      ],
+      "scenario": "creative/fiction programmer",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 13.362810156583565,
+      "total_seconds": 11.23674,
+      "question_times": [
+        11.23674
+      ],
+      "scenario": "creative/fiction programmer",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 64.80009714569185,
+      "total_seconds": 1.9592019999999999,
+      "question_times": [
+        1.9592019999999999
+      ],
+      "scenario": "creative/fiction programmer",
+      "file": "qwen-qwen3-coder-30b.md"
     }
   ]
 }

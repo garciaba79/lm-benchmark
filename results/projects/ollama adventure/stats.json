@@ -1,7 +1,7 @@
 {
   "scenario": "projects/ollama adventure",
-  "run_time": "11/02/2026, 11:19:29 PM",
-  "overall_seconds": 33.439543,
+  "run_time": "11/03/2026, 03:13:57 AM",
+  "overall_seconds": 2332.211941,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -92,6 +92,411 @@
       ],
       "scenario": "projects/ollama adventure",
       "file": "lfm2.5-2.6b.md"
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "display_name": "LFM2.5 VL 3B",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.6,
+      "context": "unknown",
+      "avg_tps": 286.85385452510826,
+      "total_seconds": 6.680914,
+      "question_times": [
+        6.680914
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-vl-3b.md"
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "display_name": "Ministral 3 3B Instruct 2512",
+      "params": "3B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.78,
+      "context": "unknown",
+      "avg_tps": 213.18805101736578,
+      "total_seconds": 25.553756999999997,
+      "question_times": [
+        25.553756999999997
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "ministral-3-3b-instruct-2512.md"
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "display_name": "Ministral 3 3B Reasoning 2512",
+      "params": "3B",
+      "quant": "Q5_K_M",
+      "size_gb": 2.3,
+      "context": "unknown",
+      "avg_tps": 206.2248179311279,
+      "total_seconds": 13.775279000000001,
+      "question_times": [
+        13.775279000000001
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "ministral-3-3b-reasoning-2512.md"
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "display_name": "Nemotron 3 Nano 4B",
+      "params": "4.0B",
+      "quant": "Q4_K_M",
+      "size_gb": 2.64,
+      "context": "unknown",
+      "avg_tps": 222.87172031559024,
+      "total_seconds": 14.376718,
+      "question_times": [
+        14.376718
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "nvidia-nemotron-3-nano-4b.md"
+    },
+    {
+      "key": "qwen3.5-4b",
+      "display_name": "Qwen3.5 4B",
+      "params": "4B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.15,
+      "context": "unknown",
+      "avg_tps": 168.05456754161162,
+      "total_seconds": 29.601454,
+      "question_times": [
+        29.601454
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen3.5-4b.md"
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "display_name": "Falcon H1R 7B",
+      "params": "7B",
+      "quant": "Q5_K_M",
+      "size_gb": 5.02,
+      "context": "unknown",
+      "avg_tps": 97.7418384560442,
+      "total_seconds": 164.406903,
+      "question_times": [
+        164.406903
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "falcon-h1r-7b.md"
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "display_name": "Qwen2.5 Coder 7B Instruct",
+      "params": "7B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.36,
+      "context": "unknown",
+      "avg_tps": 143.89556964041935,
+      "total_seconds": 9.775869,
+      "question_times": [
+        9.775869
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen2.5-coder-7b-instruct.md"
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "display_name": "Mamba Codestral 7B v0.1",
+      "params": "7.3B",
+      "quant": "IQ4_XS",
+      "size_gb": 3.65,
+      "context": "unknown",
+      "avg_tps": 146.80133718616193,
+      "total_seconds": 6.905539000000001,
+      "question_times": [
+        6.905539000000001
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "mamba-codestral-7b-v0.1.md"
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "display_name": "Gemma 4 E4B",
+      "params": "7.5B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.89,
+      "context": "unknown",
+      "avg_tps": 138.6503911229087,
+      "total_seconds": 33.99554,
+      "question_times": [
+        33.99554
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "google-gemma-4-e4b.md"
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "display_name": "Deepseek Coder 6.7B Instruct",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 3.8,
+      "context": "unknown",
+      "avg_tps": 148.52877387495175,
+      "total_seconds": 5.3044459999999996,
+      "question_times": [
+        5.3044459999999996
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "deepseek-coder-6.7b-instruct.md"
+    },
+    {
+      "key": "granite-4.1-8b",
+      "display_name": "Granite 4.1 8B",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.98,
+      "context": "unknown",
+      "avg_tps": 118.3807608748983,
+      "total_seconds": 26.575821,
+      "question_times": [
+        26.575821
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "granite-4.1-8b.md"
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "display_name": "LFM2.5 8B A1B",
+      "params": "32x959M",
+      "quant": "Q5_K_M",
+      "size_gb": 5.62,
+      "context": "unknown",
+      "avg_tps": 367.9071917063343,
+      "total_seconds": 27.500372,
+      "question_times": [
+        27.500372
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-8b-a1b.md"
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "display_name": "Ministral 3 8B Instruct 2512",
+      "params": "8B",
+      "quant": "Q4_K_M",
+      "size_gb": 5.64,
+      "context": "unknown",
+      "avg_tps": 117.10980134496849,
+      "total_seconds": 45.532424999999996,
+      "question_times": [
+        45.532424999999996
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "ministral-3-8b-instruct-2512.md"
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "display_name": "Rnj 1",
+      "params": "8.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.76,
+      "context": "unknown",
+      "avg_tps": 123.39681209842209,
+      "total_seconds": 14.226482,
+      "question_times": [
+        14.226482
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "essentialai-rnj-1.md"
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "display_name": "Nvidia NVIDIA Nemotron Nano 9B v2",
+      "params": "9B",
+      "quant": "Q5_K_M",
+      "size_gb": 6.58,
+      "context": "unknown",
+      "avg_tps": 100.44586107462717,
+      "total_seconds": 62.563382000000004,
+      "question_times": [
+        62.563382000000004
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "nvidia_nvidia-nemotron-nano-9b-v2.md"
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "display_name": "Ornith 1.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 149.29781430299073,
+      "total_seconds": 86.23834599999999,
+      "question_times": [
+        86.23834599999999
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "ornith-1.5-9b.md"
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "display_name": "Qwen3.5 9B",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.1,
+      "context": "unknown",
+      "avg_tps": 117.40658170677835,
+      "total_seconds": 42.096436000000004,
+      "question_times": [
+        42.096436000000004
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen-qwen3.5-9b.md"
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "display_name": "Gemma 4 12B",
+      "params": "12B",
+      "quant": "Q4_K_M",
+      "size_gb": 7.04,
+      "context": "unknown",
+      "avg_tps": 78.2234679217677,
+      "total_seconds": 40.065516,
+      "question_times": [
+        40.065516
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "google-gemma-4-12b.md"
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "display_name": "Qwen2.5 Coder 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.37,
+      "context": "unknown",
+      "avg_tps": 75.90453354535973,
+      "total_seconds": 24.065659,
+      "question_times": [
+        24.065659
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen-qwen2.5-coder-14b.md"
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "display_name": "Qwen3 14B",
+      "params": "14B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.38,
+      "context": "unknown",
+      "avg_tps": 77.3156588153194,
+      "total_seconds": 38.388515,
+      "question_times": [
+        38.388515
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen-qwen3-14b.md"
+    },
+    {
+      "key": "microsoft/phi-4",
+      "display_name": "Phi 4",
+      "params": "15B",
+      "quant": "Q4_K_M",
+      "size_gb": 8.43,
+      "context": "unknown",
+      "avg_tps": 78.80348901356751,
+      "total_seconds": 23.008051,
+      "question_times": [
+        23.008051
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "microsoft-phi-4.md"
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "display_name": "GPT-OSS 20B",
+      "params": "20B",
+      "quant": "MXFP4",
+      "size_gb": 11.28,
+      "context": "unknown",
+      "avg_tps": 192.69326137426555,
+      "total_seconds": 10.604438,
+      "question_times": [
+        10.604438
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "openai-gpt-oss-20b.md"
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "display_name": "Lfm2 24B A2B",
+      "params": "64x1.3B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.43,
+      "context": "unknown",
+      "avg_tps": 143.46590544779318,
+      "total_seconds": 18.830171999999997,
+      "question_times": [
+        18.830171999999997
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "liquid-lfm2-24b-a2b.md"
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "display_name": "LFM2.5 24B A2B",
+      "params": "64x1.4B",
+      "quant": "Q4_K_M",
+      "size_gb": 13.53,
+      "context": "unknown",
+      "avg_tps": 121.64658358089501,
+      "total_seconds": 132.28558399999997,
+      "question_times": [
+        132.28558399999997
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "lfm2.5-24b-a2b.md"
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "display_name": "Qwen3.8 27B",
+      "params": "27B",
+      "quant": "Q4_K_M",
+      "size_gb": 16.52,
+      "context": "unknown",
+      "avg_tps": 15.63204936837489,
+      "total_seconds": 880.950569,
+      "question_times": [
+        880.950569
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen-qwen3.8-27b.md"
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "display_name": "Qwen3 Coder 30B",
+      "params": "30B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 17.35,
+      "context": "unknown",
+      "avg_tps": 48.45061783402428,
+      "total_seconds": 103.39381000000002,
+      "question_times": [
+        103.39381000000002
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "display_name": "Qwen2.5 Coder 32B Instruct",
+      "params": "32B",
+      "quant": "Q4_K_M",
+      "size_gb": 18.49,
+      "context": "unknown",
+      "avg_tps": 6.011714068975425,
+      "total_seconds": 412.070401,
+      "question_times": [
+        412.070401
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "qwen2.5-coder-32b-instruct.md"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 ## Summary
 
-All scenarios are mostly complete, with a few still in progress. Most tasks have finished successfully except for some partial ones. The overall picture shows active development across multiple areas.
+Most scenarios have been completed, with several in full and some still in progress. The list shows a balanced mix of finished tasks and ongoing work. No major gaps detected overall.
 
 ## Scenarios
 

@@ -4,7 +4,7 @@
     "name": "Bug Cam Parsing",
     "description": "Test the model's ability to analyze information and solve the issue.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-01 23:37"
   },
@@ -13,7 +13,7 @@
     "name": "Category 1",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-01 23:46"
   },
@@ -22,7 +22,7 @@
     "name": "Category 2",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-01 23:57"
   },
@@ -31,7 +31,7 @@
     "name": "Category 3",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 00:05"
   },
@@ -40,7 +40,7 @@
     "name": "Category 4",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 00:16"
   },
@@ -49,7 +49,7 @@
     "name": "Category 5",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 00:24"
   },
@@ -58,16 +58,25 @@
     "name": "Category 6",
     "description": "Test how the model follows instructions to categorize a given statement into one or more categories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 00:36"
+  },
+  {
+    "scenario": "code/fim 1",
+    "name": "Code Fim 1",
+    "description": "Test the models capabilities of the code fim model.",
+    "ready": true,
+    "status": "none",
+    "mode": "update",
+    "last_run": null
   },
   {
     "scenario": "creative/fiction programmer",
     "name": "Creative Fiction Programmer",
     "description": "Test how the model creative programmer can generate original and imaginative stories.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 00:49"
   },
@@ -76,7 +85,7 @@
     "name": "Function Fetch Weather",
     "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 01:02"
   },
@@ -85,7 +94,7 @@
     "name": "Function Python List",
     "description": "Test how different local models handle creating a python function.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 01:18"
   },
@@ -94,7 +103,7 @@
     "name": "Function Validate Email",
     "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 01:44"
   },
@@ -103,7 +112,7 @@
     "name": "Knowledge Blueberry Garden",
     "description": "Test how different local models respond to a question about real world questions and how much knowledge they have.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 02:13"
   },
@@ -112,7 +121,7 @@
     "name": "Logic Snail",
     "description": "Test the model's logical ability.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 02:31"
   },
@@ -121,7 +130,7 @@
     "name": "Question Personal Advice",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 02:40"
   },
@@ -130,7 +139,7 @@
     "name": "Question Personal Blueberry Desk",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 02:53"
   },
@@ -139,7 +148,7 @@
     "name": "Question Personal Assistant",
     "description": "Test how different local models respond to a question.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 03:06"
   },
@@ -148,7 +157,7 @@
     "name": "Question Personal Stocks",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 03:18"
   },
@@ -157,16 +166,25 @@
     "name": "Question Personal Trip",
     "description": "Test how different local models respond to a question about personal advice.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 03:39"
+  },
+  {
+    "scenario": "projects/ollama adventure",
+    "name": "ollamas adventure",
+    "description": "Test the model's ability to create a small self-contained game app.",
+    "ready": true,
+    "status": "none",
+    "mode": "update",
+    "last_run": null
   },
   {
     "scenario": "projects/weather app",
     "name": "Weather App Planning",
     "description": "Test how different local models handle planning, feedback, and component requests for a simple weather app.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 04:42"
   },
@@ -175,7 +193,7 @@
     "name": "Question Current Regulation",
     "description": "Test how different local models respond to a question about current AI regulations.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 04:51"
   },
@@ -184,7 +202,7 @@
     "name": "Question Python Name Function",
     "description": "Test whether a model can write a small Python function that prefers a non-empty name field from a JSON dict, falls back to a title-cased test field, and uses a provided folder name if both are missing.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 05:00"
   },
@@ -193,7 +211,7 @@
     "name": "Question React State Management",
     "description": "Test how different local models provide information for a medium-to-large app with frequent global state updates and complex async flows.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 05:09"
   },
@@ -202,7 +220,7 @@
     "name": "Question Self Awareness",
     "description": "Test how different local models respond to a question that tests the model's ability to help with software development.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 05:24"
   },
@@ -211,7 +229,7 @@
     "name": "Question Tech History",
     "description": "Test how different local models can answer questions about technology history.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 05:35"
   },
@@ -220,7 +238,7 @@
     "name": "component count",
     "description": "Test how different local models handle creating a react component, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 05:51"
   },
@@ -229,7 +247,7 @@
     "name": "Hook Click Outside",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 06:22"
   },
@@ -238,7 +256,7 @@
     "name": "Hook Debounce",
     "description": "Test how different local models handle creating a hook, follow modern React principles and provide pros and cons.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 06:44"
   },
@@ -247,7 +265,7 @@
     "name": "Hook Form",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 06:54"
   },
@@ -256,7 +274,7 @@
     "name": "Hook Local Storage",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 07:20"
   },
@@ -265,7 +283,7 @@
     "name": "Hook Previous",
     "description": "Test how different local models handle creating a hook, follow modern React principles and best practices.",
     "ready": true,
-    "status": "complete",
+    "status": "partial",
     "mode": "update",
     "last_run": "2026-11-02 07:39"
   },

@@ -1,0 +1,8 @@
+{
+  "name": "Function Fetch Weather",
+  "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
+  "test": "function fetch weather",
+  "prompt": "",
+  "system_prompt": false,
+  "notes": ""
+}

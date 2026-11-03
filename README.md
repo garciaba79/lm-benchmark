@@ -1,18 +1,19 @@
 # LM Studio Model Test Harness
 
-A small set of Python scripts that run the same local models through the same conversations in LM Studio so you can compare them fairly.  
+A small set of Python scripts that run the same local models through the same conversations in LM Studio so you can compare them fairly.
 
-You put each test in its own folder. The scripts load the models one by one, ask the questions in order, and save the full chat plus speed and memory numbers. Results come out as plain markdown files. You can add a new test by making a folder, run only the models that are missing results, or re-run everything. Later you can hand the files to a cloud model for scoring.
+You put each test in its own folder under `scenarios/`. The scripts load the models one by one, ask the questions in order, and save the full chat plus speed and memory numbers. Results come out as plain markdown files under `results/`. You can add a new test by making a folder, run only the models that are missing results, or re-run everything. Later you can hand the files to a cloud model for scoring.
 
 ## Features
 
 - Run many models against many scenarios with identical inputs
 - Update mode (run tests for missing results) or refresh mode (run tests for all current models)
-- Optional custom inference settings per scenario
-- System prompt fallback, per scenario prompt or default prompt
+- Optional custom inference settings per scenario, group, or scenarios root
+- System prompt fallback with the same three-level precedence
 - Statistics for the models including tokens per second, time, and if spilled into RAM
 - Snapshot of the models used for each scenario
-- Get a summary for the models for each scenario and uisng a helper model (optional)
+- Optional helper model summaries
+- Clean and archive results for models you have removed from LM Studio
 
 ## Requirements
 
@@ -28,68 +29,81 @@ pip install requests psutil
 ## Quick start
 
 1. Start the LM Studio server.
-2. Edit `config.json` and set the optional `model` field if you want helper summaries.
-3. Run `python get_models.py` and edit `models.json` to keep only the models you want to test.
-4. Create a scenario folder under `scenarios/` containing at least `test.json` and `question1.md`. (see the example)
-5. Run `python get_scenarios.py`.
-6. Set the desired mode for each scenario in `scenarios.json` (default is `update`).
-7. Run `python run_tests.py`.
+2. Edit `config.py` if you need a different base URL, token, or helper model.
+3. Run `python models.py` and edit `scenarios/models.json` to keep only the models you want to test.
+4. Create a scenario folder under `scenarios/` containing at least `test.json` and `question1.md`.
+5. Optionally add `system.md` or `inference.json` at the scenario, group, or scenarios root level.
+6. Run `python scenarios.py`.
+7. Set the desired mode for each scenario in `scenarios/scenarios.json` (default is `update`).
+8. Run `python run.py`.
 
-Results appear under `results/<scenario-name>/`.
+Results appear under `results/<scenario-path>/`.
 
 ## Project layout
 
 ```
-config.json
+config.py
+utils.py
+models.py
+scenarios.py
+run.py
+clean.py
 hardware.json
-inference.json
-get_models.py
-get_scenarios.py
-run_tests.py
-models.json
-scenarios.json
-scenarios.md
-system.md
-README.md
-
-documentation/
-  get-started.md
-  instructions.md
-  lm-benchmark.md
-  summary-app.md
-  summary-context.md
-  workflow.md
 
 scenarios/
-  weather app/
-    test.json
-    question1.md
-    question2.md
-    system.md          ← optional
-    inference.json     ← optional override
+  models.json
+  scenarios.json
+  scenarios.md
+  system.md              ← lowest precedence
+  inference.json         ← lowest precedence
+  function/
+    inference.json       ← group level
+    test1/
+      test.json
+      question1.md
+      system.md          ← highest precedence
+      inference.json     ← highest precedence
 
 results/
-  weather app/
-    models.json        ← snapshot of models used
-    <model-key>.md     ← full conversation
-    test.md
-    stats.md
-    stats.json
-    results.md         ← paste cloud evaluation here
+  stats.json             ← root-level system stats
+  stats.md
+  function/
+    test1/
+      <model-key>.md
+      models.json
+      stats.json
+      stats.md
+      test.md
+      results.md
+
+archive/
+  2026 11 04/            ← dated archive of removed models
+    results/
+      ...
 ```
 
 ## Modes
 
-Modes are set per scenario in `scenarios.json` (or overridden with `FORCE_MODE` in the script).
+Modes are set per scenario in `scenarios/scenarios.json` (or overridden with `FORCE_MODE` in `config.py`).
 
 | Mode      | Behavior |
 |-----------|----------|
 | `none`    | Skip the scenario |
 | `update`  | Run only models that do not already have a result file |
-| `refresh` | Rerun every model currently listed in `models.json` (overwrites those files; leaves results for removed models alone) |
+| `refresh` | Rerun every model currently listed in models.json (overwrites those files; leaves results for removed models alone) |
 
-See [USAGE.md](USAGE.md) for full details on configuration, inference settings, system prompts, and hardware detection.
+## Cleaning and archiving
 
-## License
+After you remove models from LM Studio you can clean the results so they only contain the models that are still installed.
 
-MIT
+```bash
+python clean.py                 # archive then clean (uses config.py defaults)
+python clean.py archive         # copy removed-model data only
+python clean.py clean           # remove result files and update stats
+python clean.py results         # remove conversation files only
+python clean.py stats           # update stats and model lists only
+```
+
+Archive always runs first when enabled and never modifies the live results. Clean never touches the archive folder. The archive is written to `archive/YYYY MM DD/` and contains only the models that were removed.
+
+See [get-started.md](get-started.md) for full details on configuration, inference settings, system prompts, and hardware detection.

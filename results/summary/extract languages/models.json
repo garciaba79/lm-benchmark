@@ -60,18 +60,6 @@
     "paramEstimate": null
   },
   {
-    "key": "google_-_gemma-2-2b-it",
-    "display_name": "Gemma 2 2B Instruct",
-    "params": "2B",
-    "quant": "Q5_K_M",
-    "bits_per_weight": 5,
-    "size_gb": 1.79,
-    "architecture": "gemma2",
-    "format": "gguf",
-    "max_context_length": 8192,
-    "paramEstimate": null
-  },
-  {
     "key": "lfm2.5-2.6b",
     "display_name": "LFM2.5 2.6B",
     "params": "2.7B",
@@ -93,18 +81,6 @@
     "architecture": "lfm2",
     "format": "gguf",
     "max_context_length": 32768,
-    "paramEstimate": null
-  },
-  {
-    "key": "microsoft_phi-4-mini-instruct",
-    "display_name": "Microsoft Phi 4 Mini Instruct",
-    "params": "3B",
-    "quant": "Q5_K_M",
-    "bits_per_weight": 5,
-    "size_gb": 2.65,
-    "architecture": "phi3",
-    "format": "gguf",
-    "max_context_length": 131072,
     "paramEstimate": null
   },
   {
@@ -285,30 +261,6 @@
     "architecture": "qwen35",
     "format": "gguf",
     "max_context_length": 262144,
-    "paramEstimate": null
-  },
-  {
-    "key": "google/gemma-4-12b-qat",
-    "display_name": "Gemma 4 12B QAT",
-    "params": "12B",
-    "quant": "Q4_0",
-    "bits_per_weight": 4,
-    "size_gb": 6.66,
-    "architecture": "gemma4",
-    "format": "gguf",
-    "max_context_length": 262144,
-    "paramEstimate": null
-  },
-  {
-    "key": "qwen_qwen3-14b",
-    "display_name": "Qwen Qwen3 14B",
-    "params": "14B",
-    "quant": "Q8_0",
-    "bits_per_weight": 8,
-    "size_gb": 14.62,
-    "architecture": "qwen3",
-    "format": "gguf",
-    "max_context_length": 32768,
     "paramEstimate": null
   },
   {

@@ -79,21 +79,6 @@
       "file": "qwen2.5-coder-1.5b-instruct.md"
     },
     {
-      "key": "google_-_gemma-2-2b-it",
-      "display_name": "Gemma 2 2B Instruct",
-      "params": "2B",
-      "quant": "Q5_K_M",
-      "size_gb": 1.79,
-      "context": "unknown",
-      "avg_tps": 204.75323534780912,
-      "total_seconds": 0.845406,
-      "question_times": [
-        0.845406
-      ],
-      "scenario": "summary/extract languages",
-      "file": "google_-_gemma-2-2b-it.md"
-    },
-    {
       "key": "lfm2.5-2.6b",
       "display_name": "LFM2.5 2.6B",
       "params": "2.7B",
@@ -122,21 +107,6 @@
       ],
       "scenario": "summary/extract languages",
       "file": "lfm2.5-vl-3b.md"
-    },
-    {
-      "key": "microsoft_phi-4-mini-instruct",
-      "display_name": "Microsoft Phi 4 Mini Instruct",
-      "params": "3B",
-      "quant": "Q5_K_M",
-      "size_gb": 2.65,
-      "context": "unknown",
-      "avg_tps": 174.72913489508562,
-      "total_seconds": 0.735229,
-      "question_times": [
-        0.735229
-      ],
-      "scenario": "summary/extract languages",
-      "file": "microsoft_phi-4-mini-instruct.md"
     },
     {
       "key": "ministral-3-3b-instruct-2512",
@@ -362,36 +332,6 @@
       ],
       "scenario": "summary/extract languages",
       "file": "qwen-qwen3.5-9b.md"
-    },
-    {
-      "key": "google/gemma-4-12b-qat",
-      "display_name": "Gemma 4 12B QAT",
-      "params": "12B",
-      "quant": "Q4_0",
-      "size_gb": 6.66,
-      "context": "unknown",
-      "avg_tps": 95.23294751120272,
-      "total_seconds": 1.242304,
-      "question_times": [
-        1.242304
-      ],
-      "scenario": "summary/extract languages",
-      "file": "google-gemma-4-12b-qat.md"
-    },
-    {
-      "key": "qwen_qwen3-14b",
-      "display_name": "Qwen Qwen3 14B",
-      "params": "14B",
-      "quant": "Q8_0",
-      "size_gb": 14.62,
-      "context": "unknown",
-      "avg_tps": 11.229371083850411,
-      "total_seconds": 60.367076000000004,
-      "question_times": [
-        60.367076000000004
-      ],
-      "scenario": "summary/extract languages",
-      "file": "qwen_qwen3-14b.md"
     },
     {
       "key": "qwen/qwen2.5-coder-14b",

@@ -79,21 +79,6 @@
       "file": "qwen2.5-coder-1.5b-instruct.md"
     },
     {
-      "key": "google_-_gemma-2-2b-it",
-      "display_name": "Gemma 2 2B Instruct",
-      "params": "2B",
-      "quant": "Q5_K_M",
-      "size_gb": 1.79,
-      "context": "unknown",
-      "avg_tps": 205.5273511528216,
-      "total_seconds": 0.425159,
-      "question_times": [
-        0.425159
-      ],
-      "scenario": "summary/ollama test",
-      "file": "google_-_gemma-2-2b-it.md"
-    },
-    {
       "key": "lfm2.5-2.6b",
       "display_name": "LFM2.5 2.6B",
       "params": "2.7B",
@@ -122,21 +107,6 @@
       ],
       "scenario": "summary/ollama test",
       "file": "lfm2.5-vl-3b.md"
-    },
-    {
-      "key": "microsoft_phi-4-mini-instruct",
-      "display_name": "Microsoft Phi 4 Mini Instruct",
-      "params": "3B",
-      "quant": "Q5_K_M",
-      "size_gb": 2.65,
-      "context": "unknown",
-      "avg_tps": 171.29967164557678,
-      "total_seconds": 1.70875,
-      "question_times": [
-        1.70875
-      ],
-      "scenario": "summary/ollama test",
-      "file": "microsoft_phi-4-mini-instruct.md"
     },
     {
       "key": "ministral-3-3b-instruct-2512",
@@ -362,36 +332,6 @@
       ],
       "scenario": "summary/ollama test",
       "file": "qwen-qwen3.5-9b.md"
-    },
-    {
-      "key": "google/gemma-4-12b-qat",
-      "display_name": "Gemma 4 12B QAT",
-      "params": "12B",
-      "quant": "Q4_0",
-      "size_gb": 6.66,
-      "context": "unknown",
-      "avg_tps": 94.0657461435026,
-      "total_seconds": 3.9277249999999997,
-      "question_times": [
-        3.9277249999999997
-      ],
-      "scenario": "summary/ollama test",
-      "file": "google-gemma-4-12b-qat.md"
-    },
-    {
-      "key": "qwen_qwen3-14b",
-      "display_name": "Qwen Qwen3 14B",
-      "params": "14B",
-      "quant": "Q8_0",
-      "size_gb": 14.62,
-      "context": "unknown",
-      "avg_tps": 11.088703508638314,
-      "total_seconds": 68.149997,
-      "question_times": [
-        68.149997
-      ],
-      "scenario": "summary/ollama test",
-      "file": "qwen_qwen3-14b.md"
     },
     {
       "key": "qwen/qwen2.5-coder-14b",

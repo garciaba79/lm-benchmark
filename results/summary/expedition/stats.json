@@ -134,11 +134,6 @@
       "file": "qwen2.5-coder-1.5b-instruct.md"
     },
     {
-      "key": "google_-_gemma-2-2b-it",
-      "error": "400 Client Error: Bad Request for url: http://localhost:1234/api/v0/chat/completions",
-      "scenario": "summary/expedition"
-    },
-    {
       "key": "lfm2.5-2.6b",
       "display_name": "LFM2.5 2.6B",
       "params": "2.7B",
@@ -189,32 +184,6 @@
       ],
       "scenario": "summary/expedition",
       "file": "lfm2.5-vl-3b.md"
-    },
-    {
-      "key": "microsoft_phi-4-mini-instruct",
-      "display_name": "Microsoft Phi 4 Mini Instruct",
-      "params": "3B",
-      "quant": "Q5_K_M",
-      "size_gb": 2.65,
-      "context": "32K",
-      "avg_tps": 147.01934443332007,
-      "total_seconds": 548.58636,
-      "question_times": [
-        0.07655500000000001,
-        1.914588,
-        4.13546,
-        4.260237999999999,
-        242.48805299999998,
-        267.828489,
-        3.818579,
-        3.741789,
-        4.066287,
-        5.657901,
-        4.947979999999999,
-        5.650441000000001
-      ],
-      "scenario": "summary/expedition",
-      "file": "microsoft_phi-4-mini-instruct.md"
     },
     {
       "key": "ministral-3-3b-instruct-2512",
@@ -605,58 +574,6 @@
       ],
       "scenario": "summary/expedition",
       "file": "qwen-qwen3.5-9b.md"
-    },
-    {
-      "key": "google/gemma-4-12b-qat",
-      "display_name": "Gemma 4 12B QAT",
-      "params": "12B",
-      "quant": "Q4_0",
-      "size_gb": 6.66,
-      "context": "32K",
-      "avg_tps": 80.53805126185925,
-      "total_seconds": 142.415493,
-      "question_times": [
-        0.25431,
-        0.330235,
-        12.158271000000001,
-        17.412286,
-        14.265351999999998,
-        8.581119000000001,
-        10.67915,
-        13.585366,
-        16.106121,
-        17.361321,
-        20.656268,
-        11.025694
-      ],
-      "scenario": "summary/expedition",
-      "file": "google-gemma-4-12b-qat.md"
-    },
-    {
-      "key": "qwen_qwen3-14b",
-      "display_name": "Qwen Qwen3 14B",
-      "params": "14B",
-      "quant": "Q8_0",
-      "size_gb": 14.62,
-      "context": "32K",
-      "avg_tps": 8.347424615127055,
-      "total_seconds": 1979.7413510000001,
-      "question_times": [
-        24.483627000000002,
-        107.205241,
-        166.270474,
-        182.933361,
-        78.55021699999999,
-        139.42609600000003,
-        134.835777,
-        190.861769,
-        243.204853,
-        244.330459,
-        278.848752,
-        188.790725
-      ],
-      "scenario": "summary/expedition",
-      "file": "qwen_qwen3-14b.md"
     },
     {
       "key": "qwen/qwen2.5-coder-14b",

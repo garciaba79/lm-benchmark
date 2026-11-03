@@ -1,32 +1,25 @@
 # Stats
 
-Overall time (all models): 1:46 hours
-
-| Model                             | Avg t/s | Total time    | Q1   | Q2           | Q3           | Q4           | Q5           | Q6           | Q7           | Q8           | Q9           | Q10          | Q11          | Q12          |
-| --------------------------------- | ------- | ------------- | ---- | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
-| LFM2.5 230M                       | 755     | 9 s           | 0 s  | 0 s          | 1 s          | 1 s          | 1 s          | 1 s          | 1 s          | 1 s          | 1 s          | 1 s          | 1 s          | 0 s          |
-| LFM2.5 350M                       | 572     | 3 s           | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          |
-| LFM2.5 1.2B Instruct              | 404     | 12 s          | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 2 s          | 3 s          | 3 s          | 2 s          | 1 s          |
-| LFM2.5 1.2B Thinking              | 487     | 15 s          | 3 s  | 2 s          | 1 s          | 2 s          | 1 s          | 1 s          | 1 s          | 0 s          | 1 s          | 1 s          | 1 s          | 1 s          |
-| Qwen2.5 Coder 1.5B Instruct       | 136     | 5 s           | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 4 s          |
-| LFM2.5 2.6B                       | 244     | 1:10 minutes  | 3 s  | 10 s         | 4 s          | 4 s          | 4 s          | 4 s          | 5 s          | 5 s          | 4 s          | 5 s          | 7 s          | 14 s         |
-| LFM2.5 VL 3B                      | 181     | 4 s           | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 3 s          |
-| Microsoft Phi 4 Mini Instruct     | 147     | 9:09 minutes  | 0 s  | 2 s          | 4 s          | 4 s          | 4:02 minutes | 4:28 minutes | 4 s          | 4 s          | 4 s          | 6 s          | 5 s          | 6 s          |
-| Ministral 3 3B Instruct 2512      | 164     | 48 s          | 0 s  | 1 s          | 2 s          | 3 s          | 1 s          | 2 s          | 4 s          | 4 s          | 6 s          | 7 s          | 9 s          | 9 s          |
-| Ministral 3 3B Reasoning 2512     | 158     | 47 s          | 0 s  | 2 s          | 4 s          | 4 s          | 1 s          | 2 s          | 2 s          | 4 s          | 7 s          | 7 s          | 7 s          | 6 s          |
-| Nemotron 3 Nano 4B                | 190     | 38 s          | 1 s  | 6 s          | 4 s          | 7 s          | 3 s          | 2 s          | 5 s          | 0 s          | 2 s          | 1 s          | 3 s          | 5 s          |
-| Qwen3.5 4B                        | 146     | 25:03 minutes | 11 s | 3:34 minutes | 3:24 minutes | 3:24 minutes | 3:28 minutes | 3:24 minutes | 28 s         | 3:04 minutes | 25 s         | 2:36 minutes | 23 s         | 42 s         |
-| Falcon H1R 7B                     | 91      | 7:02 minutes  | 3 s  | 1:21 minutes | 21 s         | 32 s         | 8 s          | 8 s          | 1:14 minutes | 32 s         | 30 s         | 22 s         | 51 s         | 1:00 minutes |
-| Qwen2.5 Coder 7B Instruct         | 129     | 11 s          | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 1 s          | 1 s          | 1 s          | 1 s          | 6 s          |
-| Mamba Codestral 7B v0.1           | 150     | 29 s          | 1 s  | 3 s          | 3 s          | 3 s          | 2 s          | 2 s          | 2 s          | 2 s          | 2 s          | 2 s          | 2 s          | 5 s          |
-| Deepseek Coder 6.7B Instruct      | 29      | 5:21 minutes  | 1 s  | 12 s         | 18 s         | 41 s         | 31 s         | 52 s         | 54 s         | 1:09 minutes | 13 s         | 10 s         | 8 s          | 12 s         |
-| Granite 4.1 8B                    | 103     | 1:47 minutes  | 1 s  | 5 s          | 5 s          | 6 s          | 4 s          | 7 s          | 8 s          | 9 s          | 15 s         | 16 s         | 14 s         | 16 s         |
-| LFM2.5 8B A1B                     | 342     | 21 s          | 1 s  | 1 s          | 2 s          | 1 s          | 1 s          | 2 s          | 0 s          | 2 s          | 1 s          | 4 s          | 1 s          | 6 s          |
-| Ministral 3 8B Instruct 2512      | 104     | 1:34 minutes  | 0 s  | 5 s          | 9 s          | 7 s          | 2 s          | 5 s          | 6 s          | 8 s          | 9 s          | 11 s         | 15 s         | 15 s         |
-| Rnj 1                             | 100     | 6 s           | 0 s  | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 0 s          | 1 s          | 0 s          | 0 s          | 3 s          |
-| Nvidia NVIDIA Nemotron Nano 9B v2 | 101     | 2:28 minutes  | 1 s  | 11 s         | 14 s         | 13 s         | 10 s         | 13 s         | 13 s         | 15 s         | 14 s         | 19 s         | 16 s         | 9 s          |
-| Ornith 1.5 9B                     | 142     | 5:03 minutes  | 1 s  | 9 s          | 2:52 minutes | 9 s          | 8 s          | 4 s          | 5 s          | 7 s          | 19 s         | 15 s         | 20 s         | 35 s         |
-| Qwen3.5 9B                        | 116     | 6:38 minutes  | 16 s | 41 s         | 39 s         | 40 s         | 29 s         | 22 s         | 58 s         | 37 s         | 24 s         | 5 s          | 33 s         | 54 s         |
-| Gemma 4 12B QAT                   | 81      | 2:22 minutes  | 0 s  | 0 s          | 12 s         | 17 s         | 14 s         | 9 s          | 11 s         | 14 s         | 16 s         | 17 s         | 21 s         | 11 s         |
-| Qwen Qwen3 14B                    | 8       | 33:00 minutes | 24 s | 1:47 minutes | 2:46 minutes | 3:03 minutes | 1:19 minutes | 2:19 minutes | 2:15 minutes | 3:11 minutes | 4:03 minutes | 4:04 minutes | 4:39 minutes | 3:09 minutes |
-| Qwen2.5 Coder 14B                 | 7       | 1:59 minutes  | 0 s  | 2 s          | 1 s          | 1 s          | 0 s          | 1 s          | 1 s          | 1 s          | 2 s          | 1 s          | 1 s          | 1:49 minutes |
+- LFM2.5 230M (755 t/s)
+- LFM2.5 350M (572 t/s)
+- LFM2.5 1.2B Instruct (404 t/s)
+- LFM2.5 1.2B Thinking (487 t/s)
+- Qwen2.5 Coder 1.5B Instruct (136 t/s)
+- LFM2.5 2.6B (244 t/s)
+- LFM2.5 VL 3B (181 t/s)
+- Ministral 3 3B Instruct 2512 (164 t/s)
+- Ministral 3 3B Reasoning 2512 (158 t/s)
+- Nemotron 3 Nano 4B (190 t/s)
+- Qwen3.5 4B (146 t/s)
+- Falcon H1R 7B (91 t/s)
+- Qwen2.5 Coder 7B Instruct (129 t/s)
+- Mamba Codestral 7B v0.1 (150 t/s)
+- Deepseek Coder 6.7B Instruct (29 t/s)
+- Granite 4.1 8B (103 t/s)
+- LFM2.5 8B A1B (342 t/s)
+- Ministral 3 8B Instruct 2512 (104 t/s)
+- Rnj 1 (100 t/s)
+- Nvidia NVIDIA Nemotron Nano 9B v2 (101 t/s)
+- Ornith 1.5 9B (142 t/s)
+- Qwen3.5 9B (116 t/s)
+- Qwen2.5 Coder 14B (7 t/s)

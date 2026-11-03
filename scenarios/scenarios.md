@@ -2,7 +2,7 @@
 
 ## Summary
 
-Most of the test scenarios are in progress, with several still incomplete. Some categories like code/fim 1 and projects/weather app have no results yet. Overall, there's a mix of completed, partial, and new tasks.
+Most scenarios are in progress, with some complete and others still starting. Several items remain unfinished or not yet initiated.
 
 ## Scenarios
 

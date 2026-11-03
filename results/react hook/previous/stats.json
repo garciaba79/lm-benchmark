@@ -84,22 +84,6 @@
       "file": "qwen2.5-coder-1.5b-instruct.md"
     },
     {
-      "key": "google_-_gemma-2-2b-it",
-      "display_name": "Gemma 2 2B Instruct",
-      "params": "2B",
-      "quant": "Q5_K_M",
-      "size_gb": 1.79,
-      "context": "8K",
-      "avg_tps": 211.59299456428732,
-      "total_seconds": 2.754392,
-      "question_times": [
-        2.754392
-      ],
-      "used_ram": false,
-      "peak_ram_gb": 16.0,
-      "file": "google_-_gemma-2-2b-it.md"
-    },
-    {
       "key": "lfm2.5-2.6b",
       "display_name": "LFM2.5 2.6B",
       "params": "2.7B",
@@ -130,22 +114,6 @@
       "used_ram": false,
       "peak_ram_gb": 16.0,
       "file": "lfm2.5-vl-3b.md"
-    },
-    {
-      "key": "microsoft_phi-4-mini-instruct",
-      "display_name": "Microsoft Phi 4 Mini Instruct",
-      "params": "3B",
-      "quant": "Q5_K_M",
-      "size_gb": 2.65,
-      "context": "16K",
-      "avg_tps": 193.04847957680224,
-      "total_seconds": 0.494873,
-      "question_times": [
-        0.494873
-      ],
-      "used_ram": false,
-      "peak_ram_gb": 16.0,
-      "file": "microsoft_phi-4-mini-instruct.md"
     },
     {
       "key": "ministral-3-3b-instruct-2512",
@@ -386,38 +354,6 @@
       "used_ram": false,
       "peak_ram_gb": 16.0,
       "file": "qwen-qwen3.5-9b.md"
-    },
-    {
-      "key": "google/gemma-4-12b-qat",
-      "display_name": "Gemma 4 12B QAT",
-      "params": "12B",
-      "quant": "Q4_0",
-      "size_gb": 6.66,
-      "context": "16K",
-      "avg_tps": 93.88074012257427,
-      "total_seconds": 7.6997160000000004,
-      "question_times": [
-        7.6997160000000004
-      ],
-      "used_ram": false,
-      "peak_ram_gb": 17.7,
-      "file": "google-gemma-4-12b-qat.md"
-    },
-    {
-      "key": "qwen_qwen3-14b",
-      "display_name": "Qwen Qwen3 14B",
-      "params": "14B",
-      "quant": "Q8_0",
-      "size_gb": 14.62,
-      "context": "8K",
-      "avg_tps": 9.95445536424445,
-      "total_seconds": 291.709495,
-      "question_times": [
-        291.709495
-      ],
-      "used_ram": true,
-      "peak_ram_gb": 24.5,
-      "file": "qwen_qwen3-14b.md"
     },
     {
       "key": "qwen/qwen2.5-coder-14b",

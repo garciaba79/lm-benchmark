@@ -43,7 +43,9 @@ Add or substitute task specific categories when needed.
 
 ### Output format
 
-Return the results in this order.
+Return the results in this order.  
+
+All tables must be valid standard Markdown tables. Every table needs a header row, a separator row of dashes, and pipe-delimited data rows. Do not output bare pipe-separated lines.
 
 #### Summary
 

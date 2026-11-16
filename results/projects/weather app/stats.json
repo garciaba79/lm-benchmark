@@ -1,7 +1,7 @@
 {
   "scenario": "projects/weather app",
-  "run_time": "11/03/2026, 03:37:38 AM",
-  "overall_seconds": 3126.138178,
+  "run_time": "11/15/2026, 09:42:53 PM",
+  "overall_seconds": 3140.977958,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -629,6 +629,25 @@
       ],
       "scenario": "projects/weather app",
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 182.9076792511808,
+      "total_seconds": 14.83978,
+      "question_times": [
+        0.355471,
+        5.1272530000000005,
+        3.59276,
+        0.962286,
+        4.802009999999999
+      ],
+      "scenario": "projects/weather app",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

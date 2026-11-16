@@ -1,7 +1,7 @@
 {
   "scenario": "react hook/local storage",
-  "run_time": "11/03/2026, 02:58:08 AM",
-  "overall_seconds": 765.977499,
+  "run_time": "11/15/2026, 09:43:47 PM",
+  "overall_seconds": 773.900077,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "react hook/local storage",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 190.02518817507655,
+      "total_seconds": 7.922578000000001,
+      "question_times": [
+        7.922578000000001
+      ],
+      "scenario": "react hook/local storage",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

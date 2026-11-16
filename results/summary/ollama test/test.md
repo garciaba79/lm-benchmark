@@ -4,9 +4,9 @@
 
 Scenario folder: summary/ollama test  
 
-Run time: 11/03/2026, 03:42:17 AM  
+Run time: 11/15/2026, 09:44:15 PM  
 
-Models in this run: 33  
+Models in this run: 34  
 
 ## Models
 
@@ -43,3 +43,4 @@ Models in this run: 33
 - Qwen3.8 27B (27B / Q4_K_M / 16.52 GB) Context: unknown → `qwen-qwen3.8-27b.md`
 - Qwen3 Coder 30B (30B-A3B / Q4_K_M / 17.35 GB) Context: unknown → `qwen-qwen3-coder-30b.md`
 - Qwen2.5 Coder 32B Instruct (32B / Q4_K_M / 18.49 GB) Context: unknown → `qwen2.5-coder-32b-instruct.md`
+- Gemma 4 E2B (4.6B / Q4_K_M / 4.11 GB) Context: unknown → `google-gemma-4-e2b.md`

@@ -302,7 +302,7 @@ def try_helper_summary(model_stats):
             json={
                 "model": config.HELPER_MODEL,
                 "messages": [
-                    {"role": "system", "content": config.RUNL_SUMMARY_PROMPT},
+                    {"role": "system", "content": config.RUN_SUMMARY_PROMPT},
                     {"role": "user", "content": "\n".join(brief)}
                 ],
                 "stream": False,

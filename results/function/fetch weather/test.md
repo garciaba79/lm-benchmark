@@ -4,9 +4,9 @@
 
 Scenario folder: function/fetch weather  
 
-Run time: 11/03/2026, 02:52:27 AM  
+Run time: 11/15/2026, 09:41:04 PM  
 
-Models in this run: 33  
+Models in this run: 34  
 
 ## Models
 
@@ -43,3 +43,4 @@ Models in this run: 33
 - Qwen3 14B (14B / Q4_K_M / 8.38 GB) Context: unknown → `qwen-qwen3-14b.md`
 - Qwen3.8 27B (27B / Q4_K_M / 16.52 GB) Context: unknown → `qwen-qwen3.8-27b.md`
 - Qwen3 Coder 30B (30B-A3B / Q4_K_M / 17.35 GB) Context: unknown → `qwen-qwen3-coder-30b.md`
+- Gemma 4 E2B (4.6B / Q4_K_M / 4.11 GB) Context: unknown → `google-gemma-4-e2b.md`

@@ -394,5 +394,17 @@
     "format": "gguf",
     "max_context_length": 262144,
     "paramEstimate": 30.0
+  },
+  {
+    "key": "google/gemma-4-e2b",
+    "display_name": "Gemma 4 E2B",
+    "params": "4.6B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 4.11,
+    "architecture": "gemma4",
+    "format": "gguf",
+    "max_context_length": 131072,
+    "paramEstimate": null
   }
 ]

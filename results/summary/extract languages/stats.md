@@ -39,3 +39,4 @@ Overall time (all models): 1:42 minutes
 | Qwen3.8 27B                       | 16      | 9 s        | 9 s  |
 | Qwen3 Coder 30B                   | 63      | 2 s        | 2 s  |
 | Qwen2.5 Coder 32B Instruct        | 7       | 14 s       | 14 s |
+| Gemma 4 E2B                       | 178     | 1 s        | 1 s  |

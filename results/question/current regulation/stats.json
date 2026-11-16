@@ -1,7 +1,7 @@
 {
   "scenario": "question/current regulation",
-  "run_time": "11/03/2026, 02:56:44 AM",
-  "overall_seconds": 135.089986,
+  "run_time": "11/15/2026, 09:42:55 PM",
+  "overall_seconds": 135.739355,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "question/current regulation",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 181.8566572762502,
+      "total_seconds": 0.6493689999999999,
+      "question_times": [
+        0.6493689999999999
+      ],
+      "scenario": "question/current regulation",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

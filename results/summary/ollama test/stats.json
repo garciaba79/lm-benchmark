@@ -1,7 +1,7 @@
 {
   "scenario": "summary/ollama test",
-  "run_time": "11/03/2026, 03:42:17 AM",
-  "overall_seconds": 203.473582,
+  "run_time": "11/15/2026, 09:44:15 PM",
+  "overall_seconds": 204.42398,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -497,6 +497,21 @@
       ],
       "scenario": "summary/ollama test",
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 177.95812883261735,
+      "total_seconds": 0.9503980000000001,
+      "question_times": [
+        0.9503980000000001
+      ],
+      "scenario": "summary/ollama test",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

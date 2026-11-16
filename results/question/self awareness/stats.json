@@ -1,7 +1,7 @@
 {
   "scenario": "question/self awareness",
-  "run_time": "11/03/2026, 02:57:00 AM",
-  "overall_seconds": 425.393272,
+  "run_time": "11/15/2026, 09:43:08 PM",
+  "overall_seconds": 429.594522,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "question/self awareness",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 187.83104621412355,
+      "total_seconds": 4.20125,
+      "question_times": [
+        4.20125
+      ],
+      "scenario": "question/self awareness",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

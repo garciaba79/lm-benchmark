@@ -1,7 +1,7 @@
 {
   "scenario": "category/5",
-  "run_time": "11/03/2026, 02:51:58 AM",
-  "overall_seconds": 625.4629860000001,
+  "run_time": "11/15/2026, 09:40:42 PM",
+  "overall_seconds": 625.6528780000001,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "category/5",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 140.1747086596112,
+      "total_seconds": 0.189892,
+      "question_times": [
+        0.189892
+      ],
+      "scenario": "category/5",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

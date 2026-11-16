@@ -1,7 +1,7 @@
 {
   "scenario": "react hook/debounce",
-  "run_time": "11/03/2026, 02:57:46 AM",
-  "overall_seconds": 649.499821,
+  "run_time": "11/15/2026, 09:43:34 PM",
+  "overall_seconds": 656.383408,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "react hook/debounce",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 191.27091038519154,
+      "total_seconds": 6.8835869999999995,
+      "question_times": [
+        6.8835869999999995
+      ],
+      "scenario": "react hook/debounce",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

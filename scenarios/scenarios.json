@@ -6,7 +6,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:33"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/1",
@@ -15,7 +15,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:34"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/2",
@@ -24,7 +24,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:34"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/3",
@@ -33,7 +33,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:34"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/4",
@@ -42,7 +42,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:43"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/5",
@@ -51,7 +51,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:51"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "category/6",
@@ -60,7 +60,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:52"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "code/fim 1",
@@ -69,7 +69,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:07"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "creative/fiction programmer",
@@ -78,7 +78,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:52"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "function/fetch weather",
@@ -87,7 +87,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:52"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "function/python list",
@@ -96,7 +96,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:52"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "function/validate email",
@@ -105,7 +105,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:52"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "knowledge/blueberry garden",
@@ -114,7 +114,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "logic/snail",
@@ -123,7 +123,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "personal/advice",
@@ -132,7 +132,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "personal/blueberry desk",
@@ -141,7 +141,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "personal/schedule",
@@ -150,7 +150,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "personal/stocks",
@@ -159,7 +159,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:53"
+    "last_run": "2026-11-15 21:41"
   },
   {
     "scenario": "personal/trip",
@@ -168,7 +168,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:54"
+    "last_run": "2026-11-15 21:42"
   },
   {
     "scenario": "projects/ollama adventure",
@@ -177,7 +177,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:13"
+    "last_run": "2026-11-15 21:42"
   },
   {
     "scenario": "projects/weather app",
@@ -186,7 +186,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:37"
+    "last_run": "2026-11-15 21:42"
   },
   {
     "scenario": "question/current regulation",
@@ -195,7 +195,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:56"
+    "last_run": "2026-11-15 21:42"
   },
   {
     "scenario": "question/python name function",
@@ -204,7 +204,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:56"
+    "last_run": "2026-11-15 21:42"
   },
   {
     "scenario": "question/react state",
@@ -213,7 +213,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:56"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "question/self awareness",
@@ -222,7 +222,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "question/tech history",
@@ -231,7 +231,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react components/count",
@@ -240,7 +240,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/click outside",
@@ -249,7 +249,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/debounce",
@@ -258,7 +258,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/form",
@@ -267,7 +267,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:57"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/local storage",
@@ -276,7 +276,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:58"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/previous",
@@ -285,7 +285,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 02:58"
+    "last_run": "2026-11-15 21:43"
   },
   {
     "scenario": "react hook/throttle",
@@ -294,7 +294,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:39"
+    "last_run": "2026-11-15 21:44"
   },
   {
     "scenario": "react hook/window size",
@@ -303,7 +303,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:41"
+    "last_run": "2026-11-15 21:44"
   },
   {
     "scenario": "summary/expedition",
@@ -312,7 +312,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:05"
+    "last_run": "2026-11-15 21:40"
   },
   {
     "scenario": "summary/extract languages",
@@ -321,7 +321,7 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:41"
+    "last_run": "2026-11-15 21:44"
   },
   {
     "scenario": "summary/ollama test",
@@ -330,6 +330,6 @@
     "ready": true,
     "status": "complete",
     "mode": "update",
-    "last_run": "2026-11-03 03:42"
+    "last_run": "2026-11-15 21:44"
   }
 ]

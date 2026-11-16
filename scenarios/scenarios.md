@@ -2,7 +2,7 @@
 
 ## Summary
 
-All **20 tests** listed here are marked as **complete**. No partial or unstarted tasks were reported.
+Here is the summary results.
 
 ## Scenarios
 

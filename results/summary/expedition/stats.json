@@ -1,7 +1,7 @@
 {
   "scenario": "summary/expedition",
-  "run_time": "11/03/2026, 03:05:55 AM",
-  "overall_seconds": 5417.100197000001,
+  "run_time": "11/15/2026, 09:40:18 PM",
+  "overall_seconds": 5425.433506,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -860,6 +860,32 @@
       ],
       "scenario": "summary/expedition",
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "32K",
+      "avg_tps": 130.66769665699917,
+      "total_seconds": 8.333309,
+      "question_times": [
+        1.6770809999999998,
+        0.292839,
+        0.865201,
+        0.138453,
+        0.08582300000000001,
+        0.12384999999999999,
+        0.115696,
+        0.19764400000000001,
+        0.365299,
+        0.183467,
+        0.23925,
+        4.048706
+      ],
+      "scenario": "summary/expedition",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

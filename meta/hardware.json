@@ -2,6 +2,6 @@
   "installed_ram_gb": 32,
   "installed_vram_gb": 16,
   "ram_spill_threshold_percent": 25,
-  "base_ram_gb": 13.793342590332031,
-  "collected_at": "2026-11-03T00:11:26.165331"
+  "base_ram_gb": 20.353416442871094,
+  "collected_at": "2026-11-15T21:39:34.032908"
 }

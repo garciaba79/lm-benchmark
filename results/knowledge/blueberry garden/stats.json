@@ -1,7 +1,7 @@
 {
   "scenario": "knowledge/blueberry garden",
-  "run_time": "11/03/2026, 02:53:18 AM",
-  "overall_seconds": 1240.6268989999999,
+  "run_time": "11/15/2026, 09:41:32 PM",
+  "overall_seconds": 1248.377369,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -591,6 +591,23 @@
       ],
       "scenario": "knowledge/blueberry garden",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 193.86982047248787,
+      "total_seconds": 7.750469999999999,
+      "question_times": [
+        1.2972519999999998,
+        3.7489869999999996,
+        2.7042309999999996
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

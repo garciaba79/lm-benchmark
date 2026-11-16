@@ -2,7 +2,7 @@
 
 Here is the summary results.
 
-Overall time (all models): 52:06 minutes
+Overall time (all models): 52:21 minutes
 
 | Model                             | Avg t/s | Total time    | Q1           | Q2           | Q3           | Q4           | Q5           |
 | --------------------------------- | ------- | ------------- | ------------ | ------------ | ------------ | ------------ | ------------ |
@@ -39,3 +39,4 @@ Overall time (all models): 52:06 minutes
 | Qwen3.8 27B                       | 15      | 7:41 minutes  | 7 s          | 2:05 minutes | 1:15 minutes | 2:47 minutes | 1:27 minutes |
 | Qwen3 Coder 30B                   | 47      | 41 s          | 2 s          | 9 s          | 9 s          | 6 s          | 15 s         |
 | Qwen2.5 Coder 32B Instruct        | 5       | 23:31 minutes | 1:13 minutes | 3:14 minutes | 3:24 minutes | 8:51 minutes | 6:49 minutes |
+| Gemma 4 E2B                       | 183     | 15 s          | 0 s          | 5 s          | 4 s          | 1 s          | 5 s          |

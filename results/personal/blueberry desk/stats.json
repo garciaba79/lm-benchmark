@@ -1,7 +1,7 @@
 {
   "scenario": "personal/blueberry desk",
-  "run_time": "11/03/2026, 02:53:38 AM",
-  "overall_seconds": 433.96970400000004,
+  "run_time": "11/15/2026, 09:41:46 PM",
+  "overall_seconds": 438.203915,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -525,6 +525,21 @@
       ],
       "scenario": "personal/blueberry desk",
       "file": "qwen-qwen3-coder-30b.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 185.5962020551127,
+      "total_seconds": 4.234211,
+      "question_times": [
+        4.234211
+      ],
+      "scenario": "personal/blueberry desk",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

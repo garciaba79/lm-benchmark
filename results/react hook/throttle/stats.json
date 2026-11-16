@@ -1,7 +1,7 @@
 {
   "scenario": "react hook/throttle",
-  "run_time": "11/03/2026, 03:39:34 AM",
-  "overall_seconds": 836.780086,
+  "run_time": "11/15/2026, 09:44:03 PM",
+  "overall_seconds": 844.552155,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -497,6 +497,21 @@
       ],
       "scenario": "react hook/throttle",
       "file": "qwen2.5-coder-32b-instruct.md"
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "display_name": "Gemma 4 E2B",
+      "params": "4.6B",
+      "quant": "Q4_K_M",
+      "size_gb": 4.11,
+      "context": "unknown",
+      "avg_tps": 193.05410955213384,
+      "total_seconds": 7.772068999999999,
+      "question_times": [
+        7.772068999999999
+      ],
+      "scenario": "react hook/throttle",
+      "file": "google-gemma-4-e2b.md"
     }
   ]
 }

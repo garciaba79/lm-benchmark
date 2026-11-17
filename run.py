@@ -156,33 +156,6 @@ def build_result_markdown(model_info, created_str, context_str, turns, test_info
     return "\n".join(lines).rstrip() + "\n"
 
 
-def build_test_md(test_info, name, created_str, summary_models):
-    lines = [
-        f"# Test: {test_info.get('name', name)}",
-        "",
-        f"**Description:** {test_info.get('description', '')}",
-        "",
-        f"Scenario folder: {name}  ",
-        "",
-        f"Run time: {created_str}  ",
-        "",
-        f"Models in this run: {len(summary_models)}  ",
-        "",
-        "## Models",
-        ""
-    ]
-    for sm in summary_models:
-        if "error" in sm:
-            lines.append(f"- {sm['key']} — ERROR: {sm['error']}")
-        else:
-            lines.append(
-                f"- {sm.get('display_name') or sm['key']} "
-                f"({sm.get('params') or '?'} / {sm.get('quant') or '?'} / {sm.get('size_gb')} GB) "
-                f"Context: {sm.get('context')} → `{sm.get('file')}`"
-            )
-    return "\n".join(lines) + "\n"
-
-
 def build_stats_md(stats):
     models = stats.get("models", []) if isinstance(stats, dict) else []
     if not models:
@@ -417,7 +390,26 @@ def update_scenario_files(results_path, test_info, name, model, model_stat, turn
     stats_md = build_stats_md(merged)
     (results_path / "stats.md").write_text(stats_md, encoding="utf-8")
 
-    test_md = build_test_md(test_info, name, created_str, merged.get("models", []))
+    # Preserve any existing evaluation status when rewriting test.md
+    existing_test = results_path / "test.md"
+    eval_status = None
+    if existing_test.exists():
+        content = existing_test.read_text(encoding="utf-8")
+        if "## Evaluation status" in content:
+            import re
+            m = re.search(r"(\d+)\s*/\s*(\d+)\s*models", content)
+            missing_match = re.search(r"### Models missing\s*\n\s*\n(.+)", content)
+            if m:
+                evaluated = int(m.group(1))
+                total = int(m.group(2))
+                missing = []
+                if missing_match:
+                    missing_text = missing_match.group(1).strip()
+                    if missing_text and missing_text.lower() != "none":
+                        missing = [k.strip() for k in missing_text.split(",")]
+                eval_status = {"evaluated": evaluated, "total": total, "missing": missing}
+
+    test_md = utils.build_test_md(test_info, name, created_str, merged.get("models", []), eval_status)
     (results_path / "test.md").write_text(test_md, encoding="utf-8")
 
     results_md = results_path / "results.md"

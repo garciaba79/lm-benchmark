@@ -130,3 +130,86 @@ def load_system_prompt(scenario_path, test_info):
 def today_archive_folder():
     date_str = datetime.now().strftime("%Y %m %d")
     return config.ARCHIVE_DIR / date_str
+
+
+def build_test_md(test_info, name, created_str, summary_models, eval_status=None):
+    """
+    Build the content for a scenario's test.md file.
+    eval_status is an optional dict: {"evaluated": int, "total": int, "missing": list[str]}
+    """
+    lines = [
+        f"# Test: {test_info.get('name', name)}",
+        "",
+        f"**Description:** {test_info.get('description', '')}",
+        "",
+        f"Scenario folder: {name}  ",
+        "",
+        f"Run time: {created_str}  ",
+        "",
+        f"Models in this run: {len(summary_models)}  ",
+        "",
+        "## Models",
+        ""
+    ]
+    for sm in summary_models:
+        if "error" in sm:
+            lines.append(f"- {sm['key']} — ERROR: {sm['error']}")
+        else:
+            lines.append(
+                f"- {sm.get('display_name') or sm['key']} "
+                f"({sm.get('params') or '?'} / {sm.get('quant') or '?'} / {sm.get('size_gb')} GB) "
+                f"Context: {sm.get('context')} → `{sm.get('file')}`"
+            )
+
+    if eval_status:
+        lines.extend([
+            "",
+            "## Evaluation status",
+            "",
+            "### Model results evaluated",
+            "",
+            f"{eval_status.get('evaluated', 0)} / {eval_status.get('total', 0)} models",
+            "",
+            "### Models missing",
+            "",
+            ", ".join(eval_status.get("missing") or ["None"])
+        ])
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def update_test_md_evaluation(results_path, evaluated, total, missing_keys):
+    """
+    Update or append the evaluation status section in test.md.
+    Preserves the existing test section written by run.py.
+    """
+    results_path = Path(results_path)
+    test_md_path = results_path / "test.md"
+    eval_block = [
+        "",
+        "## Evaluation status",
+        "",
+        "### Model results evaluated",
+        "",
+        f"{evaluated} / {total} models",
+        "",
+        "### Models missing",
+        "",
+        ", ".join(missing_keys) if missing_keys else "None",
+        ""
+    ]
+    eval_text = "\n".join(eval_block)
+
+    if test_md_path.exists():
+        content = test_md_path.read_text(encoding="utf-8")
+        # Remove any previous evaluation section
+        if "## Evaluation status" in content:
+            content = content.split("## Evaluation status")[0].rstrip() + "\n"
+        content = content.rstrip() + "\n" + eval_text
+    else:
+        # Minimal placeholder if run.py has not written the file yet
+        content = f"# Test\n\n(No test run recorded yet)\n{eval_text}"
+
+    test_md_path.write_text(content, encoding="utf-8")
+    return test_md_path
+

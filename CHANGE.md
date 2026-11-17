@@ -1,6 +1,23 @@
 # CHANGELOG
 
-# CHANGELOG
+## 2026-11-17
+
+### Evaluation support
+
+Added a way to rank model results with a cloud model.
+
+- New `evaluate.py` walks `results/` and sends model result files in batches to a configured backend.
+- Supports partial updates: if some models are already evaluated, only the missing ones are sent and the existing conversation is continued.
+- Writes the final ranking to `results.md` and the full turn-by-turn conversation to `grok.md`.
+- Updates the evaluation status section at the bottom of `test.md` (models evaluated / missing).
+- Plugin system under `plugins/` with three backends:
+  - `grok_cli` (default, uses SuperGrok subscription, no API fees)
+  - `openai` (OpenAI-compatible: OpenAI, Grok API, Gemini)
+  - `anthropic`
+- Backend is selected by `EVAL_BACKEND` in `config.py`. No automatic fallback.
+- Private keys go in `.env`. Public settings stay in `config.py`.
+- Command-line options: `--scenario`, `--force`, `--dry-run`, `--batch-size`.
+- Shared helpers in `utils.py` so `run.py` and `evaluate.py` can both update `test.md` without overwriting each other.
 
 ## 2026-11-02
 

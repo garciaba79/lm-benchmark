@@ -77,3 +77,43 @@ REQUIRE_AT_LEAST_ONE_QUESTION = True
 REVERSE_PARAMS = False     # Smallest params first (e.g., 230M, 4B, 8B, 24B)
 REVERSE_NAME = False       # Descending name tie breaker (Z -> A / apple, banana order)
 REVERSE_SIZE = False       # Smallest file size catch-all
+
+# ==========================================
+# EVALUATION SETTINGS
+# ==========================================
+# Backend used by evaluate.py.
+# Options: "grok_cli", "openai", "anthropic", "gemini", "grok_api"
+# Default is the Grok CLI (uses your SuperGrok subscription, no extra API fees).
+EVAL_BACKEND = "grok_cli"
+
+# How many model result files to send in each batch.
+# Example: 5
+EVAL_BATCH_SIZE = 5
+
+# Path to the long scoring instructions, loaded once at the start.
+EVAL_INSTRUCTIONS_PATH = Path("documentation/instructions.md")
+
+# Prompts used by the evaluator (short strings the script sends).
+EVAL_INITIAL_PROMPT = """Read these evaluation instructions carefully. I will send the test results in several batches. After each batch, score the models in that batch using the same scale and categories. You may revise earlier scores after seeing later batches. Keep all intermediate scores in context. Acknowledge that you are ready and wait for the first batch."""
+
+EVAL_BATCH_PROMPT = """Here are some test results. Score the models in this batch and keep the scores in context."""
+
+EVAL_FINAL_PROMPT = """All results have been provided. Produce the final ranked results using your intermediate scores and any revisions, in the format required by the instructions."""
+
+# Optional model name override for the chosen backend.
+# Examples:
+#   "grok-3"                        Grok API or CLI
+#   "gpt-4o"                        OpenAI
+#   "claude-3-5-sonnet-20241022"    Anthropic
+#   "gemini-1.5-pro"                Gemini
+EVAL_MODEL = None
+
+# Base URL for OpenAI-compatible backends (openai, gemini, grok_api).
+# Examples:
+#   "https://api.openai.com/v1"
+#   "https://api.x.ai/v1"
+#   "https://generativelanguage.googleapis.com/v1beta/openai"
+EVAL_BASE_URL = None
+
+# Dry run flag (can also be passed on the command line).
+EVAL_DRY_RUN = False

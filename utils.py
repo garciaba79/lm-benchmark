@@ -166,11 +166,11 @@ def build_test_md(test_info, name, created_str, summary_models, eval_status=None
             "",
             "## Evaluation status",
             "",
-            "### Model results evaluated",
+            "#### Model results evaluated",
             "",
             f"{eval_status.get('evaluated', 0)} / {eval_status.get('total', 0)} models",
             "",
-            "### Models missing",
+            "#### Models missing",
             "",
             ", ".join(eval_status.get("missing") or ["None"])
         ])
@@ -189,11 +189,11 @@ def update_test_md_evaluation(results_path, evaluated, total, missing_keys):
         "",
         "## Evaluation status",
         "",
-        "### Model results evaluated",
+        "#### Model results evaluated",
         "",
         f"{evaluated} / {total} models",
         "",
-        "### Models missing",
+        "#### Models missing",
         "",
         ", ".join(missing_keys) if missing_keys else "None",
         ""

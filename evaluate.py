@@ -203,18 +203,25 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
         print("  Final ranking received.")
 
     # Write outputs
+    evaluated_count = len(all_keys) if force or not already_evaluated else len(already_evaluated) + len(missing)
+    missing_after = [k for k in all_keys if k not in (already_evaluated | set(missing))]
+
     if not dry_run:
         results_md = results_path / "results.md"
         results_md.write_text(final + "\n", encoding="utf-8")
         write_grok_md(grok_md_path, messages)
-        evaluated_count = len(all_keys) if force or not already_evaluated else len(already_evaluated) + len(missing)
-        utils.update_test_md_evaluation(
-            results_path,
-            evaluated_count,
-            len(all_keys),
-            [k for k in all_keys if k not in (already_evaluated | set(missing))]
-        )
         print(f"  Wrote {results_md.name} and {grok_md_path.name}")
+    else:
+        print("  [dry-run] Skipping results.md and grok.md")
+
+    # Always update the evaluation status in test.md (even in dry-run)
+    utils.update_test_md_evaluation(
+        results_path,
+        evaluated_count,
+        len(all_keys),
+        missing_after
+    )
+    print("  Updated evaluation status in test.md")
 
 
 def find_scenarios(target: str | None) -> list[Path]:

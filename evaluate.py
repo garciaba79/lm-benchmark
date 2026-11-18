@@ -31,6 +31,9 @@ from plugins.grok_cli import GrokCLIBackend
 from plugins.openai import OpenAICompatibleBackend
 from plugins.anthropic import AnthropicBackend
 
+# Set to True to print extra debug info from the script and plugins
+DEBUG = False
+
 
 def load_dotenv():
     """Load .env if present (simple key=value, no external dependency)."""
@@ -54,7 +57,13 @@ def get_backend() -> EvaluationBackend:
     model = config.EVAL_MODEL
     base_url = config.EVAL_BASE_URL
 
+    if DEBUG:
+        print(f"  [debug] Loading backend: {name}")
+
     if name == "grok_cli":
+        # Pass the debug flag into the plugin
+        from plugins import grok_cli
+        grok_cli.DEBUG = DEBUG
         return GrokCLIBackend(model=model)
     if name in ("openai", "grok_api", "gemini"):
         return OpenAICompatibleBackend(base_url=base_url, model=model)
@@ -151,7 +160,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
         missing = [key for key, _ in result_files]
         messages = []  # start fresh
 
-    print(f"  Evaluating {len(missing)} model(s) (batch size {batch_size})")
+    print(f"  Evaluating {len(missing)} model(s) in batches of {batch_size}")
 
     # Load instructions once
     instructions = ""
@@ -165,14 +174,21 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             first = f"{first}\n\n---\n\n{instructions}"
         messages.append({"role": "user", "content": first})
         if not dry_run:
+            print("  Sending initial prompt...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
             print("  Initial prompt acknowledged.")
+        else:
+            print("  [dry-run] Would send initial prompt")
 
     # Batches
     file_map = {key: path for key, path in result_files}
+    total_batches = (len(missing) + batch_size - 1) // batch_size
     for i in range(0, len(missing), batch_size):
+        batch_num = i // batch_size + 1
         batch_keys = missing[i:i + batch_size]
+        print(f"  Batch {batch_num}/{total_batches}: {', '.join(batch_keys)}")
+
         batch_content = [config.EVAL_BATCH_PROMPT, ""]
         for key in batch_keys:
             path = file_map[key]
@@ -188,15 +204,22 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             print(f"  [dry-run] Would send batch of {len(batch_keys)} models")
             messages.append({"role": "assistant", "content": "[dry-run reply]"})
         else:
+            if DEBUG:
+                print(f"  [debug] About to call backend for batch {batch_num}")
+            print(f"  Sending batch {batch_num}...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
-            print(f"  Batch {i // batch_size + 1} complete.")
+            print(f"  Batch {batch_num} complete.")
+            if DEBUG:
+                print(f"  [debug] Reply length: {len(reply)} characters")
 
     # Final ranking
+    print("  Requesting final ranking...")
     messages.append({"role": "user", "content": config.EVAL_FINAL_PROMPT})
     if dry_run:
         final = "[dry-run final ranking]"
         messages.append({"role": "assistant", "content": final})
+        print("  [dry-run] Would request final ranking")
     else:
         final = backend.generate(messages)
         messages.append({"role": "assistant", "content": final})

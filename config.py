@@ -84,7 +84,7 @@ REVERSE_SIZE = False       # Smallest file size catch-all
 # Backend used by evaluate.py.
 # Options: "grok_cli", "openai", "anthropic", "gemini", "grok_api"
 # Default is the Grok CLI (uses your SuperGrok subscription, no extra API fees).
-EVAL_BACKEND = "grok_cli"
+EVAL_BACKEND = "grok_api"
 
 # How many model result files to send in each batch.
 # Example: 5
@@ -102,18 +102,19 @@ EVAL_FINAL_PROMPT = """All results have been provided. Produce the final ranked 
 
 # Optional model name override for the chosen backend.
 # Examples:
-#   "grok-3"                        Grok API or CLI
+#   "grok-4.3"                      Grok API or CLI
+#   "grok-4.7"                      Grok API or CLI
 #   "gpt-4o"                        OpenAI
 #   "claude-3-5-sonnet-20241022"    Anthropic
 #   "gemini-1.5-pro"                Gemini
-EVAL_MODEL = None
+EVAL_MODEL = "grok-4.3"
 
 # Base URL for OpenAI-compatible backends (openai, gemini, grok_api).
 # Examples:
 #   "https://api.openai.com/v1"
 #   "https://api.x.ai/v1"
 #   "https://generativelanguage.googleapis.com/v1beta/openai"
-EVAL_BASE_URL = None
+EVAL_BASE_URL = "https://api.x.ai/v1"
 
 # Dry run flag (can also be passed on the command line).
 EVAL_DRY_RUN = False

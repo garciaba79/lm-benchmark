@@ -9,17 +9,49 @@ This document explains how to install and use the official Grok CLI so that mode
 
 ## Install the CLI
 
-### Git Bash on Windows, macOS, Linux
+Any of the methods below make `grok` available in Git Bash, PowerShell, CMD, and Windows Terminal.  
+You only need to install once. After that you can keep using your normal Git Bash terminal.
+
+### Recommended on Windows (PowerShell installer)
+
+Open PowerShell and run:
+
+```powershell
+irm https://x.ai/cli/install.ps1 | iex
+```
+
+This installs the native Windows binary to `%USERPROFILE%\.grok\bin` and adds it to your User PATH.  
+Close and reopen your terminal of choice including Git Bash, CMD, or Windows Terminal. Then verify:
+
+```bash
+grok --version
+```
+
+### Alternative: npm (works everywhere)
+
+If you already have Node.js:
+
+```bash
+npm i -g @xai-official/grok
+```
+
+The global npm bin directory is already on your PATH, so `grok` works immediately in Git Bash.
+
+### Git Bash on macOS or Linux
 
 ```bash
 curl -fsSL https://x.ai/cli/install.sh | bash
 ```
 
-### Windows PowerShell
+This is the official method for macOS and Linux.  
+On Windows Git Bash it sometimes fails with curl write errors when downloading the large binary.  
+If it fails, use the PowerShell installer or npm instead.
 
-```powershell
-irm https://x.ai/cli/install.ps1 | iex
-```
+### Notes
+
+- The PowerShell installer is the most reliable option on Windows.
+- After a successful install with PowerShell or npm, you can stay in Git Bash for daily use.
+- You do not need to switch terminals permanently.
 
 After installing, restart your terminal or open a new Git Bash or PowerShell window and verify:
 

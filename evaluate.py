@@ -301,6 +301,16 @@ def main():
 
     print("\nDone.")
 
+    # Print API usage stats if the backend tracks them
+    if hasattr(backend, "get_stats"):
+        stats = backend.get_stats()
+        if stats.get("requests", 0) > 0:
+            print("\nAPI usage:")
+            print(f"  Requests:          {stats['requests']}")
+            print(f"  Prompt tokens:     {stats['prompt_tokens']:,}")
+            print(f"  Completion tokens: {stats['completion_tokens']:,}")
+            print(f"  Total tokens:      {stats['total_tokens']:,}")
+
 
 if __name__ == "__main__":
     main()

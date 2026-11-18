@@ -71,6 +71,8 @@ What the scores mean for real use, including speed versus edit time or other pra
 One table sorted by the primary score (highest first), then by the secondary score.  
 Columns: Model | [Primary score] | [Secondary score] | t/s | [Remaining categories] | Notes  
 
+The full results table must include every model that was evaluated across all batches. Do not omit any model. Sort the complete list by the primary score, then by the secondary score.
+
 - Annotate the model type in the Model column when known.  
 - Keep Notes short and factual. Mention major strengths, critical issues, any invented details, and anything that would affect real use.  
 - Mark unanswered categories as “—”.

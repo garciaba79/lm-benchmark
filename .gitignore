@@ -1,49 +1,43 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Distribution / packaging
 .Python
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 
 # Virtual environments
+.venv/
 venv/
 env/
 ENV/
-.venv/
 
-# private env files
+# Secrets (keep the example file)
 .env
+.env.*
+!.env.example
 
-# IDE
+# Tools and editors
 .vscode/
 .idea/
 *.swp
 *.swo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Project-specific
-hardware.json
+# Generated on each run. Local machine snapshot (RAM, VRAM, timestamp).
+meta/
+
+# Dated copies of results for models that were removed.
 archive/
-# results/
 
-# Keep the scenarios folder but ignore nothing inside it by default
-# (models.json, scenarios.json, scenarios.md are intentional)
+# results/ is tracked on purpose.

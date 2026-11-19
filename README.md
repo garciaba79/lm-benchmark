@@ -106,4 +106,4 @@ python clean.py stats           # update stats and model lists only
 
 Archive always runs first when enabled and never modifies the live results. Clean never touches the archive folder. The archive is written to `archive/YYYY MM DD/` and contains only the models that were removed.
 
-See [get-started.md](get-started.md) for full details on configuration, inference settings, system prompts, and hardware detection.
+See [get-started.md](./documentation/get-started.md) for full details on configuration, inference settings, system prompts, and hardware detection.

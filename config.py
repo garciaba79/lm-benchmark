@@ -118,3 +118,7 @@ EVAL_BASE_URL = "https://api.x.ai/v1"
 
 # Dry run flag (can also be passed on the command line).
 EVAL_DRY_RUN = False
+
+# Seconds to wait for a single API response.
+# Large batches on slower models can take several minutes.
+EVAL_TIMEOUT = 600

@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 
 import requests
+import config
 
 from .base import EvaluationBackend
 
@@ -42,10 +43,12 @@ class OpenAICompatibleBackend(EvaluationBackend):
             "temperature": 0.2,
         }
         try:
-            resp = requests.post(url, headers=headers, json=payload, timeout=180)
+            timeout = getattr(config, "EVAL_TIMEOUT", 180)
+            resp = requests.post(url, headers=headers, json=payload, timeout=timeout)
             resp.raise_for_status()
         except requests.RequestException as e:
             raise RuntimeError(f"OpenAI-compatible API request failed: {e}")
+
 
         data = resp.json()
 

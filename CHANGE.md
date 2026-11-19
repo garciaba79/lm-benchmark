@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 2026-11-18
+
+### Evaluation improvements
+
+Made evaluation more reliable and easier to resume or extend.
+
+- Conversation is now saved as `evaluation-<model>.json` after every successful turn (source of truth).
+- On restart the script loads that file, detects which models are already scored, and continues with only the missing ones.
+- If a final-ranking turn already exists and new models are found, that turn and everything after it are removed before continuing.
+- Human-readable `evaluation-<model>.md` is always regenerated from the JSON at the end of a scenario.
+- Added `evaluation.json` index that lists which cloud models have been used for the scenario.
+- Added `EVAL_TIMEOUT` (default 600 seconds) for API calls.
+- API usage stats (requests and tokens) are printed at the end of a run.
+- Added `DEBUG` flag in `evaluate.py` and the Grok CLI plugin for extra logging.
+- Updated documentation for Grok CLI install/auth/switching and the evaluation workflow.
+
 ## 2026-11-17
 
 ### Evaluation support

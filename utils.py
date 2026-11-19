@@ -202,14 +202,31 @@ def update_test_md_evaluation(results_path, evaluated, total, missing_keys):
 
     if test_md_path.exists():
         content = test_md_path.read_text(encoding="utf-8")
-        # Remove any previous evaluation section
         if "## Evaluation status" in content:
             content = content.split("## Evaluation status")[0].rstrip() + "\n"
         content = content.rstrip() + "\n" + eval_text
     else:
-        # Minimal placeholder if run.py has not written the file yet
         content = f"# Test\n\n(No test run recorded yet)\n{eval_text}"
 
     test_md_path.write_text(content, encoding="utf-8")
     return test_md_path
 
+
+def write_evaluation_index(results_path):
+    """
+    Scan the results folder for evaluation-<model>.json files and write
+    a simple evaluation.json index. Overwrites any existing file.
+    """
+    results_path = Path(results_path)
+    entries = []
+    for path in sorted(results_path.glob("evaluation-*.json")):
+        model_name = path.stem.replace("evaluation-", "", 1)
+        entries.append({
+            "model": model_name,
+            "file": path.name,
+            "updated": path.stat().st_mtime
+        })
+    index = {"evaluations": entries}
+    out = results_path / "evaluation.json"
+    out.write_text(json.dumps(index, indent=2) + "\n", encoding="utf-8")
+    return out

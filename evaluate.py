@@ -18,6 +18,7 @@ version 0.1.0
 """
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -72,32 +73,45 @@ def get_backend() -> EvaluationBackend:
     raise SystemExit(f"Unknown EVAL_BACKEND: {name}")
 
 
-def parse_grok_md(path: Path) -> list[dict]:
-    """Rebuild message history from an existing grok.md file."""
+def parse_conversation_json(path: Path) -> list[dict]:
+    """Load message history from evaluation-<model>.json."""
     if not path.exists():
         return []
-    text = path.read_text(encoding="utf-8")
-    messages = []
-    # Split on ## User / ## Assistant headings
-    parts = re.split(r"^## (User|Assistant)\s*$", text, flags=re.MULTILINE)
-    # parts[0] is the header, then alternating role, content
-    for i in range(1, len(parts), 2):
-        role = parts[i].lower()
-        content = parts[i + 1].strip() if i + 1 < len(parts) else ""
-        if content:
-            messages.append({"role": role, "content": content})
-    return messages
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data.get("messages") or []
+    except (json.JSONDecodeError, OSError):
+        return []
 
 
-def write_grok_md(path: Path, messages: list[dict]):
-    lines = ["# Evaluation conversation", ""]
+def write_conversation_json(path: Path, messages: list[dict], model_name: str):
+    """Write the current conversation as the source of truth."""
+    data = {
+        "model": model_name,
+        "messages": messages,
+    }
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+
+def write_conversation_md(path: Path, messages: list[dict]):
+    """Human-readable version generated from the JSON."""
+    lines = ["# Evaluation Conversation", ""]
     for msg in messages:
-        role = "User" if msg["role"] == "user" else "Assistant"
+        role = msg.get("role", "user").capitalize()
+        content = msg.get("content", "").strip()
         lines.append(f"## {role}")
         lines.append("")
-        lines.append(msg["content"].rstrip())
+        lines.append(content)
         lines.append("")
     path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+
+
+def strip_final_ranking(messages: list[dict]) -> list[dict]:
+    """Remove the final-ranking user turn and everything after it."""
+    for i, msg in enumerate(messages):
+        if msg.get("role") == "user" and config.EVAL_FINAL_PROMPT in msg.get("content", ""):
+            return messages[:i]
+    return messages
 
 
 def get_evaluated_keys(messages: list[dict]) -> set[str]:
@@ -144,8 +158,14 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
         print(f"  No result files found in {results_path}, skipping.")
         return
 
-    grok_md_path = results_path / "grok.md"
-    messages = parse_grok_md(grok_md_path)
+    model_name = getattr(backend, "model", None) or config.EVAL_MODEL or "unknown"
+    safe_model = model_name.replace("/", "-")
+    conv_json_path = results_path / f"evaluation-{safe_model}.json"
+    conv_md_path = results_path / f"evaluation-{safe_model}.md"
+
+    messages = [] if force else parse_conversation_json(conv_json_path)
+    if messages and not force:
+        messages = strip_final_ranking(messages)
 
     all_keys = {key for key, _ in result_files}
     already_evaluated = get_evaluated_keys(messages) if messages else set()
@@ -158,7 +178,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
 
     if force:
         missing = [key for key, _ in result_files]
-        messages = []  # start fresh
+        messages = []
 
     print(f"  Evaluating {len(missing)} model(s) in batches of {batch_size}")
 
@@ -177,6 +197,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             print("  Sending initial prompt...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
+            write_conversation_json(conv_json_path, messages, model_name)
             print("  Initial prompt acknowledged.")
         else:
             print("  [dry-run] Would send initial prompt")
@@ -209,6 +230,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             print(f"  Sending batch {batch_num}...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
+            write_conversation_json(conv_json_path, messages, model_name)
             print(f"  Batch {batch_num} complete.")
             if DEBUG:
                 print(f"  [debug] Reply length: {len(reply)} characters")
@@ -223,6 +245,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
     else:
         final = backend.generate(messages)
         messages.append({"role": "assistant", "content": final})
+        write_conversation_json(conv_json_path, messages, model_name)
         print("  Final ranking received.")
 
     # Write outputs
@@ -232,10 +255,11 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
     if not dry_run:
         results_md = results_path / "results.md"
         results_md.write_text(final + "\n", encoding="utf-8")
-        write_grok_md(grok_md_path, messages)
-        print(f"  Wrote {results_md.name} and {grok_md_path.name}")
+        write_conversation_md(conv_md_path, messages)
+        utils.write_evaluation_index(results_path)
+        print(f"  Wrote {results_md.name}, {conv_json_path.name}, and {conv_md_path.name}")
     else:
-        print("  [dry-run] Skipping results.md and grok.md")
+        print("  [dry-run] Skipping result files")
 
     # Always update the evaluation status in test.md (even in dry-run)
     utils.update_test_md_evaluation(

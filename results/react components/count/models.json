@@ -406,5 +406,17 @@
     "format": "gguf",
     "max_context_length": 131072,
     "paramEstimate": null
+  },
+  {
+    "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+    "display_name": "DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic",
+    "params": "9B",
+    "quant": "Q4_K_M",
+    "bits_per_weight": 4,
+    "size_gb": 6.24,
+    "architecture": "qwen35",
+    "format": "gguf",
+    "max_context_length": 262144,
+    "paramEstimate": null
   }
 ]

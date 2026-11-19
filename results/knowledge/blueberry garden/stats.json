@@ -1,7 +1,7 @@
 {
   "scenario": "knowledge/blueberry garden",
-  "run_time": "11/15/2026, 09:41:32 PM",
-  "overall_seconds": 1248.377369,
+  "run_time": "11/18/2026, 11:43:05 PM",
+  "overall_seconds": 1265.771082,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -608,6 +608,23 @@
       ],
       "scenario": "knowledge/blueberry garden",
       "file": "google-gemma-4-e2b.md"
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "display_name": "DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 108.36912970126168,
+      "total_seconds": 17.393713,
+      "question_times": [
+        4.96292,
+        5.786256000000001,
+        6.644537000000001
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
     }
   ]
 }

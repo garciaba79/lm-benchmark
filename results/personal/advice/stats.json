@@ -1,7 +1,7 @@
 {
   "scenario": "personal/advice",
-  "run_time": "11/15/2026, 09:41:40 PM",
-  "overall_seconds": 143.326679,
+  "run_time": "11/18/2026, 11:43:15 PM",
+  "overall_seconds": 144.199407,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -540,6 +540,21 @@
       ],
       "scenario": "personal/advice",
       "file": "google-gemma-4-e2b.md"
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "display_name": "DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 101.0978186201444,
+      "total_seconds": 0.872728,
+      "question_times": [
+        0.872728
+      ],
+      "scenario": "personal/advice",
+      "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
     }
   ]
 }

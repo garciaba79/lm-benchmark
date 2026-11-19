@@ -1,7 +1,7 @@
 {
   "scenario": "personal/trip",
-  "run_time": "11/15/2026, 09:42:06 PM",
-  "overall_seconds": 893.506783,
+  "run_time": "11/18/2026, 11:43:52 PM",
+  "overall_seconds": 902.562403,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -540,6 +540,21 @@
       ],
       "scenario": "personal/trip",
       "file": "google-gemma-4-e2b.md"
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "display_name": "DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 105.70439138946033,
+      "total_seconds": 9.055620000000001,
+      "question_times": [
+        9.055620000000001
+      ],
+      "scenario": "personal/trip",
+      "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
     }
   ]
 }

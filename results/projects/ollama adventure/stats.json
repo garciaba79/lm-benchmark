@@ -1,7 +1,7 @@
 {
   "scenario": "projects/ollama adventure",
-  "run_time": "11/15/2026, 09:42:28 PM",
-  "overall_seconds": 2352.019076,
+  "run_time": "11/18/2026, 11:44:26 PM",
+  "overall_seconds": 2384.42487,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -512,6 +512,21 @@
       ],
       "scenario": "projects/ollama adventure",
       "file": "google-gemma-4-e2b.md"
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "display_name": "DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic",
+      "params": "9B",
+      "quant": "Q4_K_M",
+      "size_gb": 6.24,
+      "context": "unknown",
+      "avg_tps": 157.76967467936458,
+      "total_seconds": 32.405794,
+      "question_times": [
+        32.405794
+      ],
+      "scenario": "projects/ollama adventure",
+      "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
     }
   ]
 }

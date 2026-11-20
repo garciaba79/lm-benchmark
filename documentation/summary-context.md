@@ -1,3 +1,5 @@
+> Historical session notes. Kept so the earlier design is still readable. The current scripts and `CHANGE.md` are the source of truth.
+
 This is the reconstructed context from a previous session.  
 Carefully review this summary to fully load the context for our upcoming discussion.  
 Do not generate any new information or continue the discussion yet.  

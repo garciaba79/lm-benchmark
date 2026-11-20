@@ -1,7 +1,5 @@
 # Stats
 
-Here is the summary results.
-
 Overall time (all models): 52:55 minutes
 
 | Model                                         | Avg t/s | Total time    | Q1           | Q2           | Q3           | Q4           | Q5           |

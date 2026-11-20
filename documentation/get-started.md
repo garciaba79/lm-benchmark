@@ -16,7 +16,7 @@ HELPER_MODEL = "lfm2.5-1.2b-instruct"
 
 - `BASE_URL` — LM Studio server address
 - `API_TOKEN` — optional bearer token
-- `HELPER_MODEL` — optional helper model used for short summaries (skipped if missing or unreachable)
+- `HELPER_MODEL` — optional helper model used for short summaries. Its text is written to `info.md` only. `stats.md` and `scenarios.md` stay generated from the recorded numbers. The current setting is `lfm2.5-1.2b-instruct`.
 
 ### Paths
 
@@ -25,7 +25,7 @@ HELPER_MODEL = "lfm2.5-1.2b-instruct"
 | `SCENARIOS_DIR` | `scenarios` | Root folder for all tests |
 | `RESULTS_DIR` | `results` | Root folder for all results |
 | `ARCHIVE_DIR` | `archive` | Root folder for dated archives |
-| `MODELS_PATH` | `scenarios/models.json` | List of models to test |
+| `MODELS_PATH` | `scenarios/models.json` | Active list of models to test |
 | `SCENARIOS_JSON` | `scenarios/scenarios.json` | Scenario list with status and mode |
 | `ROOT_STATS_JSON` | `results/stats.json` | System-wide model stats |
 | `INFERENCE_PATH` | `scenarios/inference.json` | Lowest-precedence inference settings |
@@ -74,9 +74,9 @@ The runner looks for `system.md` and `inference.json` in this order (highest fir
 2. Each parent group folder (`scenarios/function/system.md`)
 3. The scenarios root (`scenarios/system.md`)
 
-`test.json` can still set `"system_prompt": false` or supply an inline `"system"` string, which takes priority over any file.
+`test.json` can still set `"system_prompt": false` or supply an inline `"system"` string. That inline string wins. Otherwise a `system` string inside the winning `inference.json` is used, and then `system.md`.
 
-If `USE_CUSTOM_INFER` is `False`, LM Studio defaults are used and no inference file is read.
+If `USE_CUSTOM_INFER` is `False`, LM Studio defaults are used and no inference file is read. The chat request forwards `temperature`, `top_p`, `top_k`, `repeat_penalty`, and `reasoning_effort` when they are set. The nearest inference file replaces the ones above it. The files are not merged field by field.
 
 ## Results folder
 
@@ -84,14 +84,19 @@ For every scenario the runner creates a matching folder under `results/`.
 
 | File | Purpose |
 |------|---------|
-| `<model-key>.md` | Full conversation for that model |
-| `models.json` | Snapshot of models used (merged by key across runs) |
-| `test.md` | Short overview of the current run |
-| `stats.md` | Readable statistics table |
-| `stats.json` | Raw numbers for later reporting (merged by model key) |
-| `results.md` | Empty file where you paste a cloud-model evaluation |
+| `<model-key>.md` | Full conversation for that model key |
+| `models.json` | Historic models tested on this scenario, one record per model key |
+| `test.md` | Overview. The evaluation status section is kept when the runner rewrites the file |
+| `stats.md` | Statistics table generated from `stats.json` |
+| `stats.json` | Raw numbers, one record per model key |
+| `results.md` | Cloud ranking written by `evaluate.py`. The runner creates it only when it is missing |
+| `evaluation-<model>.json` | Evaluation conversation and the list of scored model keys |
+| `evaluation-<model>.md` | Readable copy of that conversation |
+| `info.md` | Helper-model prose for this scenario |
 
-Root-level system stats are written to `results/stats.json` and `results/stats.md`.
+A scenario is complete when every key in `scenarios/models.json` has a `<model-key>.md` file here. Extra files, including older `grok.md` transcripts and evaluation notes, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
+
+Root stats in `results/stats.json` and `results/stats.md` are rebuilt from the scenario stats after a run that finishes at least one test. A run with nothing to do leaves them alone. `overall_seconds` is the wall-clock time of that run. Each model's `total_seconds` is the sum of its scenario records.
 
 ## Hardware and spill detection
 
@@ -113,10 +118,26 @@ Before any load the script lists currently loaded models via the LM Studio API a
 
 ## Cleaning and archiving
 
-`clean.py` refreshes the model list, then:
+`clean.py` does not run `models.py`. It reads the active list you already have. If that file is missing or has no model keys, it stops and leaves the results alone.
 
-- **archive** — copies conversation files and keyed stats for models that are no longer in `scenarios/models.json` into `archive/YYYY MM DD/`. If you run it again the same day it updates the keyed entries instead of replacing whole files.
-- **results** — deletes the conversation `.md` files for those models.
-- **stats** — removes those models from every `models.json`, `stats.json`, `stats.md`, and `test.md` (scenario and root).
+- **archive** — copies conversation files and stat records for model keys that are in a scenario's historic `models.json` but not on the active list. A second run on the same day updates those keys in the archive instead of replacing the archive files.
+- **results** — deletes the conversation `.md` files for those keys.
+- **stats** — removes those keys from the live `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats. The tables are rebuilt from the records that remain. The evaluation status section in `test.md` is kept.
 
-`results.md` (the evaluation paste) is left alone. Empty result folders are left in place. The archive folder is never modified by a clean run.
+The removed models' stats stay in the archive. Live results then match the active list. `results.md` and `evaluation-*` files are left alone. Empty result folders are left in place. A clean run does not modify the archive.
+
+## Files you can edit by hand
+
+| File | What is safe | What the scripts do |
+|------|----------------|---------------------|
+| `scenarios/models.json` | Add or remove models you want tested | `models.py` replaces the whole file from LM Studio. `run.py` and `clean.py` only read it |
+| `scenarios/scenarios.json` | Change `mode` | A scan refreshes name, status, and `last_run`, and keeps `mode` |
+| `results/<scenario>/<model-key>.md` | Delete a transcript to make update mode run that model again | Refresh overwrites that key's file. Other keys are not deleted |
+| `results/<scenario>/models.json` | Remove a historic model record | A successful test updates that key. A missing record is added back when the transcript exists and the model is on the active list |
+| `results/<scenario>/stats.json` | Edit a model's numbers | The next successful test of that key replaces its record. Other keys stay |
+| `results/stats.json` | Short-lived notes only | The next run that finishes a test rebuilds this file from the scenario stats |
+| `test.md` evaluation section | Edit the status text | `run.py` keeps the section. `evaluate.py` replaces it |
+| `results.md` | Edit until the next evaluation | `evaluate.py` replaces it with the new ranking |
+| `info.md` | Optional notes | Replaced when the helper model returns a summary |
+
+Question files must be numbered without gaps (`question1.md`, `question2.md`, …). The loader stops at the first missing number.

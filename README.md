@@ -17,7 +17,7 @@ You put each test in its own folder under `scenarios/`. The scripts load the mod
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.14
 - LM Studio with the local server running
 - `requests`
 - `psutil` (used for RAM readings and detect if the model spilled into RAM)
@@ -34,10 +34,15 @@ pip install requests psutil
 4. Create a scenario folder under `scenarios/` containing at least `test.json` and `question1.md`.
 5. Optionally add `system.md` or `inference.json` at the scenario, group, or scenarios root level.
 6. Run `python scenarios.py`.
-7. Set the desired mode for each scenario in `scenarios/scenarios.json` (default is `update`).
+7. Set the desired mode for each scenario in `scenarios/scenarios.json` (default for a new scenario is `update`). Later scans keep the mode you set.
 8. Run `python run.py`.
+9. Rank the finished scenarios with `python evaluate.py`. The default backend is the Grok API.
 
 Results appear under `results/<scenario-path>/`.
+
+`scenarios/models.json` is the active list: the models to test now. `models.py` replaces that file with whatever LM Studio currently has installed. Hand edits there are kept until the next `models.py` run. `run.py` reads the active list and does not rewrite it.
+
+`results/<scenario>/models.json` is the historic record for that scenario. A successful test updates the matching model key and leaves the other models in the file. Result folders can hold models that are no longer on the active list. `clean.py` is the command that archives those models and removes them from the live results.
 
 ## Project layout
 
@@ -48,36 +53,42 @@ models.py
 scenarios.py
 run.py
 clean.py
-hardware.json
+evaluate.py
+plugins/
+meta/hardware.json
 
+documentation/
 scenarios/
-  models.json
+  models.json                     ← active list
   scenarios.json
   scenarios.md
-  system.md              ← lowest precedence
-  inference.json         ← lowest precedence
+  info.md                         ← helper-model prose, when the helper runs
+  system.md                       ← lowest precedence
+  inference.json                  ← lowest precedence
   function/
-    inference.json       ← group level
+    inference.json                ← group level
     test1/
       test.json
       question1.md
-      system.md          ← highest precedence
-      inference.json     ← highest precedence
+      system.md                   ← highest precedence
+      inference.json              ← highest precedence
 
 results/
-  stats.json             ← root-level system stats
+  stats.json                      ← root stats, rebuilt from scenario stats
   stats.md
   function/
     test1/
       <model-key>.md
-      models.json
+      models.json                 ← historic models for this scenario
       stats.json
       stats.md
       test.md
-      results.md
+      results.md                  ← cloud ranking from evaluate.py
+      evaluation-<model>.json
+      info.md                     ← helper-model prose, when the helper runs
 
 archive/
-  2026 11 04/            ← dated archive of removed models
+  2026 11 04/                     ← dated archive of models removed from the active list
     results/
       ...
 ```
@@ -90,11 +101,13 @@ Modes are set per scenario in `scenarios/scenarios.json` (or overridden with `FO
 |-----------|----------|
 | `none`    | Skip the scenario |
 | `update`  | Run only models that do not already have a result file |
-| `refresh` | Rerun every model currently listed in models.json (overwrites those files; leaves results for removed models alone) |
+| `refresh` | Rerun every model on the active list (overwrites those result files; leaves every other result alone) |
 
 ## Cleaning and archiving
 
-After you remove models from LM Studio you can clean the results so they only contain the models that are still installed.
+After you remove models from LM Studio you can clean the results so they only contain the models that are still installed. 
+
+`clean.py` compares each scenario's historic `models.json` with the active list. It does not run `models.py`. If the active list is missing or has no model keys, it stops and leaves the results alone.
 
 ```bash
 python clean.py                 # archive then clean (uses config.py defaults)
@@ -104,6 +117,6 @@ python clean.py results         # remove conversation files only
 python clean.py stats           # update stats and model lists only
 ```
 
-Archive always runs first when enabled and never modifies the live results. Clean never touches the archive folder. The archive is written to `archive/YYYY MM DD/` and contains only the models that were removed.
+Archive copies each removed model key into `archive/YYYY MM DD/` and merges it into the archive records. It does not modify the live results. Clean then removes those keys from the live files. Stats for the removed models stay in the archive. `results.md` and the `evaluation-*` files are left alone.
 
-See [get-started.md](./documentation/get-started.md) for full details on configuration, inference settings, system prompts, and hardware detection.
+See [documentation/get-started.md](documentation/get-started.md) for configuration, inference settings, system prompts, hand edits, and hardware detection. Cloud ranking is described in [documentation/evaluation.md](documentation/evaluation.md).

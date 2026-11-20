@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
 Scan the scenarios folder and write scenarios/scenarios.json and scenarios.md.
-Overwrites both files each run. Default mode is "none".
+
+Existing scenario modes are kept. New scenarios get config.DEFAULT_MODE.
+Status is complete, partial, or none based on active model keys that have a result file.
 
 Supports nested group folders. Any folder containing test.json is a scenario.
 The "scenario" field stores the relative path (e.g. "function/test1").
 
 scenarios.py
-version 0.7.0
+version 0.8.0
 """
 
 import re
-from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -48,31 +49,21 @@ def get_display_name(test_data: dict, fallback_name: str) -> str:
     return fallback_name
 
 
-def get_result_status(scenario_rel, models):
-    results_path = config.RESULTS_DIR / scenario_rel
-    if not results_path.exists():
-        return "none", None
-
-    result_files = [
-        p for p in results_path.glob("*.md")
-        if p.name.lower() not in ("test.md", "results.md", "stats.md")
-    ]
-    if not result_files:
-        return "none", None
-
-    if models and len(result_files) >= len(models):
-        status = "complete"
-    else:
-        status = "partial"
-
-    newest = max(result_files, key=lambda p: p.stat().st_mtime)
-    last_run = datetime.fromtimestamp(newest.stat().st_mtime).strftime("%Y-%m-%d %H:%M")
-    return status, last_run
+def load_saved_modes():
+    """Keep hand-set modes. The rest of each scenario record is refreshed from disk."""
+    saved = utils.load_json(config.SCENARIOS_JSON, required=False)
+    modes = {}
+    for record in utils.keyed_records(saved, "scenario"):
+        mode = record.get("mode")
+        if mode:
+            modes[record["scenario"]] = mode
+    return modes
 
 
 def try_helper_summary(scenarios):
+    """Return helper prose, or None when the helper is unset or unreachable."""
     if not config.HELPER_MODEL:
-        return "Here is the summary results."
+        return None
 
     lines = [f"- {s['scenario']} ({s['status']})" for s in scenarios]
     context = "Scenarios:\n" + "\n".join(lines)
@@ -95,12 +86,12 @@ def try_helper_summary(scenarios):
         resp.raise_for_status()
         data = resp.json()
         text = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-        return text or "Here is the summary results."
+        return text or None
     except Exception:
-        return "Here is the summary results."
+        return None
 
 
-def build_scenarios_md(scenarios, summary):
+def build_scenarios_md(scenarios):
     complete = [s for s in scenarios if s["status"] == "complete"]
     partial = [s for s in scenarios if s["status"] == "partial"]
     none = [s for s in scenarios if s["status"] == "none"]
@@ -110,7 +101,7 @@ def build_scenarios_md(scenarios, summary):
         "",
         "## Summary",
         "",
-        summary,
+        f"{len(complete)} complete, {len(partial)} partial, {len(none)} not started.",
         "",
         "## Scenarios",
         "",
@@ -150,9 +141,9 @@ def main():
         utils.save_json(config.SCENARIOS_JSON, [])
         return
 
-    models = utils.load_json(config.MODELS_PATH, required=False)
-    if not isinstance(models, list):
-        models = []
+    models = utils.keyed_records(utils.load_json(config.MODELS_PATH, required=False))
+    model_keys = utils.active_model_keys(models)
+    saved_modes = load_saved_modes()
 
     scenarios = []
     for rel_path, item in find_scenario_dirs(config.SCENARIOS_DIR):
@@ -163,7 +154,7 @@ def main():
         if config.REQUIRE_AT_LEAST_ONE_QUESTION and not has_q:
             ready = False
 
-        status, last_run = get_result_status(rel_path, models)
+        status, last_run = utils.scenario_completion(config.RESULTS_DIR / rel_path, model_keys)
 
         display_name = rel_path
         description = ""
@@ -179,18 +170,21 @@ def main():
             "description": description,
             "ready": ready,
             "status": status,
-            "mode": config.DEFAULT_MODE,
+            "mode": saved_modes.get(rel_path, config.DEFAULT_MODE),
             "last_run": last_run
         })
 
     utils.save_json(config.SCENARIOS_JSON, scenarios)
-    summary = try_helper_summary(scenarios)
-    md = build_scenarios_md(scenarios, summary)
-    config.SCENARIOS_MD.write_text(md, encoding="utf-8")
+    config.SCENARIOS_MD.write_text(build_scenarios_md(scenarios), encoding="utf-8")
+    info_path = utils.write_info_md(config.SCENARIOS_DIR / "info.md", try_helper_summary(scenarios))
 
     print(f"Wrote {len(scenarios)} scenarios to {config.SCENARIOS_JSON}")
     print(f"Wrote {config.SCENARIOS_MD}")
-    print(f"Default mode: {config.DEFAULT_MODE}")
+    if info_path:
+        print(f"Wrote {info_path}")
+    else:
+        print("Helper summary skipped. scenarios.md was not given helper text.")
+    print(f"Default mode for new scenarios: {config.DEFAULT_MODE}")
 
 
 if __name__ == "__main__":

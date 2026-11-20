@@ -15,10 +15,11 @@ DEBUG = False
 
 
 class GrokCLIBackend(EvaluationBackend):
-    def __init__(self, command="grok", model=None, output_format="json"):
+    def __init__(self, command="grok", model=None, output_format="json", timeout=None):
         self.command = command
         self.model = model
         self.output_format = output_format
+        self.timeout = timeout or 600
 
     def generate(self, messages: list[dict], **kwargs) -> str:
         if not shutil.which(self.command):
@@ -55,7 +56,7 @@ class GrokCLIBackend(EvaluationBackend):
                 text=True,
                 encoding="utf-8",
                 errors="replace",
-                timeout=300,
+                timeout=self.timeout,
                 check=False,
             )
         except subprocess.TimeoutExpired:

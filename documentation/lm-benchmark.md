@@ -1,3 +1,5 @@
+> Historical overview. The current behavior is in the README, `documentation/get-started.md`, `documentation/evaluation.md`, and the scripts. This file describes an earlier layout (`get_models.py`, `run_tests.py`, `config.json`).
+
 ## LM Benchmark
 
 ### LM Studio Multi Scenario Local Model Testing Project

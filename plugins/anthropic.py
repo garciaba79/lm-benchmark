@@ -10,12 +10,15 @@ from .base import EvaluationBackend
 
 
 class AnthropicBackend(EvaluationBackend):
-    def __init__(self, api_key=None, model=None):
+    def __init__(self, api_key=None, model=None, timeout=None):
         self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
-        self.model = model or os.getenv("EVAL_MODEL") or "claude-3-5-sonnet-20241022"
+        self.model = model or "claude-3-5-sonnet-20241022"
+        self.timeout = timeout or 600
 
         if not self.api_key:
             raise RuntimeError("No Anthropic API key found. Set ANTHROPIC_API_KEY in your .env file.")
+        if not self.model:
+            raise RuntimeError("No Anthropic model was provided. Set EVAL_MODEL in config.py.")
 
     def generate(self, messages: list[dict], **kwargs) -> str:
         # Convert OpenAI-style messages to Anthropic format (system is separate).
@@ -44,7 +47,7 @@ class AnthropicBackend(EvaluationBackend):
             payload["system"] = system
 
         try:
-            resp = requests.post(url, headers=headers, json=payload, timeout=180)
+            resp = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
             resp.raise_for_status()
         except requests.RequestException as e:
             raise RuntimeError(f"Anthropic API request failed: {e}")

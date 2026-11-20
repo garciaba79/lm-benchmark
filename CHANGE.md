@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## 2026-11-19
+
+### Keyed records and non-destructive runs
+
+Run and evaluate now update records by model key. A normal run keeps historic results for models that are no longer on the active list.
+
+- `scenarios/models.json` stays the active list. Only `models.py` replaces it, and it says so when it does. `clean.py` no longer calls `models.py`.
+- `results/<scenario>/models.json` is the historic record. A successful test upserts that model key. A failure leaves the previous record in place.
+- Scenario status is complete only when every active model key has its result file. Extra markdown files are not counted.
+- `scenarios.py` keeps the mode already stored for a scenario.
+- Root `results/stats.json` is rebuilt from scenario stats after a run that finished at least one test. A run with nothing to do leaves it alone.
+- Helper-model text goes to `info.md`. `stats.md` and `scenarios.md` are generated from the recorded data.
+- Helper model is `lfm2.5-1.2b-instruct`.
+- Dry runs do not write hardware, results, or evaluation status.
+- `evaluate.py` selects one backend, one key, and `EVAL_MODEL`. `grok_api` is the default. `evaluated_keys` in `evaluation-<model>.json` is the resume list.
+- `EVAL_TIMEOUT` applies to the Grok API, OpenAI, Gemini, Anthropic, and the Grok CLI.
+- The project requires Python 3.14.
+
 ## 2026-11-18
 
 ### Evaluation improvements

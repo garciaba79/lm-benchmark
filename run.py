@@ -16,8 +16,12 @@ System prompt and inference:
   then each parent group folder, then scenarios/ root. Highest precedence first.
   test.json can still override the system prompt directly.
 
+scenarios/models.json is the active list and is not modified.
+results/<scenario>/models.json is the historic record. A successful test
+updates that model key and leaves every other model in place.
+
 run.py
-version 0.10.0
+version 0.11.0
 """
 
 import subprocess
@@ -156,98 +160,14 @@ def build_result_markdown(model_info, created_str, context_str, turns, test_info
     return "\n".join(lines).rstrip() + "\n"
 
 
-def build_stats_md(stats):
-    models = stats.get("models", []) if isinstance(stats, dict) else []
-    if not models:
-        return "# Stats\n\nNo models were run.\n"
-    question_count = 0
-    for m in models:
-        qtimes = m.get("question_times") or []
-        question_count = max(question_count, len(qtimes))
-    rows = []
-    for ms in models:
-        if "error" in ms:
-            continue
-        name = ms.get("display_name") or ms.get("key") or "-"
-        avg = f"{ms.get('avg_tps', 0):.0f}" if ms.get("avg_tps") is not None else "-"
-        total = utils.format_duration(ms.get("total_seconds")) if ms.get("total_seconds") is not None else "-"
-        qtimes = ms.get("question_times") or []
-        q_cells = []
-        for i in range(question_count):
-            if i < len(qtimes) and qtimes[i] is not None:
-                q_cells.append(utils.format_duration(qtimes[i]))
-            else:
-                q_cells.append("-")
-        rows.append([name, avg, total] + q_cells)
-    if not rows:
-        return "# Stats\n\nNo successful model runs.\n"
-    headers = ["Model", "Avg t/s", "Total time"] + [f"Q{i+1}" for i in range(question_count)]
-    col_widths = [len(h) for h in headers]
-    for row in rows:
-        for i, cell in enumerate(row):
-            col_widths[i] = max(col_widths[i], len(str(cell)))
-    def pad_row(cells):
-        return "| " + " | ".join(str(c).ljust(col_widths[i]) for i, c in enumerate(cells)) + " |"
-    lines = ["# Stats", ""]
-    overall = stats.get("overall_seconds")
-    if overall is not None:
-        lines.append(f"Overall time (all models): {utils.format_duration(overall)}")
-        lines.append("")
-    lines.append(pad_row(headers))
-    lines.append("| " + " | ".join("-" * col_widths[i] for i in range(len(headers))) + " |")
-    for row in rows:
-        lines.append(pad_row(row))
-    return "\n".join(lines) + "\n"
-
-
-def build_root_stats_md(system_stats, overall_seconds):
-    if not system_stats:
-        return "# System Stats\n\nNo models were run.\n"
-    rows = []
-    for ms in system_stats:
-        name = ms.get("display_name") or ms.get("key") or "-"
-        avg = f"{ms.get('avg_tps', 0):.0f}" if ms.get("avg_tps") is not None else "-"
-        total = utils.format_duration(ms.get("total_seconds")) if ms.get("total_seconds") is not None else "-"
-        used = "yes" if ms.get("used_ram") else "no"
-        peak = f"{ms.get('peak_ram_gb')} GB" if ms.get("peak_ram_gb") is not None else "-"
-        scen_count = len(ms.get("scenarios") or [])
-        rows.append([name, avg, total, used, peak, str(scen_count)])
-    headers = ["Model", "Avg t/s", "Total time", "Used RAM", "Peak RAM", "Scenarios"]
-    col_widths = [len(h) for h in headers]
-    for row in rows:
-        for i, cell in enumerate(row):
-            col_widths[i] = max(col_widths[i], len(str(cell)))
-    def pad_row(cells):
-        return "| " + " | ".join(str(c).ljust(col_widths[i]) for i, c in enumerate(cells)) + " |"
-    lines = ["# System Stats", ""]
-    if overall_seconds is not None:
-        lines.append(f"Overall time (all models): {utils.format_duration(overall_seconds)}")
-        lines.append("")
-    lines.append(pad_row(headers))
-    lines.append("| " + " | ".join("-" * col_widths[i] for i in range(len(headers))) + " |")
-    for row in rows:
-        lines.append(pad_row(row))
-    return "\n".join(lines) + "\n"
-
-
 def merge_stats(existing_stats, new_model_stats, scenario_name, created_str):
     if not existing_stats or not isinstance(existing_stats, dict):
         existing_stats = {"models": []}
-    old_models = {m.get("key"): m for m in existing_stats.get("models", []) if m.get("key")}
+    ordered = utils.keyed_records(existing_stats.get("models"))
     for ms in new_model_stats:
-        key = ms.get("key")
-        if key:
-            old_models[key] = ms
-    ordered = []
-    seen = set()
-    for m in existing_stats.get("models", []):
-        key = m.get("key")
-        if key and key in old_models and key not in seen:
-            ordered.append(old_models[key])
-            seen.add(key)
-    for key, ms in old_models.items():
-        if key not in seen:
-            ordered.append(ms)
+        if not isinstance(ms, dict) or not ms.get("key") or "error" in ms:
+            continue
+        ordered = utils.upsert_record(ordered, ms)
     total_seconds = sum(
         m.get("total_seconds", 0) or 0
         for m in ordered
@@ -263,11 +183,13 @@ def merge_stats(existing_stats, new_model_stats, scenario_name, created_str):
 
 def try_helper_summary(model_stats):
     if not config.HELPER_MODEL or not model_stats:
-        return "Here is the summary results."
+        return None
     brief = []
     for ms in model_stats:
-        if "error" not in ms:
+        if "error" not in ms and ms.get("key"):
             brief.append(f"{ms.get('display_name') or ms['key']}: {ms.get('avg_tps', 0):.0f} t/s")
+    if not brief:
+        return None
     try:
         resp = requests.post(
             f"{config.BASE_URL.rstrip('/')}/api/v0/chat/completions",
@@ -286,9 +208,9 @@ def try_helper_summary(model_stats):
         resp.raise_for_status()
         data = resp.json()
         text = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-        return text or "Here is the summary results."
+        return text or None
     except Exception:
-        return "Here is the summary results."
+        return None
 
 
 def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ram_gb):
@@ -375,42 +297,25 @@ def update_scenario_files(results_path, test_info, name, model, model_stat, turn
 
     models_snapshot_path = results_path / "models.json"
     existing_models = utils.load_json(models_snapshot_path, required=False) if models_snapshot_path.exists() else []
-    if not isinstance(existing_models, list):
-        existing_models = []
-    model_map = {m.get("key"): m for m in existing_models if m.get("key")}
     if model.get("key"):
-        model_map[model["key"]] = model
-    utils.save_json(models_snapshot_path, list(model_map.values()))
+        existing_models = utils.upsert_record(existing_models, model)
+        utils.save_json(models_snapshot_path, existing_models)
 
     stats_path = results_path / "stats.json"
     existing = utils.load_json(stats_path, required=False) if stats_path.exists() else None
     merged = merge_stats(existing, [model_stat], name, created_str)
     utils.save_json(stats_path, merged)
 
-    stats_md = build_stats_md(merged)
-    (results_path / "stats.md").write_text(stats_md, encoding="utf-8")
+    (results_path / "stats.md").write_text(utils.build_stats_md(merged), encoding="utf-8")
 
-    # Preserve any existing evaluation status when rewriting test.md
+    # Keep the evaluation block as it was written. evaluate.py owns that section.
     existing_test = results_path / "test.md"
-    eval_status = None
+    eval_section = ""
     if existing_test.exists():
-        content = existing_test.read_text(encoding="utf-8")
-        if "## Evaluation status" in content:
-            import re
-            m = re.search(r"(\d+)\s*/\s*(\d+)\s*models", content)
-            missing_match = re.search(r"### Models missing\s*\n\s*\n(.+)", content)
-            if m:
-                evaluated = int(m.group(1))
-                total = int(m.group(2))
-                missing = []
-                if missing_match:
-                    missing_text = missing_match.group(1).strip()
-                    if missing_text and missing_text.lower() != "none":
-                        missing = [k.strip() for k in missing_text.split(",")]
-                eval_status = {"evaluated": evaluated, "total": total, "missing": missing}
+        eval_section = utils.evaluation_section(existing_test.read_text(encoding="utf-8"))
 
-    test_md = utils.build_test_md(test_info, name, created_str, merged.get("models", []), eval_status)
-    (results_path / "test.md").write_text(test_md, encoding="utf-8")
+    test_md = utils.build_test_md(test_info, name, created_str, merged.get("models", []))
+    (results_path / "test.md").write_text(utils.append_evaluation_section(test_md, eval_section), encoding="utf-8")
 
     results_md = results_path / "results.md"
     if not results_md.exists():
@@ -421,7 +326,7 @@ def get_work_for_model(model, scenarios):
     work = []
     for scenario in scenarios:
         name = scenario["scenario"]
-        mode = config.FORCE_MODE or scenario.get("mode", "none")
+        mode = config.FORCE_MODE or scenario.get("mode") or config.DEFAULT_MODE
         if mode == "none" or not scenario.get("ready", False):
             continue
         scenario_path = config.SCENARIOS_DIR / name
@@ -451,6 +356,39 @@ def get_work_for_model(model, scenarios):
     return work
 
 
+def backfill_historic_models(models, scenarios):
+    """
+    If a result file exists for an active model and that key is missing from the
+    scenario's historic models.json, add the record. Existing records are not replaced.
+    """
+    added = 0
+    for scenario in scenarios:
+        mode = config.FORCE_MODE or scenario.get("mode") or config.DEFAULT_MODE
+        if mode == "none" or not scenario.get("ready", False):
+            continue
+        name = scenario.get("scenario")
+        if not name:
+            continue
+        results_path = config.RESULTS_DIR / name
+        models_path = results_path / "models.json"
+        existing = utils.keyed_records(utils.load_json(models_path, required=False) if models_path.exists() else [])
+        have = {record["key"] for record in existing}
+        changed = False
+        for model in models:
+            key = model.get("key")
+            if not key or key in have:
+                continue
+            if not utils.result_file_for_model(results_path, model).exists():
+                continue
+            existing = utils.upsert_record(existing, model)
+            have.add(key)
+            changed = True
+            added += 1
+        if changed:
+            utils.save_json(models_path, existing)
+    return added
+
+
 def write_hardware_json():
     hw = {
         "installed_ram_gb": config.INSTALLED_RAM_GB,
@@ -464,10 +402,15 @@ def write_hardware_json():
 
 def main():
     start = time.time()
-    models = utils.load_json(config.MODELS_PATH)
-    scenarios = utils.load_json(config.SCENARIOS_JSON)
-    if not isinstance(scenarios, list):
-        print("scenarios.json must be a list")
+    models = utils.keyed_records(utils.load_json(config.MODELS_PATH))
+    scenarios_raw = utils.load_json(config.SCENARIOS_JSON)
+    if isinstance(scenarios_raw, list) or (
+        isinstance(scenarios_raw, dict)
+        and all(isinstance(value, dict) for value in scenarios_raw.values())
+    ):
+        scenarios = utils.keyed_records(scenarios_raw, "scenario")
+    else:
+        print("scenarios.json must be a list of scenario records")
         raise SystemExit(1)
 
     base_url = config.BASE_URL.rstrip("/")
@@ -478,19 +421,25 @@ def main():
     print(f"Custom inference: {'on' if config.USE_CUSTOM_INFER else 'off (LMS defaults)'}")
 
     base_ram_gb = get_ram_used_gb()
-    write_hardware_json()
     if base_ram_gb:
         print(f"Base RAM used: {base_ram_gb:.1f} GB")
 
     if config.DRY_RUN:
-        print("DRY RUN — no models will be loaded\n")
+        print("DRY RUN — no models will be loaded and no result files will be written\n")
+    else:
+        write_hardware_json()
+        added = backfill_historic_models(models, scenarios)
+        if added:
+            print(f"Added {added} missing historic model record(s) for result files that already exist.")
 
-    system_model_stats = []
     touched_scenarios = set()
+    ram_updates = {}
 
     try:
         for model in models:
             model_key = model.get("key")
+            if not model_key:
+                continue
             work = get_work_for_model(model, scenarios)
             if not work:
                 continue
@@ -508,7 +457,7 @@ def main():
 
             for item in work:
                 print(f"  Running {item['name']}")
-                
+
                 needed = item["context"]
                 if needed != current_context:
                     unload_models(base_url, headers)
@@ -518,59 +467,46 @@ def main():
                         print(f"  Loaded with context {utils.format_context(loaded_context or needed)}")
                     except Exception as e:
                         print(f"  Failed to load {model_key}: {e}")
-                        err_stat = {"key": model_key, "error": str(e), "scenario": item["name"]}
-                        update_scenario_files(
-                            item["results_path"], item["test_info"], item["name"],
-                            model, err_stat, [], "unknown"
-                        )
-                        touched_scenarios.add(item["name"])
+                        print("  Left existing results for this scenario unchanged.")
                         continue
 
                 turns, scen_stat, peak_ram, context_str = run_questions_for_scenario(
                     base_url, headers, model, item, peak_ram, base_ram_gb
                 )
+                if "error" in scen_stat or not turns:
+                    print("  Left existing results for this scenario unchanged.")
+                    continue
                 update_scenario_files(
                     item["results_path"], item["test_info"], item["name"],
                     model, scen_stat, turns, context_str
                 )
                 touched_scenarios.add(item["name"])
-                if "error" not in scen_stat:
-                    model_scenario_stats.append(scen_stat)
+                model_scenario_stats.append(scen_stat)
 
             unload_models(base_url, headers)
 
-            if model_scenario_stats or peak_ram != base_ram_gb:
-                total_sec = sum(s.get("total_seconds", 0) or 0 for s in model_scenario_stats)
-                avgs = [s.get("avg_tps") for s in model_scenario_stats if s.get("avg_tps") is not None]
-                avg_tps = sum(avgs) / len(avgs) if avgs else 0
-                used_ram = get_fits_memory(base_ram_gb, peak_ram)
-                system_model_stats.append({
-                    "key": model_key,
-                    "display_name": model.get("display_name"),
-                    "params": model.get("params"),
-                    "quant": model.get("quant"),
-                    "size_gb": model.get("size_gb"),
-                    "avg_tps": avg_tps,
-                    "total_seconds": total_sec,
-                    "used_ram": used_ram,
+            if model_scenario_stats:
+                ram_updates[model_key] = {
+                    "used_ram": get_fits_memory(base_ram_gb, peak_ram),
                     "peak_ram_gb": round(peak_ram, 1) if peak_ram else None,
-                    "scenarios": [s.get("scenario") for s in model_scenario_stats]
-                })
+                }
 
         elapsed = time.time() - start
 
-        if not config.DRY_RUN:
+        if not config.DRY_RUN and touched_scenarios:
+            previous_root = utils.load_json(config.ROOT_STATS_JSON, required=False)
+            previous_models = previous_root.get("models") if isinstance(previous_root, dict) else []
+            root_models = utils.aggregate_root_models(previous_models, ram_updates)
             root_stats = {
                 "run_time": datetime.now().strftime("%m/%d/%Y, %I:%M:%S %p"),
                 "overall_seconds": elapsed,
-                "models": system_model_stats
+                "models": root_models
             }
             utils.save_json(config.ROOT_STATS_JSON, root_stats)
-            root_md = build_root_stats_md(system_model_stats, elapsed)
-            config.ROOT_STATS_MD.write_text(root_md, encoding="utf-8")
-            print(f"\nWrote {config.ROOT_STATS_JSON} and {config.ROOT_STATS_MD}")
+            config.ROOT_STATS_MD.write_text(utils.build_root_stats_md(root_models, elapsed), encoding="utf-8")
+            print(f"\nUpdated {config.ROOT_STATS_JSON} and {config.ROOT_STATS_MD}")
 
-            if config.HELPER_MODEL and touched_scenarios:
+            if config.HELPER_MODEL:
                 print("\nGenerating helper summaries...")
                 unload_models(base_url, headers)
                 for name in sorted(touched_scenarios):
@@ -579,12 +515,11 @@ def main():
                     if not stats_path.exists():
                         continue
                     stats = utils.load_json(stats_path, required=False)
-                    helper = try_helper_summary(stats.get("models", []))
-                    stats_md = build_stats_md(stats)
-                    if stats_md.startswith("# Stats"):
-                        stats_md = f"# Stats\n\n{helper}\n\n" + "\n".join(stats_md.split("\n")[2:])
-                    (results_path / "stats.md").write_text(stats_md, encoding="utf-8")
-                    print(f"  Updated summary for {name}")
+                    info_path = utils.write_info_md(results_path / "info.md", try_helper_summary(stats.get("models", [])))
+                    if info_path:
+                        print(f"  Wrote {info_path}")
+                    else:
+                        print(f"  Helper summary skipped for {name}")
 
         if not config.DRY_RUN:
             scenarios_script = Path("scenarios.py")

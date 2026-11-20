@@ -1,3 +1,5 @@
+> Historical implementation prompt. The plugins are already in `plugins/`. Current setup is `documentation/evaluation.md`. The default backend is the Grok API (`grok_api`). The Grok CLI plugin remains, and it is not the default. The method the code uses is `generate(messages)`, not `generate(prompt)`.
+
 # Instructions for Creating a Pluggable Cloud AI Backend
 
 Use this document as the full prompt when asking another AI to implement a plugin system. The goal is a simple, config-driven way to swap cloud AI providers (starting with Grok CLI) inside a Python project. The design should be generic enough that other providers can be added later as new plugins.

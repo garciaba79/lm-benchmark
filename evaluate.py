@@ -3,8 +3,13 @@
 Evaluate LM Studio test results with a cloud model.
 
 Reads result files from results/<scenario>/, sends them in batches to the
-configured backend, and writes a ranked results.md plus a full conversation
-to grok.md. Also updates the evaluation status section in test.md.
+configured backend, and writes a ranked results.md. The conversation is stored
+in evaluation-<model>.json (source of truth) and evaluation-<model>.md.
+evaluated_keys in the JSON records which local model keys have been scored.
+test.md gets an evaluation status section.
+
+The backend and model come from config.py. The API key is the one named for
+that backend in .env.
 
 Usage:
   python evaluate.py                                        # all scenarios (update mode)
@@ -14,12 +19,11 @@ Usage:
   python evaluate.py --batch-size 3
 
 evaluate.py
-version 0.1.0
+version 0.2.0
 """
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -31,6 +35,40 @@ from plugins.base import EvaluationBackend
 from plugins.grok_cli import GrokCLIBackend
 from plugins.openai import OpenAICompatibleBackend
 from plugins.anthropic import AnthropicBackend
+
+# name -> key env var, default base URL, plugin kind
+BACKENDS = {
+    "grok_api": {
+        "label": "Grok API",
+        "key_env": "GROK_API_KEY",
+        "base_url": "https://api.x.ai/v1",
+        "kind": "openai",
+    },
+    "openai": {
+        "label": "OpenAI",
+        "key_env": "OPENAI_API_KEY",
+        "base_url": "https://api.openai.com/v1",
+        "kind": "openai",
+    },
+    "gemini": {
+        "label": "Gemini",
+        "key_env": "GEMINI_API_KEY",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+        "kind": "openai",
+    },
+    "anthropic": {
+        "label": "Anthropic",
+        "key_env": "ANTHROPIC_API_KEY",
+        "base_url": None,
+        "kind": "anthropic",
+    },
+    "grok_cli": {
+        "label": "Grok CLI",
+        "key_env": None,
+        "base_url": None,
+        "kind": "grok_cli",
+    },
+}
 
 # Set to True to print extra debug info from the script and plugins
 DEBUG = False
@@ -52,42 +90,117 @@ def load_dotenv():
             __import__("os").environ[key] = val
 
 
-def get_backend() -> EvaluationBackend:
+class DryRunBackend(EvaluationBackend):
+    def __init__(self, model):
+        self.model = model
+
+    def generate(self, messages: list[dict], **kwargs) -> str:
+        raise RuntimeError("Dry run does not call the backend.")
+
+
+def resolve_backend(dry_run: bool) -> EvaluationBackend:
+    """Load the plugin selected by EVAL_BACKEND. The model is EVAL_MODEL."""
     load_dotenv()
-    name = config.EVAL_BACKEND
-    model = config.EVAL_MODEL
-    base_url = config.EVAL_BASE_URL
+    name = (config.EVAL_BACKEND or "").strip()
+    spec = BACKENDS.get(name)
+    if spec is None:
+        known = ", ".join(BACKENDS)
+        raise SystemExit(f"Unknown EVAL_BACKEND: {name!r}. Options: {known}")
 
-    if DEBUG:
-        print(f"  [debug] Loading backend: {name}")
+    model = (config.EVAL_MODEL or "").strip()
+    if not model:
+        raise SystemExit("EVAL_MODEL is empty. Set the cloud model name in config.py.")
 
-    if name == "grok_cli":
-        # Pass the debug flag into the plugin
+    override = (getattr(config, "EVAL_BASE_URL", "") or "").strip()
+    base_url = override or spec["base_url"]
+    key = ""
+    if spec["key_env"]:
+        key = __import__("os").environ.get(spec["key_env"], "").strip()
+        if not key:
+            message = f"{spec['label']} requires {spec['key_env']} in .env."
+            if dry_run:
+                print(f"Warning: {message}")
+            else:
+                raise SystemExit(message)
+
+    print(f"Backend: {name} ({spec['label']})")
+    print(f"Model: {model}")
+    if base_url:
+        print(f"Base URL: {base_url}")
+    if spec["key_env"]:
+        print(f"API key: {spec['key_env']} ({'set' if key else 'missing'})")
+
+    if dry_run:
+        return DryRunBackend(model)
+
+    timeout = config.EVAL_TIMEOUT
+    if spec["kind"] == "grok_cli":
         from plugins import grok_cli
         grok_cli.DEBUG = DEBUG
-        return GrokCLIBackend(model=model)
-    if name in ("openai", "grok_api", "gemini"):
-        return OpenAICompatibleBackend(base_url=base_url, model=model)
-    if name == "anthropic":
-        return AnthropicBackend(model=model)
-    raise SystemExit(f"Unknown EVAL_BACKEND: {name}")
+        return GrokCLIBackend(model=model, timeout=timeout)
+    if spec["kind"] == "openai":
+        return OpenAICompatibleBackend(base_url=base_url, api_key=key, model=model, timeout=timeout)
+    if spec["kind"] == "anthropic":
+        return AnthropicBackend(api_key=key, model=model, timeout=timeout)
+    raise SystemExit(f"No plugin for EVAL_BACKEND: {name}")
 
 
-def parse_conversation_json(path: Path) -> list[dict]:
-    """Load message history from evaluation-<model>.json."""
+def keys_from_user_messages(messages: list[dict], known_keys: set[str]) -> list[str]:
+    """Model keys this script put in batch messages as '### <key>' lines."""
+    found = []
+    seen = set()
+    for msg in messages:
+        if msg.get("role") != "user":
+            continue
+        for line in (msg.get("content") or "").splitlines():
+            if not line.startswith("### "):
+                continue
+            key = line[4:].strip()
+            if key in known_keys and key not in seen:
+                seen.add(key)
+                found.append(key)
+    return found
+
+
+def infer_final_complete(messages: list[dict]) -> bool:
+    prompt = config.EVAL_FINAL_PROMPT
+    for index, msg in enumerate(messages):
+        if msg.get("role") == "user" and prompt in (msg.get("content") or ""):
+            return any(later.get("role") == "assistant" for later in messages[index + 1:])
+    return False
+
+
+def load_evaluation_state(path: Path, known_keys: list[str]):
+    """
+    Return messages, evaluated key list, final_complete, and whether the file
+    already stored evaluated_keys. Older files are seeded from their ### key lines.
+    """
+    known = set(known_keys)
     if not path.exists():
-        return []
+        return [], [], False, True
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-        return data.get("messages") or []
     except (json.JSONDecodeError, OSError):
-        return []
+        return [], [], False, True
+    messages = data.get("messages") or []
+    had_keys = "evaluated_keys" in data
+    if had_keys:
+        evaluated = [key for key in data.get("evaluated_keys") or [] if key in known]
+    else:
+        evaluated = keys_from_user_messages(messages, known)
+    if "final_complete" in data:
+        final_complete = bool(data.get("final_complete"))
+    else:
+        final_complete = infer_final_complete(messages)
+    return messages, evaluated, final_complete, had_keys
 
 
-def write_conversation_json(path: Path, messages: list[dict], model_name: str):
+def write_conversation_json(path: Path, messages: list[dict], model_name: str, evaluated_keys: list[str], final_complete: bool):
     """Write the current conversation as the source of truth."""
     data = {
         "model": model_name,
+        "evaluated_keys": list(evaluated_keys),
+        "final_complete": final_complete,
         "messages": messages,
     }
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
@@ -114,21 +227,6 @@ def strip_final_ranking(messages: list[dict]) -> list[dict]:
     return messages
 
 
-def get_evaluated_keys(messages: list[dict]) -> set[str]:
-    """Very simple heuristic: look for model keys that appear in assistant replies."""
-    keys = set()
-    for msg in messages:
-        if msg["role"] == "assistant":
-            # Look for patterns like `model-key` or model-key.md
-            found = re.findall(r"`([a-zA-Z0-9._-]+\.md)`|`([a-zA-Z0-9._-]+)`", msg["content"])
-            for a, b in found:
-                key = a or b
-                if key.endswith(".md"):
-                    key = key[:-3]
-                keys.add(key)
-    return keys
-
-
 def collect_result_files(results_path: Path, models: list[dict]) -> list[tuple[str, Path]]:
     """Return list of (key, path) for result files that exist."""
     found = []
@@ -148,8 +246,8 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
         print(f"  No models.json in {results_path}, skipping.")
         return
 
-    models = utils.load_json(models_path, required=False)
-    if not isinstance(models, list) or not models:
+    models = utils.keyed_records(utils.load_json(models_path, required=False))
+    if not models:
         print(f"  Empty models.json in {results_path}, skipping.")
         return
 
@@ -159,28 +257,35 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
         return
 
     model_name = getattr(backend, "model", None) or config.EVAL_MODEL or "unknown"
-    safe_model = model_name.replace("/", "-")
+    safe_model = model_name.replace("/", "-").replace(" ", "-")
     conv_json_path = results_path / f"evaluation-{safe_model}.json"
     conv_md_path = results_path / f"evaluation-{safe_model}.md"
+    ordered_keys = [key for key, _ in result_files]
 
-    messages = [] if force else parse_conversation_json(conv_json_path)
-    if messages and not force:
+    messages, evaluated, final_complete, had_keys = load_evaluation_state(conv_json_path, ordered_keys)
+    if force:
+        messages = []
+        evaluated = []
+        final_complete = False
+    evaluated_set = set(evaluated)
+    missing = [key for key in ordered_keys if key not in evaluated_set]
+    if missing and messages and not force:
         messages = strip_final_ranking(messages)
+        final_complete = False
 
-    all_keys = {key for key, _ in result_files}
-    already_evaluated = get_evaluated_keys(messages) if messages else set()
-    missing = [key for key, _ in result_files if key not in already_evaluated]
-
-    if not missing and not force:
-        print(f"  All {len(all_keys)} models already evaluated, skipping.")
-        utils.update_test_md_evaluation(results_path, len(all_keys), len(all_keys), [])
+    if not missing and final_complete and not force:
+        print(f"  All {len(ordered_keys)} models already evaluated, skipping.")
+        if not dry_run:
+            if not had_keys:
+                write_conversation_json(conv_json_path, messages, model_name, evaluated, True)
+            utils.update_test_md_evaluation(results_path, len(ordered_keys), len(ordered_keys), [])
+            print("  Updated evaluation status in test.md")
         return
 
-    if force:
-        missing = [key for key, _ in result_files]
-        messages = []
-
-    print(f"  Evaluating {len(missing)} model(s) in batches of {batch_size}")
+    if not missing and not force:
+        print("  Scores are already recorded. Requesting the final ranking only.")
+    else:
+        print(f"  Evaluating {len(missing)} model(s) in batches of {batch_size}")
 
     # Load instructions once
     instructions = ""
@@ -197,7 +302,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             print("  Sending initial prompt...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
-            write_conversation_json(conv_json_path, messages, model_name)
+            write_conversation_json(conv_json_path, messages, model_name, evaluated, False)
             print("  Initial prompt acknowledged.")
         else:
             print("  [dry-run] Would send initial prompt")
@@ -230,7 +335,11 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             print(f"  Sending batch {batch_num}...")
             reply = backend.generate(messages)
             messages.append({"role": "assistant", "content": reply})
-            write_conversation_json(conv_json_path, messages, model_name)
+            for key in batch_keys:
+                if key not in evaluated_set:
+                    evaluated.append(key)
+                    evaluated_set.add(key)
+            write_conversation_json(conv_json_path, messages, model_name, evaluated, False)
             print(f"  Batch {batch_num} complete.")
             if DEBUG:
                 print(f"  [debug] Reply length: {len(reply)} characters")
@@ -245,30 +354,23 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
     else:
         final = backend.generate(messages)
         messages.append({"role": "assistant", "content": final})
-        write_conversation_json(conv_json_path, messages, model_name)
+        final_complete = True
+        write_conversation_json(conv_json_path, messages, model_name, evaluated, True)
         print("  Final ranking received.")
 
-    # Write outputs
-    evaluated_count = len(all_keys) if force or not already_evaluated else len(already_evaluated) + len(missing)
-    missing_after = [k for k in all_keys if k not in (already_evaluated | set(missing))]
+    missing_after = [key for key in ordered_keys if key not in evaluated_set]
+    evaluated_count = len(ordered_keys) - len(missing_after)
 
     if not dry_run:
         results_md = results_path / "results.md"
         results_md.write_text(final + "\n", encoding="utf-8")
         write_conversation_md(conv_md_path, messages)
         utils.write_evaluation_index(results_path)
+        utils.update_test_md_evaluation(results_path, evaluated_count, len(ordered_keys), missing_after)
         print(f"  Wrote {results_md.name}, {conv_json_path.name}, and {conv_md_path.name}")
+        print("  Updated evaluation status in test.md")
     else:
         print("  [dry-run] Skipping result files")
-
-    # Always update the evaluation status in test.md (even in dry-run)
-    utils.update_test_md_evaluation(
-        results_path,
-        evaluated_count,
-        len(all_keys),
-        missing_after
-    )
-    print("  Updated evaluation status in test.md")
 
 
 def find_scenarios(target: str | None) -> list[Path]:
@@ -295,16 +397,17 @@ def main():
     args = parser.parse_args()
 
     batch_size = args.batch_size if args.batch_size is not None else config.EVAL_BATCH_SIZE
+    if batch_size < 1:
+        raise SystemExit("Batch size must be at least 1.")
     dry_run = args.dry_run or config.EVAL_DRY_RUN
 
     print("")
-    print(f"Backend: {config.EVAL_BACKEND}")
     print(f"Batch size: {batch_size}")
     if dry_run:
-        print("DRY RUN — no API calls will be made")
+        print("DRY RUN — no API calls will be made and no result files will be written")
 
     try:
-        backend = get_backend()
+        backend = resolve_backend(dry_run)
     except Exception as e:
         print(f"Failed to load backend: {e}")
         sys.exit(1)

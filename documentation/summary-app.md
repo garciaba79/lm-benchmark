@@ -1,3 +1,5 @@
+> Historical summary. The current behavior is in the README, `documentation/get-started.md`, and the scripts. This file describes an earlier layout (`get_models.py`, `run_tests.py`, `config.json`).
+
 **LM Studio Multi-Scenario Local Model Testing Project**
 
 This is a file-based Python project for systematically testing multiple local LLMs in LM Studio against the same set of scenarios. The goal is to remove manual repetition: load models, run identical ordered conversations, capture detailed stats, and produce consistent markdown outputs that can later be evaluated by a cloud model.

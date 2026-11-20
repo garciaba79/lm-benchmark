@@ -2,7 +2,16 @@
 Shared configuration for the LM Studio model test harness.
 
 All scripts import paths, connection settings, and defaults from here.
+Developed and run on Python 3.14.
 """
+
+import sys
+
+if sys.version_info < (3, 14):
+    raise SystemExit(
+        "Python 3.14 or newer is required. "
+        f"This project is developed on Python 3.14. Current interpreter: {sys.version.split()[0]}"
+    )
 
 from pathlib import Path
 
@@ -11,7 +20,7 @@ from pathlib import Path
 # ==========================================
 BASE_URL = "http://localhost:1234"
 API_TOKEN = ""
-HELPER_MODEL = "lfm2.5-1.2b-thinking"                          # Optional helper model used for short summaries
+HELPER_MODEL = "lfm2.5-1.2b-instruct"                       # Optional helper model. Its text is written to info.md only.
 
 # ==========================================
 # PROMPTS
@@ -31,8 +40,8 @@ ARCHIVE_DIR = Path("archive")
 
 TEST_JSON = "test.json"                                 # Per scenario metadata (name, description, system_prompt flag, notes)
 
-MODELS_PATH = SCENARIOS_DIR / "models.json"             # Master list of models to test (created by get_models.py)
-SCENARIOS_JSON = SCENARIOS_DIR / "scenarios.json"       # List of scenarios with ready/status/mode (created by get_scenarios.py)
+MODELS_PATH = SCENARIOS_DIR / "models.json"             # Active model list. Updated by models.py or by hand. run.py does not rewrite it.
+SCENARIOS_JSON = SCENARIOS_DIR / "scenarios.json"       # Scenario list with ready/status/mode (refreshed by scenarios.py; mode is kept)
 SCENARIOS_MD = SCENARIOS_DIR / "scenarios.md"
 
 ROOT_STATS_JSON = RESULTS_DIR / "stats.json"            # System-wide model stats (VRAM/spill, times, scenarios)
@@ -54,7 +63,7 @@ CHAT_TIMEOUT = 900                                      # Max seconds to wait fo
 # Hardware spill detection
 INSTALLED_RAM_GB = 32                                   # Total system RAM in GB (used to calculate spill threshold)
 INSTALLED_VRAM_GB = 16                                  # Total GPU VRAM in GB (reference only)
-RAM_SPILL_THRESHOLD_PERCENT = 25                        # If RAM usage rises by this percent during a test, then let's assume the model spilled into VRAM
+RAM_SPILL_THRESHOLD_PERCENT = 25                        # If system RAM rises by this percent of installed RAM, mark used_ram (model spilled out of VRAM into RAM)
 
 # ==========================================
 # CLEAN SETTINGS (defaults; CLI can override)
@@ -82,8 +91,8 @@ REVERSE_SIZE = False       # Smallest file size catch-all
 # EVALUATION SETTINGS
 # ==========================================
 # Backend used by evaluate.py.
-# Options: "grok_cli", "openai", "anthropic", "gemini", "grok_api"
-# Default is the Grok CLI (uses your SuperGrok subscription, no extra API fees).
+# Options: "grok_api" (default), "openai", "gemini", "anthropic", "grok_cli"
+# grok_cli tends to fail on Windows and macOS due to terminal limitations, but works fine on Linux
 EVAL_BACKEND = "grok_api"
 
 # How many model result files to send in each batch.
@@ -109,12 +118,12 @@ EVAL_FINAL_PROMPT = """All results have been provided. Produce the final ranked 
 #   "gemini-1.5-pro"                Gemini
 EVAL_MODEL = "grok-4.3"
 
-# Base URL for OpenAI-compatible backends (openai, gemini, grok_api).
-# Examples:
-#   "https://api.openai.com/v1"
-#   "https://api.x.ai/v1"
-#   "https://generativelanguage.googleapis.com/v1beta/openai"
-EVAL_BASE_URL = "https://api.x.ai/v1"
+# Optional base URL override for OpenAI-compatible backends (openai, gemini, grok_api).
+# Leave empty to use the default for EVAL_BACKEND:
+#   grok_api  https://api.x.ai/v1
+#   openai    https://api.openai.com/v1
+#   gemini    https://generativelanguage.googleapis.com/v1beta/openai
+EVAL_BASE_URL = ""
 
 # Dry run flag (can also be passed on the command line).
 EVAL_DRY_RUN = False

@@ -50,4 +50,6 @@ Each test uses the same prompts and questions for every model. After the convers
 - Evaluation is always performed by a large cloud model using the exported transcripts.
 - The process is repeated for every model in the test so the inputs remain identical.
 
-This workflow is used for all tests in the lm-benchmark project.
+### Note
+
+This is the manual workflow. The project still keeps it for evaluations you run by hand. The standard path is `python run.py` for the conversations and `python evaluate.py` for the cloud ranking. Script result files are named with the model key (`<model-key>.md`). A manual export can still use a name and a date.

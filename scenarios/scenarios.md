@@ -2,7 +2,7 @@
 
 ## Summary
 
-Here is the summary results.
+37 complete, 0 partial, 0 not started.
 
 ## Scenarios
 

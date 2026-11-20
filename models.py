@@ -133,6 +133,8 @@ def main():
 
     utils.save_json(config.MODELS_PATH, output)
     print(f"Wrote {len(output)} models to {config.MODELS_PATH}")
+    print("This replaced the active model list with the models currently in LM Studio.")
+    print("Hand edits in that file are not kept. Edit it again after this refresh if you want to test a smaller set of models.")
 
 
 if __name__ == "__main__":

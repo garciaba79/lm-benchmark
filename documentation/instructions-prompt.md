@@ -2,7 +2,7 @@
 
 These instructions are for evaluating local model results manually on any type of test (coding, code chat, general conversation, data formatting, search/summarization, troubleshooting, log analysis, or other tasks). The goal is consistent, useful rankings across models.
 
-Start a new converation with any cloud model or model of your choice and then prompt the model with the following prompts.
+Start a new conversation with any cloud model or model of your choice and then prompt the model with the following prompts.
 
 ## Prompt - Introduction
 

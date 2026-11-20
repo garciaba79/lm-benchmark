@@ -59,6 +59,7 @@ DRY_RUN = False                                         # Set to true to print w
 FORCE_MODE = None                                       # Overrides the mode in scenarios.json: None | "update" | "refresh" | "none"
 USE_CUSTOM_INFER = True                                 # Set to true to use inference settings from inference.json (or scenario override), set to false to use LM Studio defaults
 CHAT_TIMEOUT = 900                                      # Max seconds to wait for a single chat response before timing out (default is 900 seconds, which is 15 minutes)
+DEFAULT_CONTEXT_LENGTH = 16384                          # Used when LM Studio does not report a loaded context and inference.json has none
 
 # Hardware spill detection
 INSTALLED_RAM_GB = 32                                   # Total system RAM in GB (used to calculate spill threshold)
@@ -131,3 +132,7 @@ EVAL_DRY_RUN = False
 # Seconds to wait for a single API response.
 # Large batches on slower models can take several minutes.
 EVAL_TIMEOUT = 600
+
+# Anthropic requires max_tokens. 4096 cut off long rankings.
+# 8192 is the output cap for Claude 3.5. Raise this for newer Claude models.
+EVAL_MAX_TOKENS = 8192

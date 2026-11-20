@@ -21,7 +21,7 @@ results/<scenario>/models.json is the historic record. A successful test
 updates that model key and leaves every other model in place.
 
 run.py
-version 0.11.0
+version 0.12.0
 """
 
 import subprocess
@@ -50,12 +50,37 @@ def get_ram_used_gb():
         return None
 
 
-def get_fits_memory(base_ram_gb, current_ram_gb):
+def spilled_to_ram(base_ram_gb, current_ram_gb):
+    """True when system RAM rose enough that the model spilled out of VRAM."""
     if base_ram_gb is None or current_ram_gb is None:
         return False
     increase = current_ram_gb - base_ram_gb
     threshold = config.INSTALLED_RAM_GB * (config.RAM_SPILL_THRESHOLD_PERCENT / 100.0)
     return increase >= threshold
+
+
+def context_length_from(value):
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, (int, float)) and value > 0:
+        return int(value)
+    if isinstance(value, str):
+        text = value.strip().replace(",", "")
+        if text.isdigit():
+            number = int(text)
+            return number if number > 0 else None
+    return None
+
+
+def resolve_context_length(loaded_context, inference):
+    """Loaded LM Studio context, then inference.json, then 16K."""
+    loaded = context_length_from(loaded_context)
+    if loaded:
+        return loaded
+    configured = context_length_from((inference or {}).get("context_length"))
+    if configured:
+        return configured
+    return config.DEFAULT_CONTEXT_LENGTH
 
 
 def unload_models(base_url, headers):
@@ -213,7 +238,7 @@ def try_helper_summary(model_stats):
         return None
 
 
-def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ram_gb):
+def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ram_gb, context_length):
     model_key = model.get("key")
     questions = item["questions"]
     system_prompt = item["system_prompt"]
@@ -225,7 +250,6 @@ def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ra
         messages = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
-        context_length = inference.get("context_length")
         context_str = utils.format_context(context_length)
         for q in questions:
             messages.append({"role": "user", "content": q})
@@ -274,6 +298,7 @@ def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ra
             "quant": model.get("quant"),
             "size_gb": model.get("size_gb"),
             "context": context_str,
+            "context_length": context_length,
             "avg_tps": avg_tps,
             "total_seconds": total_seconds,
             "question_times": question_times,
@@ -285,13 +310,40 @@ def run_questions_for_scenario(base_url, headers, model, item, peak_ram, base_ra
         return [], {"key": model_key, "error": str(e), "scenario": item["name"]}, peak_ram, "unknown"
 
 
-def update_scenario_files(results_path, test_info, name, model, model_stat, turns, context_str):
+def write_transcript_json(path, model, name, test_info, created_str, context_length, system_prompt, turns):
+    """Chat transcript for reconstruction. system_prompt is a field, not a message."""
+    messages = []
+    for turn in turns:
+        messages.append({"role": "user", "content": turn["user"]})
+        assistant = {"role": "assistant", "content": turn["assistant"]}
+        if turn.get("stats_line"):
+            assistant["stats_line"] = turn["stats_line"]
+        messages.append(assistant)
+    record = {
+        "key": model.get("key"),
+        "display_name": model.get("display_name"),
+        "scenario": name,
+        "test": test_info.get("name") or "",
+        "created": created_str,
+        "context_length": context_length,
+        "system_prompt": system_prompt or None,
+        "messages": messages,
+    }
+    utils.save_json(path, record)
+
+
+def update_scenario_files(results_path, test_info, name, model, model_stat, turns, context_str, context_length, system_prompt):
     results_path.mkdir(parents=True, exist_ok=True)
     created_str = datetime.now().strftime("%m/%d/%Y, %I:%M:%S %p")
     if turns:
         md = build_result_markdown(model, created_str, context_str, turns, test_info)
         out_file = utils.result_file_for_model(results_path, model)
         out_file.write_text(md, encoding="utf-8")
+        json_file = utils.transcript_json_for_model(results_path, model)
+        write_transcript_json(
+            json_file, model, name, test_info, created_str,
+            context_length, system_prompt, turns,
+        )
         print(f"  Wrote {out_file.name}")
         model_stat["file"] = out_file.name
 
@@ -452,6 +504,7 @@ def main():
                 continue
 
             current_context = object()
+            loaded_context = None
             peak_ram = base_ram_gb
             model_scenario_stats = []
 
@@ -464,21 +517,24 @@ def main():
                     try:
                         instance_id, loaded_context = load_model(base_url, headers, model_key, item["inference"])
                         current_context = needed
-                        print(f"  Loaded with context {utils.format_context(loaded_context or needed)}")
                     except Exception as e:
                         print(f"  Failed to load {model_key}: {e}")
                         print("  Left existing results for this scenario unchanged.")
                         continue
 
+                context_length = resolve_context_length(loaded_context, item["inference"])
+                print(f"  Context {utils.format_context(context_length)}")
+
                 turns, scen_stat, peak_ram, context_str = run_questions_for_scenario(
-                    base_url, headers, model, item, peak_ram, base_ram_gb
+                    base_url, headers, model, item, peak_ram, base_ram_gb, context_length
                 )
                 if "error" in scen_stat or not turns:
                     print("  Left existing results for this scenario unchanged.")
                     continue
                 update_scenario_files(
                     item["results_path"], item["test_info"], item["name"],
-                    model, scen_stat, turns, context_str
+                    model, scen_stat, turns, context_str, context_length,
+                    item["system_prompt"],
                 )
                 touched_scenarios.add(item["name"])
                 model_scenario_stats.append(scen_stat)
@@ -487,7 +543,7 @@ def main():
 
             if model_scenario_stats:
                 ram_updates[model_key] = {
-                    "used_ram": get_fits_memory(base_ram_gb, peak_ram),
+                    "used_ram": spilled_to_ram(base_ram_gb, peak_ram),
                     "peak_ram_gb": round(peak_ram, 1) if peak_ram else None,
                 }
 

@@ -27,11 +27,13 @@ The default in `config.py` is `EVAL_BACKEND = "grok_api"` and `EVAL_MODEL = "gro
 
 `evaluate.py` reads one key for the selected backend. It does not try another provider's key. A dry run warns when the key is missing and does not construct the client. A real run exits.
 
+Anthropic's API requires `max_tokens`. `AnthropicBackend` sends `EVAL_MAX_TOKENS` from `config.py` (default 8192). The OpenAI-compatible backends do not send a max-token cap.
+
 ## How a backend is chosen
 
 `BACKENDS` in `evaluate.py` maps the config name to a label, a key variable, a default base URL, and a kind (`openai`, `anthropic`, or `grok_cli`). `resolve_backend()` loads `.env`, checks `EVAL_MODEL`, and returns the matching class. The model name always comes from `EVAL_MODEL`.
 
-`GrokCLIBackend` flattens the message list into one `grok -p` prompt. It uses the existing SuperGrok login and does not take an API key. On Windows a long prompt can fail with command-length error 206. Lower `EVAL_BATCH_SIZE`, or use `grok_api`.
+`GrokCLIBackend` flattens the message list into one prompt, writes it to a temp file, and runs `grok --prompt-file`. That avoids the Windows command-line limit of about 32,767 characters, which `grok -p` hits on a large batch. The plugin uses the existing SuperGrok login and does not take an API key. The temp file is deleted after the call.
 
 ## Adding a backend
 

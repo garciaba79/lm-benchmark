@@ -6,14 +6,17 @@ import os
 
 import requests
 
+import config
+
 from .base import EvaluationBackend
 
 
 class AnthropicBackend(EvaluationBackend):
-    def __init__(self, api_key=None, model=None, timeout=None):
+    def __init__(self, api_key=None, model=None, timeout=None, max_tokens=None):
         self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         self.model = model or "claude-3-5-sonnet-20241022"
         self.timeout = timeout or 600
+        self.max_tokens = max_tokens or getattr(config, "EVAL_MAX_TOKENS", 8192)
 
         if not self.api_key:
             raise RuntimeError("No Anthropic API key found. Set ANTHROPIC_API_KEY in your .env file.")
@@ -40,7 +43,7 @@ class AnthropicBackend(EvaluationBackend):
         }
         payload = {
             "model": self.model,
-            "max_tokens": 4096,
+            "max_tokens": self.max_tokens,
             "messages": anthropic_messages,
         }
         if system:

@@ -120,7 +120,8 @@ grok -p "Explain this function" --output-format json
 
 Common flags:
 
-- `-p` or `--prompt` — the prompt text.
+- `-p` or `--prompt` — the prompt text. Short prompts only. Windows rejects the process when the command line is longer than about 32,767 characters.
+- `--prompt-file` — the same one-shot prompt, read from a file. `evaluate.py` uses this so a batch of result files is not placed on the command line.
 - `--output-format json` or `streaming-json` — structured output that is easy to parse.
 - `-m` — optional model override.
 - `--cwd` — set the working directory.

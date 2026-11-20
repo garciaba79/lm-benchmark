@@ -141,7 +141,12 @@ def resolve_backend(dry_run: bool) -> EvaluationBackend:
     if spec["kind"] == "openai":
         return OpenAICompatibleBackend(base_url=base_url, api_key=key, model=model, timeout=timeout)
     if spec["kind"] == "anthropic":
-        return AnthropicBackend(api_key=key, model=model, timeout=timeout)
+        return AnthropicBackend(
+            api_key=key,
+            model=model,
+            timeout=timeout,
+            max_tokens=config.EVAL_MAX_TOKENS,
+        )
     raise SystemExit(f"No plugin for EVAL_BACKEND: {name}")
 
 

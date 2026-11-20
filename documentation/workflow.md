@@ -1,6 +1,6 @@
 ## Local Model Testing Workflow
 
-This document describes the standard process for testing local models in LM Studio. The workflow is designed to be generic so it can be used for code, task, or conversation based evaluations.
+This document is the manual process for testing local models in LM Studio. The same steps are what `run.py` and `evaluate.py` automate. Use this page when you run a test by hand. Use the scripts for the normal path.
 
 ### Overview
 
@@ -8,48 +8,57 @@ Each test uses the same prompts and questions for every model. After the convers
 
 ### Steps
 
- #### Prepare the test 
-   - Define the prompt and set of questions that every model will receive.
-   - Keep the input identical across all models.
-   - If a model consistently fails to follow the questions, revise the questions so the test remains consistent for everyone.
+#### Prepare the test
 
- #### Run the conversations 
+- Define the prompt and the questions that every model will receive.
+- Keep the input identical across all models.
+- In this project the questions are `question1.md`, `question2.md`, and so on, with no gaps. The scenario name and description go in `test.json`. An optional system prompt is `system.md` or the `system` field in `inference.json`.
+- If a model consistently fails to follow the questions, revise the questions so the test stays the same for everyone.
 
-   - Load each model in LM Studio.
-   - Execute the full conversation using the same prompts and questions.
-   - Allow the model to complete every turn before moving to the next model.
+#### Run the conversations
 
- #### Capture performance metrics 
+- Load each model in LM Studio.
+- Run the full conversation with the same prompts and questions.
+- Let the model finish every turn before you move to the next model.
+- `run.py` does this load, chat, and unload loop. `update` runs models that do not already have a result file. `refresh` reruns every model on the active list. `none` skips the scenario.
 
-   Record conversation metrics.
+#### Capture performance metrics
 
-   - tokens per second (t/s)
-   - number of tokens used (number)
-   - time spend to respond (seconds, minutes, hours)
-   - context used so far (%)
+Record these for each reply:
 
- #### Export the results 
+- tokens per second (t/s)
+- number of tokens generated
+- time spent responding (seconds, then minutes or hours for a long run)
+- context used so far, as a percent
 
-   - Export the complete turn based conversation for each model as a markdown file.
-   - Use a clear filename that includes the model name and date.
+The percent is how full the context window is after that reply: tokens used so far divided by the context length the model was loaded with. It is not a separate score. When LM Studio reports the loaded context, use that number. Otherwise use the context in `inference.json`. If neither is set, use 16K, which is the usual window in this project. Some models are loaded at 8K.
 
- #### Collect the test artifacts 
+#### Export the results
 
-   - Gather the exported chat files.
-   - Include the tokens per second values and any other relevant test information (model names, versions, quantization, etc.).
+- Save the complete turn-by-turn conversation for each model.
+- A hand export can use a filename with the model name and the date.
+- `run.py` writes `results/<scenario>/<model-key>.md` for reading, and `<model-key>.json` for reconstruction. The JSON object holds `system_prompt` and `context_length`. The system prompt is not a message in that file, and it is not copied into the markdown.
 
- #### Evaluate with a cloud model
+#### Collect the test artifacts
 
-   - Share the collected files and test information with a large cloud model.
-   - Ask the cloud model to review the results, compare the models, and rank their capability and performance on the test.
+- Gather the chat files.
+- Include tokens per second and the other test information: model key, display name, parameter size, quantization, and context length.
+- The script stores those fields in `results/<scenario>/stats.json` and `models.json`. Both files are lists of records updated by key.
 
-### Consistency Rules
+#### Evaluate with a cloud model
 
-- Every model receives the same starting prompt and the same set of questions.
+- Share the collected files and test information with a large cloud model.
+- Ask it to review the results, compare the models, and rank them on the test.
+- By hand, paste that ranking into `results.md`.
+- `python evaluate.py` sends the result files in batches and writes `results.md` itself. The default cloud backend is the Grok API.
+
+### Consistency rules
+
+- Every model receives the same starting prompt and the same questions.
 - The full conversation is captured for each model.
-- Evaluation is always performed by a large cloud model using the exported transcripts.
-- The process is repeated for every model in the test so the inputs remain identical.
+- Evaluation is done by a large cloud model using the exported transcripts.
+- The process is repeated for every model in the test so the inputs stay identical.
 
 ### Note
 
-This is the manual workflow. The project still keeps it for evaluations you run by hand. The standard path is `python run.py` for the conversations and `python evaluate.py` for the cloud ranking. Script result files are named with the model key (`<model-key>.md`). A manual export can still use a name and a date.
+The standard path is `python run.py` for the conversations and `python evaluate.py` for the ranking. Setup, modes, and hand edits are in [get-started.md](get-started.md). A full project briefing for a cloud model is [lm-benchmark.md](lm-benchmark.md).

@@ -1,6 +1,6 @@
 {
   "name": "Function Fetch Weather",
-  "description": "Test how different local models handle creating a function, follow modern React principles and best practices.",
+  "description": "Test how different local models write a TypeScript function that fetches current weather data.",
   "test": "function fetch weather",
   "prompt": "",
   "system_prompt": false,

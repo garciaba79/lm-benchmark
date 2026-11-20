@@ -4,8 +4,10 @@ Uses the official Grok CLI with your SuperGrok subscription (no API key required
 """
 
 import json
+import os
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 from .base import EvaluationBackend
@@ -40,36 +42,40 @@ class GrokCLIBackend(EvaluationBackend):
         if DEBUG:
             print(f"  [debug] Prompt length: {len(full_prompt)} characters")
 
-        # Use -p (command-line argument). This works reliably but has a Windows length limit.
-        cmd = [self.command, "-p", full_prompt, "--output-format", self.output_format]
-        if self.model:
-            cmd.extend(["-m", self.model])
-
-        if DEBUG:
-            print(f"  [debug] Command length: {sum(len(a) for a in cmd)} characters")
-            print(f"  [debug] Using -p argument")
-
+        # --prompt-file keeps the prompt off the command line. Windows rejects
+        # grok -p once the command line passes about 32,767 characters.
+        prompt_path = None
         try:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=self.timeout,
-                check=False,
-            )
-        except subprocess.TimeoutExpired:
+            fd, prompt_path = tempfile.mkstemp(prefix="lm-benchmark-grok-", suffix=".md")
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(full_prompt)
+            cmd = [self.command, "--prompt-file", prompt_path, "--output-format", self.output_format]
+            if self.model:
+                cmd.extend(["-m", self.model])
+
             if DEBUG:
-                print("  [debug] subprocess timed out")
-            raise RuntimeError("Grok CLI timed out.")
-        except OSError as e:
-            if getattr(e, "winerror", None) == 206 or "too long" in str(e).lower():
-                raise RuntimeError(
-                    f"Prompt too long for Windows command line ({len(full_prompt)} characters). "
-                    "Lower EVAL_BATCH_SIZE or switch to the Grok API."
+                print(f"  [debug] Command: {' '.join(cmd[:3])} ...")
+
+            try:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    timeout=self.timeout,
+                    check=False,
                 )
-            raise
+            except subprocess.TimeoutExpired:
+                if DEBUG:
+                    print("  [debug] subprocess timed out")
+                raise RuntimeError("Grok CLI timed out.")
+        finally:
+            if prompt_path:
+                try:
+                    os.remove(prompt_path)
+                except OSError:
+                    pass
 
         if DEBUG:
             print(f"  [debug] Return code: {result.returncode}")

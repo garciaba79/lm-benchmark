@@ -32,6 +32,10 @@ def get_model_name_param(name_str):
         if unit == 'm':
             return val / 1000.0
         return val
+    # Gemma-style names write the size as e4b / e2b, with no separator before the digits.
+    effective = re.findall(r'(?:^|[-_./])e(\d+(?:\.\d+)?)b(?:$|[-_./])', cleaned)
+    if effective:
+        return float(effective[-1])
     word_matches = re.findall(r'\b(\d+(?:\.\d+)?)(b)\b', cleaned)
     if word_matches:
         return float(word_matches[-1][0])

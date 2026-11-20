@@ -17,8 +17,14 @@ Run and evaluate now update records by model key. A normal run keeps historic re
 - `evaluate.py` selects one backend, one key, and `EVAL_MODEL`. `grok_api` is the default. `evaluated_keys` in `evaluation-<model>.json` is the resume list.
 - `EVAL_TIMEOUT` applies to the Grok API, OpenAI, Gemini, Anthropic, and the Grok CLI.
 - The project requires Python 3.14.
-- `documentation/lm-benchmark.md`, `documentation/summary-app.md`, and `documentation/plugin.md` match the current scripts and folders. `documentation/summary-context.md` stays the earlier session note.
+- `documentation/lm-benchmark.md` is the project briefing for a cloud model. `documentation/summary-context.md` was removed. `documentation/summary-app.md` is the short summary.
 - The three hand transcripts named `grok.md` are now `evaluation-grok-4.3.md`.
+- `clean.py` archives transcript markdown and JSON, stats records, and copies of `info.md`, `results.md`, and evaluation files before it removes live records.
+- `run.py` records the loaded LM Studio context, then the inference setting, then 16K. Each new transcript also gets a `<model-key>.json` with `system_prompt` on the object.
+- `models.py` reads an `e4b` / `e2b` size in the model key.
+- The RAM check is `spilled_to_ram`. True still means `used_ram`.
+- The Grok CLI plugin sends the prompt with `--prompt-file`.
+- Anthropic `max_tokens` comes from `EVAL_MAX_TOKENS` (8192).
 
 ## 2026-11-18
 

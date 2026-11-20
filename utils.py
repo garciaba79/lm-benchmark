@@ -76,6 +76,11 @@ def result_file_for_model(results_path, model):
     return Path(results_path) / f"{safe_filename(key)}.md"
 
 
+def transcript_json_for_model(results_path, model):
+    """JSON transcript beside the markdown file. Same model key."""
+    return result_file_for_model(results_path, model).with_suffix(".json")
+
+
 def find_file_with_precedence(scenario_path, filename):
     """
     Look for filename starting at the scenario folder, then each parent

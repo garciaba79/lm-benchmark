@@ -7,10 +7,11 @@ and does not change that file. Run models.py yourself when you want LM Studio
 to replace the active list.
 
 A model that is still in a scenario's results, but not on the active list, is
-a historic model. Archive copies that model's transcript and records into
-archive/YYYY MM DD/. Clean then removes those records from the live results
-so the live files match the active list. Models that remain on the active list
-are left in place. results.md and evaluation files are left in place.
+a historic model. Archive copies that model's transcript (.md and .json) and upserts its records
+into the archive JSON files. It also copies scenario-level info.md, results.md,
+and evaluation files into the archive and leaves those live copies in place.
+Removing live records always archives first. Models that remain on the active
+list are left in place.
 
 Usage:
   python clean.py                       # uses the defaults in config.py
@@ -24,7 +25,7 @@ If any command-line options are given, only those options are enabled.
 If no options are given, the defaults from config.py are used.
 
 clean.py
-version 0.2.0
+version 0.3.0
 """
 
 import shutil
@@ -102,25 +103,74 @@ def collect_removed_models(active_keys):
     return removed
 
 
-def archive_removed(removed):
+def has_inactive_root_models(active_keys):
+    root_stats = utils.load_json(config.ROOT_STATS_JSON, required=False)
+    if not isinstance(root_stats, dict):
+        return False
+    return any(
+        record.get("key") not in active_keys
+        for record in utils.keyed_records(root_stats.get("models"))
+    )
+
+
+def copy_scenario_snapshots(src_results, dst_results, rel):
+    """Copy scenario-level files. The live copies stay."""
+    names = ["info.md", "results.md", "evaluation.json"]
+    names.extend(path.name for path in src_results.glob("evaluation-*") if path.is_file())
+    for name in names:
+        src = src_results / name
+        if src.is_file():
+            shutil.copy2(src, dst_results / name)
+            print(f"  Archived {rel}/{name}")
+
+
+def archive_root_stats(archive_root, active_keys):
+    root_stats = utils.load_json(config.ROOT_STATS_JSON, required=False)
+    if not isinstance(root_stats, dict):
+        return
+    inactive = [
+        record for record in utils.keyed_records(root_stats.get("models"))
+        if record.get("key") not in active_keys
+    ]
+    if not inactive:
+        return
+    archive_stats_path = archive_root / "stats.json"
+    existing_archive = utils.load_json(archive_stats_path, required=False) if archive_stats_path.exists() else {}
+    archived_root_models = utils.keyed_records(existing_archive.get("models") if isinstance(existing_archive, dict) else [])
+    for record in inactive:
+        archived_root_models = utils.upsert_record(archived_root_models, record)
+    archived_root = {
+        "run_time": root_stats.get("run_time"),
+        "overall_seconds": root_stats.get("overall_seconds"),
+        "models": archived_root_models,
+    }
+    utils.save_json(archive_stats_path, archived_root)
+    (archive_root / "stats.md").write_text(
+        utils.build_root_stats_md(archived_root_models, archived_root.get("overall_seconds")),
+        encoding="utf-8",
+    )
+
+
+def archive_removed(removed, active_keys):
     archive_root = utils.today_archive_folder()
     archive_results = archive_root / "results"
     archive_results.mkdir(parents=True, exist_ok=True)
     print(f"Archiving to {archive_root}")
 
-    removed_keys = set()
     for rel, models in removed.items():
         src_results = config.RESULTS_DIR / rel
         dst_results = archive_results / rel
         dst_results.mkdir(parents=True, exist_ok=True)
 
         for model in models:
-            if model.get("key"):
-                removed_keys.add(model["key"])
             src_file = utils.result_file_for_model(src_results, model)
             if src_file.exists():
                 shutil.copy2(src_file, dst_results / src_file.name)
                 print(f"  Archived {rel}/{src_file.name}")
+            src_json = utils.transcript_json_for_model(src_results, model)
+            if src_json.exists():
+                shutil.copy2(src_json, dst_results / src_json.name)
+                print(f"  Archived {rel}/{src_json.name}")
 
         dst_models_path = dst_results / "models.json"
         archived_models = utils.keyed_records(utils.load_json(dst_models_path, required=False) if dst_models_path.exists() else [])
@@ -150,27 +200,9 @@ def archive_removed(removed):
         for model in archived_models:
             lines.append(f"- {model.get('display_name') or model.get('key')}")
         (dst_results / "test.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        copy_scenario_snapshots(src_results, dst_results, rel)
 
-    root_stats = utils.load_json(config.ROOT_STATS_JSON, required=False)
-    if isinstance(root_stats, dict) and removed_keys:
-        archive_stats_path = archive_root / "stats.json"
-        existing_archive = utils.load_json(archive_stats_path, required=False) if archive_stats_path.exists() else {}
-        archived_root_models = utils.keyed_records(existing_archive.get("models") if isinstance(existing_archive, dict) else [])
-        for record in utils.keyed_records(root_stats.get("models")):
-            if record.get("key") in removed_keys:
-                archived_root_models = utils.upsert_record(archived_root_models, record)
-        if archived_root_models:
-            archived_root = {
-                "run_time": root_stats.get("run_time"),
-                "overall_seconds": root_stats.get("overall_seconds"),
-                "models": archived_root_models,
-            }
-            utils.save_json(archive_stats_path, archived_root)
-            (archive_root / "stats.md").write_text(
-                utils.build_root_stats_md(archived_root_models, archived_root.get("overall_seconds")),
-                encoding="utf-8",
-            )
-
+    archive_root_stats(archive_root, active_keys)
     print("Archive complete.")
 
 
@@ -180,9 +212,11 @@ def results(removed):
         results_path = config.RESULTS_DIR / rel
         for m in models:
             rfile = utils.result_file_for_model(results_path, m)
-            if rfile.exists():
-                rfile.unlink()
-                print(f"  Removed {rel}/{rfile.name}")
+            json_file = utils.transcript_json_for_model(results_path, m)
+            for path in (rfile, json_file):
+                if path.exists():
+                    path.unlink()
+                    print(f"  Removed {rel}/{path.name}")
 
 
 def rewrite_scenario_views(results_path, rel):
@@ -251,14 +285,20 @@ def main():
     active_keys = set(utils.active_model_keys(active_models))
     removed = collect_removed_models(active_keys)
 
-    if not removed:
+    if not removed and not has_inactive_root_models(active_keys):
         print("No removed models found in results.")
         return
 
-    print(f"Found removed models in {len(removed)} scenario(s).")
+    if removed:
+        print(f"Found removed models in {len(removed)} scenario(s).")
+    else:
+        print("Scenario results match the active list. Root stats still have other models.")
 
-    if opts["archive"]:
-        archive_removed(removed)
+    will_remove = opts["results"] or opts["stats"]
+    if opts["archive"] or will_remove:
+        if will_remove and not opts["archive"]:
+            print("Archiving before live records are removed.")
+        archive_removed(removed, active_keys)
 
     if opts["results"]:
         results(removed)

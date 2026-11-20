@@ -112,11 +112,11 @@ After you remove models from LM Studio you can clean the results so they only co
 ```bash
 python clean.py                 # archive then clean (uses config.py defaults)
 python clean.py archive         # copy removed-model data only
-python clean.py clean           # remove result files and update stats
-python clean.py results         # remove conversation files only
-python clean.py stats           # update stats and model lists only
+python clean.py clean           # archive, then remove result files and update stats
+python clean.py results         # archive, then remove conversation files
+python clean.py stats           # archive, then update stats and model lists
 ```
 
-Archive copies each removed model key into `archive/YYYY MM DD/` and merges it into the archive records. It does not modify the live results. Clean then removes those keys from the live files. Stats for the removed models stay in the archive. `results.md` and the `evaluation-*` files are left alone.
+Archive copies each removed model key into `archive/YYYY MM DD/` and merges it into the archive records. A command that removes live records archives first. `info.md`, `results.md`, and `evaluation-*` files are copied into the archive and also left in the live folder.
 
 See [documentation/get-started.md](documentation/get-started.md) for configuration, inference settings, system prompts, hand edits, and hardware detection. Cloud ranking is described in [documentation/evaluation.md](documentation/evaluation.md).

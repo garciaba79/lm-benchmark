@@ -12,7 +12,7 @@
    python evaluate.py
    ```
 
-The Grok CLI plugin is still available (`EVAL_BACKEND = "grok_cli"`). It is not the default. See `grok-cli.md` if you use it. The grok_cli tends to fail due to terminal limitations.
+The Grok CLI plugin is still available (`EVAL_BACKEND = "grok_cli"`). It is not the default. See `grok-cli.md` if you use it. The plugin writes the prompt to a temp file and calls `grok --prompt-file`, so a long batch is not placed on the Windows command line.
 
 ## Common options
 
@@ -44,6 +44,7 @@ Settings live in `config.py` under the EVALUATION SETTINGS section.
 - `EVAL_MODEL` — cloud model name. This is the model the script uses. A value in `.env` does not override it
 - `EVAL_BASE_URL` — optional override. Leave it empty to use the default URL for the backend
 - `EVAL_TIMEOUT` — seconds for one API or CLI call. Every backend uses this value
+- `EVAL_MAX_TOKENS` — Anthropic output cap. The API requires this field. The default is 8192, which is the Claude 3.5 output limit. Raise it when the Claude model you select allows a longer reply
 - `EVAL_DRY_RUN` — default dry-run flag
 
 Private keys go in `.env` (copy from `.env.example`). Each backend reads its own variable:

@@ -84,7 +84,8 @@ For every scenario the runner creates a matching folder under `results/`.
 
 | File | Purpose |
 |------|---------|
-| `<model-key>.md` | Full conversation for that model key |
+| `<model-key>.md` | Full conversation for that model key. The system prompt is not repeated here |
+| `<model-key>.json` | Same conversation for reconstruction. `system_prompt` and `context_length` are fields on the object. The system prompt is not a message |
 | `models.json` | Historic models tested on this scenario, one record per model key |
 | `test.md` | Overview. The evaluation status section is kept when the runner rewrites the file |
 | `stats.md` | Statistics table generated from `stats.json` |
@@ -97,6 +98,16 @@ For every scenario the runner creates a matching folder under `results/`.
 A scenario is complete when every key in `scenarios/models.json` has a `<model-key>.md` file here. Extra files, including `evaluation-*.md`, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
 
 Root stats in `results/stats.json` and `results/stats.md` are rebuilt from the scenario stats after a run that finishes at least one test. A run with nothing to do leaves them alone. `overall_seconds` is the wall-clock time of that run. Each model's `total_seconds` is the sum of its scenario records.
+
+## Context length
+
+On load, `run.py` asks LM Studio to echo the load config (`POST /api/v1/models/load` with `echo_load_config`). The context written on the transcript is chosen in this order:
+
+1. `load_config.context_length` from that response, which is the context the loaded model is actually using
+2. `context_length` in the winning `inference.json`
+3. `DEFAULT_CONTEXT_LENGTH` in `config.py` (16384)
+
+The percent on a chat stats line is `total_tokens` from that reply divided by this context length. It is how full the window is after the reply. It is not a separate field from LM Studio. `GET /api/v1/models` also reports `loaded_instances[].config.context_length` for models that are already loaded. The runner uses the load response, because that is the context it just requested.
 
 ## Hardware and spill detection
 
@@ -120,11 +131,11 @@ Before any load the script lists currently loaded models via the LM Studio API a
 
 `clean.py` does not run `models.py`. It reads the active list you already have. If that file is missing or has no model keys, it stops and leaves the results alone.
 
-- **archive** — copies conversation files and stat records for model keys that are in a scenario's historic `models.json` but not on the active list. A second run on the same day updates those keys in the archive instead of replacing the archive files.
-- **results** — deletes the conversation `.md` files for those keys.
-- **stats** — removes those keys from the live `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats. The tables are rebuilt from the records that remain. The evaluation status section in `test.md` is kept.
+- **archive** — copies `<model-key>.md` and `<model-key>.json` for model keys that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, and `evaluation-*` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
+- **results** — archives first, then deletes those `<model-key>.md` and `<model-key>.json` files from the live folder.
+- **stats** — archives first, then removes those keys from the live `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats. The tables are rebuilt from the records that remain. The evaluation status section in `test.md` is kept.
 
-The removed models' stats stay in the archive. Live results then match the active list. `results.md` and `evaluation-*` files are left alone. Empty result folders are left in place. A clean run does not modify the archive.
+`info.md`, `results.md`, and `evaluation-*` stay in the live folder because they describe the scenario, not one model. Their copies in the archive keep the text from the day you archived. Empty result folders are left in place. A markdown file whose key is not in that scenario's `models.json` is left alone.
 
 ## Files you can edit by hand
 
@@ -133,6 +144,7 @@ The removed models' stats stay in the archive. Live results then match the activ
 | `scenarios/models.json` | Add or remove models you want tested | `models.py` replaces the whole file from LM Studio. `run.py` and `clean.py` only read it |
 | `scenarios/scenarios.json` | Change `mode` | A scan refreshes name, status, and `last_run`, and keeps `mode` |
 | `results/<scenario>/<model-key>.md` | Delete a transcript to make update mode run that model again | Refresh overwrites that key's file. Other keys are not deleted |
+| `results/<scenario>/<model-key>.json` | Same conversation, plus `system_prompt` and `context_length` | Written beside the markdown on a successful test. Delete it with the markdown if you want update mode to run that model again |
 | `results/<scenario>/models.json` | Remove a historic model record | A successful test updates that key. A missing record is added back when the transcript exists and the model is on the active list |
 | `results/<scenario>/stats.json` | Edit a model's numbers | The next successful test of that key replaces its record. Other keys stay |
 | `results/stats.json` | Short-lived notes only | The next run that finishes a test rebuilds this file from the scenario stats |

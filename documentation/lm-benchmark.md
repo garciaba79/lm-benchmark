@@ -1,24 +1,28 @@
 # LM Benchmark
 
-File-based Python project for testing local models in LM Studio on the same scenarios. Each scenario is a folder of questions. The scripts load one model at a time, run the questions in order, and write the chat and the stats under `results/`. `evaluate.py` can then rank those results with a cloud model.
+Briefing for a cloud model that needs to understand this project without opening the repository. The human manual is `documentation/get-started.md`. Cloud ranking setup is `documentation/evaluation.md`. This file is the single project description to paste into a chat.
 
-This page is the current map of scripts and folders. Day-to-day settings are in [get-started.md](get-started.md). Cloud ranking is in [evaluation.md](evaluation.md). The short introduction is the repository [README](../README.md).
+## What it is
 
-Python 3.14 is required. `config.py` exits on import when the interpreter is older.
+LM Benchmark is a file-based Python 3.14 project. It tests local LLMs in LM Studio on the same scenarios, saves the chats and the speed numbers, and can send those results to a cloud model for a ranked evaluation.
+
+There is no database. A scenario is a folder of markdown questions. A result is a matching folder of markdown and JSON. Scripts upsert records by key. They write JSON lists, not dicts. A normal run does not delete other models' results. `clean.py` is the only script that removes live results, and it archives those records first.
+
+`config.py` exits on import when the interpreter is older than Python 3.14. Dependencies are `requests` and `psutil`. LM Studio's local server is expected at `http://localhost:1234`.
 
 ## Scripts
 
-| Script | Role |
-|--------|------|
-| `models.py` | Reads LM Studio and replaces `scenarios/models.json`. This is the only script that replaces the active list. |
-| `scenarios.py` | Scans `scenarios/` and rewrites `scenarios/scenarios.json` and `scenarios/scenarios.md`. Modes already stored are kept. New scenarios get `update`. |
-| `run.py` | Runs scenarios according to mode. Reads the active list and does not rewrite it. |
-| `evaluate.py` | Sends result files to the cloud backend in `config.py` and writes the ranking. |
-| `clean.py` | Archives, then removes, historic models that are no longer on the active list. It does not call `models.py`. |
-| `config.py` | Shared settings: URLs, paths, modes, hardware thresholds, evaluation backend. |
-| `utils.py` | JSON load and save, keyed updates, stats tables, path helpers. |
+| Script | What it does | What it does not do |
+|--------|----------------|---------------------|
+| `models.py` | Reads `GET /api/v1/models` and replaces `scenarios/models.json` with the installed LLMs, sorted by parameter size, then name, then file size. | Does not run tests. Does not keep hand edits. Does not delete result files. |
+| `scenarios.py` | Scans `scenarios/` and rewrites `scenarios/scenarios.json` and `scenarios/scenarios.md`. Keeps the `mode` already stored for each scenario. A new scenario gets `update`. | Does not run tests. Does not change result files. |
+| `run.py` | Loads one active model at a time, asks that scenario's questions in order, and writes that model's result files. | Does not rewrite `scenarios/models.json`. Does not delete other models' transcripts or records. A failed test leaves the previous good files in place. |
+| `evaluate.py` | Sends result files for one scenario to the cloud backend named in `config.py` and writes a ranking. | Does not run local models. A dry run writes nothing. |
+| `clean.py` | Archives historic models that are no longer on the active list, then removes those keys from the live results. | Does not call `models.py`. Refuses to run when the active list is missing or empty. |
+| `config.py` | Shared settings. | |
+| `utils.py` | JSON load and save, keyed upsert, stats tables, path and prompt lookup. | |
 
-`models.py`, `scenarios.py`, and `run.py` take no arguments. Their switches are in `config.py` (`DRY_RUN`, `FORCE_MODE`, `BASE_URL`, and the rest). `evaluate.py` accepts `--scenario`, `--force`, `--dry-run`, and `--batch-size`. `clean.py` accepts `archive`, `clean`, `results`, and `stats`.
+`models.py`, `scenarios.py`, and `run.py` take no arguments. Change `DRY_RUN`, `FORCE_MODE`, and `BASE_URL` in `config.py`. `evaluate.py` accepts `--scenario`, `--force`, `--dry-run`, and `--batch-size`. `clean.py` accepts the words `archive`, `clean`, `results`, and `stats`. With no words it uses the defaults in `config.py`, which archive and then clean.
 
 ## Folders
 
@@ -34,102 +38,214 @@ plugins/
 meta/hardware.json
 
 scenarios/
-  models.json              active list
-  scenarios.json           name, ready, status, mode
-  scenarios.md
-  info.md                  helper prose, when the helper runs
-  system.md                lowest-precedence system prompt
-  inference.json           lowest-precedence inference settings
+  models.json                 active list. Only models.py replaces this file.
+  scenarios.json              one record per scenario: scenario, name, ready, status, mode
+  scenarios.md                generated status report
+  info.md                     helper-model prose about the scenario list, when the helper runs
+  system.md                   lowest-precedence system prompt
+  inference.json              lowest-precedence inference settings
   <group>/<scenario>/
-    test.json
-    question1.md
-    system.md              highest precedence
-    inference.json         highest precedence
+    test.json                 name, description, optional system_prompt false, optional system string
+    question1.md              question2.md, ... with no gaps
+    system.md                 highest-precedence system prompt
+    inference.json            highest-precedence inference settings
 
 results/
-  stats.json               root stats
+  stats.json                  root stats, rebuilt from scenario stats
   stats.md
   <group>/<scenario>/
-    <model-key>.md
-    models.json            historic models for this scenario
+    <model-key>.md            human transcript
+    <model-key>.json          reconstruction transcript
+    models.json               historic models for this scenario
     stats.json
     stats.md
     test.md
-    results.md
-    evaluation-<model>.json
-    evaluation-<model>.md
+    results.md                cloud ranking
+    evaluation-<cloud-model>.json
+    evaluation-<cloud-model>.md
     evaluation.json
-    info.md
+    info.md                   helper prose for this scenario
 
 archive/
-  YYYY MM DD/results/      models removed from the active list
+  YYYY MM DD/                 one folder per calendar day
+    stats.json                root records that were archived that day, merged by key
+    stats.md
+    results/<group>/<scenario>/
+      <model-key>.md
+      <model-key>.json
+      models.json
+      stats.json
+      stats.md
+      test.md
+      info.md                 copy of the live file, when it existed
+      results.md              copy of the live file, when it existed
+      evaluation-*            copies, when they existed
 ```
 
-JSON lists stay lists of objects. Scripts accept a list or a dict of objects, update by key, and write a list.
+## Two model lists
 
-## Active list and historic record
+`scenarios/models.json` is the active list: the models to test now. `python models.py` replaces the whole file from LM Studio and prints that hand edits were discarded. Edit it after that refresh if you want a smaller set. `run.py` and `clean.py` only read it.
 
-`scenarios/models.json` is the active list: the models to test now. `models.py` replaces the whole file from LM Studio. Hand edits there last until the next `models.py` run. `run.py` and `clean.py` only read it.
+`results/<scenario>/models.json` is the historic record of models tested on that scenario. A successful test upserts the one model that just ran and leaves every other key in the file. Historic results can outlive the active list. Deleting a transcript makes `update` mode run that model again. Deleting the historic JSON row but keeping the transcript causes the next real `run.py` to put the active model's record back.
 
-`results/<scenario>/models.json` is the historic record of models tested on that scenario. A successful test updates that one key and leaves the other keys in place. Historic results can outlive the active list.
-
-A scenario is complete when every active model key has `results/<scenario>/<model-key>.md`. Extra markdown, including `evaluation-*.md`, is not counted. A failed test leaves the previous transcript and stats in place.
+Both files are JSON lists of objects. The model key field is `key`. `scenarios.json` uses `scenario` as its key (the folder path, such as `function/fetch weather`). Scripts also accept a dict whose values are objects, then write a list again.
 
 ## Modes
 
-Set per scenario in `scenarios/scenarios.json`. `FORCE_MODE` in `config.py` overrides them. A missing mode uses `update`.
+Set on each scenario in `scenarios/scenarios.json`. `FORCE_MODE` in `config.py` overrides every scenario. A missing mode uses `DEFAULT_MODE`, which is `update`.
 
 | Mode | Behavior |
 |------|----------|
-| `none` | Skip the scenario |
-| `update` | Run active models that do not already have a result file |
-| `refresh` | Rerun every model on the active list and overwrite those files. Other result files stay |
+| `none` | Skip the scenario. |
+| `update` | Run an active model only when `results/<scenario>/<model-key>.md` is missing. |
+| `refresh` | Rerun every model on the active list and overwrite those result files. Every other result file stays. |
 
-## What a run writes
+`update` is the right default. It fills gaps and does not spend another full run on models you already tested. Use `refresh` when the questions or the prompt changed and you want new answers from the current active list. Use `none` to leave a scenario out of this run. `scenarios.py` keeps the mode you set.
 
-Per scenario:
+A scenario is complete only when every active model key has its `<model-key>.md`. Extra files, including `evaluation-*.md` and hand-written notes, are not counted. Status in `scenarios.json` is `none`, `partial`, or `complete` against the active list.
 
-- `<model-key>.md` — turn-by-turn chat and per-response stats
-- `models.json` — historic model records, updated by key
-- `stats.json` and `stats.md` — avg t/s, total time, and per-question times. The table is built from the records
-- `test.md` — overview. An existing evaluation status section is kept
-- `results.md` — created only when missing. `evaluate.py` later replaces it with the ranking
-- `info.md` — helper-model prose, and only when the helper returns text
+## What one successful test writes
 
-`meta/hardware.json` is written at the start of a real run. `DRY_RUN` prints the plan and writes nothing.
+For that model key only:
 
-Root `results/stats.json` and `results/stats.md` are rebuilt from the scenario stats after a run that finishes at least one test. `overall_seconds` is that run's wall-clock time. Each model's `total_seconds` is the sum of its scenario records. The root table adds Used RAM, Peak RAM, and Scenarios.
+- `<model-key>.md` — title, model key, test name, timestamp, context label such as `16K`, then each user question and assistant reply. A stats line under a reply looks like `42 t/s, 300 tokens, 7s, 12%`. The system prompt is not written into this markdown.
+- `<model-key>.json` — reconstruction file. Shape:
 
-## System prompt, inference, and questions
+```json
+{
+  "key": "google-gemma-4-e4b",
+  "display_name": "Gemma 4 E4B",
+  "scenario": "function/fetch weather",
+  "test": "Function Fetch Weather",
+  "created": "11/19/2026, 01:02:03 PM",
+  "context_length": 16384,
+  "system_prompt": "optional text or null",
+  "messages": [
+    {"role": "user", "content": "question text"},
+    {"role": "assistant", "content": "reply text", "stats_line": "42 t/s, 300 tokens, 7s, 12%"}
+  ]
+}
+```
 
-`system.md` and `inference.json` are resolved from the scenario folder, then parent group folders, then `scenarios/`. The nearest inference file replaces the ones above it.
+`system_prompt` is a field on the object. It is not inserted as a system or user message. The messages are only the questions and the replies. The chat request sent to LM Studio still includes the system prompt as a system message. That is separate from the saved transcript.
 
-`test.json` can set `"system_prompt": false` or an inline `"system"` string. The inline string wins. Otherwise a `system` string in the winning `inference.json` is used, then `system.md`.
+The same run also upserts that model into the scenario `models.json` and `stats.json`, then rebuilds `stats.md` and `test.md`. `stats.md` columns are Model, Avg t/s, Total time, and one column per question. `test.md` keeps an existing evaluation-status section. `results.md` is created only when it is missing, with a short paste placeholder. `evaluate.py` later replaces it.
 
-`USE_CUSTOM_INFER` sends `temperature`, `top_p`, `top_k`, `repeat_penalty`, and `reasoning_effort` when they are set. When it is false, LM Studio defaults are used.
+`DRY_RUN` prints the plan and writes nothing, including `meta/hardware.json`.
 
-Question files are `question1.md`, `question2.md`, and so on. The loader stops at the first missing number.
+Root `results/stats.json` is rebuilt only after a real run that finished at least one test. `overall_seconds` on that file is the wall-clock time of that run. Each model's `total_seconds` is the sum of its scenario records. A model already on the root list is kept when this run did not touch it. `used_ram` stays true once any run has marked it true.
 
-Before the first load, and after each model finishes, the runner unloads models currently loaded in LM Studio. Chat timeout is `CHAT_TIMEOUT` (900 seconds).
+## System prompt and inference
 
-RAM spill uses `psutil`. If system RAM rises by at least `RAM_SPILL_THRESHOLD_PERCENT` of `INSTALLED_RAM_GB` (25% of 32 GB), the model is marked `"used_ram": true`. That means the model spilled out of VRAM into system RAM.
+Lookup order, highest first: the scenario folder, then each parent group folder, then `scenarios/`. The nearest `inference.json` replaces the ones above it. Fields are not merged.
 
-The helper model is `lfm2.5-1.2b-instruct`. Its text goes to `scenarios/info.md` or `results/<scenario>/info.md`. `stats.md` and `scenarios.md` stay generated from the recorded data. A helper failure writes no placeholder.
+`test.json` can set `"system_prompt": false`, which skips the prompt, or an inline `"system"` string, which wins. Otherwise a `system` string in the winning `inference.json` is used, then `system.md`.
 
-## Evaluation and clean
+`USE_CUSTOM_INFER` defaults to true. The chat request then forwards `temperature`, `top_p`, `top_k`, `repeat_penalty`, and `reasoning_effort` when they are set. The load request forwards `context_length` when it is set. When `USE_CUSTOM_INFER` is false, LM Studio's own defaults are used.
 
-`evaluate.py` uses `EVAL_BACKEND` and `EVAL_MODEL` from `config.py`. The default backend is `grok_api` and the default model is `grok-4.3`. The key for that backend comes from `.env`. Setup, resume, and the files it writes are in [evaluation.md](evaluation.md). Plugin code is in `plugins/`. The contract is in [plugin.md](plugin.md).
+Question files must be numbered `question1.md`, `question2.md`, and so on. The loader stops at the first missing number. `question1.md` and `question3.md` with no `question2.md` runs only question 1.
 
-`clean.py` compares each scenario's historic model keys with the active list. If the active list is missing or empty, it stops. `archive` copies removed keys into `archive/YYYY MM DD/` and merges them into the archive records. `clean` then removes those keys from the live results. Stats for removed models stay in the archive. `results.md` and `evaluation-*` files stay. A markdown file whose key is not in that scenario's `models.json` is left alone.
+## Context length and the percent on a stats line
 
-## Workflow
+LM Studio's load API reports the context that was actually applied. `run.py` posts to `/api/v1/models/load` with `echo_load_config: true` and reads `load_config.context_length`. The list API also shows `loaded_instances[].config.context_length` for a model that is already loaded. The OpenAI-compatible chat API returns token counts. It does not return the configured window.
+
+The number stored as `context_length` is chosen in this order:
+
+1. The context LM Studio echoed from the load.
+2. `context_length` in the winning `inference.json`.
+3. `DEFAULT_CONTEXT_LENGTH` in `config.py`, which is 16384.
+
+Most models in this project are loaded at 16K. Some are loaded at 8K. The runner reloads a model only when the requested context changes. Scenarios for one model are sorted so the larger context runs first.
+
+The percent in a stats line is `usage.total_tokens` from that reply divided by the context length above. A line that says `12%` means the conversation occupied about 12 percent of the window after that reply. It is not a quality score.
+
+## RAM spill
+
+Before a model runs, `psutil` records system RAM in use. During the run the script tracks the peak. `spilled_to_ram()` returns true when the increase is at least `RAM_SPILL_THRESHOLD_PERCENT` of `INSTALLED_RAM_GB` (25 percent of 32 GB). That true value is stored as `used_ram` on the root stats. The older function name `get_fits_memory` meant the opposite of what it returned and has been removed. `used_ram: true` means the model spilled out of VRAM into system RAM. The check is a heuristic. It is skipped when `psutil` is missing. `meta/hardware.json` stores the installed RAM, installed VRAM, threshold, and the base RAM reading for that run.
+
+The runner unloads every loaded LM Studio instance before the first test model, and again when the context length changes and after the model finishes.
+
+## Helper model
+
+`HELPER_MODEL` is `lfm2.5-1.2b-instruct`. After a real run that wrote results, the helper writes a short paragraph to `results/<scenario>/info.md`. `scenarios.py` can write `scenarios/info.md`. The helper text is not written into `stats.md` or `scenarios.md`. If the helper fails, the script writes no placeholder.
+
+## Parameter size in models.py
+
+LM Studio's `params_string` is used when it parses as a number of billions, such as `7B` or `230M`. When that field is missing, the script reads the model key. A normal token such as `7b` or `230m` works. Names that glue the size on as `e4b` or `e2b` (Gemma 4 E4B, E2B) are read as 4 and 2 billion. An MoE name such as `24b-a2b` stays 24 billion, because the active-parameter suffix is not treated as the model size.
+
+## Evaluation
+
+`evaluate.py` reads `<model-key>.md` files. It does not score `evaluation-*.md` or other notes.
+
+`EVAL_BACKEND` defaults to `grok_api`. `EVAL_MODEL` defaults to `grok-4.3`. The model name comes from `config.py`, not from `.env`. Each backend reads one key:
+
+| Backend | Key | Endpoint |
+|---------|-----|----------|
+| `grok_api` | `GROK_API_KEY` | `https://api.x.ai/v1` |
+| `openai` | `OPENAI_API_KEY` | `https://api.openai.com/v1` |
+| `gemini` | `GEMINI_API_KEY` | `https://generativelanguage.googleapis.com/v1beta/openai` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `https://api.anthropic.com/v1/messages` |
+| `grok_cli` | none | local `grok` command, SuperGrok login |
+
+There is no fallback from one provider's key to another. `EVAL_BASE_URL` overrides the OpenAI-compatible URL. Empty means the default above. `EVAL_TIMEOUT` is 600 seconds for every backend. `EVAL_BATCH_SIZE` is 5.
+
+Anthropic requires `max_tokens` on every request. `EVAL_MAX_TOKENS` is 8192, which matches Claude 3.5's output cap. A newer Claude model can be given a higher number in `config.py`. The OpenAI-compatible plugins do not send a max-token cap.
+
+The Grok CLI plugin writes the prompt to a temporary file and runs `grok --prompt-file`. Putting the same text in `grok -p` fails on Windows once the command line passes about 32,767 characters. The temp file is deleted after the call.
+
+Instructions for the judge live in `documentation/instructions.md`. The short prompts are `EVAL_INITIAL_PROMPT`, `EVAL_BATCH_PROMPT`, and `EVAL_FINAL_PROMPT` in `config.py`.
+
+Files written for a finished scenario:
+
+- `results.md` — the ranking
+- `evaluation-<model>.json` — the judge conversation, plus `evaluated_keys` and `final_complete`
+- `evaluation-<model>.md` — that conversation as markdown, regenerated from the JSON
+- `evaluation.json` — index of those files
+- `test.md` — an evaluation-status section is added or replaced
+
+Resume uses `evaluated_keys`. Older files without that field are seeded from the `### <model-key>` lines the script wrote in its own user messages. When new local models appear after a final ranking, that ranking turn is dropped and a new one is requested at the end. `--force` clears the conversation and starts over. `--dry-run` prints the plan and writes nothing.
+
+This evaluation JSON is the judge's conversation. It is not the local model's transcript. The local transcript is `<model-key>.json`.
+
+## clean.py
+
+Compare each scenario's historic `models.json` with the active list. A key that is historic but not active is a removed model.
+
+`archive` copies, and does not delete:
+
+- that model's `<model-key>.md` and `<model-key>.json`
+- that model's object inside the scenario `models.json` and `stats.json`, upserted into the archive copies of those files
+- that model's object from root `results/stats.json`, upserted into `archive/YYYY MM DD/stats.json`
+- a rebuilt archive `stats.md`
+- a short archive `test.md` that lists the archived models
+- copies of the live `info.md`, `results.md`, `evaluation.json`, and `evaluation-*` files
+
+A second archive on the same day upserts the same keys. It does not replace the archive list with only the latest batch. Live `info.md`, `results.md`, and evaluation files stay where they are, because they describe the whole scenario. The archive holds a copy from that day.
+
+`results` and `stats`, including `python clean.py clean`, archive first and then remove the live copies of those model keys. `results` deletes the transcript `.md` and `.json`. `stats` removes the keys from the live scenario `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats, then rebuilds the tables. The evaluation-status section in the live `test.md` is kept.
+
+An empty or missing active list aborts. Nothing is archived or deleted. A transcript whose key is not in that scenario's `models.json` is not archived and is not deleted. Empty result folders are left in place. After a removal, `scenarios.py` runs so scenario status matches the files that remain.
+
+## Usual workflow
 
 1. Start the LM Studio server.
-2. Run `python models.py`. Edit `scenarios/models.json` if you want a smaller active list.
+2. `python models.py`, then edit `scenarios/models.json` if you want fewer models.
 3. Add a scenario folder with `test.json` and `question1.md`.
-4. Run `python scenarios.py`.
-5. Set modes in `scenarios/scenarios.json`.
-6. Run `python run.py`.
-7. Run `python evaluate.py` when you want a cloud ranking.
+4. `python scenarios.py`.
+5. Set `mode` in `scenarios/scenarios.json` when a scenario should not stay on `update`.
+6. `python run.py`.
+7. `python evaluate.py` when you want a cloud ranking.
+8. `python clean.py` only when you want live results to drop models that are no longer on the active list. Their records remain under `archive/YYYY MM DD/`.
 
-Hand-edit rules are in [get-started.md](get-started.md) under "Files you can edit by hand."
+## Other documents
+
+- `README.md` — short human introduction
+- `documentation/get-started.md` — settings, precedence, and the hand-edit table
+- `documentation/evaluation.md` — how to run the judge
+- `documentation/workflow.md` — the same process done by hand
+- `documentation/instructions.md` — the scoring instructions sent to the judge
+- `documentation/plugin.md` — how a backend is wired
+- `documentation/summary-app.md` — a one-page summary that points here
+- `CHANGE.md` — dated history of behavior changes
+
+Do not treat `results/` or `scenarios/` markdown as the specification. Those files are test content and test output.

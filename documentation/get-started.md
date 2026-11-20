@@ -94,7 +94,7 @@ For every scenario the runner creates a matching folder under `results/`.
 | `evaluation-<model>.md` | Readable copy of that conversation |
 | `info.md` | Helper-model prose for this scenario |
 
-A scenario is complete when every key in `scenarios/models.json` has a `<model-key>.md` file here. Extra files, including older `grok.md` transcripts and evaluation notes, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
+A scenario is complete when every key in `scenarios/models.json` has a `<model-key>.md` file here. Extra files, including `evaluation-*.md`, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
 
 Root stats in `results/stats.json` and `results/stats.md` are rebuilt from the scenario stats after a run that finishes at least one test. A run with nothing to do leaves them alone. `overall_seconds` is the wall-clock time of that run. Each model's `total_seconds` is the sum of its scenario records.
 

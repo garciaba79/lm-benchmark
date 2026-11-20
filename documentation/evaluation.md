@@ -64,4 +64,12 @@ The script loads `evaluation-<model>.json` for the configured model. `evaluated_
 
 Older evaluation files do not have `evaluated_keys`. The script fills that list from the `### <model-key>` lines it wrote into the conversation, then saves the list. Use `--force` to start over.
 
-Manual rankings that were saved as `grok.md` are not read by this script. Rename those files to `grok-4.3.md` if that is the model that wrote them. The automated transcript name is `evaluation-grok-4.3.json`.
+The script reads `evaluation-<model>.json`. It does not read markdown transcripts. When a scenario finishes, it writes `evaluation-<model>.md` from that JSON.
+
+Three hand transcripts that used to be named `grok.md` are now `evaluation-grok-4.3.md`:
+
+- `results/summary/expedition/evaluation-grok-4.3.md`
+- `results/react components/count/evaluation-grok-4.3.md`
+- `results/function/fetch weather/evaluation-grok-4.3.md`
+
+Those three folders have no `evaluation-grok-4.3.json`. The next `evaluate.py` run that scores them with `grok-4.3` will replace that markdown with the new conversation.

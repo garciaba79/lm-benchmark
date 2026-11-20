@@ -17,6 +17,8 @@ Run and evaluate now update records by model key. A normal run keeps historic re
 - `evaluate.py` selects one backend, one key, and `EVAL_MODEL`. `grok_api` is the default. `evaluated_keys` in `evaluation-<model>.json` is the resume list.
 - `EVAL_TIMEOUT` applies to the Grok API, OpenAI, Gemini, Anthropic, and the Grok CLI.
 - The project requires Python 3.14.
+- `documentation/lm-benchmark.md`, `documentation/summary-app.md`, and `documentation/plugin.md` match the current scripts and folders. `documentation/summary-context.md` stays the earlier session note.
+- The three hand transcripts named `grok.md` are now `evaluation-grok-4.3.md`.
 
 ## 2026-11-18
 

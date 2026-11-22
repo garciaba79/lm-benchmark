@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "personal/advice",
+  "test": "Question Personal Advice",
+  "created": "11/22/2026, 12:35:59 PM",
+  "context_length": 16384,
+  "system_prompt": "You are a helpful assistant. Answer the user's questions clearly and completely. Follow any instructions in the questions. Do not add extra commentary unless it helps the answer.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "I'm a solo developer working full-time on a side project that makes ~$4,000/month in revenue. I want to quit my job and go full-time indie, but I'm worried about health insurance, inconsistent income, and burnout.\n\nWhat are the two most important things I should realistically do before making the leap in 2026? Give a short, practical answer."
+    },
+    {
+      "role": "assistant",
+      "content": "1. **Secure a financial runway and insurance solution:** Save at least 12\u201318 months of living expenses in a high-yield account to buffer against the inevitable income dips. Simultaneously, research and enroll in an individual health insurance plan (via the marketplace or COBRA) to understand your monthly cost and coverage limits before you lose your employer\u2019s plan.\n\n2. **Prove scalable growth and reduce dependency:** Ensure your revenue is growing consistently (e.g., 10\u201320% month-over-month) for at least 6 months, rather than just being stable. This proves the business can sustain you during slow months and validates that your current success isn\u2019t just a temporary spike.",
+      "stats_line": "49 t/s, 145 tokens, 3s, 2%"
+    }
+  ]
+}

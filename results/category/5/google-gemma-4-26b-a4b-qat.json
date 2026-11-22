@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "category/5",
+  "test": "Category 5",
+  "created": "11/22/2026, 03:00:16 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are an AI memory categorizer for OpenMemory/mem0.\n\nTask:\n1. Analyze the following user statement/memory.\n2. Create 3\u20136 meaningful, concise categories that best describe the content, intent, topic, emotion, and any key entities.\n3. Output ONLY the categories as a comma-delimited list. No explanation, no numbering, no extra text.\n\nStatement/memory:\n\"Spent the afternoon optimizing my Next.js blog with server-side rendering and image optimization using next/image. Got stuck on hydration errors for hours, but finally fixed it by wrapping the client component correctly. Super satisfied now\u2014planning to add search functionality with Algolia next weekend.\"\n\nCategories (comma-delimited list only):"
+    },
+    {
+      "role": "assistant",
+      "content": "Web Development, Next.js, Programming Challenges, Accomplishments, Future Plans, Tech Stack",
+      "stats_line": "60 t/s, 19 tokens, 1s, 1%"
+    }
+  ]
+}

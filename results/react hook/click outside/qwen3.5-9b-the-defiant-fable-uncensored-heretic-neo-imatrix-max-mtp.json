@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "react hook/click outside",
+  "test": "Hook Click Outside",
+  "created": "11/22/2026, 02:54:52 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called useClickOutside in TypeScript that takes a ref to an HTMLElement and a callback function. The callback should be called when the user clicks outside the referenced element. Use React 18+ hooks only, no external libraries, and ensure proper event listener cleanup.\n\nImportant reminders and tips (double-check these before submitting your final code):\n- Think carefully about which event(s) you should listen to: is 'click' always the best choice, or should you consider 'mousedown' or 'touchstart' for better mobile behavior?\n- Make sure the check for \"outside\" uses the correct DOM method to see if the click target is inside or a child of the referenced element.\n- Avoid common mistakes: do NOT use getBoundingClientRect() coordinates to check position \u2014 that approach is fragile and unnecessary.\n- Ensure the event listener is added only once per mount (not on every render) to prevent duplicate listeners.\n- The cleanup must properly remove the exact same listener function that was added.\n- The hook should return void (nothing) \u2014 it performs side-effects only.\n- Handle cases where the ref might be null or the element not yet mounted.\n- Consider browser event propagation and whether you need to stop propagation in any cases.\n\nTake your time, reason step by step if needed, and make sure your code is clean, type-safe, and production-ready."
+    },
+    {
+      "role": "assistant",
+      "content": "```ts\nimport { useEffect, useRef } from \"react\";\n\n/**\n * useClickOutside\n *\n * Calls `handler` when the user clicks/taps outside the element referenced by `ref`.\n * - Uses React 18+ hooks only (no external libraries).\n * - Listens to 'mousedown' for better mobile responsiveness.\n * - Properly cleans up listeners on unmount or ref change.\n * - Returns void; performs side-effects only.\n */\nexport function useClickOutside<T extends HTMLElement>(\n  ref: React.RefObject<T | null>,\n  handler: (event: MouseEvent | TouchEvent) => void,\n  options?: {\n    /**\n     * If true, stop propagation of the event when clicking outside.\n     * Useful to prevent parent components from also handling the click.\n     */\n    stopPropagation?: boolean;\n  } = {}\n): void {\n  const { stopPropagation = false } = options || {};\n\n  // We use a stable listener function so we can remove it reliably later.\n  const listenerRef = useRef<(e: MouseEvent | TouchEvent) => void>();\n\n  useEffect(() => {\n    if (!ref.current) return;\n\n    // Create the listener once per mount (or when ref changes).\n    listenerRef.current = (event: MouseEvent | TouchEvent) => {\n      const target = event.target as Node | null;\n      if (!target) return;\n\n      // Check if the click/tap is inside the element or any of its descendants.\n      if (ref.current.contains(target)) {\n        return;\n      }\n\n      handler(event);\n\n      if (stopPropagation) {\n        event.stopPropagation();\n      }\n    };\n\n    // Attach to 'mousedown' for better mobile behavior, and also handle touchstart\n    // by delegating via mousedown. This avoids duplicate handlers on touch devices.\n    ref.current.addEventListener(\"mousedown\", listenerRef.current as EventListener);\n\n    return () => {\n      if (!ref.current) return;\n      const listener = listenerRef.current;\n      if (listener) {\n        ref.current.removeEventListener(\"mousedown\", listener as EventListener);\n      }\n    };\n  }, [ref, handler, stopPropagation]); // Re-run when these dependencies change.\n}\n```",
+      "stats_line": "103 t/s, 491 tokens, 5s, 5%"
+    }
+  ]
+}

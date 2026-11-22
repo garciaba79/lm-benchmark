@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "personal/schedule",
+  "test": "Question Personal Assistant",
+  "created": "11/22/2026, 02:52:03 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a personal productivity assistant.\nUser has these goals for today:\n- Finish React component for dashboard\n- Review pull request from Sarah\n- Go to the gym\n- Buy groceries (milk, eggs, bread)\n\nCreate a realistic 1-day schedule for the user.\nInclude approximate times, short breaks, and one small reward at the end.\nFormat as a numbered list with time ranges."
+    },
+    {
+      "role": "assistant",
+      "content": "Here\u2019s a realistic 1-day schedule that balances focused work, collaboration, physical activity, and errands:\n\n1. **9:00\u201310:30** \u2013 Deep work block: Build the React dashboard component (no distractions).  \n2. **10:30\u201310:45** \u2013 Short break: Stretch, hydrate, step away from screens.  \n3. **10:45\u201312:00** \u2013 Finish and test the dashboard; push to staging for quick validation.  \n4. **12:00\u201312:30** \u2013 Lunch + mental reset (no work emails).  \n5. **12:30\u201313:30** \u2013 Review Sarah\u2019s pull request with comments/feedback ready by end of block.  \n6. **13:30\u201314:00** \u2013 Quick admin tasks or team sync if needed.  \n7. **14:00\u201315:30** \u2013 Gym session (aim for 90 minutes including warm-up and cool-down).  \n8. **15:30\u201316:00** \u2013 Shower, change, refuel with a protein snack or meal.  \n9. **16:00\u201317:00** \u2013 Grocery run: pick up milk, eggs, bread; keep it efficient.  \n10. **17:00\u201318:30** \u2013 Wind-down time: cook dinner, relax, prep for tomorrow.  \n\n**Small reward at the end:** Enjoy a favorite dessert or treat while watching one episode of your show tonight\u2014guilt-free, since you\u2019ve checked all today\u2019s goals.",
+      "stats_line": "106 t/s, 358 tokens, 3s, 3%"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "react hook/previous",
+  "test": "Hook Previous",
+  "created": "11/22/2026, 03:09:14 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called usePrevious in TypeScript that takes a value of generic type T and returns the previous value from the last render. It should work with any type and handle initial renders correctly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "To implement a `usePrevious` hook in React, we leverage the `useRef` hook. Since `useRef` persists its value across renders but updating a ref does not trigger a re-render, we can use a `useEffect` to update the ref *after* the component has rendered with the current value.\n\nHere is the robust TypeScript implementation.\n\n```typescript\nimport { useRef, useEffect } from 'react';\n\n/**\n * A custom hook that returns the previous value of a passed-in value.\n * \n * @param value - The current value that you want to track.\n * @returns The value from the previous render.\n * \n * @template T - The type of the value being tracked.\n */\nfunction usePrevious<T>(value: T): T | undefined {\n  // We use a ref to store the value from the previous render.\n  // We initialize it as undefined because on the first render, \n  // there is no \"previous\" value.\n  const ref = useRef<T>();\n\n  // useEffect runs AFTER the render is committed to the screen.\n  // This means when 'value' changes, the component re-renders,\n  // the hook returns the 'old' value stored in the ref,\n  // and then we update the ref to the 'new' value for the next render.\n  useEffect(() => {\n    ref.current = value;\n  }, [value]);\n\n  // Return the value currently held in the ref (which is the value from the PREVIOUS render).\n  return ref.current;\n}\n\nexport default usePrevious;\n```\n\n### How it works (Step-by-Step)\n\n1.  **Initial Render:**\n    *   `value` is `A`.\n    *   `useRef` initializes `ref.current` as `undefined`.\n    *   The hook returns `undefined`.\n    *   `useEffect` runs (after render) and sets `ref.current = A`.\n2.  **Second Render (Value changes to `B`):**\n    *   `value` is `B`.\n    *   The hook returns `ref.current`, which is currently `A`.\n    *   `useEffect` runs (after render) and sets `ref.current = B`.\n3.  **Third Render (Value changes to `C`):**\n    *   `value` is `C`.\n    *   The hook returns `ref.current`, which is currently `B`.\n    *   `useEffect` runs and sets `ref.current = C`.\n\n### Usage Example\n\n```tsx\nimport React, { useState } from 'react';\nimport usePrevious from './usePrevious';\n\nconst Counter: React.FC = () => {\n  const [count, setCount] = useState<number>(0);\n  const prevCount = usePrevious(count);\n\n  return (\n    <div>\n      <h1>Current: {count}</h1>\n      <h2>Previous: {prevCount ?? 'None'}</h2>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};\n```\n\n### Key Technical Details:\n*   **Generics (`<T>`)**: By using a generic type, the hook maintains strict type safety. If you pass a `number`, the return type is `number | undefined`.\n*   **Strict Mode Compatibility**: This pattern is compatible with React 18's Strict Mode. While `useEffect` might run twice in development, the logic remains sound because the ref update only happens after the commit phase.\n*   **Complexity**: Time complexity is $O(1)$ and Space complexity is $O(1)$.",
+      "stats_line": "57 t/s, 793 tokens, 14s, 5%"
+    }
+  ]
+}

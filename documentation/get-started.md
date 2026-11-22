@@ -90,7 +90,8 @@ For every scenario the runner creates a matching folder under `results/`.
 | `test.md` | Overview. The evaluation status section is kept when the runner rewrites the file |
 | `stats.md` | Statistics table generated from `stats.json` |
 | `stats.json` | Raw numbers, one record per model key |
-| `results.md` | Cloud ranking written by `evaluate.py`. The runner creates it only when it is missing |
+| `results.json` | Score table written by `evaluate.py` |
+| `results.md` | Readable table written from `results.json`. The runner creates the markdown only when it is missing |
 | `evaluation-<model>.json` | Evaluation conversation and the list of scored model keys |
 | `evaluation-<model>.md` | Readable copy of that conversation |
 | `info.md` | Helper-model prose for this scenario |
@@ -131,11 +132,11 @@ Before any load the script lists currently loaded models via the LM Studio API a
 
 `clean.py` does not run `models.py`. It reads the active list you already have. If that file is missing or has no model keys, it stops and leaves the results alone.
 
-- **archive** — copies `<model-key>.md` and `<model-key>.json` for model keys that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, and `evaluation-*` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
+- **archive** — copies `<model-key>.md` and `<model-key>.json` for model keys that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, `results.json`, and `evaluation-*` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
 - **results** — archives first, then deletes those `<model-key>.md` and `<model-key>.json` files from the live folder.
 - **stats** — archives first, then removes those keys from the live `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats. The tables are rebuilt from the records that remain. The evaluation status section in `test.md` is kept.
 
-`info.md`, `results.md`, and `evaluation-*` stay in the live folder because they describe the scenario, not one model. Their copies in the archive keep the text from the day you archived. Empty result folders are left in place. A markdown file whose key is not in that scenario's `models.json` is left alone.
+`info.md`, `results.md`, `results.json`, and `evaluation-*` stay in the live folder because they describe the scenario, not one model. Their copies in the archive keep the text from the day you archived. Empty result folders are left in place. A markdown file whose key is not in that scenario's `models.json` is left alone.
 
 ## Files you can edit by hand
 
@@ -149,7 +150,8 @@ Before any load the script lists currently loaded models via the LM Studio API a
 | `results/<scenario>/stats.json` | Edit a model's numbers | The next successful test of that key replaces its record. Other keys stay |
 | `results/stats.json` | Short-lived notes only | The next run that finishes a test rebuilds this file from the scenario stats |
 | `test.md` evaluation section | Edit the status text | `run.py` keeps the section. `evaluate.py` replaces it |
-| `results.md` | Edit until the next evaluation | `evaluate.py` replaces it with the new ranking |
+| `results.json` | Edit until the next evaluation | `evaluate.py` merges new scores into it. `--force` replaces it |
+| `results.md` | Edit until the next evaluation | `evaluate.py` rewrites it from `results.json` |
 | `info.md` | Optional notes | Replaced when the helper model returns a summary |
 
 Question files must be numbered without gaps (`question1.md`, `question2.md`, …). The loader stops at the first missing number.

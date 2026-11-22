@@ -49,8 +49,8 @@ The percent is how full the context window is after that reply: tokens used so f
 
 - Share the collected files and test information with a large cloud model.
 - Ask it to review the results, compare the models, and rank them on the test.
-- By hand, paste that ranking into `results.md`.
-- `python evaluate.py` sends the result files in batches and writes `results.md` itself. The default cloud backend is the Grok API.
+- By hand, save the JSON score table as `results.json`.
+- `python evaluate.py` sends the result files in batches, saves `results.json`, and writes `results.md` from that file. The default cloud backend is the Grok API.
 
 ### Consistency rules
 

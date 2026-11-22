@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "react hook/window size",
+  "test": "Hook Window Size",
+  "created": "11/22/2026, 12:46:10 PM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called useWindowSize in TypeScript that returns the current window dimensions as an object { width: number, height: number }. It should update automatically on window resize and handle cleanup properly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```typescript\nimport { useState, useEffect } from 'react';\n\ninterface WindowSize {\n  width: number;\n  height: number;\n}\n\nfunction useWindowSize(): WindowSize {\n  const [size, setSize] = useState<WindowSize>({\n    width: window.innerWidth,\n    height: window.innerHeight,\n  });\n\n  useEffect(() => {\n    const handleResize = () => {\n      setSize({\n        width: window.innerWidth,\n        height: window.innerHeight,\n      });\n    };\n\n    window.addEventListener('resize', handleResize);\n\n    return () => {\n      window.removeEventListener('resize', handleResize);\n    };\n  }, []);\n\n  return size;\n}\n\nexport { useWindowSize };\n```",
+      "stats_line": "48 t/s, 159 tokens, 3s, 1%"
+    }
+  ]
+}

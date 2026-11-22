@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "personal/schedule",
+  "test": "Question Personal Assistant",
+  "created": "11/22/2026, 03:03:01 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a personal productivity assistant.\nUser has these goals for today:\n- Finish React component for dashboard\n- Review pull request from Sarah\n- Go to the gym\n- Buy groceries (milk, eggs, bread)\n\nCreate a realistic 1-day schedule for the user.\nInclude approximate times, short breaks, and one small reward at the end.\nFormat as a numbered list with time ranges."
+    },
+    {
+      "role": "assistant",
+      "content": "Here is a realistic, high-productivity schedule designed to tackle your deep work when your focus is highest, while ensuring your errands and self-care are completed.\n\n1. **08:30 AM \u2013 09:00 AM: Morning Routine & Prep**\n   * Coffee, quick breakfast, and reviewing your task list.\n\n2. **09:00 AM \u2013 11:30 AM: Deep Work: React Component (Dashboard)**\n   * Focus on the core logic and styling of the component. This is your most taxing task; do it while your brain is fresh.\n\n3. **11:30 AM \u2013 11:45 AM: Short Break**\n   * Step away from the screen. Stretch or grab water.\n\n4. **11:45 AM \u2013 12:45 PM: Review Pull Request (Sarah)**\n   * Review the code while your brain is still in \"coding mode.\" Provide feedback or approve to keep the team moving.\n\n5. **12:45 PM \u2013 01:45 PM: Lunch Break**\n   * Eat away from your desk to prevent mental fatigue.\n\n6. **01:45 PM \u2013 03:15 PM: Buffer Time / Admin / Emails**\n   * Use this time for any unexpected small tasks, Slack messages, or finalizing the dashboard component if it needs a final polish.\n\n7. **03:15 PM \u2013 04:45 PM: Gym Session**\n   * A mid-afternoon energy boost. Physical activity will help clear any \"brain fog\" from coding.\n\n8. **04:45 PM \u2013 05:30 PM: Commute & Grocery Run**\n   * Stop at the store on the way home to pick up **milk, eggs, and bread**. This saves you a second trip later!\n\n9. **05:30 PM \u2013 06:30 PM: Evening Wind-down & Dinner**\n   * Cook a meal and relax.\n\n10. **06:30 PM \u2013 Onward: Reward Time**\n    * **Your Reward:** Watch one episode of your favorite show or play 30 minutes of a video game. You earned it!",
+      "stats_line": "58 t/s, 485 tokens, 9s, 4%"
+    }
+  ]
+}

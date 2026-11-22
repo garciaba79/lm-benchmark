@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "react hook/window size",
+  "test": "Hook Window Size",
+  "created": "11/22/2026, 03:09:53 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called useWindowSize in TypeScript that returns the current window dimensions as an object { width: number, height: number }. It should update automatically on window resize and handle cleanup properly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "Here is a robust, production-ready implementation of the `useWindowSize` hook in TypeScript.\n\n```typescript\nimport { useState, useEffect } from 'react';\n\ninterface WindowSize {\n  width: number;\n  height: number;\n}\n\n/**\n * A hook that returns the current window dimensions.\n * Updates automatically when the window is resized.\n */\nexport const useWindowSize = (): WindowSize => {\n  // Initialize state with undefined to prevent SSR (Server Side Rendering) mismatch\n  // If using Next.js or Remix, this ensures the first render matches the server.\n  const [windowSize, setWindowSize] = useState<WindowSize>({\n    width: typeof window !== 'undefined' ? window.innerWidth : 0,\n    height: typeof window !== 'undefined' ? window.innerHeight : 0,\n  });\n\n  useEffect(() => {\n    // Function to update state with current window dimensions\n    const handleResize = () => {\n      setWindowSize({\n        width: window.innerWidth,\n        height: window.innerHeight,\n      });\n    };\n\n    // Add event listener\n    window.addEventListener('resize', handleResize);\n\n    // Call handler immediately to ensure state is synced on mount\n    handleResize();\n\n    // Cleanup function to remove listener when component unmounts\n    return () => window.removeEventListener('resize', handleResize);\n  }, []); // Empty dependency array means this runs once on mount\n\n  return windowSize;\n};\n```\n\n### Key Features of this Implementation:\n\n1.  **TypeScript Interfaces**: Uses a `WindowSize` interface to ensure type safety for the returned object.\n2.  **SSR Safety**: It checks `typeof window !== 'undefined'`. This prevents the application from crashing if you use this hook in a framework like **Next.js**, where the code might execute on the server where `window` does not exist.\n3.  **Memory Leak Prevention**: It returns a cleanup function `window.removeEventListener` inside `useEffect`. This is crucial to prevent memory leaks when the component using the hook is destroyed.\n4.  **React 18 Ready**: Uses standard `useState` and `useEffect` patterns compatible with React 18's Concurrent Mode.\n5.  **Immediate Sync**: It calls `handleResize()` inside the `useEffect` to ensure the dimensions are captured immediately upon mounting, even if the window was resized before the component mounted.\n\n### Usage Example:\n\n```tsx\nimport React from 'react';\nimport { useWindowSize } from './useWindowSize';\n\nconst MyComponent = () => {\n  const { width, height } = useWindowSize();\n\n  return (\n    <div style={{ padding: '20px' }}>\n      <h1>Window Dimensions</h1>\n      <p>Width: {width}px</p>\n      <p>Height: {height}px</p>\n      \n      {width < 768 ? (\n        <p>\ud83d\udcf1 You are on a mobile-sized screen.</p>\n      ) : (\n        <p>\ud83d\udcbb You are on a desktop-sized screen.</p>\n      )}\n    </div>\n  );\n};\n\nexport default MyComponent;\n```\n\n### Optimization Note (Throttling/Debouncing)\nIn a highly complex application where many components use this hook simultaneously, the `resize` event can fire many times per second. If you notice performance issues, you might want to wrap the `handleResize` function in a **debounce** or **throttle** function to limit the number of state updates.",
+      "stats_line": "56 t/s, 768 tokens, 14s, 5%"
+    }
+  ]
+}

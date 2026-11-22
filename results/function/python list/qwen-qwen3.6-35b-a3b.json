@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "function/python list",
+  "test": "Function Python List",
+  "created": "11/22/2026, 03:13:14 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a clean Python function that takes a list of strings (like [\"apple\", \"banana\", \"apple\", \"cherry\"]) and returns a dictionary with each unique fruit as key and its count as value (e.g., {\"apple\": 2, \"banana\": 1, \"cherry\": 1}). \n\nThen add error handling: if the list is empty, return an empty dict; if any item is not a string, raise a ValueError with a clear message.\n\nFinally, write a short example usage with print statements showing the result."
+    },
+    {
+      "role": "assistant",
+      "content": "```python\ndef count_fruits(fruits: list) -> dict:\n    \"\"\"\n    Takes a list of strings and returns a dictionary with each unique string as key\n    and its count as value.\n    \n    Raises:\n        ValueError: If any item in the list is not a string.\n    \"\"\"\n    if not fruits:\n        return {}\n    \n    for item in fruits:\n        if not isinstance(item, str):\n            raise ValueError(f\"All items must be strings. Found: {type(item).__name__}\")\n    \n    result = {}\n    for fruit in fruits:\n        if fruit in result:\n            result[fruit] += 1\n        else:\n            result[fruit] = 1\n    \n    return result\n\n\n# Example usage\nif __name__ == \"__main__\":\n    # Example 1: Normal case\n    fruits = [\"apple\", \"banana\", \"apple\", \"cherry\"]\n    print(f\"Input: {fruits}\")\n    print(f\"Output: {count_fruits(fruits)}\")\n    print()\n    \n    # Example 2: Empty list\n    empty_fruits = []\n    print(f\"Input: {empty_fruits}\")\n    print(f\"Output: {count_fruits(empty_fruits)}\")\n    print()\n    \n    # Example 3: Invalid input\n    invalid_fruits = [\"apple\", 123, \"banana\"]\n    print(f\"Input: {invalid_fruits}\")\n    try:\n        count_fruits(invalid_fruits)\n    except ValueError as e:\n        print(f\"Error: {e}\")\n```",
+      "stats_line": "43 t/s, 351 tokens, 8s, 3%"
+    }
+  ]
+}

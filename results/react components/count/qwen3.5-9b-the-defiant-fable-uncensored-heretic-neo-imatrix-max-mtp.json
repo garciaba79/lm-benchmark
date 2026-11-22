@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "react components/count",
+  "test": "component count",
+  "created": "11/22/2026, 02:54:45 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a simple React functional component in TypeScript that does the following:\n\n- Accepts a prop called `initialCount` of type number (default to 0 if not provided).\n- Displays the current count in a large, centered heading.\n- Has two buttons: \"Increment\" and \"Decrement\".\n- Clicking \"Increment\" increases the count by 1.\n- Clicking \"Decrement\" decreases the count by 1, but never lets it go below 0.\n- Style the component nicely using inline styles or a basic CSS object (no external CSS files or libraries like Tailwind).\n- Make sure all props and state are properly typed.\n- Follow modern React principles and best practices.\n\nShow the complete component code, including imports."
+    },
+    {
+      "role": "assistant",
+      "content": "```tsx\nimport React from 'react';\n\ninterface CounterProps {\n  initialCount?: number;\n}\n\nconst Counter: React.FC<CounterProps> = ({ initialCount = 0 }) => {\n  const [count, setCount] = React.useState<number>(initialCount);\n\n  const increment = () => setCount((prev) => prev + 1);\n\n  const decrement = () => setCount((prev) => Math.max(0, prev - 1));\n\n  // Basic inline styles for a clean look\n  const containerStyle: React.CSSProperties = {\n    display: 'flex',\n    flexDirection: 'column' as const,\n    alignItems: 'center',\n    justifyContent: 'center',\n    minHeight: '100vh',\n    fontFamily: '-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif',\n  };\n\n  const headingStyle: React.CSSProperties = {\n    fontSize: '4rem',\n    fontWeight: 700,\n    margin: '2rem 0',\n    color: '#1f2937', // gray-800\n  };\n\n  const buttonBaseStyle: React.CSSProperties = {\n    padding: '0.75rem 1.5rem',\n    fontSize: '1rem',\n    fontWeight: 600,\n    borderRadius: '0.5rem',\n    border: 'none',\n    cursor: 'pointer',\n    transition: 'background-color 0.2s ease, transform 0.1s ease',\n    outline: 'none',\n  };\n\n  const incrementStyle: React.CSSProperties = {\n    ...buttonBaseStyle,\n    backgroundColor: '#3b82f6', // blue-500\n    color: 'white',\n  };\n\n  const decrementStyle: React.CSSProperties = {\n    ...buttonBaseStyle,\n    backgroundColor: '#ef4444', // red-500\n    color: 'white',\n  };\n\n  return (\n    <div style={containerStyle}>\n      <h1 style={headingStyle}>{count}</h1>\n      <div style={{ display: 'flex', gap: '1rem' }}>\n        <button onClick={decrement} style={decrementStyle}>\n          Decrement\n        </button>\n        <button onClick={increment} style={incrementStyle}>\n          Increment\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default Counter;\n```",
+      "stats_line": "106 t/s, 554 tokens, 5s, 4%"
+    }
+  ]
+}

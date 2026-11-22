@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "react hook/previous",
+  "test": "Hook Previous",
+  "created": "11/22/2026, 02:55:30 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called usePrevious in TypeScript that takes a value of generic type T and returns the previous value from the last render. It should work with any type and handle initial renders correctly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```ts\nimport { useEffect, useRef } from 'react';\n\n/**\n * usePrevious - Returns the previous value of a given state/prop.\n *\n * @param value - The current value to track.\n * @returns The previous value on subsequent renders; undefined on the first render.\n */\nexport function usePrevious<T>(value: T): T | undefined {\n  const ref = useRef<T | undefined>(undefined);\n\n  useEffect(() => {\n    // Store the current value for next render\n    ref.current = value;\n  }, [value]);\n\n  return ref.current;\n}\n```",
+      "stats_line": "105 t/s, 131 tokens, 1s, 1%"
+    }
+  ]
+}

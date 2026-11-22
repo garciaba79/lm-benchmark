@@ -1,7 +1,7 @@
 {
   "scenario": "summary/expedition",
-  "run_time": "11/18/2026, 11:41:46 PM",
-  "overall_seconds": 5445.1430980000005,
+  "run_time": "11/22/2026, 03:11:43 AM",
+  "overall_seconds": 5759.717171,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -912,6 +912,87 @@
       ],
       "scenario": "summary/expedition",
       "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+      "params": "9B",
+      "quant": "Q4_K_S",
+      "size_gb": 7.8,
+      "context": "32K",
+      "context_length": 32768,
+      "avg_tps": 95.94877685182554,
+      "total_seconds": 80.572339,
+      "question_times": [
+        1.9603030000000001,
+        0.7672230000000001,
+        6.232118000000001,
+        10.278059,
+        2.372297,
+        4.151833,
+        4.005571,
+        5.247172000000001,
+        11.388145,
+        9.606735,
+        8.637012,
+        15.925870999999999
+      ],
+      "scenario": "summary/expedition",
+      "file": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md"
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "display_name": "Gemma 4 26B A4B QAT",
+      "params": "26B-A4B",
+      "quant": "Q4_0",
+      "size_gb": 14.56,
+      "context": "32K",
+      "context_length": 32768,
+      "avg_tps": 44.010484711858275,
+      "total_seconds": 184.510791,
+      "question_times": [
+        1.4162849999999998,
+        6.554823000000001,
+        14.686169,
+        18.317593999999996,
+        4.491733,
+        11.494136000000001,
+        7.749536,
+        17.536369,
+        28.334838000000005,
+        23.536210999999998,
+        27.492801,
+        22.900296
+      ],
+      "scenario": "summary/expedition",
+      "file": "google-gemma-4-26b-a4b-qat.md"
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "display_name": "Qwen3.6 35B A3B",
+      "params": "35B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 20.55,
+      "context": "32K",
+      "context_length": 32768,
+      "avg_tps": 31.669317377051076,
+      "total_seconds": 49.490943,
+      "question_times": [
+        1.353426,
+        0.5724499999999999,
+        0.649929,
+        0.8760249999999999,
+        0.48385300000000003,
+        0.665384,
+        0.640618,
+        1.461301,
+        1.795873,
+        1.0333880000000002,
+        1.020734,
+        38.937962
+      ],
+      "scenario": "summary/expedition",
+      "file": "qwen-qwen3.6-35b-a3b.md"
     }
   ]
 }

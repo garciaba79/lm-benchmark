@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "summary/extract languages",
+  "test": "Summary Extract Languages",
+  "created": "11/22/2026, 12:46:15 PM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Summarize the following text in 3-4 sentences.\nThen extract 5-7 single-word or short-phrase key topics/entities.\n\nText:\nThe rise of large language models has transformed software development. Tools like GitHub Copilot and Cursor now generate entire functions from natural language prompts. However, developers still need to review and debug the code, especially for security vulnerabilities and edge cases. Companies are increasingly adopting AI coding assistants, but concerns about data privacy, intellectual property, and over-reliance remain significant. In 2025, over 40% of code in some organizations is AI-generated, with productivity gains reported between 30-55% depending on the task complexity."
+    },
+    {
+      "role": "assistant",
+      "content": "Large language models have significantly transformed software development by enabling tools like GitHub Copilot to generate code from natural language prompts. Despite substantial productivity gains and widespread adoption, developers must still manually review and debug this code to address security vulnerabilities and edge cases. While organizations report productivity increases of 30-55%, concerns regarding data privacy, intellectual property, and over-reliance on AI remain significant challenges.\n\n**Key Topics/Entities:**\n1. Large language models\n2. GitHub Copilot\n3. Software development\n4. Code generation\n5. Data privacy\n6. Intellectual property\n7. Productivity gains",
+      "stats_line": "49 t/s, 125 tokens, 3s, 2%"
+    }
+  ]
+}

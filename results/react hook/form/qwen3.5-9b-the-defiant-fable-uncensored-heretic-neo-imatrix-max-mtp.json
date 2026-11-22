@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "react hook/form",
+  "test": "Hook Form",
+  "created": "11/22/2026, 02:55:07 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a custom React hook called `useForm` that manages form state and provides an onChange handler and a reset function.\n\nRequirements:\n- Takes an object of initial values (e.g. { name: \"\", email: \"\" })\n- Returns: [values, handleChange, reset]\n- handleChange should work with standard inputs: <input name=\"email\" onChange={handleChange} />\n- reset() should restore initial values\n- Do NOT use any external libraries\n\nOnly return the hook function. No explanation."
+    },
+    {
+      "role": "assistant",
+      "content": "```javascript\nimport { useState } from 'react';\n\nexport const useForm = (initialValues) => {\n  const [values, setValues] = useState(initialValues);\n\n  const handleChange = (e) => {\n    const { name, value } = e.target;\n    setValues((prev) => ({ ...prev, [name]: value }));\n  };\n\n  const reset = () => {\n    setValues(initialValues);\n  };\n\n  return [values, handleChange, reset];\n};\n```",
+      "stats_line": "106 t/s, 112 tokens, 1s, 1%"
+    }
+  ]
+}

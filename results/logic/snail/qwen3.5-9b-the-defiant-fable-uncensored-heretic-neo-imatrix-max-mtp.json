@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "logic/snail",
+  "test": "Logic Snail",
+  "created": "11/22/2026, 02:51:42 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Solve this step by step without using code or external tools.\n\nA snail climbs 3 meters up a 10-meter pole during the day, but slips back 2 meters at night. How many days does it take the snail to reach the top?\nShow every step of your reasoning."
+    },
+    {
+      "role": "assistant",
+      "content": "Let\u2019s solve this carefully and clearly.\n\nWe are told:\n- The pole is 10 meters high.\n- During each day, the snail climbs up 3 meters.\n- At night, it slips back down 2 meters.\n- We want to know how many full days it takes for the snail to reach or pass the top (\u2265 10 m).\n\nImportant: Once the snail reaches or passes the top during the day, it stops slipping back that night because it\u2019s already at the goal.\n\nLet\u2019s track its position day by day.\n\nDay 1:\n- Starts at 0 meters.\n- Climbs 3 meters \u2192 reaches 3 meters.\n- At night slips back 2 meters \u2192 ends Day 1 at 1 meter.\n\nDay 2:\n- Starts at 1 meter.\n- Climbs 3 meters \u2192 reaches 4 meters.\n- Slips back 2 meters \u2192 ends Day 2 at 2 meters.\n\nDay 3:\n- Starts at 2 meters.\n- Climbs 3 meters \u2192 reaches 5 meters.\n- Slips back 2 meters \u2192 ends Day 3 at 3 meters.\n\nDay 4:\n- Starts at 3 meters.\n- Climbs 3 meters \u2192 reaches 6 meters.\n- Slips back 2 meters \u2192 ends Day 4 at 4 meters.\n\nDay 5:\n- Starts at 4 meters.\n- Climbs 3 meters \u2192 reaches 7 meters.\n- Slips back 2 meters \u2192 ends Day 5 at 5 meters.\n\nDay 6:\n- Starts at 5 meters.\n- Climbs 3 meters \u2192 reaches 8 meters.\n- Slips back 2 meters \u2192 ends Day 6 at 6 meters.\n\nDay 7:\n- Starts at 6 meters.\n- Climbs 3 meters \u2192 reaches 9 meters.\n- Slips back 2 meters \u2192 ends Day 7 at 7 meters.\n\nDay 8:\n- Starts at 7 meters.\n- Climbs 3 meters \u2192 reaches 10 meters.\n- Now the snail has reached exactly the top during the day. It does not slip back because it\u2019s done.\n\nSo, on Day 8, during its daytime climb, it reaches 10 meters and is finished.\n\nAnswer: 8 days.",
+      "stats_line": "102 t/s, 513 tokens, 5s, 4%"
+    }
+  ]
+}

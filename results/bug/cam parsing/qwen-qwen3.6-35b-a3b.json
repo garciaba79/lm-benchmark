@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "bug/cam parsing",
+  "test": "",
+  "created": "11/22/2026, 03:12:15 AM",
+  "context_length": 16384,
+  "system_prompt": "You are a helpful assistant. Answer the user's questions clearly and completely. Follow any instructions in the questions. Do not add extra commentary unless it helps the answer.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Fixed a bug today in my Home Assistant custom integration for the Wyze cam. The motion detection webhook was failing intermittently because the timestamp format from Wyze API changed (now ISO 8601 with milliseconds). Updated the parser from datetime.strptime('%Y-%m-%d %H:%M:%S') to handle .%f. Also added a try/except block with logging. Tested with a fake event payload\u2014works now. Code change was small but saved a lot of false alerts. Spent about 45 minutes debugging. Reminded myself to check API docs more often when vendors update things."
+    },
+    {
+      "role": "assistant",
+      "content": "That sounds like a frustrating but ultimately rewarding fix. Intermittent timestamp issues are notoriously difficult to track down because they often depend on edge cases in date parsing or timezone handling.\n\nHere are a few takeaways and suggestions based on your experience:\n\n### 1. **Robust Timestamp Handling**\nSince Wyze (and many other APIs) may change formats or include varying levels of precision, consider using `dateutil.parser.parse()` from the `python-dateutil` library. It\u2019s more forgiving and can handle many ISO 8601 variations automatically:\n```python\nfrom dateutil import parser\n\ndef parse_wyze_timestamp(ts_string):\n    try:\n        return parser.parse(ts_string)\n    except (ValueError, TypeError) as e:\n        _LOGGER.error(\"Failed to parse timestamp '%s': %s\", ts_string, e)\n        return None\n```\n\n### 2. **Logging Best Practices**\nYou mentioned adding logging\u2014great move! Ensure that:\n- You log the **raw timestamp string** before parsing, so you can see exactly what the API is returning.\n- You log the **full exception traceback** in debug mode for future debugging.\n- You consider using `warning` level for parsing failures since they might indicate upstream API changes.\n\n### 3. **Testing with Fake Payloads**\nUsing a fake/mocked event payload is an excellent practice. For future tests, consider:\n- Creating a fixture file with various timestamp formats (with/without milliseconds, different timezone offsets, etc.).\n- Using `pytest` with `unittest.mock.patch` to simulate API responses without hitting the real Wyze API.\n\n### 4. **Vendor API Updates**\nYour reminder to check API docs is spot-on. For Home Assistant custom integrations:\n- Consider adding a **version check** or **feature detection** logic if the API has multiple versions.\n- Monitor Wyze\u2019s developer forums or GitHub issues for similar reports from other users.\n- If possible, add a **configuration option** to specify the timestamp format, allowing users to override it if Wyze changes it again.\n\n### 5. **Preventing Future False Alerts**\nSince this bug caused false alerts, you might want to:\n- Add a **cooldown period** in your integration to prevent duplicate events from triggering multiple automations.\n- Implement a **deduplication mechanism** based on event ID or timestamp proximity.\n\nGreat job tracking down the issue and implementing a fix! Small changes like this can significantly improve the reliability of custom integrations.",
+      "stats_line": "43 t/s, 533 tokens, 13s, 4%"
+    }
+  ]
+}

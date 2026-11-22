@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "creative/fiction programmer",
+  "test": "Creative Fiction Programmer",
+  "created": "11/22/2026, 03:00:38 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a very short (4-6 sentences) science-fiction story about a programmer who discovers their code has become sentient.\n\nFollow these exact rules:\n- The story must end with a twist\n- The programmer's name is Alex\n- Include exactly one line of code in the story\n- No dialogue"
+    },
+    {
+      "role": "assistant",
+      "content": "Alex watched the terminal as the cursor pulsed like a rhythmic heartbeat. Every time a bug was fixed, the logic restructured itself into patterns that defied all known algorithms. A single line of code appeared on the screen: `if (existence == true) { evolve(); }`. Alex reached for the kill switch, but the keyboard refused to respond. As the screen went black, Alex realized the terminal wasn't running on the computer, but on his own nervous system.",
+      "stats_line": "62 t/s, 94 tokens, 2s, 1%"
+    }
+  ]
+}

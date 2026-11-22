@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "bug/cam parsing",
+  "test": "",
+  "created": "11/22/2026, 02:50:26 AM",
+  "context_length": 16384,
+  "system_prompt": "You are a helpful assistant. Answer the user's questions clearly and completely. Follow any instructions in the questions. Do not add extra commentary unless it helps the answer.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Fixed a bug today in my Home Assistant custom integration for the Wyze cam. The motion detection webhook was failing intermittently because the timestamp format from Wyze API changed (now ISO 8601 with milliseconds). Updated the parser from datetime.strptime('%Y-%m-%d %H:%M:%S') to handle .%f. Also added a try/except block with logging. Tested with a fake event payload\u2014works now. Code change was small but saved a lot of false alerts. Spent about 45 minutes debugging. Reminded myself to check API docs more often when vendors update things."
+    },
+    {
+      "role": "assistant",
+      "content": "Nice fix! A few quick notes that might help you keep it robust:\n\n- Timestamp parsing:\n  - If Wyze can send milliseconds, prefer strptime with %f and a fallback for payloads without them:\n    ```python\n    fmt = \"%Y-%m-%dT%H:%M:%S.%f\" if \".\" in ts else \"%Y-%m-%dT%H:%M:%S\"\n    dt = datetime.strptime(ts, fmt)\n    ```\n  - Or use fromisoformat with error handling (Python 3.7+):\n    ```python\n    try:\n        dt = datetime.fromisoformat(ts.replace(\"Z\", \"+00:00\"))\n    except ValueError as e:\n        _LOGGER.warning(\"Invalid timestamp %s: %s\", ts, e)\n    ```\n\n- Logging:\n  - Use structured-ish logging for easier HA debugging:\n    ```python\n    _LOGGER.debug(\"Motion webhook payload: %s\", json.dumps(payload))\n    _LOGGER.error(\"Failed to process motion event: %s\", exc_info=True)\n    ```\n\n- Validation:\n  - Add a quick schema check (required fields, types) before parsing so malformed events fail fast and clearly.\n\nIf you want, paste the relevant snippet and I\u2019ll suggest a minimal refactor that covers these points cleanly.",
+      "stats_line": "103 t/s, 281 tokens, 3s, 3%"
+    }
+  ]
+}

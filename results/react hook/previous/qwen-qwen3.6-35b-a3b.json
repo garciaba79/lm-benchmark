@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "react hook/previous",
+  "test": "Hook Previous",
+  "created": "11/22/2026, 12:45:32 PM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called usePrevious in TypeScript that takes a value of generic type T and returns the previous value from the last render. It should work with any type and handle initial renders correctly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```typescript\nimport { useRef, useEffect } from 'react';\n\nexport function usePrevious<T>(value: T): T | undefined {\n  const ref = useRef<T>();\n\n  useEffect(() => {\n    ref.current = value;\n  });\n\n  return ref.current;\n}\n```",
+      "stats_line": "49 t/s, 63 tokens, 1s, 1%"
+    }
+  ]
+}

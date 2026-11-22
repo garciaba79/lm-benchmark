@@ -1,7 +1,7 @@
 {
   "scenario": "projects/weather app",
-  "run_time": "11/18/2026, 11:45:10 PM",
-  "overall_seconds": 3174.652313,
+  "run_time": "11/22/2026, 12:42:52 PM",
+  "overall_seconds": 3457.026561,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -667,6 +667,66 @@
       ],
       "scenario": "projects/weather app",
       "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+      "params": "9B",
+      "quant": "Q4_K_S",
+      "size_gb": 7.8,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 104.20714509454479,
+      "total_seconds": 29.317597,
+      "question_times": [
+        0.862623,
+        6.280792,
+        4.528448,
+        12.584738999999999,
+        5.060995
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md"
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "display_name": "Gemma 4 26B A4B QAT",
+      "params": "26B-A4B",
+      "quant": "Q4_0",
+      "size_gb": 14.56,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 48.74036704160692,
+      "total_seconds": 91.898539,
+      "question_times": [
+        2.3916880000000003,
+        22.311495999999998,
+        13.984858000000001,
+        39.145846,
+        14.064651
+      ],
+      "scenario": "projects/weather app",
+      "file": "google-gemma-4-26b-a4b-qat.md"
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "display_name": "Qwen3.6 35B A3B",
+      "params": "35B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 20.55,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 41.35186586768482,
+      "total_seconds": 161.158112,
+      "question_times": [
+        3.308732,
+        33.810528999999995,
+        17.842492000000004,
+        83.427503,
+        22.768856
+      ],
+      "scenario": "projects/weather app",
+      "file": "qwen-qwen3.6-35b-a3b.md"
     }
   ]
 }

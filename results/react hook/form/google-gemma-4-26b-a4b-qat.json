@@ -1,0 +1,20 @@
+{
+  "key": "google/gemma-4-26b-a4b-qat",
+  "display_name": "Gemma 4 26B A4B QAT",
+  "scenario": "react hook/form",
+  "test": "Hook Form",
+  "created": "11/22/2026, 03:08:31 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a custom React hook called `useForm` that manages form state and provides an onChange handler and a reset function.\n\nRequirements:\n- Takes an object of initial values (e.g. { name: \"\", email: \"\" })\n- Returns: [values, handleChange, reset]\n- handleChange should work with standard inputs: <input name=\"email\" onChange={handleChange} />\n- reset() should restore initial values\n- Do NOT use any external libraries\n\nOnly return the hook function. No explanation."
+    },
+    {
+      "role": "assistant",
+      "content": "```javascript\nimport { useState, useCallback } from 'react';\n\nfunction useForm(initialValues) {\n  const [values, setValues] = useState(initialValues);\n\n  const handleChange = useCallback((e) => {\n    const { name, value } = e.target;\n    setValues((prevValues) => ({\n      ...prevValues,\n      [name]: value,\n    }));\n  }, []);\n\n  const reset = useCallback(() => {\n    setValues(initialValues);\n  }, [initialValues]);\n\n  return [values, handleChange, reset];\n}\n\nexport default useForm;\n```",
+      "stats_line": "61 t/s, 136 tokens, 2s, 2%"
+    }
+  ]
+}

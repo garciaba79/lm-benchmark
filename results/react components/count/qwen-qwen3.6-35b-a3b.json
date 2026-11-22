@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "react components/count",
+  "test": "component count",
+  "created": "11/22/2026, 12:44:02 PM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a simple React functional component in TypeScript that does the following:\n\n- Accepts a prop called `initialCount` of type number (default to 0 if not provided).\n- Displays the current count in a large, centered heading.\n- Has two buttons: \"Increment\" and \"Decrement\".\n- Clicking \"Increment\" increases the count by 1.\n- Clicking \"Decrement\" decreases the count by 1, but never lets it go below 0.\n- Style the component nicely using inline styles or a basic CSS object (no external CSS files or libraries like Tailwind).\n- Make sure all props and state are properly typed.\n- Follow modern React principles and best practices.\n\nShow the complete component code, including imports."
+    },
+    {
+      "role": "assistant",
+      "content": "Here is the complete code for the `Counter` component. It includes necessary imports, TypeScript interfaces, state management, and inline styling.\n\n```tsx\nimport React, { useState } from 'react';\n\n// Define the props interface\ninterface CounterProps {\n  initialCount?: number;\n}\n\nconst Counter: React.FC<CounterProps> = ({ initialCount = 0 }) => {\n  // State to track the current count, initialized with the prop\n  const [count, setCount] = useState<number>(initialCount);\n\n  // Styles object for cleaner code organization\n  const styles = {\n    container: {\n      fontFamily: 'sans-serif',\n      textAlign: 'center' as const,\n      padding: '2rem',\n      maxWidth: '400px',\n      margin: '0 auto',\n      border: '1px solid #e0e0e0',\n      borderRadius: '8px',\n      backgroundColor: '#f9f9f9',\n    },\n    heading: {\n      fontSize: '4rem',\n      margin: '1.5rem 0',\n      color: '#333',\n    },\n    buttonGroup: {\n      display: 'flex',\n      justifyContent: 'center',\n      gap: '1rem',\n    },\n    button: {\n      padding: '10px 20px',\n      fontSize: '1rem',\n      cursor: 'pointer',\n      backgroundColor: '#007bff',\n      color: 'white',\n      border: 'none',\n      borderRadius: '4px',\n      transition: 'background-color 0.2s',\n    },\n    decrementButton: {\n      backgroundColor: '#dc3545', // Red for decrement\n    },\n  };\n\n  const handleIncrement = () => {\n    setCount((prev) => prev + 1);\n  };\n\n  const handleDecrement = () => {\n    setCount((prev) => Math.max(prev - 1, 0));\n  };\n\n  return (\n    <div style={styles.container}>\n      <h1>Counter</h1>\n      \n      {/* Display the count in a large, centered heading */}\n      <h2 style={styles.heading}>\n        {count}\n      </h2>\n\n      <div style={styles.buttonGroup}>\n        {/* Decrement Button */}\n        <button \n          onClick={handleDecrement} \n          style={{ ...styles.button, ...styles.decrementButton }}\n        >\n          Decrement\n        </button>\n\n        {/* Increment Button */}\n        <button \n          onClick={handleIncrement} \n          style={styles.button}\n        >\n          Increment\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default Counter;\n```",
+      "stats_line": "48 t/s, 621 tokens, 13s, 5%"
+    }
+  ]
+}

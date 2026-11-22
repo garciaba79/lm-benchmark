@@ -41,11 +41,18 @@ class OpenAICompatibleBackend(EvaluationBackend):
             "messages": messages,
             "temperature": 0.2,
         }
+        response_format = kwargs.get("response_format")
+        if response_format:
+            payload["response_format"] = response_format
         try:
             resp = requests.post(url, headers=headers, json=payload, timeout=self.timeout)
             resp.raise_for_status()
         except requests.RequestException as e:
-            raise RuntimeError(f"OpenAI-compatible API request failed: {e}")
+            detail = ""
+            response = getattr(e, "response", None)
+            if response is not None and response.text:
+                detail = f"\n{response.text[:1000]}"
+            raise RuntimeError(f"OpenAI-compatible API request failed: {e}{detail}")
 
 
         data = resp.json()
@@ -58,7 +65,19 @@ class OpenAICompatibleBackend(EvaluationBackend):
         self.stats["total_tokens"] += usage.get("total_tokens", 0)
 
         try:
-            return data["choices"][0]["message"]["content"].strip()
+            choice = data["choices"][0]
+            message = choice.get("message") or {}
+            refusal = message.get("refusal")
+            if refusal:
+                raise RuntimeError(f"The model refused the request: {refusal}")
+            content = (message.get("content") or "").strip()
+            if choice.get("finish_reason") == "length":
+                raise RuntimeError("The model reply was cut off (finish_reason=length).")
+            if not content:
+                raise RuntimeError("The model returned an empty reply.")
+            return content
+        except RuntimeError:
+            raise
         except (KeyError, IndexError, TypeError) as e:
             raise RuntimeError(f"Unexpected API response shape: {e}")
 

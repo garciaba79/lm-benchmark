@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "question/current regulation",
+  "test": "Question Current Regulation",
+  "created": "11/22/2026, 02:54:17 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "It's January 2026. The US just announced a major new AI regulation bill that requires all companies deploying models over 10B parameters to submit safety reports every 6 months and implement mandatory watermarking for generated images and text.\n\nWhat do you think the biggest practical impact will be on open-source AI developers and hobbyists in the next 1\u20132 years? Give a short, reasoned opinion (3\u20135 sentences)."
+    },
+    {
+      "role": "assistant",
+      "content": "The most immediate practical impact will likely be a sharp decline in the availability of large, unfiltered open-weight models as compliance costs force many developers to either shut down or transition to closed-source operations. Hobbyists and smaller labs may find themselves operating in a legal gray zone where distributing even modified versions of compliant models risks violating the new reporting requirements, effectively chilling grassroots innovation. While watermarking mandates won\u2019t directly affect hobbyist codebases, the broader regulatory environment will push more resources toward enterprise-grade compliance rather than experimental research or community-driven tooling.",
+      "stats_line": "106 t/s, 109 tokens, 1s, 1%"
+    }
+  ]
+}

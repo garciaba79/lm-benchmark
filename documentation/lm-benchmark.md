@@ -60,7 +60,8 @@ results/
     stats.json
     stats.md
     test.md
-    results.md                cloud ranking
+    results.json              cloud scores, one record per model
+    results.md                readable table written from results.json
     evaluation-<cloud-model>.json
     evaluation-<cloud-model>.md
     evaluation.json
@@ -78,6 +79,7 @@ archive/
       stats.md
       test.md
       info.md                 copy of the live file, when it existed
+      results.json            copy of the live file, when it existed
       results.md              copy of the live file, when it existed
       evaluation-*            copies, when they existed
 ```
@@ -129,7 +131,7 @@ For that model key only:
 
 `system_prompt` is a field on the object. It is not inserted as a system or user message. The messages are only the questions and the replies. The chat request sent to LM Studio still includes the system prompt as a system message. That is separate from the saved transcript.
 
-The same run also upserts that model into the scenario `models.json` and `stats.json`, then rebuilds `stats.md` and `test.md`. `stats.md` columns are Model, Avg t/s, Total time, and one column per question. `test.md` keeps an existing evaluation-status section. `results.md` is created only when it is missing, with a short paste placeholder. `evaluate.py` later replaces it.
+The same run also upserts that model into the scenario `models.json` and `stats.json`, then rebuilds `stats.md` and `test.md`. `stats.md` columns are Model, Avg t/s, Total time, and one column per question. `test.md` keeps an existing evaluation-status section. `results.md` is created only when it is missing, with a short paste placeholder. `evaluate.py` later writes `results.json` and replaces `results.md` from that file.
 
 `DRY_RUN` prints the plan and writes nothing, including `meta/hardware.json`.
 
@@ -193,17 +195,20 @@ Anthropic requires `max_tokens` on every request. `EVAL_MAX_TOKENS` is 8192, whi
 
 The Grok CLI plugin writes the prompt to a temporary file and runs `grok --prompt-file`. Putting the same text in `grok -p` fails on Windows once the command line passes about 32,767 characters. The temp file is deleted after the call.
 
-Instructions for the judge live in `documentation/instructions.md`. The short prompts are `EVAL_INITIAL_PROMPT`, `EVAL_BATCH_PROMPT`, and `EVAL_FINAL_PROMPT` in `config.py`.
+Instructions for the judge live in `documentation/instructions.md`. `EVAL_BATCH_PROMPT` in `config.py` is the short text sent with the current JSON and the new transcripts.
+
+The judge returns one JSON object: `summary`, `takeaways`, `practical`, `notes`, and `models`. Each model record has `key`, `avg_tps`, `correctness`, `quality`, `task_understanding`, `instruction_following`, `usefulness`, `faithfulness`, `pros`, `cons`, and `notes`. `grok_api` and `openai` send that shape as `response_format`. The script checks it again. `key` and `avg_tps` are then taken from the scenario's own files.
 
 Files written for a finished scenario:
 
-- `results.md` — the ranking
+- `results.json` — the score table
+- `results.md` — that table, sorted by correctness, then quality
 - `evaluation-<model>.json` — the judge conversation, plus `evaluated_keys` and `final_complete`
 - `evaluation-<model>.md` — that conversation as markdown, regenerated from the JSON
 - `evaluation.json` — index of those files
 - `test.md` — an evaluation-status section is added or replaced
 
-Resume uses `evaluated_keys`. Older files without that field are seeded from the `### <model-key>` lines the script wrote in its own user messages. When new local models appear after a final ranking, that ranking turn is dropped and a new one is requested at the end. `--force` clears the conversation and starts over. `--dry-run` prints the plan and writes nothing.
+A key counts as scored when its record is in `results.json`. Each request sends the instructions, the current JSON, and the new transcripts. The script merges by key and keeps a row the reply omits. `--force` clears the conversation and `results.json`. `--dry-run` prints the plan and writes nothing.
 
 This evaluation JSON is the judge's conversation. It is not the local model's transcript. The local transcript is `<model-key>.json`.
 
@@ -218,9 +223,9 @@ Compare each scenario's historic `models.json` with the active list. A key that 
 - that model's object from root `results/stats.json`, upserted into `archive/YYYY MM DD/stats.json`
 - a rebuilt archive `stats.md`
 - a short archive `test.md` that lists the archived models
-- copies of the live `info.md`, `results.md`, `evaluation.json`, and `evaluation-*` files
+- copies of the live `info.md`, `results.md`, `results.json`, `evaluation.json`, and `evaluation-*` files
 
-A second archive on the same day upserts the same keys. It does not replace the archive list with only the latest batch. Live `info.md`, `results.md`, and evaluation files stay where they are, because they describe the whole scenario. The archive holds a copy from that day.
+A second archive on the same day upserts the same keys. It does not replace the archive list with only the latest batch. Live `info.md`, `results.md`, `results.json`, and evaluation files stay where they are, because they describe the whole scenario. The archive holds a copy from that day.
 
 `results` and `stats`, including `python clean.py clean`, archive first and then remove the live copies of those model keys. `results` deletes the transcript `.md` and `.json`. `stats` removes the keys from the live scenario `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats, then rebuilds the tables. The evaluation-status section in the live `test.md` is kept.
 

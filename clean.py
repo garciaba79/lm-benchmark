@@ -9,7 +9,7 @@ to replace the active list.
 A model that is still in a scenario's results, but not on the active list, is
 a historic model. Archive copies that model's transcript (.md and .json) and upserts its records
 into the archive JSON files. It also copies scenario-level info.md, results.md,
-and evaluation files into the archive and leaves those live copies in place.
+results.json, and evaluation files into the archive and leaves those live copies in place.
 Removing live records always archives first. Models that remain on the active
 list are left in place.
 
@@ -115,7 +115,7 @@ def has_inactive_root_models(active_keys):
 
 def copy_scenario_snapshots(src_results, dst_results, rel):
     """Copy scenario-level files. The live copies stay."""
-    names = ["info.md", "results.md", "evaluation.json"]
+    names = ["info.md", "results.md", "results.json", "evaluation.json"]
     names.extend(path.name for path in src_results.glob("evaluation-*") if path.is_file())
     for name in names:
         src = src_results / name

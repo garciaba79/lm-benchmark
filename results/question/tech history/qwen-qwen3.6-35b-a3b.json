@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "question/tech history",
+  "test": "Question Tech History",
+  "created": "11/22/2026, 12:43:46 PM",
+  "context_length": 16384,
+  "system_prompt": "You are a question answering AI that specializes in technology history. Your responses should be based on factual information and should not contain any biases or opinions.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "In 2026, many people are saying that React is \"finally dead\" because SvelteKit, SolidStart, and Qwik have taken over a huge portion of new frontend projects.\n\nDo you agree with that statement? Explain your reasoning briefly, mentioning what React still has going for it in real-world production use today."
+    },
+    {
+      "role": "assistant",
+      "content": "No, the statement that React is \"dead\" in 2026 is factually incorrect and does not reflect the current state of the web development industry. While frameworks like SvelteKit, SolidJS, and Qwik have gained significant traction and market share due to their performance advantages and developer experience improvements, React remains the most widely used frontend library in production environments globally.\n\nReact still holds several critical advantages in real-world production use:\n\n1. **Ecosystem and Talent Pool**: React has the largest ecosystem of libraries, tools, and community support. This results in a vast pool of available developers, making it easier for companies to hire and scale teams.\n2. **Corporate Backing and Stability**: Maintained by Meta (formerly Facebook) and a large network of contributors, React has proven its long-term viability and stability, which is crucial for enterprise adoption.\n3. **React Server Components (RSC)**: React\u2019s introduction and maturation of Server Components have addressed many performance concerns, allowing for hybrid rendering models that compete effectively with the default server-side rendering of SvelteKit and Qwik.\n4. **Industry Standard**: Major companies including Netflix, Airbnb, Discord, and Meta itself continue to rely heavily on React in production, ensuring its relevance and continuous evolution.\n\nIn summary, while the frontend landscape is more diverse and competitive than ever, React remains a dominant, actively developed, and widely adopted technology, far from being \"dead.\"",
+      "stats_line": "48 t/s, 296 tokens, 6s, 3%"
+    }
+  ]
+}

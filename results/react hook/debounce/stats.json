@@ -1,7 +1,7 @@
 {
   "scenario": "react hook/debounce",
-  "run_time": "11/18/2026, 11:46:02 PM",
-  "overall_seconds": 668.452436,
+  "run_time": "11/22/2026, 12:44:40 PM",
+  "overall_seconds": 725.814422,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -555,6 +555,54 @@
       ],
       "scenario": "react hook/debounce",
       "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+      "params": "9B",
+      "quant": "Q4_K_S",
+      "size_gb": 7.8,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 104.97562777956813,
+      "total_seconds": 9.724967000000001,
+      "question_times": [
+        9.724967000000001
+      ],
+      "scenario": "react hook/debounce",
+      "file": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md"
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "display_name": "Gemma 4 26B A4B QAT",
+      "params": "26B-A4B",
+      "quant": "Q4_0",
+      "size_gb": 14.56,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 55.53380936358149,
+      "total_seconds": 19.116781,
+      "question_times": [
+        19.116781
+      ],
+      "scenario": "react hook/debounce",
+      "file": "google-gemma-4-26b-a4b-qat.md"
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "display_name": "Qwen3.6 35B A3B",
+      "params": "35B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 20.55,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 46.57862340871979,
+      "total_seconds": 28.520238,
+      "question_times": [
+        28.520238
+      ],
+      "scenario": "react hook/debounce",
+      "file": "qwen-qwen3.6-35b-a3b.md"
     }
   ]
 }

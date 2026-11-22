@@ -1,17 +1,25 @@
-## Manual Evaluation Prompt Instructions
+## Manual Evaluation
 
-These instructions are for evaluating local model results manually on any type of test (coding, code chat, general conversation, data formatting, search/summarization, troubleshooting, log analysis, or other tasks). The goal is consistent, useful rankings across models.
+The scoring rules and the JSON shape are in [instructions.md](instructions.md). Paste that file at the start of the conversation.
 
-Start a new conversation with any cloud model or model of your choice and then prompt the model with the following prompts.
+## Each batch
 
-## Prompt - Introduction
+Send this with the current results JSON and the new transcripts:
 
-Read these evaluation instructions carefully. I will send the test results in several batches. After each batch, score the models in that batch using the same scale and categories. You may revise earlier scores after seeing later batches. Keep all intermediate scores in context. Acknowledge that you are ready and wait for the first batch.
+Here is the current results JSON. Score the new transcripts. Return the full JSON object, including every model already in the JSON and every new model.
 
-## Prompt - Batch Update
+On the first batch, use an empty table:
 
-Here are some test results. Score the models in this batch and keep the scores in context.
+```json
+{
+  "summary": "",
+  "takeaways": [],
+  "practical": [],
+  "notes": [],
+  "models": []
+}
+```
 
-## Prompt - Final Results
+Put each transcript under a `### model-key` heading. Save the JSON object the model returns, and send that object back as the current results with the next batch.
 
-All results have been provided. Produce the final ranked results using your intermediate scores and any revisions, in the format required by the instructions.
+`python evaluate.py` does this itself. It keeps any model the reply leaves out, then writes `results.json` and `results.md`.

@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "function/fetch weather",
+  "test": "Function Fetch Weather",
+  "created": "11/22/2026, 02:50:56 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a TypeScript async function called fetchWeatherData that takes a city name string as input and fetches current weather data from the OpenWeatherMap API (use a placeholder API key). It should return a promise resolving to an object with temperature, humidity, and description. Handle errors gracefully with try/catch, and include type definitions for the response. Use native fetch, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```ts\n// Type definition for the OpenWeatherMap current weather API response\ninterface WeatherResponse {\n  main: {\n    temp: number;\n    humidity: number;\n  };\n  weather: Array<{\n    description: string;\n  }>;\n}\n\n/**\n * Fetches current weather data from the OpenWeatherMap API.\n * @param city - The name of the city to fetch weather for.\n * @returns A promise resolving to an object with temperature, humidity, and description.\n */\nexport async function fetchWeatherData(city: string): Promise<{\n  temperature: number;\n  humidity: number;\n  description: string;\n}> {\n  const apiKey = \"YOUR_OPENWEATHERMAP_API_KEY\"; // Replace with your actual API key\n\n  if (!city || typeof city !== \"string\") {\n    throw new Error(\"City name must be a non-empty string.\");\n  }\n\n  try {\n    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(\n      city\n    )}&units=metric&appid=${apiKey}`;\n\n    const response = await fetch(url);\n\n    if (!response.ok) {\n      // OpenWeatherMap returns 404 for unknown cities, etc.\n      throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);\n    }\n\n    const data: WeatherResponse = await response.json();\n\n    return {\n      temperature: data.main.temp,\n      humidity: data.main.humidity,\n      description: data.weather[0].description,\n    };\n  } catch (error) {\n    // Re-throw as a typed Error for clarity in callers if desired\n    throw error instanceof Error ? error : new Error(\"An unexpected error occurred while fetching weather.\");\n  }\n}\n```",
+      "stats_line": "105 t/s, 394 tokens, 4s, 3%"
+    }
+  ]
+}

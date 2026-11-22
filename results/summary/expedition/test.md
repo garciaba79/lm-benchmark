@@ -4,9 +4,9 @@
 
 Scenario folder: summary/expedition  
 
-Run time: 11/18/2026, 11:41:46 PM  
+Run time: 11/22/2026, 03:11:43 AM  
 
-Models in this run: 35  
+Models recorded: 38  
 
 ## Models
 
@@ -45,6 +45,9 @@ Models in this run: 35
 - Qwen2.5 Coder 32B Instruct (32B / Q4_K_M / 18.49 GB) Context: 32K → `qwen2.5-coder-32b-instruct.md`
 - Gemma 4 E2B (4.6B / Q4_K_M / 4.11 GB) Context: 32K → `google-gemma-4-e2b.md`
 - DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic (9B / Q4_K_M / 6.24 GB) Context: 32K → `deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md`
+- Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX (9B / Q4_K_S / 7.8 GB) Context: 32K → `qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md`
+- Gemma 4 26B A4B QAT (26B-A4B / Q4_0 / 14.56 GB) Context: 32K → `google-gemma-4-26b-a4b-qat.md`
+- Qwen3.6 35B A3B (35B-A3B / Q4_K_M / 20.55 GB) Context: 32K → `qwen-qwen3.6-35b-a3b.md`
 
 ## Evaluation status
 

@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "category/5",
+  "test": "Category 5",
+  "created": "11/22/2026, 02:50:37 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are an AI memory categorizer for OpenMemory/mem0.\n\nTask:\n1. Analyze the following user statement/memory.\n2. Create 3\u20136 meaningful, concise categories that best describe the content, intent, topic, emotion, and any key entities.\n3. Output ONLY the categories as a comma-delimited list. No explanation, no numbering, no extra text.\n\nStatement/memory:\n\"Spent the afternoon optimizing my Next.js blog with server-side rendering and image optimization using next/image. Got stuck on hydration errors for hours, but finally fixed it by wrapping the client component correctly. Super satisfied now\u2014planning to add search functionality with Algolia next weekend.\"\n\nCategories (comma-delimited list only):"
+    },
+    {
+      "role": "assistant",
+      "content": "Next.js Development, Frontend Optimization, Bug Resolution, Web Performance, Search Integration",
+      "stats_line": "71 t/s, 17 tokens, 0s, 1%"
+    }
+  ]
+}

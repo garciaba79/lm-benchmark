@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "category/3",
+  "test": "Category 3",
+  "created": "11/22/2026, 03:12:23 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Your task is to assign each piece of information (or \u201cmemory\u201d) to one or more of the following categories. Feel free to use multiple categories per item when appropriate.\n\n- Personal: family, friends, home, hobbies, lifestyle\n- Relationships: social network, significant others, colleagues\n- Preferences: likes, dislikes, habits, favorite media\n- Health: physical fitness, mental health, diet, sleep\n- Travel: trips, commutes, favorite places, itineraries\n- Work: job roles, companies, projects, promotions\n- Education: courses, degrees, certifications, skills development\n- Projects: to-dos, milestones, deadlines, status updates\n- AI, ML & Technology: infrastructure, algorithms, tools, research\n- Technical Support: bug reports, error logs, fixes\n- Finance: income, expenses, investments, billing\n- Shopping: purchases, wishlists, returns, deliveries\n- Legal: contracts, policies, regulations, privacy\n- Entertainment: movies, music, games, books, events\n- Messages: emails, SMS, alerts, reminders\n- Customer Support: tickets, inquiries, resolutions\n- Product Feedback: ratings, bug reports, feature requests\n- News: articles, headlines, trending topics\n- Organization: meetings, appointments, calendars\n- Goals: ambitions, KPIs, long-term objectives\n\nGuidelines:\n- Return ONLY a comma-delimited list of categories (e.g., Personal, Preferences, Work).\n- Do not include any explanations, numbering, or additional text.\n- If you cannot categorize the memory, return an empty response.\n- Don't limit yourself to the categories listed above only. Feel free to create new categories based on the memory. Make sure each category is a single concise phrase.\n\nMemory to categorize:\n\"I like to climb mountains, fish and fly extreme kites.\"\n\nCategories (comma-delimited list only):"
+    },
+    {
+      "role": "assistant",
+      "content": "Personal, Preferences",
+      "stats_line": "42 t/s, 4 tokens, 0s, 2%"
+    }
+  ]
+}

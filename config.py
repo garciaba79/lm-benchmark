@@ -100,15 +100,11 @@ EVAL_BACKEND = "grok_api"
 # Example: 5
 EVAL_BATCH_SIZE = 5
 
-# Path to the long scoring instructions, loaded once at the start.
+# Path to the scoring instructions, sent with every batch.
 EVAL_INSTRUCTIONS_PATH = Path("documentation/instructions.md")
 
-# Prompts used by the evaluator (short strings the script sends).
-EVAL_INITIAL_PROMPT = """Read these evaluation instructions carefully. I will send the test results in several batches. After each batch, score the models in that batch using the same scale and categories. You may revise earlier scores after seeing later batches. Keep all intermediate scores in context. Acknowledge that you are ready and wait for the first batch."""
-
-EVAL_BATCH_PROMPT = """Here are some test results. Score the models in this batch and keep the scores in context."""
-
-EVAL_FINAL_PROMPT = """All results have been provided. Produce the final ranked results using your intermediate scores and any revisions, in the format required by the instructions."""
+# Sent with the current results JSON and the new transcripts.
+EVAL_BATCH_PROMPT = """Here is the current results JSON. Score the new transcripts. Return the full JSON object, including every model already in the JSON and every new model."""
 
 # Optional model name override for the chosen backend.
 # Examples:

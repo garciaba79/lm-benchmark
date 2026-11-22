@@ -1,6 +1,6 @@
 # Evaluating Results with a Cloud Model
 
-`evaluate.py` sends the model result files from a scenario to a cloud model and writes a ranked `results.md`.
+`evaluate.py` sends the model result files from a scenario to a cloud model. The model returns a JSON score table. The script saves `results.json` and writes a readable `results.md` from that file.
 
 ## Quick start
 
@@ -27,11 +27,14 @@ python evaluate.py --batch-size 3                  # override batch size
 
 In each scenario results folder:
 
-- `results.md` — the final ranked evaluation
+- `results.json` — the score table. One record per model, plus summary, takeaways, practical notes, and additional notes
+- `results.md` — the same scores in a readable table
 - `evaluation-<model>.json` — the conversation, plus `evaluated_keys` and `final_complete`
 - `evaluation-<model>.md` — the same conversation in markdown
 - `evaluation.json` — index of the evaluation files in the folder
 - `test.md` — updated with an “Evaluation status” section at the bottom
+
+Each model record stores `key`, `avg_tps`, `correctness`, `quality`, `task_understanding`, `instruction_following`, `usefulness`, `faithfulness`, `pros`, `cons`, and `notes`. Scores are integers from 0 to 100, or `null`. The script fills `key` and `avg_tps` from its own result files. `grok_api` and `openai` ask the API for this JSON shape.
 
 `--dry-run` prints the plan and does not write these files. It does not need a successful API call. It warns when the selected key is missing.
 
@@ -61,9 +64,7 @@ The script never falls back from one backend to another. If the chosen backend f
 
 ## Partial updates
 
-The script loads `evaluation-<model>.json` for the configured model. `evaluated_keys` is the list of local model keys already scored. Only missing keys are sent. When new keys appear after a final ranking, that ranking turn is removed and a new one is requested at the end.
-
-Older evaluation files do not have `evaluated_keys`. The script fills that list from the `### <model-key>` lines it wrote into the conversation, then saves the list. Use `--force` to start over.
+A model is scored when its record is in `results.json`. The next run sends only keys that are missing. Each request contains the instructions, the current JSON, and the new transcripts. Older transcripts stay on disk. The script merges the reply by key. A model left out of the reply stays in the file. A reply that drops a new model is sent back once. `--force` clears the conversation and `results.json`.
 
 The script reads `evaluation-<model>.json`. It does not read markdown transcripts. When a scenario finishes, it writes `evaluation-<model>.md` from that JSON.
 

@@ -1,7 +1,7 @@
 {
   "scenario": "personal/blueberry desk",
-  "run_time": "11/18/2026, 11:43:26 PM",
-  "overall_seconds": 447.522948,
+  "run_time": "11/22/2026, 12:36:34 PM",
+  "overall_seconds": 500.14621700000004,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -555,6 +555,54 @@
       ],
       "scenario": "personal/blueberry desk",
       "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+      "params": "9B",
+      "quant": "Q4_K_S",
+      "size_gb": 7.8,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 103.26141308836313,
+      "total_seconds": 9.623261000000001,
+      "question_times": [
+        9.623261000000001
+      ],
+      "scenario": "personal/blueberry desk",
+      "file": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md"
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "display_name": "Gemma 4 26B A4B QAT",
+      "params": "26B-A4B",
+      "quant": "Q4_0",
+      "size_gb": 14.56,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 55.502786757380065,
+      "total_seconds": 10.101055,
+      "question_times": [
+        10.101055
+      ],
+      "scenario": "personal/blueberry desk",
+      "file": "google-gemma-4-26b-a4b-qat.md"
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "display_name": "Qwen3.6 35B A3B",
+      "params": "35B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 20.55,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 46.618841256190066,
+      "total_seconds": 32.898953,
+      "question_times": [
+        32.898953
+      ],
+      "scenario": "personal/blueberry desk",
+      "file": "qwen-qwen3.6-35b-a3b.md"
     }
   ]
 }

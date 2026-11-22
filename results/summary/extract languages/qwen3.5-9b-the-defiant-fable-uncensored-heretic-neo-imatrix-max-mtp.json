@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "summary/extract languages",
+  "test": "Summary Extract Languages",
+  "created": "11/22/2026, 02:55:52 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Summarize the following text in 3-4 sentences.\nThen extract 5-7 single-word or short-phrase key topics/entities.\n\nText:\nThe rise of large language models has transformed software development. Tools like GitHub Copilot and Cursor now generate entire functions from natural language prompts. However, developers still need to review and debug the code, especially for security vulnerabilities and edge cases. Companies are increasingly adopting AI coding assistants, but concerns about data privacy, intellectual property, and over-reliance remain significant. In 2025, over 40% of code in some organizations is AI-generated, with productivity gains reported between 30-55% depending on the task complexity."
+    },
+    {
+      "role": "assistant",
+      "content": "Large language models have revolutionized software development by enabling tools like GitHub Copilot and Cursor to generate entire functions from natural language prompts. While developers still need to review and debug code for security and edge cases, companies are rapidly adopting AI coding assistants with productivity gains of 30\u201355% reported in some organizations. By 2025, over 40% of code in certain firms is AI-generated, yet significant concerns remain around data privacy, intellectual property, and potential over-reliance on these tools.\n\nKey topics/entities:\n1. Large language models  \n2. GitHub Copilot  \n3. Cursor  \n4. Data privacy  \n5. Intellectual property",
+      "stats_line": "99 t/s, 137 tokens, 1s, 2%"
+    }
+  ]
+}

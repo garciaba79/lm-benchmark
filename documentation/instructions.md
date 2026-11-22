@@ -1,90 +1,62 @@
 ## Model Evaluation Instructions
 
-These instructions are for evaluating local model results on any type of test (coding, code chat, general conversation, data formatting, search/summarization, troubleshooting, log analysis, or other tasks). The goal is consistent, useful rankings across models.
+Score these local model results. Return one JSON object and nothing else. No markdown, no code fence, and no text before or after the JSON.
 
-### Scoring rules
+The object has these fields:
 
-- Score every model on a 0–100 scale for each category.
-- Stay consistent and realistic about model size. Do not heavily penalize smaller models simply for being smaller.
-- Focus on whether the output is useful and can be quickly edited or used, not on perfect production quality.
-- If a model was not given complete information (for example, an exact schema or full context), do not heavily penalize reasonable assumptions. Note them, but treat them as secondary.
-- If a model did not answer a question or skipped a turn, mark that category as “—” and do not invent a score.
-- Annotate model type (instruct, thinking/reasoning, agentic, or other) in the Model column when known.
+- summary: one short paragraph on the test and the overall findings.
+- takeaways: an array of short sentences on the main patterns.
+- practical: an array of short sentences on what the scores mean for real use, including speed versus edit time.
+- notes: an array of short sentences for extra observations.
+- models: an array with one object per model.
 
-### Recommended scoring scale (0–100)
+Each object in models has these fields only:
 
-- 0–19: Broken — unusable
-- 20–39: Poor — mostly unusable, near rewrite
-- 40–59: Fair — usable with heavy edits
-- 60–79: Good — solid scaffolding, light-to-moderate edits
-- 80–89: Strong — high quality, minor edits
-- 90–100: Excellent — near ready
+- key: the exact model key from the ### header. Copy it unchanged.
+- avg_tps: the tokens per second shown for that model. Keep the existing value for a model already in the table.
+- correctness: integer 0–100, or null if the model did not answer.
+- quality: integer 0–100, or null. Readability, structure, clarity, and how easy the result is to use or edit.
+- task_understanding: integer 0–100, or null. Did it grasp the goal and what was asked.
+- instruction_following: integer 0–100, or null. Did it obey the format, constraints, and extra notes.
+- usefulness: integer 0–100, or null. How practical the result is.
+- faithfulness: integer 0–100, or null. Did it stick to the requested constraints, format, tools, or style.
+- pros: one short sentence on the main strength.
+- cons: one short sentence on the main problem.
+- notes: one short factual sentence. Include invented details or anything that affects real use.
 
-### Categories to score
+Scoring scale:
 
-When evaluation models use the categories that fit the test.  
+- 0–19: broken, unusable
+- 20–39: poor, mostly unusable, near rewrite
+- 40–59: fair, usable with heavy edits
+- 60–79: good, solid scaffolding, light-to-moderate edits
+- 80–89: strong, high quality, minor edits
+- 90–100: excellent, near ready
 
-For most tests, include these core categories.
+Stay consistent. Do not heavily penalize a smaller model only for being smaller. Judge whether the output is useful and can be edited quickly. If the model lacked a full schema or full context, note a reasonable assumption and do not heavily penalize it. Use null for a question the model skipped. Do not invent a score.
 
-- Output quality — readability, structure, clarity, and how easy the response is to use or edit
-- Correctness — does the logic, content, or answer match the request without obvious errors
-- Task understanding — does it grasp the overall goal and what was asked
-- Instruction following — obeys format, constraints, and any extra notes given
-- Usefulness — how practical or actionable the result is for the intended task
-- Faithfulness — sticks to the requested constraints, format, tools, or style
+A current results table may be included. Keep every model already in that table. Add every new model from this batch. You may revise an earlier score after seeing the new results. Do not drop a model. The order of models does not matter.
 
-Add or substitute task specific categories when needed.
+Example shape:
 
-- Code tests — Code quality, Code correctness, Faithfulness to the requested stack
-- Chat or conversation tests — Coherence, Helpfulness, Tone appropriateness
-- Data or formatting tests — Accuracy, Completeness, Format compliance
-- Troubleshooting or log analysis — Issue identification, Clarity of explanation, Actionable next steps
-- Search or summarization — Relevance, Coverage, Conciseness
-
-### Output format
-
-Return the results in this order.  
-
-All tables must be valid standard Markdown tables. Every table needs a header row, a separator row of dashes, and pipe-delimited data rows. Do not output bare pipe-separated lines.
-
-#### Summary
-
-A short overview of the test and the overall findings.
-
-#### Top models table
-
-A compact table of the top 3 models with these columns:  
-Rank | Model | Type | Primary score | t/s | Standout trait
-
-(Use the most relevant primary score for the test, such as Output quality or Correctness.)
-
-#### Key takeaways
-
-The main patterns and standout results.
-
-#### Practical notes from the results
-
-What the scores mean for real use, including speed versus edit time or other practical trade-offs.
-
-#### Full results table
-
-One table sorted by the primary score (highest first), then by the secondary score.  
-Columns: Model | [Primary score] | [Secondary score] | t/s | [Remaining categories] | Notes  
-
-The full results table must include every model that was evaluated across all batches. Do not omit any model. Sort the complete list by the primary score, then by the secondary score.
-
-- Annotate the model type in the Model column when known.  
-- Keep Notes short and factual. Mention major strengths, critical issues, any invented details, and anything that would affect real use.  
-- Mark unanswered categories as “—”.
-
-#### Additional notes
-
-Extra context, observations, or model-specific comments that did not fit above.
-
-### What will be provided
-
-- Tokens per second for each model (average or what you feel is a consistent baseline)
-- Full chat transcripts (one per model)
-- Brief description of the test type and any special constraints
-
-Evaluate the models using the rules above and return the results in the format listed. Adjust the specific categories to match the test while keeping the overall structure and scoring approach consistent.
+{
+  "summary": "",
+  "takeaways": [],
+  "practical": [],
+  "notes": [],
+  "models": [
+    {
+      "key": "model-key",
+      "avg_tps": 0,
+      "correctness": 0,
+      "quality": 0,
+      "task_understanding": 0,
+      "instruction_following": 0,
+      "usefulness": 0,
+      "faithfulness": 0,
+      "pros": "",
+      "cons": "",
+      "notes": ""
+    }
+  ]
+}

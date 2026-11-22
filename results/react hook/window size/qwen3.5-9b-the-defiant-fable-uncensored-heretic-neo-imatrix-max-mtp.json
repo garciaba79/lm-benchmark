@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "react hook/window size",
+  "test": "Hook Window Size",
+  "created": "11/22/2026, 02:55:49 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a React hook called useWindowSize in TypeScript that returns the current window dimensions as an object { width: number, height: number }. It should update automatically on window resize and handle cleanup properly. Use React 18+ hooks only, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```tsx\nimport { useEffect, useState } from 'react';\n\n/**\n * Hook that tracks the current window size and updates it on resize.\n * Returns an object with width and height in pixels.\n */\nexport function useWindowSize(): { width: number; height: number } {\n  const [size, setSize] = useState<{ width: number; height: number }>(() => ({\n    width: window.innerWidth,\n    height: window.innerHeight,\n  }));\n\n  useEffect(() => {\n    // Handler for resize events\n    const handleResize = () => {\n      setSize({\n        width: window.innerWidth,\n        height: window.innerHeight,\n      });\n    };\n\n    // Attach event listener\n    window.addEventListener('resize', handleResize);\n\n    // Cleanup on unmount or before re-render with new dependencies (if any)\n    return () => {\n      window.removeEventListener('resize', handleResize);\n    };\n  }, []);\n\n  return size;\n}\n```",
+      "stats_line": "99 t/s, 214 tokens, 2s, 2%"
+    }
+  ]
+}

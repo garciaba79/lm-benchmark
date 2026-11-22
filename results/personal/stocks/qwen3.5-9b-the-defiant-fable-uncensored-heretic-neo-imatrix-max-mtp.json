@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "personal/stocks",
+  "test": "Question Personal Stocks",
+  "created": "11/22/2026, 02:52:10 AM",
+  "context_length": 16384,
+  "system_prompt": "You are a helpful assistant. Answer the user's questions clearly and completely. Follow any instructions in the questions. Do not add extra commentary unless it helps the answer.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Explain options trading in simple terms if I'm familiar with buying and selling stocks."
+    },
+    {
+      "role": "assistant",
+      "content": "Great\u2014since you know stocks, here\u2019s a concise map of options:\n\n- What an option is:\n  - A contract giving you the right (but not obligation) to buy or sell a stock at a set price by a certain date.\n  - You pay a premium upfront for that right.\n\n- The two basic types:\n  - Call option: Right to BUY the stock at a strike price before expiration.\n    - Profitable when the market price > strike + premium you paid.\n  - Put option: Right to SELL the stock at a strike price before expiration.\n    - Profitable when the market price < strike \u2212 premium you received (if sold) or < strike \u2212 premium you paid (if bought).\n\n- Key terms:\n  - Underlying: The stock (or ETF, index, etc.) the option is based on.\n  - Strike price: The fixed price at which you can exercise your right.\n  - Expiration date: When the contract ends; after that it\u2019s worthless if not exercised.\n  - Premium: The price of the option itself.\n    - Call premium rises when stock goes up, volatility rises, or time to expiration increases (all else equal).\n    - Put premium behaves oppositely relative to stock price.\n\n- How you can trade options (simple positions):\n  - Buy a call: Bullish bet. You profit if the stock rises above your strike + premium by expiration. Max loss = premium paid.\n  - Sell (write) a call: Bearish/neutral income play. You collect premium but must deliver shares at strike if assigned. Risk is large/unlimited if you don\u2019t own the shares and price surges.\n  - Buy a put: Bearish bet. Profit if stock falls below your strike \u2212 premium by expiration. Max loss = premium paid.\n  - Sell (write) a put: Bullish/neutral income play. You collect premium but must buy shares at strike if assigned. Risk is large if price crashes.\n\n- Why use options instead of just stocks?\n  - Leverage: Small premium can control many shares; big moves in the stock create outsized P&L on the option.\n  - Defined risk (when buying): Max loss = premium paid.\n  - Income/strategy building: Selling options, spreads, etc., to generate income or hedge positions.\n\n- Two important concepts:\n  - Time decay (theta): As expiration approaches, all else equal, option value erodes\u2014hurts buyers, helps sellers.\n  - Implied volatility (IV): Market\u2019s expectation of future movement; higher IV \u2192 more expensive options.\n\nIf you\u2019d like, I can walk through a concrete example with numbers to show how P&L changes in different scenarios.",
+      "stats_line": "106 t/s, 580 tokens, 6s, 4%"
+    }
+  ]
+}

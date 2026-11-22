@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "summary/ollama test",
+  "test": "Summary Ollama Test Harness",
+  "created": "11/22/2026, 02:55:56 AM",
+  "context_length": 16384,
+  "system_prompt": "You are a helpful assistant. Answer the user's questions clearly and completely. Follow any instructions in the questions. Do not add extra commentary unless it helps the answer.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here is either a conversation summary or an instruction.\n\nProvide me a simple summary of what this is for and what it is doing?\n\nDo you think it's a summary, instruction or both?\n\n---\n\n1. Highly Condensed, Core-Data Summary (Key Semantic Units)\n\ntest.sh \u2192 recursive models.txt + question.txt search \u2192 results/ creation \u2192 Ollama API test \u2192 model_times.csv + _response.txt \u2192 skip if CSV exists \u2192 JSON build \u2192 curl \u2192 time calc \u2192 grep/sed fallback \u2192 color output (blue, yellow, green) \u2192 server.js API /files \u2192 auto-load \u2192 no jq \u2192 results.html title from path \u2192 no borders \u2192 symlinks.\n\n2. Event Specifications Summary (Short, Precise Language)\n\nScript: test.sh in tests/\nAction: find subfolders \u2192 models.txt + question.txt\nSkip: results/model_times.csv exists\nRun: ollama run \u2192 curl /generate \u2192 time \u2192 save CSV + response\nJSON: printf + sed escape \u2192 no jq\nOutput: blue = test, yellow = warning, green = finish\nServer: server.js \u2192 /files JSON \u2192 results.html auto-load\nTitle: Name (path/) \u2192 small path line\nChart: no borders, solid fill\nLinks: symlinks in subfolders \u2192 main files\n\n3. Outcome-Oriented Summary (NLP Style)\n\nYou now own a fully automated, self-healing test system that effortlessly discovers and executes every model challenge across any folder depth \u2014 skipping only completed work, never failing on missing tools, and delivering crystal-clear, color-coded feedback in real time.\nYour single source of truth lives in tests/, while every subfolder runs as if it had the full system \u2014 thanks to invisible symlinks.\nThe results speak instantly: clean CSVs, rich responses, and a visual dashboard that highlights performance at a glance \u2014 no borders, no noise, just pure signal.\nYou press one command, and the entire ecosystem aligns \u2014 accurate, fast, and future-proof.\nConfidence is now automatic."
+    },
+    {
+      "role": "assistant",
+      "content": "This is an **instruction** (specifically, a prompt asking for analysis). It\u2019s not a summary of external content; it\u2019s telling me to:\n\n- Read the three provided summaries about a test system.\n- Explain in simple terms what that system does and why it exists.\n- Decide whether those texts are a \u201csummary,\u201d an \u201cinstruction,\u201d or both, and justify that judgment.\n\nIn short:  \n- Purpose: Get a clear, concise explanation of the described automated testing workflow.  \n- Task for me: Summarize its function and classify the nature of the provided text.",
+      "stats_line": "100 t/s, 123 tokens, 1s, 4%"
+    }
+  ]
+}

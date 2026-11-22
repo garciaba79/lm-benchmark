@@ -1,7 +1,7 @@
 {
   "scenario": "knowledge/blueberry garden",
-  "run_time": "11/18/2026, 11:43:05 PM",
-  "overall_seconds": 1265.771082,
+  "run_time": "11/22/2026, 12:35:33 PM",
+  "overall_seconds": 1410.9056309999999,
   "models": [
     {
       "key": "lfm2.5-230m",
@@ -625,6 +625,60 @@
       ],
       "scenario": "knowledge/blueberry garden",
       "file": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md"
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+      "params": "9B",
+      "quant": "Q4_K_S",
+      "size_gb": 7.8,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 103.89441308975985,
+      "total_seconds": 21.843534,
+      "question_times": [
+        4.721131,
+        10.263198,
+        6.859205
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md"
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "display_name": "Gemma 4 26B A4B QAT",
+      "params": "26B-A4B",
+      "quant": "Q4_0",
+      "size_gb": 14.56,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 54.08287656222054,
+      "total_seconds": 37.254821,
+      "question_times": [
+        6.94437,
+        15.329306,
+        14.981145
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "google-gemma-4-26b-a4b-qat.md"
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "display_name": "Qwen3.6 35B A3B",
+      "params": "35B-A3B",
+      "quant": "Q4_K_M",
+      "size_gb": 20.55,
+      "context": "16K",
+      "context_length": 16384,
+      "avg_tps": 44.76374303465021,
+      "total_seconds": 86.036194,
+      "question_times": [
+        22.614891,
+        33.773989,
+        29.647313999999998
+      ],
+      "scenario": "knowledge/blueberry garden",
+      "file": "qwen-qwen3.6-35b-a3b.md"
     }
   ]
 }

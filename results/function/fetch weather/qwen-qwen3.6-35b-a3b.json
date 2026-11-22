@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "function/fetch weather",
+  "test": "Function Fetch Weather",
+  "created": "11/22/2026, 03:13:03 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a TypeScript async function called fetchWeatherData that takes a city name string as input and fetches current weather data from the OpenWeatherMap API (use a placeholder API key). It should return a promise resolving to an object with temperature, humidity, and description. Handle errors gracefully with try/catch, and include type definitions for the response. Use native fetch, no external libraries."
+    },
+    {
+      "role": "assistant",
+      "content": "```typescript\ninterface WeatherData {\n  temperature: number;\n  humidity: number;\n  description: string;\n}\n\nasync function fetchWeatherData(city: string): Promise<WeatherData> {\n  const apiKey = \"YOUR_PLACEHOLDER_API_KEY\";\n  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;\n\n  try {\n    const response = await fetch(url);\n\n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n\n    const data = await response.json();\n\n    const weatherData: WeatherData = {\n      temperature: data.main.temp,\n      humidity: data.main.humidity,\n      description: data.weather[0].description,\n    };\n\n    return weatherData;\n  } catch (error) {\n    if (error instanceof Error) {\n      throw new Error(`Failed to fetch weather data: ${error.message}`);\n    }\n    throw new Error(\"Failed to fetch weather data: Unknown error\");\n  }\n}\n```",
+      "stats_line": "44 t/s, 243 tokens, 6s, 2%"
+    }
+  ]
+}

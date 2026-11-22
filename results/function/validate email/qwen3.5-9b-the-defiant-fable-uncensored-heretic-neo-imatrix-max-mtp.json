@@ -1,0 +1,20 @@
+{
+  "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+  "display_name": "Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX",
+  "scenario": "function/validate email",
+  "test": "Function Validate Email",
+  "created": "11/22/2026, 02:51:07 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Write a TypeScript utility function called validateEmail that takes a string input and returns a boolean indicating if it's a valid email address. Use a regular expression for validation, handle edge cases like empty strings or invalid formats, and add type guards if appropriate. Explain briefly how this could be used in a form validation system."
+    },
+    {
+      "role": "assistant",
+      "content": "```ts\n/**\n * Validates an email address using a regex pattern.\n * Returns true if the input is a valid email format, false otherwise.\n */\nexport function validateEmail(email: string): boolean {\n  // Type guard to ensure we're dealing with a primitive string (not undefined/null)\n  if (!isStringPrimitive(email)) return false;\n\n  const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;\n\n  return pattern.test(email);\n}\n\n/**\n * Simple type guard to distinguish between a primitive string and other types.\n */\nfunction isStringPrimitive(value: unknown): value is string {\n  return typeof value === 'string' && value.length > 0;\n}\n```\n\n### How it could be used in a form validation system\n\nIn a React/Vue/Svelte or plain JS form, you\u2019d call `validateEmail` whenever the user changes an email input field:\n\n- On blur (when they leave the field) to give immediate feedback.\n- Before submitting the entire form to ensure all required fields pass their validators.\n\nExample (React-like):\n\n```tsx\nconst [email, setEmail] = useState('');\n\nconst handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n  const value = e.target.value;\n  setEmail(value); // update state\n};\n\nconst handleSubmit = async () => {\n  if (!validateEmail(email)) {\n    alert('Please enter a valid email address.');\n    return;\n  }\n  // proceed with submission...\n};\n```\n\nThis keeps validation logic centralized, testable, and reusable across your application.",
+      "stats_line": "104 t/s, 418 tokens, 4s, 3%"
+    }
+  ]
+}

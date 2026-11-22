@@ -11,7 +11,7 @@ def generate(self, messages: list[dict], **kwargs) -> str:
     ...
 ```
 
-`messages` is a list of `{"role": "user"|"assistant"|"system", "content": str}`. The return value is the assistant's text.
+`messages` is a list of `{"role": "user"|"assistant"|"system", "content": str}`. The return value is the assistant's text. `generate` accepts `response_format`. `evaluate.py` sends a JSON schema for `grok_api` and `openai`. The other backends ignore it, and the script still checks the reply.
 
 ## Backends
 

@@ -4,9 +4,9 @@
 
 Scenario folder: personal/trip  
 
-Run time: 11/18/2026, 11:43:52 PM  
+Run time: 11/22/2026, 12:37:53 PM  
 
-Models in this run: 35  
+Models recorded: 38  
 
 ## Models
 
@@ -45,3 +45,6 @@ Models in this run: 35
 - Qwen3 Coder 30B (30B-A3B / Q4_K_M / 17.35 GB) Context: unknown → `qwen-qwen3-coder-30b.md`
 - Gemma 4 E2B (4.6B / Q4_K_M / 4.11 GB) Context: unknown → `google-gemma-4-e2b.md`
 - DeepSeek v4 Pro Qwen3.5 9B UNCENSORED Heretic (9B / Q4_K_M / 6.24 GB) Context: unknown → `deepseek-v4-pro-qwen3.5-9b-uncensored-heretic.md`
+- Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX (9B / Q4_K_S / 7.8 GB) Context: 16K → `qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp.md`
+- Gemma 4 26B A4B QAT (26B-A4B / Q4_0 / 14.56 GB) Context: 16K → `google-gemma-4-26b-a4b-qat.md`
+- Qwen3.6 35B A3B (35B-A3B / Q4_K_M / 20.55 GB) Context: 16K → `qwen-qwen3.6-35b-a3b.md`

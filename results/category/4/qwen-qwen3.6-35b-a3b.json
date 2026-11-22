@@ -1,0 +1,20 @@
+{
+  "key": "qwen/qwen3.6-35b-a3b",
+  "display_name": "Qwen3.6 35B A3B",
+  "scenario": "category/4",
+  "test": "Category 4",
+  "created": "11/22/2026, 03:12:25 AM",
+  "context_length": 16384,
+  "system_prompt": null,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are an AI memory categorizer for OpenMemory/mem0.\n\nTask:\n1. Analyze the following user statement/memory.\n2. Create 3\u20136 meaningful, concise categories that best describe the content, intent, topic, emotion, and any key entities.\n3. Output ONLY the categories as a comma-delimited list. No explanation, no numbering, no extra text.\n\nStatement/memory:\n\"Tried out SvelteKit for the first time today and built a simple todo app with Supabase backend. The DX is amazing\u2014components felt so clean compared to React. A bit annoyed by the learning curve with stores, but overall excited. Thinking about migrating my side project over.\"\n\nCategories (comma-delimited list only):"
+    },
+    {
+      "role": "assistant",
+      "content": "SvelteKit, Supabase, React, Todo App, Developer Experience, Side Projects",
+      "stats_line": "45 t/s, 18 tokens, 1s, 1%"
+    }
+  ]
+}

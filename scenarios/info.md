@@ -1,3 +1,3 @@
 # Info
 
-The test scenarios reviewed cover a wide range of topics across various categories, including bugs, code completions, creative writing, knowledge systems, and more. A total of 26 tests were processed: 12 completed, 2 partial, and 2 not started. This indicates thorough evaluation across all stages of development and user testing.
+The test scenarios cover a wide range of topics across different categories, with most tests marked as complete. There are 31 tests listed in total: 25 completed and 6 partial or not started. This indicates thorough coverage across development areas like functionality testing, code quality, user interfaces, and compliance checks.

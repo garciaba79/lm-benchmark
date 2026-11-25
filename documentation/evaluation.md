@@ -17,10 +17,11 @@ The Grok CLI plugin is still available (`EVAL_BACKEND = "grok_cli"`). It is not 
 ## Common options
 
 ```bash
-python evaluate.py --scenario summary/expedition   # one scenario
-python evaluate.py --force                         # re-evaluate everything
-python evaluate.py --dry-run                       # show what would be sent
-python evaluate.py --batch-size 3                  # override batch size
+python evaluate.py --scenario summary/expedition      # one scenario
+python evaluate.py --scenario "code/fim 1"            # one scenario
+python evaluate.py --force                            # re-evaluate everything
+python evaluate.py --dry-run                          # show what would be sent
+python evaluate.py --batch-size 3                     # override batch size
 ```
 
 ## What it writes
@@ -29,7 +30,7 @@ In each scenario results folder:
 
 - `results.json` — the score table. One record per model, plus summary, takeaways, practical notes, and additional notes
 - `results.md` — the same scores in a readable table
-- `evaluation-<model>.json` — the conversation, plus `evaluated_keys` and `final_complete`
+- `evaluation-<model>.json` — the conversation, plus `evaluated_keys`, `final_complete`, and `usage`
 - `evaluation-<model>.md` — the same conversation in markdown
 - `evaluation.json` — index of the evaluation files in the folder
 - `test.md` — updated with an “Evaluation status” section at the bottom
@@ -67,6 +68,8 @@ The script never falls back from one backend to another. If the chosen backend f
 A model is scored when its record is in `results.json`. The next run sends only keys that are missing. Each request contains the instructions, the current JSON, and the new transcripts. Older transcripts stay on disk. The script merges the reply by key. A model left out of the reply stays in the file. A reply that drops a new model is sent back once. `--force` clears the conversation and `results.json`.
 
 The script reads `evaluation-<model>.json`. It does not read markdown transcripts. When a scenario finishes, it writes `evaluation-<model>.md` from that JSON.
+
+`usage` in that JSON is the judge API cost for this scenario: `requests`, `prompt_tokens`, `completion_tokens`, and `total_tokens`. A later run that scores only new models adds to those numbers. `--force` starts them over. A backend that does not report usage leaves the field out. The counts are not sent back to the judge.
 
 Three hand transcripts that used to be named `grok.md` are now `evaluation-grok-4.3.md`:
 

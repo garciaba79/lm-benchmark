@@ -5,8 +5,9 @@ Evaluate LM Studio test results with a cloud model.
 Reads result files from results/<scenario>/, sends them in batches to the
 configured backend, and writes results.json plus a readable results.md.
 The conversation is stored in evaluation-<model>.json (source of truth) and
-evaluation-<model>.md. A model is scored when its record is in results.json.
-test.md gets an evaluation status section.
+evaluation-<model>.md. That JSON also stores usage: the judge requests and
+token counts for this scenario. A model is scored when its record is in
+results.json. test.md gets an evaluation status section.
 
 The backend and model come from config.py. The API key is the one named for
 that backend in .env.
@@ -543,6 +544,80 @@ def repair_message(problem: str, batch_keys: list[str]) -> str:
     )
 
 
+USAGE_FIELDS = ("requests", "prompt_tokens", "completion_tokens", "total_tokens")
+
+
+def blank_usage() -> dict:
+    return {field: 0 for field in USAGE_FIELDS}
+
+
+def usage_counts(value) -> dict | None:
+    """Copy a usage object. Return None when it is missing or not counts."""
+    if not isinstance(value, dict):
+        return None
+    counts = blank_usage()
+    for field in USAGE_FIELDS:
+        raw = value.get(field, 0)
+        if isinstance(raw, bool) or not isinstance(raw, (int, float)):
+            return None
+        number = int(raw)
+        if number < 0:
+            return None
+        counts[field] = number
+    return counts
+
+
+def load_usage(path: Path) -> dict | None:
+    """Usage already stored for this judge, or None when the file has none."""
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    if not isinstance(data, dict) or "usage" not in data:
+        return None
+    return usage_counts(data.get("usage"))
+
+
+def add_usage(base: dict, extra: dict) -> dict:
+    return {field: base[field] + extra[field] for field in USAGE_FIELDS}
+
+
+def backend_usage(backend) -> dict | None:
+    """Process totals, or None when the backend does not track them."""
+    if not hasattr(backend, "get_stats"):
+        return None
+    stats = backend.get_stats()
+    if not isinstance(stats, dict):
+        return None
+    return usage_counts({field: stats.get(field, 0) for field in USAGE_FIELDS})
+
+
+def usage_since(start: dict, current: dict) -> dict:
+    return {field: max(0, current[field] - start[field]) for field in USAGE_FIELDS}
+
+
+class UsageLedger:
+    """Judge usage for one scenario. Each save adds only the new requests."""
+
+    def __init__(self, stored: dict | None, backend):
+        self.usage = None if stored is None else dict(stored)
+        mark = backend_usage(backend)
+        self.tracks = mark is not None
+        self.mark = mark if mark is not None else blank_usage()
+
+    def consume(self, backend) -> dict | None:
+        if not self.tracks:
+            return self.usage
+        current = backend_usage(backend) or blank_usage()
+        delta = usage_since(self.mark, current)
+        self.mark = current
+        if any(delta.values()):
+            self.usage = add_usage(self.usage or blank_usage(), delta)
+        return self.usage
+
+
 def load_messages(path: Path) -> list[dict]:
     if not path.exists():
         return []
@@ -554,14 +629,17 @@ def load_messages(path: Path) -> list[dict]:
     return messages if isinstance(messages, list) else []
 
 
-def write_conversation_json(path: Path, messages: list[dict], model_name: str, evaluated_keys: list[str], final_complete: bool):
+def write_conversation_json(path: Path, messages: list[dict], model_name: str, evaluated_keys: list[str], final_complete: bool, usage: dict | None = None):
     """Write the current conversation as the source of truth."""
     data = {
         "model": model_name,
         "evaluated_keys": list(evaluated_keys),
         "final_complete": final_complete,
-        "messages": messages,
     }
+    counts = usage_counts(usage) if usage is not None else None
+    if counts is not None:
+        data["usage"] = counts
+    data["messages"] = messages
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
@@ -619,14 +697,14 @@ def request_evaluation(backend, user_content, document, batch_keys, allowed_keys
     raise RuntimeError(last_problem)
 
 
-def publish_results(results_path, document, messages, model_name, ordered_keys, conv_json_path, conv_md_path):
+def publish_results(results_path, document, messages, model_name, ordered_keys, conv_json_path, conv_md_path, usage=None):
     stored = [model.get("key") for model in document.get("models") or []]
     missing = [key for key in ordered_keys if key not in stored]
     evaluated = [key for key in ordered_keys if key in stored]
     write_results(results_path / "results.json", document)
     results_md = results_path / "results.md"
     results_md.write_text(render_results_md(document), encoding="utf-8")
-    write_conversation_json(conv_json_path, messages, model_name, evaluated, not missing)
+    write_conversation_json(conv_json_path, messages, model_name, evaluated, not missing, usage)
     write_conversation_md(conv_md_path, messages)
     utils.write_evaluation_index(results_path)
     utils.update_test_md_evaluation(results_path, len(evaluated), len(ordered_keys), missing)
@@ -660,6 +738,7 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
     tps_map = load_tps_map(results_path)
 
     messages = [] if force else load_messages(conv_json_path)
+    ledger = UsageLedger(None if force else load_usage(conv_json_path), backend)
     if force:
         document = blank_results(rel, model_name)
     else:
@@ -677,7 +756,10 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
     if not missing and not force:
         print(f"  All {len(ordered_keys)} models already evaluated, skipping.")
         if not dry_run:
-            publish_results(results_path, document, messages, model_name, ordered_keys, conv_json_path, conv_md_path)
+            publish_results(
+                results_path, document, messages, model_name, ordered_keys,
+                conv_json_path, conv_md_path, ledger.consume(backend),
+            )
         return
 
     print(f"  Evaluating {len(missing)} model(s) in batches of {batch_size}")
@@ -707,7 +789,10 @@ def evaluate_scenario(results_path: Path, backend: EvaluationBackend, batch_size
             backend, user_msg, document, batch_keys, allowed_keys, tps_map
         )
         messages.extend(exchange)
-        publish_results(results_path, document, messages, model_name, ordered_keys, conv_json_path, conv_md_path)
+        publish_results(
+            results_path, document, messages, model_name, ordered_keys,
+            conv_json_path, conv_md_path, ledger.consume(backend),
+        )
         print(f"  Batch {batch_num} complete.")
 
     if dry_run:

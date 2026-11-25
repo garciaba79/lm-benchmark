@@ -203,7 +203,7 @@ Files written for a finished scenario:
 
 - `results.json` — the score table
 - `results.md` — that table, sorted by correctness, then quality
-- `evaluation-<model>.json` — the judge conversation, plus `evaluated_keys` and `final_complete`
+- `evaluation-<model>.json` — the judge conversation, plus `evaluated_keys`, `final_complete`, and `usage` (requests and token counts for this judge on this scenario)
 - `evaluation-<model>.md` — that conversation as markdown, regenerated from the JSON
 - `evaluation.json` — index of those files
 - `test.md` — an evaluation-status section is added or replaced

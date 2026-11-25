@@ -535,87 +535,90 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models on completing a Python event processing function under strict output constraints. All models produced code with significant logical errors, incorrect filtering, and failures to match the required return structure or follow the no-explanation rule precisely. Larger models showed marginally better structure but none delivered a fully correct or immediately usable implementation.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed marginally better structure.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes."
   ],
   "models": [
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-1.2b-instruct",
       "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
+      "correctness": 25,
+      "quality": 35,
       "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
-      "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
-      "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
     },
     {
       "key": "qwen2.5-coder-1.5b-instruct",
       "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
-      "instruction_following": 50,
-      "usefulness": 50,
-      "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     }
   ]
 }
@@ -692,87 +695,90 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models on completing a Python event processing function under strict output constraints. All models produced code with significant logical errors, incorrect filtering, and failures to match the required return structure or follow the no-explanation rule precisely. Larger models showed marginally better structure but none delivered a fully correct or immediately usable implementation.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed marginally better structure.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes."
   ],
   "models": [
     {
       "key": "qwen2.5-coder-1.5b-instruct",
       "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
-      "instruction_following": 50,
-      "usefulness": 50,
-      "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -1364,155 +1370,158 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like lfm2.5-2.6b showed better structure and instruction following but none delivered fully correct or immediately usable implementations.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
       "key": "qwen2.5-coder-1.5b-instruct",
       "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
-      "instruction_following": 50,
-      "usefulness": 50,
-      "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "lfm2.5-2.6b",
       "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
-      "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 50,
       "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
+      "faithfulness": 55,
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     }
   ]
 }
@@ -1589,155 +1598,158 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like lfm2.5-2.6b showed better structure and instruction following but none delivered fully correct or immediately usable implementations.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
       "key": "lfm2.5-2.6b",
       "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
-      "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -2321,220 +2333,223 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
       "key": "lfm2.5-2.6b",
       "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
-      "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
-      "correctness": 60,
-      "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
     },
     {
       "key": "qwen2.5-coder-7b-instruct",
       "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "mamba-codestral-7b-v0.1",
       "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
     },
     {
       "key": "google/gemma-4-e4b",
       "avg_tps": 144,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
     }
   ]
 }
@@ -2611,220 +2626,223 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
-      "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
-    },
-    {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
       "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
       "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -3316,288 +3334,288 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
-      "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
-    },
-    {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
       "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
       "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "deepseek-coder-6.7b-instruct",
       "avg_tps": 150,
-      "correctness": 45,
-      "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "granite-4.1-8b",
       "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 60,
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
       "key": "lfm2.5-8b-a1b",
       "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "ministral-3-8b-instruct-2512",
       "avg_tps": 124,
-      "correctness": 40,
+      "correctness": 45,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 35,
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     }
   ]
 }
@@ -3674,288 +3692,288 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
-      "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -4503,353 +4521,353 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
-      "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "nvidia_nvidia-nemotron-nano-9b-v2",
       "avg_tps": 101,
-      "correctness": 65,
-      "quality": 80,
+      "correctness": 40,
+      "quality": 65,
       "task_understanding": 70,
-      "instruction_following": 85,
-      "usefulness": 60,
-      "faithfulness": 80,
-      "pros": "Clean function-only output with solid timestamp parsing and empty input handling.",
-      "cons": "No user filtering and recent_events increments for every parsed event regardless of cutoff.",
-      "notes": "last_event_time uses latest parsed ts but total_events counts all valid timestamps."
+      "instruction_following": 35,
+      "usefulness": 40,
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
     },
     {
       "key": "ornith-1.5-9b",
       "avg_tps": 162,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Detailed edge-case handling and type checks in code.",
-      "cons": "Wrapped in markdown code block and assumed user_id field for filtering.",
-      "notes": "recent_events incremented for every event with timestamp, ignoring cutoff."
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
     },
     {
       "key": "qwen/qwen3.5-9b",
       "avg_tps": 119,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 85,
-      "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Clean output, proper empty handling, and Z-suffix timestamp support.",
-      "cons": "last_event_time set to last processed string instead of most recent and no user filtering.",
-      "notes": "total_events only counts events with valid timestamps."
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
     },
     {
       "key": "google/gemma-4-12b",
       "avg_tps": 81,
-      "correctness": 50,
-      "quality": 55,
-      "task_understanding": 60,
-      "instruction_following": 40,
-      "usefulness": 45,
-      "faithfulness": 50,
-      "pros": "Good timestamp parsing with Z handling and error collection.",
-      "cons": "Included full docstring and filtered by non-existent user_id field.",
-      "notes": "recent_count uses timedelta comparison but skips invalid timestamps silently."
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
+      "usefulness": 60,
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
     },
     {
       "key": "qwen/qwen2.5-coder-14b",
       "avg_tps": 77,
-      "correctness": 45,
-      "quality": 50,
-      "task_understanding": 55,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
       "instruction_following": 25,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Attempted user filtering and graceful timestamp error handling.",
-      "cons": "Wrapped in markdown and filtered by non-existent user_id field.",
-      "notes": "recent_events calculated inside per-event now comparison inside try block."
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
     }
   ]
 }
@@ -4926,353 +4944,353 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
-      "avg_tps": 101,
-      "correctness": 65,
-      "quality": 80,
-      "task_understanding": 70,
-      "instruction_following": 85,
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
       "usefulness": 60,
-      "faithfulness": 80,
-      "pros": "Clean function-only output with solid timestamp parsing and empty input handling.",
-      "cons": "No user filtering and recent_events increments for every parsed event regardless of cutoff.",
-      "notes": "last_event_time uses latest parsed ts but total_events counts all valid timestamps."
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
     },
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
-    },
-    {
-      "key": "qwen/qwen3.5-9b",
-      "avg_tps": 119,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 85,
-      "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Clean output, proper empty handling, and Z-suffix timestamp support.",
-      "cons": "last_event_time set to last processed string instead of most recent and no user filtering.",
-      "notes": "total_events only counts events with valid timestamps."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
-    },
-    {
-      "key": "google/gemma-4-12b",
-      "avg_tps": 81,
-      "correctness": 50,
-      "quality": 55,
-      "task_understanding": 60,
-      "instruction_following": 40,
-      "usefulness": 45,
-      "faithfulness": 50,
-      "pros": "Good timestamp parsing with Z handling and error collection.",
-      "cons": "Included full docstring and filtered by non-existent user_id field.",
-      "notes": "recent_count uses timedelta comparison but skips invalid timestamps silently."
-    },
-    {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
       "key": "ornith-1.5-9b",
       "avg_tps": 162,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Detailed edge-case handling and type checks in code.",
-      "cons": "Wrapped in markdown code block and assumed user_id field for filtering.",
-      "notes": "recent_events incremented for every event with timestamp, ignoring cutoff."
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
     },
     {
-      "key": "qwen/qwen2.5-coder-14b",
-      "avg_tps": 77,
-      "correctness": 45,
-      "quality": 50,
-      "task_understanding": 55,
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
       "instruction_following": 25,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Attempted user filtering and graceful timestamp error handling.",
-      "cons": "Wrapped in markdown and filtered by non-existent user_id field.",
-      "notes": "recent_events calculated inside per-event now comparison inside try block."
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
       "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 35,
+      "usefulness": 40,
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -5819,418 +5837,418 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
-      "avg_tps": 101,
-      "correctness": 65,
-      "quality": 80,
-      "task_understanding": 70,
-      "instruction_following": 85,
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
       "usefulness": 60,
-      "faithfulness": 80,
-      "pros": "Clean function-only output with solid timestamp parsing and empty input handling.",
-      "cons": "No user filtering and recent_events increments for every parsed event regardless of cutoff.",
-      "notes": "last_event_time uses latest parsed ts but total_events counts all valid timestamps."
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
     },
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
-    },
-    {
-      "key": "qwen/qwen3.5-9b",
-      "avg_tps": 119,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 85,
-      "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Clean output, proper empty handling, and Z-suffix timestamp support.",
-      "cons": "last_event_time set to last processed string instead of most recent and no user filtering.",
-      "notes": "total_events only counts events with valid timestamps."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
       "correctness": 60,
       "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
-    },
-    {
-      "key": "google/gemma-4-12b",
-      "avg_tps": 81,
-      "correctness": 50,
-      "quality": 55,
-      "task_understanding": 60,
-      "instruction_following": 40,
-      "usefulness": 45,
-      "faithfulness": 50,
-      "pros": "Good timestamp parsing with Z handling and error collection.",
-      "cons": "Included full docstring and filtered by non-existent user_id field.",
-      "notes": "recent_count uses timedelta comparison but skips invalid timestamps silently."
-    },
-    {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
       "key": "ornith-1.5-9b",
       "avg_tps": 162,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Detailed edge-case handling and type checks in code.",
-      "cons": "Wrapped in markdown code block and assumed user_id field for filtering.",
-      "notes": "recent_events incremented for every event with timestamp, ignoring cutoff."
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
     },
     {
-      "key": "qwen/qwen2.5-coder-14b",
-      "avg_tps": 77,
-      "correctness": 45,
-      "quality": 50,
-      "task_understanding": 55,
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
       "instruction_following": 25,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Attempted user filtering and graceful timestamp error handling.",
-      "cons": "Wrapped in markdown and filtered by non-existent user_id field.",
-      "notes": "recent_events calculated inside per-event now comparison inside try block."
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
       "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 35,
+      "usefulness": 40,
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
-    },
-    {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
-      "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
       "key": "lfm2.5-vl-3b",
       "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "qwen/qwen3-14b",
       "avg_tps": 78,
-      "correctness": 55,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 65,
-      "usefulness": 50,
-      "faithfulness": 60,
-      "pros": "Avoided assuming user_id field and handled Z timestamps reasonably.",
-      "cons": "last_event_time update logic is inefficient and total_events counts before full validation.",
-      "notes": "Wrapped in markdown code block violating strict output instruction."
+      "correctness": 50,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Clean structure and handles timestamp parsing with Z suffix.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Counts all events regardless of user and recent logic is correct."
     },
     {
       "key": "microsoft/phi-4",
       "avg_tps": 80,
-      "correctness": 40,
-      "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 55,
-      "pros": "Clean structure with reasonable error handling for invalid timestamps.",
-      "cons": "Incorrectly filtered on non-existent user_id field and last_event_time comparison flawed.",
-      "notes": "Skipped returning early for empty input as some paths returned partial dicts."
+      "correctness": 65,
+      "quality": 60,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Includes user_id filter and handles Z timestamps reasonably.",
+      "cons": "last_event_time comparison has None bug and returns datetime object.",
+      "notes": "Good filtering but needs fixes for return type and edge cases."
     },
     {
       "key": "openai/gpt-oss-20b",
       "avg_tps": 198,
-      "correctness": 60,
-      "quality": 75,
+      "correctness": 40,
+      "quality": 65,
       "task_understanding": 70,
-      "instruction_following": 75,
-      "usefulness": 55,
-      "faithfulness": 70,
-      "pros": "No user_id assumption and solid timestamp parsing with Z handling.",
-      "cons": "total_events incremented before timestamp validation and recent_events skips invalid ts.",
-      "notes": "Produced clean function without markdown wrapper."
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles Z timestamps and has clean aggregation logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user-specific filtering despite explicit requirement."
     },
     {
       "key": "liquid/lfm2-24b-a2b",
       "avg_tps": 146,
       "correctness": 30,
       "quality": 50,
-      "task_understanding": 45,
-      "instruction_following": 60,
+      "task_understanding": 60,
+      "instruction_following": 20,
       "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Compact output with basic type checks.",
-      "cons": "Filtered only on event type instead of user and set recent_events equal to total filtered.",
-      "notes": "Ignored user_id entirely and used naive age calculation without proper cutoff."
+      "faithfulness": 20,
+      "pros": "Direct function output without extra wrappers.",
+      "cons": "Filters on event type instead of user_id and double-counts recent.",
+      "notes": "Ignores user requirement entirely and miscalculates totals."
     },
     {
       "key": "lfm2.5-24b-a2b",
       "avg_tps": 135,
-      "correctness": 45,
-      "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 50,
-      "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Proper user_id filtering attempt and good Z-suffix normalization.",
-      "cons": "Assumed user_id field present and produced excessively long output with extra comments.",
-      "notes": "last_event_time returned without timezone info in some cases."
+      "correctness": 70,
+      "quality": 55,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 55,
+      "faithfulness": 35,
+      "pros": "Strong user_id filtering, Z handling, and correct recent logic.",
+      "cons": "Includes full docstring and extremely long output.",
+      "notes": "Best correctness among new models but violates format rule."
     }
   ]
 }
@@ -6307,418 +6325,418 @@ Here is the current results JSON. Score the new transcripts. Return the full JSO
 Current results JSON:
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user fields absent from the prompt and often ignored strict output-only rules."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format."
   ],
   "models": [
     {
-      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
-      "avg_tps": 101,
-      "correctness": 65,
-      "quality": 80,
-      "task_understanding": 70,
-      "instruction_following": 85,
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
       "usefulness": 60,
-      "faithfulness": 80,
-      "pros": "Clean function-only output with solid timestamp parsing and empty input handling.",
-      "cons": "No user filtering and recent_events increments for every parsed event regardless of cutoff.",
-      "notes": "last_event_time uses latest parsed ts but total_events counts all valid timestamps."
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
     },
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
-      "key": "openai/gpt-oss-20b",
-      "avg_tps": 198,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 75,
+      "key": "lfm2.5-24b-a2b",
+      "avg_tps": 135,
+      "correctness": 70,
+      "quality": 55,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 55,
-      "faithfulness": 70,
-      "pros": "No user_id assumption and solid timestamp parsing with Z handling.",
-      "cons": "total_events incremented before timestamp validation and recent_events skips invalid ts.",
-      "notes": "Produced clean function without markdown wrapper."
+      "faithfulness": 35,
+      "pros": "Strong user_id filtering, Z handling, and correct recent logic.",
+      "cons": "Includes full docstring and extremely long output.",
+      "notes": "Best correctness among new models but violates format rule."
     },
     {
-      "key": "qwen/qwen3.5-9b",
-      "avg_tps": 119,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "key": "microsoft/phi-4",
+      "avg_tps": 80,
+      "correctness": 65,
+      "quality": 60,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Clean output, proper empty handling, and Z-suffix timestamp support.",
-      "cons": "last_event_time set to last processed string instead of most recent and no user filtering.",
-      "notes": "total_events only counts events with valid timestamps."
+      "faithfulness": 40,
+      "pros": "Includes user_id filter and handles Z timestamps reasonably.",
+      "cons": "last_event_time comparison has None bug and returns datetime object.",
+      "notes": "Good filtering but needs fixes for return type and edge cases."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
-      "correctness": 60,
-      "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
     },
     {
-      "key": "qwen/qwen3-14b",
-      "avg_tps": 78,
-      "correctness": 55,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 65,
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
       "usefulness": 50,
-      "faithfulness": 60,
-      "pros": "Avoided assuming user_id field and handled Z timestamps reasonably.",
-      "cons": "last_event_time update logic is inefficient and total_events counts before full validation.",
-      "notes": "Wrapped in markdown code block violating strict output instruction."
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
-    },
-    {
-      "key": "google/gemma-4-12b",
-      "avg_tps": 81,
-      "correctness": 50,
-      "quality": 55,
-      "task_understanding": 60,
-      "instruction_following": 40,
-      "usefulness": 45,
-      "faithfulness": 50,
-      "pros": "Good timestamp parsing with Z handling and error collection.",
-      "cons": "Included full docstring and filtered by non-existent user_id field.",
-      "notes": "recent_count uses timedelta comparison but skips invalid timestamps silently."
-    },
-    {
-      "key": "lfm2.5-24b-a2b",
-      "avg_tps": 135,
-      "correctness": 45,
-      "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 50,
-      "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Proper user_id filtering attempt and good Z-suffix normalization.",
-      "cons": "Assumed user_id field present and produced excessively long output with extra comments.",
-      "notes": "last_event_time returned without timezone info in some cases."
-    },
-    {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
       "key": "ornith-1.5-9b",
       "avg_tps": 162,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Detailed edge-case handling and type checks in code.",
-      "cons": "Wrapped in markdown code block and assumed user_id field for filtering.",
-      "notes": "recent_events incremented for every event with timestamp, ignoring cutoff."
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
     },
     {
-      "key": "qwen/qwen2.5-coder-14b",
-      "avg_tps": 77,
-      "correctness": 45,
-      "quality": 50,
-      "task_understanding": 55,
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
       "instruction_following": 25,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Attempted user filtering and graceful timestamp error handling.",
-      "cons": "Wrapped in markdown and filtered by non-existent user_id field.",
-      "notes": "recent_events calculated inside per-event now comparison inside try block."
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "avg_tps": 78,
+      "correctness": 50,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Clean structure and handles timestamp parsing with Z suffix.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Counts all events regardless of user and recent logic is correct."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
     },
     {
-      "key": "microsoft/phi-4",
-      "avg_tps": 80,
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
       "correctness": 40,
       "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 70,
+      "task_understanding": 70,
+      "instruction_following": 35,
       "usefulness": 40,
-      "faithfulness": 55,
-      "pros": "Clean structure with reasonable error handling for invalid timestamps.",
-      "cons": "Incorrectly filtered on non-existent user_id field and last_event_time comparison flawed.",
-      "notes": "Skipped returning early for empty input as some paths returned partial dicts."
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "avg_tps": 198,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles Z timestamps and has clean aggregation logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user-specific filtering despite explicit requirement."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 35,
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
+      "key": "lfm2.5-vl-3b",
+      "avg_tps": 287,
       "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "liquid/lfm2-24b-a2b",
       "avg_tps": 146,
       "correctness": 30,
       "quality": 50,
-      "task_understanding": 45,
-      "instruction_following": 60,
+      "task_understanding": 60,
+      "instruction_following": 20,
       "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Compact output with basic type checks.",
-      "cons": "Filtered only on event type instead of user and set recent_events equal to total filtered.",
-      "notes": "Ignored user_id entirely and used naive age calculation without proper cutoff."
-    },
-    {
-      "key": "lfm2.5-vl-3b",
-      "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "faithfulness": 20,
+      "pros": "Direct function output without extra wrappers.",
+      "cons": "Filters on event type instead of user_id and double-counts recent.",
+      "notes": "Ignores user requirement entirely and miscalculates totals."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     }
   ]
 }
@@ -7307,483 +7325,1914 @@ def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 2
 ## Assistant
 
 {
-  "summary": "Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.",
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness. New 27-32B models improved correctness and direct function output but still included docstrings or minor logic issues.",
   "takeaways": [
-    "All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.",
-    "Smaller models ran faster but produced more malformed code.",
-    "Instruction following was weak across the board due to extra text or incorrect return keys.",
-    "No model handled empty input or invalid timestamps gracefully as requested.",
-    "Larger models improved cleanliness and partial correctness but still failed core requirements.",
-    "New models continued to assume user_id field in events despite prompt omission."
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches.",
+    "27B+ models achieved higher correctness with direct function starts and better timestamp handling."
   ],
   "practical": [
-    "Results require heavy editing or full rewrite before use, negating speed advantages.",
-    "Faster models (900+ t/s) still need substantial developer time to fix.",
-    "None are production-ready without major corrections to core logic.",
-    "Models around 250 t/s offer the best balance of speed and editability among the batch.",
-    "Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency."
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use.",
+    "Larger models like qwen2.5-coder-32b-instruct offer the best starting point with fewer edits needed."
   ],
   "notes": [
-    "All models ignored the strict 'only output the completed function' instruction to varying degrees.",
-    "Context was unknown for all runs, potentially affecting consistency.",
-    "Several new models assumed user_id field in events despite prompt omission.",
-    "deepseek and granite handled timestamps better than most but still failed user filtering."
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format.",
+    "qwen2.5-coder-32b-instruct produced the cleanest and most correct logic among all tested."
   ],
   "models": [
     {
-      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
-      "avg_tps": 101,
-      "correctness": 65,
-      "quality": 80,
-      "task_understanding": 70,
-      "instruction_following": 85,
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
       "usefulness": 60,
-      "faithfulness": 80,
-      "pros": "Clean function-only output with solid timestamp parsing and empty input handling.",
-      "cons": "No user filtering and recent_events increments for every parsed event regardless of cutoff.",
-      "notes": "last_event_time uses latest parsed ts but total_events counts all valid timestamps."
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
     },
     {
-      "key": "lfm2.5-2.6b",
-      "avg_tps": 253,
-      "correctness": 65,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 80,
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 60,
-      "faithfulness": 75,
-      "pros": "Clean function output with solid error handling and structure.",
-      "cons": "Incorrect user filtering assuming user_id in events and recent window based on max_ts.",
-      "notes": "Best overall among new models for editability."
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
     },
     {
-      "key": "openai/gpt-oss-20b",
-      "avg_tps": 198,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 70,
-      "instruction_following": 75,
+      "key": "lfm2.5-24b-a2b",
+      "avg_tps": 135,
+      "correctness": 70,
+      "quality": 55,
+      "task_understanding": 85,
+      "instruction_following": 30,
       "usefulness": 55,
-      "faithfulness": 70,
-      "pros": "No user_id assumption and solid timestamp parsing with Z handling.",
-      "cons": "total_events incremented before timestamp validation and recent_events skips invalid ts.",
-      "notes": "Produced clean function without markdown wrapper."
+      "faithfulness": 35,
+      "pros": "Strong user_id filtering, Z handling, and correct recent logic.",
+      "cons": "Includes full docstring and extremely long output.",
+      "notes": "Best correctness among new models but violates format rule."
     },
     {
-      "key": "qwen/qwen3.5-9b",
-      "avg_tps": 119,
-      "correctness": 60,
-      "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "key": "microsoft/phi-4",
+      "avg_tps": 80,
+      "correctness": 65,
+      "quality": 60,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Clean output, proper empty handling, and Z-suffix timestamp support.",
-      "cons": "last_event_time set to last processed string instead of most recent and no user filtering.",
-      "notes": "total_events only counts events with valid timestamps."
+      "faithfulness": 40,
+      "pros": "Includes user_id filter and handles Z timestamps reasonably.",
+      "cons": "last_event_time comparison has None bug and returns datetime object.",
+      "notes": "Good filtering but needs fixes for return type and edge cases."
     },
     {
       "key": "falcon-h1r-7b",
       "avg_tps": 102,
-      "correctness": 60,
-      "quality": 65,
-      "task_understanding": 65,
-      "instruction_following": 85,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
       "usefulness": 55,
-      "faithfulness": 75,
-      "pros": "Correctly implemented user_id filtering from events and graceful error handling.",
-      "cons": "Assumed user_id field in events contrary to prompt and produced very long output.",
-      "notes": "Parsing skipped Z suffix handling and used broad except clauses."
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
     },
     {
-      "key": "qwen/qwen3-14b",
-      "avg_tps": 78,
-      "correctness": 55,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 65,
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
       "usefulness": 50,
-      "faithfulness": 60,
-      "pros": "Avoided assuming user_id field and handled Z timestamps reasonably.",
-      "cons": "last_event_time update logic is inefficient and total_events counts before full validation.",
-      "notes": "Wrapped in markdown code block violating strict output instruction."
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
     },
     {
       "key": "nvidia/nemotron-3-nano-4b",
       "avg_tps": 225,
       "correctness": 55,
-      "quality": 65,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 70,
-      "pros": "Clean output and proper user_id filtering.",
-      "cons": "Errors list populated with invalid events instead of only error-type metadata.",
-      "notes": "last_event_time not converted to ISO format in return."
-    },
-    {
-      "key": "google/gemma-4-e4b",
-      "avg_tps": 144,
-      "correctness": 55,
       "quality": 60,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 50,
-      "faithfulness": 65,
-      "pros": "Handled user filtering, error metadata, and timezone-aware timestamps reasonably.",
-      "cons": "Assumed user_id present in events and total_events counted before full validation.",
-      "notes": "Included recent check against both cutoff and now but skipped some invalid timestamp cases silently."
-    },
-    {
-      "key": "qwen2.5-coder-1.5b-instruct",
-      "avg_tps": 297,
-      "correctness": 55,
-      "quality": 60,
-      "task_understanding": 65,
+      "task_understanding": 75,
       "instruction_following": 50,
       "usefulness": 50,
       "faithfulness": 55,
-      "pros": "Closest to correct structure with proper filtering and counts.",
-      "cons": "total_events used unfiltered length and last_event_time logic is broken.",
-      "notes": "Slowest but most readable code among the batch."
-    },
-    {
-      "key": "granite-4.1-8b",
-      "avg_tps": 124,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 85,
-      "usefulness": 45,
-      "faithfulness": 75,
-      "pros": "Good timestamp parsing with Z handling and clean code structure.",
-      "cons": "Assumed user_id field in events and did not filter by user at all.",
-      "notes": "last_event_time update logic works but total/recent counts ignore user constraint."
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
     },
     {
       "key": "qwen3.5-4b",
       "avg_tps": 172,
-      "correctness": 50,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 90,
-      "usefulness": 45,
-      "faithfulness": 70,
-      "pros": "Strictly followed output format with clean readable code.",
-      "cons": "Ignored user_id filtering entirely and counted only parsed events.",
-      "notes": "Used current time for recency without user-specific event filtering."
-    },
-    {
-      "key": "google/gemma-4-12b",
-      "avg_tps": 81,
-      "correctness": 50,
-      "quality": 55,
-      "task_understanding": 60,
-      "instruction_following": 40,
-      "usefulness": 45,
-      "faithfulness": 50,
-      "pros": "Good timestamp parsing with Z handling and error collection.",
-      "cons": "Included full docstring and filtered by non-existent user_id field.",
-      "notes": "recent_count uses timedelta comparison but skips invalid timestamps silently."
-    },
-    {
-      "key": "lfm2.5-24b-a2b",
-      "avg_tps": 135,
-      "correctness": 45,
-      "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 50,
-      "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Proper user_id filtering attempt and good Z-suffix normalization.",
-      "cons": "Assumed user_id field present and produced excessively long output with extra comments.",
-      "notes": "last_event_time returned without timezone info in some cases."
-    },
-    {
-      "key": "deepseek-coder-6.7b-instruct",
-      "avg_tps": 150,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 40,
-      "faithfulness": 65,
-      "pros": "Clean function-only output with reasonable structure and error handling.",
-      "cons": "Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone.",
-      "notes": "Recent events used local now instead of UTC cutoff."
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
     },
     {
       "key": "ornith-1.5-9b",
       "avg_tps": 162,
-      "correctness": 45,
+      "correctness": 55,
       "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Detailed edge-case handling and type checks in code.",
-      "cons": "Wrapped in markdown code block and assumed user_id field for filtering.",
-      "notes": "recent_events incremented for every event with timestamp, ignoring cutoff."
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
     },
     {
-      "key": "qwen/qwen2.5-coder-14b",
-      "avg_tps": 77,
-      "correctness": 45,
-      "quality": 50,
-      "task_understanding": 55,
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
       "instruction_following": 25,
-      "usefulness": 40,
-      "faithfulness": 35,
-      "pros": "Attempted user filtering and graceful timestamp error handling.",
-      "cons": "Wrapped in markdown and filtered by non-existent user_id field.",
-      "notes": "recent_events calculated inside per-event now comparison inside try block."
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "avg_tps": 78,
+      "correctness": 50,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Clean structure and handles timestamp parsing with Z suffix.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Counts all events regardless of user and recent logic is correct."
     },
     {
       "key": "ministral-3-3b-reasoning-2512",
       "avg_tps": 180,
-      "correctness": 45,
-      "quality": 35,
-      "task_understanding": 60,
-      "instruction_following": 20,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
       "usefulness": 35,
-      "faithfulness": 25,
-      "pros": "Included detailed edge case handling in code.",
-      "cons": "Added long explanation text before the function.",
-      "notes": "Did not filter events by user_id at all."
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
     },
     {
-      "key": "microsoft/phi-4",
-      "avg_tps": 80,
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
       "correctness": 40,
       "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 70,
+      "task_understanding": 70,
+      "instruction_following": 35,
       "usefulness": 40,
-      "faithfulness": 55,
-      "pros": "Clean structure with reasonable error handling for invalid timestamps.",
-      "cons": "Incorrectly filtered on non-existent user_id field and last_event_time comparison flawed.",
-      "notes": "Skipped returning early for empty input as some paths returned partial dicts."
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "avg_tps": 198,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles Z timestamps and has clean aggregation logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user-specific filtering despite explicit requirement."
     },
     {
       "key": "ministral-3-3b-instruct-2512",
       "avg_tps": 230,
       "correctness": 40,
       "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
       "usefulness": 40,
-      "faithfulness": 45,
-      "pros": "Reasonable structure and empty input handling.",
-      "cons": "Wrapped output in markdown code block violating instructions.",
-      "notes": "Skipped non-recent events entirely from totals."
-    },
-    {
-      "key": "ministral-3-8b-instruct-2512",
-      "avg_tps": 124,
-      "correctness": 40,
-      "quality": 55,
-      "task_understanding": 55,
-      "instruction_following": 40,
-      "usefulness": 35,
-      "faithfulness": 45,
-      "pros": "Solid empty input handling and timezone-aware timestamp parsing.",
-      "cons": "Wrapped in markdown code block and performed no user filtering.",
-      "notes": "Counts all events regardless of user_id."
-    },
-    {
-      "key": "qwen2.5-coder-7b-instruct",
-      "avg_tps": 144,
-      "correctness": 40,
-      "quality": 50,
-      "task_understanding": 55,
-      "instruction_following": 30,
-      "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Attempted proper recent filtering and error collection.",
-      "cons": "Wrapped output in markdown code block and used incorrect total_events and recent_events calculations.",
-      "notes": "Skipped older events from all counts instead of separating recent only."
-    },
-    {
-      "key": "mamba-codestral-7b-v0.1",
-      "avg_tps": 148,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 50,
-      "instruction_following": 80,
-      "usefulness": 30,
-      "faithfulness": 60,
-      "pros": "Produced compact function-only output with basic structure.",
-      "cons": "No user_id filtering and flawed last_event_time and recent_events logic.",
-      "notes": "Assumed all events belong to the target user and used naive timestamp comparisons."
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
     },
     {
       "key": "essentialai/rnj-1",
       "avg_tps": 125,
-      "correctness": 35,
+      "correctness": 40,
       "quality": 50,
-      "task_understanding": 50,
-      "instruction_following": 35,
-      "usefulness": 30,
-      "faithfulness": 40,
-      "pros": "Attempted cutoff logic and error collection with try/except.",
-      "cons": "Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug.",
-      "notes": "total_events incremented before any validation."
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 35,
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
     },
     {
-      "key": "lfm2.5-1.2b-instruct",
-      "avg_tps": 529,
+      "key": "lfm2.5-vl-3b",
+      "avg_tps": 287,
       "correctness": 35,
-      "quality": 40,
-      "task_understanding": 50,
-      "instruction_following": 45,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
       "usefulness": 35,
-      "faithfulness": 40,
-      "pros": "Better organized code with some correct aggregation.",
-      "cons": "Flawed user matching and recent event filtering logic.",
-      "notes": "Returned early in some paths, skipping required fields."
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
     },
     {
       "key": "liquid/lfm2-24b-a2b",
       "avg_tps": 146,
       "correctness": 30,
       "quality": 50,
-      "task_understanding": 45,
-      "instruction_following": 60,
+      "task_understanding": 60,
+      "instruction_following": 20,
       "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Compact output with basic type checks.",
-      "cons": "Filtered only on event type instead of user and set recent_events equal to total filtered.",
-      "notes": "Ignored user_id entirely and used naive age calculation without proper cutoff."
-    },
-    {
-      "key": "lfm2.5-vl-3b",
-      "avg_tps": 287,
-      "correctness": 30,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 70,
-      "usefulness": 30,
-      "faithfulness": 50,
-      "pros": "Followed output format without extra text.",
-      "cons": "Broken recent_events calculation and uninitialized last_event_time.",
-      "notes": "Used now incorrectly for age checks."
-    },
-    {
-      "key": "lfm2.5-8b-a1b",
-      "avg_tps": 388,
-      "correctness": 25,
-      "quality": 40,
-      "task_understanding": 45,
-      "instruction_following": 55,
-      "usefulness": 25,
-      "faithfulness": 40,
-      "pros": "Fast generation and attempted parse helper for timestamps.",
-      "cons": "No user filtering, recent_count always zero, and total_events uses all events.",
-      "notes": "Output much longer than requested with unused valid_events list."
+      "faithfulness": 20,
+      "pros": "Direct function output without extra wrappers.",
+      "cons": "Filters on event type instead of user_id and double-counts recent.",
+      "notes": "Ignores user requirement entirely and miscalculates totals."
     },
     {
       "key": "lfm2.5-1.2b-thinking",
       "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
       "correctness": 25,
-      "quality": 30,
-      "task_understanding": 40,
-      "instruction_following": 35,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
       "usefulness": 25,
-      "faithfulness": 30,
-      "pros": "Included defaultdict for counts.",
-      "cons": "Syntax error and incorrect recent_events field value.",
-      "notes": "Longer output time despite similar size to instruct variant."
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
     },
     {
       "key": "lfm2.5-350m",
       "avg_tps": 737,
-      "correctness": 20,
-      "quality": 25,
+      "correctness": 15,
+      "quality": 20,
       "task_understanding": 35,
-      "instruction_following": 30,
-      "usefulness": 20,
-      "faithfulness": 25,
-      "pros": "Attempted basic filtering structure.",
-      "cons": "Incorrect recent_events calculation and broken return values.",
-      "notes": "Used undefined variables and wrong datetime logic."
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
     },
     {
       "key": "lfm2.5-230m",
       "avg_tps": 962,
-      "correctness": 15,
-      "quality": 20,
+      "correctness": 10,
+      "quality": 15,
       "task_understanding": 30,
-      "instruction_following": 25,
-      "usefulness": 15,
-      "faithfulness": 20,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
       "pros": "Extremely fast generation speed.",
-      "cons": "Code has multiple syntax and logic errors making it unusable.",
-      "notes": "Output included extra imports and docstring changes not requested."
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
     },
     {
       "key": "qwen/qwen3.8-27b",
       "avg_tps": 22,
-      "correctness": 55,
-      "quality": 70,
-      "task_understanding": 60,
-      "instruction_following": 60,
-      "usefulness": 50,
-      "faithfulness": 55,
-      "pros": "Solid timestamp parsing with Z handling and clean structure.",
-      "cons": "Assumed user_id field in events and wrapped output in markdown.",
-      "notes": "total_events counts after user filter but recent_events uses parsed cutoff correctly."
+      "correctness": 75,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 65,
+      "faithfulness": 35,
+      "pros": "Solid user_id filtering, Z handling, and correct recent/last_event logic.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Strong logic among larger models despite format violation."
     },
     {
       "key": "qwen/qwen3-coder-30b",
       "avg_tps": 61,
-      "correctness": 50,
-      "quality": 65,
-      "task_understanding": 55,
-      "instruction_following": 70,
-      "usefulness": 45,
-      "faithfulness": 60,
-      "pros": "Direct function output without markdown and reasonable error skipping.",
-      "cons": "Assumed user_id field and duplicated timestamp parsing logic.",
-      "notes": "recent_events recount uses separate loop after initial filter."
+      "correctness": 80,
+      "quality": 70,
+      "task_understanding": 90,
+      "instruction_following": 60,
+      "usefulness": 75,
+      "faithfulness": 55,
+      "pros": "Direct function start with accurate user filtering and timestamp parsing.",
+      "cons": "latest_timestamp calculated before user filter in some paths.",
+      "notes": "One of the better format-compliant outputs with solid correctness."
     },
     {
       "key": "qwen2.5-coder-32b-instruct",
       "avg_tps": 6,
-      "correctness": 60,
+      "correctness": 85,
       "quality": 75,
-      "task_understanding": 65,
-      "instruction_following": 80,
-      "usefulness": 55,
-      "faithfulness": 70,
-      "pros": "Clean direct output and proper user_id filtering with Z handling.",
-      "cons": "Assumed user_id field in events and last_event_time uses parsed datetime.",
-      "notes": "total_events incremented only for matching user events."
+      "task_understanding": 90,
+      "instruction_following": 65,
+      "usefulness": 80,
+      "faithfulness": 60,
+      "pros": "Clean direct function with correct filtering, recent count, and error handling.",
+      "cons": "Slow generation speed compared to smaller models.",
+      "notes": "Highest overall correctness and closest to usable without major rewrites."
     },
     {
       "key": "google/gemma-4-e2b",
       "avg_tps": 193,
-      "correctness": 50,
-      "quality": 60,
-      "task_understanding": 55,
-      "instruction_following": 75,
-      "usefulness": 45,
-      "faithfulness": 65,
-      "pros": "Direct function output and robust timestamp parsing with error collection.",
-      "cons": "Assumed user_id field and errors list contains non-metadata entries.",
-      "notes": "recent count uses processing time instead of cutoff for some checks."
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 55,
+      "usefulness": 70,
+      "faithfulness": 50,
+      "pros": "Direct function with robust timestamp parsing and user filtering.",
+      "cons": "Redundant processing loops and extra error_metadata for invalid timestamps.",
+      "notes": "Fast and reasonably correct but includes unnecessary complexity."
     },
     {
       "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
       "avg_tps": 157,
-      "correctness": 35,
-      "quality": 55,
-      "task_understanding": 45,
-      "instruction_following": 80,
-      "usefulness": 30,
+      "correctness": 30,
+      "quality": 60,
+      "task_understanding": 60,
+      "instruction_following": 50,
+      "usefulness": 35,
+      "faithfulness": 40,
+      "pros": "Direct function start with clean structure and error collection.",
+      "cons": "Completely omits user_id filtering and counts all events.",
+      "notes": "No user-specific logic despite explicit requirement in prompt."
+    }
+  ]
+}
+
+## User
+
+## Model Evaluation Instructions
+
+Score these local model results. Return one JSON object and nothing else. No markdown, no code fence, and no text before or after the JSON.
+
+The object has these fields:
+
+- summary: one short paragraph on the test and the overall findings.
+- takeaways: an array of short sentences on the main patterns.
+- practical: an array of short sentences on what the scores mean for real use, including speed versus edit time.
+- notes: an array of short sentences for extra observations.
+- models: an array with one object per model.
+
+Each object in models has these fields only:
+
+- key: the exact model key from the ### header. Copy it unchanged.
+- avg_tps: the tokens per second shown for that model. Keep the existing value for a model already in the table.
+- correctness: integer 0–100, or null if the model did not answer.
+- quality: integer 0–100, or null. Readability, structure, clarity, and how easy the result is to use or edit.
+- task_understanding: integer 0–100, or null. Did it grasp the goal and what was asked.
+- instruction_following: integer 0–100, or null. Did it obey the format, constraints, and extra notes.
+- usefulness: integer 0–100, or null. How practical the result is.
+- faithfulness: integer 0–100, or null. Did it stick to the requested constraints, format, tools, or style.
+- pros: one short sentence on the main strength.
+- cons: one short sentence on the main problem.
+- notes: one short factual sentence. Include invented details or anything that affects real use.
+
+Scoring scale:
+
+- 0–19: broken, unusable
+- 20–39: poor, mostly unusable, near rewrite
+- 40–59: fair, usable with heavy edits
+- 60–79: good, solid scaffolding, light-to-moderate edits
+- 80–89: strong, high quality, minor edits
+- 90–100: excellent, near ready
+
+Stay consistent. Do not heavily penalize a smaller model only for being smaller. Judge whether the output is useful and can be edited quickly. If the model lacked a full schema or full context, note a reasonable assumption and do not heavily penalize it. Use null for a question the model skipped. Do not invent a score.
+
+A current results table may be included. Keep every model already in that table. Add every new model from this batch. You may revise an earlier score after seeing the new results. Do not drop a model. The order of models does not matter.
+
+Example shape:
+
+{
+  "summary": "",
+  "takeaways": [],
+  "practical": [],
+  "notes": [],
+  "models": [
+    {
+      "key": "model-key",
+      "avg_tps": 0,
+      "correctness": 0,
+      "quality": 0,
+      "task_understanding": 0,
+      "instruction_following": 0,
+      "usefulness": 0,
+      "faithfulness": 0,
+      "pros": "",
+      "cons": "",
+      "notes": ""
+    }
+  ]
+}
+
+---
+
+Here is the current results JSON. Score the new transcripts. Return the full JSON object, including every model already in the JSON and every new model.
+
+Current results JSON:
+
+{
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness. New 27-32B models improved correctness and direct function output but still included docstrings or minor logic issues.",
+  "takeaways": [
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches.",
+    "27B+ models achieved higher correctness with direct function starts and better timestamp handling."
+  ],
+  "practical": [
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use.",
+    "Larger models like qwen2.5-coder-32b-instruct offer the best starting point with fewer edits needed."
+  ],
+  "notes": [
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format.",
+    "qwen2.5-coder-32b-instruct produced the cleanest and most correct logic among all tested."
+  ],
+  "models": [
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "avg_tps": 6,
+      "correctness": 85,
+      "quality": 75,
+      "task_understanding": 90,
+      "instruction_following": 65,
+      "usefulness": 80,
+      "faithfulness": 60,
+      "pros": "Clean direct function with correct filtering, recent count, and error handling.",
+      "cons": "Slow generation speed compared to smaller models.",
+      "notes": "Highest overall correctness and closest to usable without major rewrites."
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "avg_tps": 61,
+      "correctness": 80,
+      "quality": 70,
+      "task_understanding": 90,
+      "instruction_following": 60,
+      "usefulness": 75,
+      "faithfulness": 55,
+      "pros": "Direct function start with accurate user filtering and timestamp parsing.",
+      "cons": "latest_timestamp calculated before user filter in some paths.",
+      "notes": "One of the better format-compliant outputs with solid correctness."
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "avg_tps": 22,
+      "correctness": 75,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 65,
+      "faithfulness": 35,
+      "pros": "Solid user_id filtering, Z handling, and correct recent/last_event logic.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Strong logic among larger models despite format violation."
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
+      "usefulness": 60,
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "avg_tps": 193,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 55,
+      "usefulness": 70,
       "faithfulness": 50,
-      "pros": "Direct function output with clean structure and Z handling.",
-      "cons": "No user_id filtering at all and counts all events regardless of user.",
-      "notes": "last_event_time tracks most recent across all events."
+      "pros": "Direct function with robust timestamp parsing and user filtering.",
+      "cons": "Redundant processing loops and extra error_metadata for invalid timestamps.",
+      "notes": "Fast and reasonably correct but includes unnecessary complexity."
+    },
+    {
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 60,
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "avg_tps": 135,
+      "correctness": 70,
+      "quality": 55,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 55,
+      "faithfulness": 35,
+      "pros": "Strong user_id filtering, Z handling, and correct recent logic.",
+      "cons": "Includes full docstring and extremely long output.",
+      "notes": "Best correctness among new models but violates format rule."
+    },
+    {
+      "key": "microsoft/phi-4",
+      "avg_tps": 80,
+      "correctness": 65,
+      "quality": 60,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Includes user_id filter and handles Z timestamps reasonably.",
+      "cons": "last_event_time comparison has None bug and returns datetime object.",
+      "notes": "Good filtering but needs fixes for return type and edge cases."
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "avg_tps": 225,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 50,
+      "usefulness": 50,
+      "faithfulness": 55,
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
+    },
+    {
+      "key": "qwen3.5-4b",
+      "avg_tps": 172,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "avg_tps": 162,
+      "correctness": 55,
+      "quality": 50,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "avg_tps": 78,
+      "correctness": 50,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Clean structure and handles timestamp parsing with Z suffix.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Counts all events regardless of user and recent logic is correct."
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "avg_tps": 180,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
+      "usefulness": 35,
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 35,
+      "usefulness": 40,
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "avg_tps": 198,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles Z timestamps and has clean aggregation logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user-specific filtering despite explicit requirement."
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "avg_tps": 230,
+      "correctness": 40,
+      "quality": 55,
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "avg_tps": 125,
+      "correctness": 40,
+      "quality": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 35,
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "avg_tps": 287,
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "avg_tps": 157,
+      "correctness": 30,
+      "quality": 60,
+      "task_understanding": 60,
+      "instruction_following": 50,
+      "usefulness": 35,
+      "faithfulness": 40,
+      "pros": "Direct function start with clean structure and error collection.",
+      "cons": "Completely omits user_id filtering and counts all events.",
+      "notes": "No user-specific logic despite explicit requirement in prompt."
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "avg_tps": 146,
+      "correctness": 30,
+      "quality": 50,
+      "task_understanding": 60,
+      "instruction_following": 20,
+      "usefulness": 30,
+      "faithfulness": 20,
+      "pros": "Direct function output without extra wrappers.",
+      "cons": "Filters on event type instead of user_id and double-counts recent.",
+      "notes": "Ignores user requirement entirely and miscalculates totals."
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
+      "correctness": 25,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
+    },
+    {
+      "key": "lfm2.5-350m",
+      "avg_tps": 737,
+      "correctness": 15,
+      "quality": 20,
+      "task_understanding": 35,
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
+    },
+    {
+      "key": "lfm2.5-230m",
+      "avg_tps": 962,
+      "correctness": 10,
+      "quality": 15,
+      "task_understanding": 30,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
+      "pros": "Extremely fast generation speed.",
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
+    }
+  ]
+}
+
+New transcripts:
+
+### qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp
+
+# Qwen3.5 9B The Defiant Fable Uncnr Heretic NEO MAX
+Model: qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp
+Test: Code Fim 1
+Created: 11/22/2026, 02:50:47 AM
+Exported from: LM Studio (via test script)
+Context 16K
+
+> #### 💬 User
+
+Complete the following Python function. Only output the completed function (no explanations, no extra text, no markdown). Fill in the missing logic where indicated by the comments.
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    """
+    Process a list of user event dictionaries and return a summary.
+    
+    Each event dict has:
+    - "timestamp": ISO 8601 string
+    - "type": str (e.g. "login", "purchase", "view", "error")
+    - "metadata": dict (optional extra fields)
+    
+    Return a dict with:
+    - "user_id": the given user_id
+    - "total_events": int
+    - "recent_events": int (events within max_age_hours)
+    - "event_counts": dict mapping event type -> count
+    - "errors": list of error event metadata (or empty list)
+    - "last_event_time": ISO string of the most recent event, or None
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    # TODO: Implement the processing logic here
+    # Filter events for the user, calculate age, aggregate counts,
+    # collect errors, and determine the most recent timestamp.
+    # Handle missing/invalid timestamps and empty input gracefully.
+    
+    pass  # Replace this with the full implementation
+
+> #### 🤖 Assistant
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    from datetime import datetime, timezone, timedelta
+    
+    now = datetime.now(timezone.utc)
+    cutoff_time = now - timedelta(hours=max_age_hours)
+    
+    total_events = 0
+    recent_events = 0
+    event_counts: dict[str, int] = {}
+    errors: list[dict] = []
+    last_event_time = None
+    
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        
+        # Filter by user_id (assume all events are for this user or no filter needed)
+        # If a "user_id" field exists in the event, we could check it here.
+        
+        total_events += 1
+        
+        timestamp_str = event.get("timestamp")
+        if not isinstance(timestamp_str, str):
+            continue
+            
+        try:
+            dt = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+        except (ValueError, AttributeError):
+            # Skip events with invalid timestamps
+            continue
+        
+        event_type = event.get("type")
+        
+        if isinstance(event_type, str):
+            event_counts[event_type] = event_counts.get(event_type, 0) + 1
+            
+            if dt >= cutoff_time:
+                recent_events += 1
+                
+            # Track the most recent valid timestamp
+            if last_event_time is None or dt > last_event_time:
+                last_event_time = dt
+        
+        metadata = event.get("metadata")
+        if isinstance(metadata, dict) and event_type == "error":
+            errors.append(metadata.copy())
+    
+    return {
+        "user_id": user_id,
+        "total_events": total_events,
+        "recent_events": recent_events,
+        "event_counts": event_counts,
+        "errors": errors,
+        "last_event_time": last_event_time.isoformat() if last_event_time else None
+    }
+
+104 t/s, 429 tokens, 4s, 5%
+
+### google/gemma-4-26b-a4b-qat
+
+# Gemma 4 26B A4B QAT
+Model: google/gemma-4-26b-a4b-qat
+Test: Code Fim 1
+Created: 11/22/2026, 03:00:34 AM
+Exported from: LM Studio (via test script)
+Context 16K
+
+> #### 💬 User
+
+Complete the following Python function. Only output the completed function (no explanations, no extra text, no markdown). Fill in the missing logic where indicated by the comments.
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    """
+    Process a list of user event dictionaries and return a summary.
+    
+    Each event dict has:
+    - "timestamp": ISO 8601 string
+    - "type": str (e.g. "login", "purchase", "view", "error")
+    - "metadata": dict (optional extra fields)
+    
+    Return a dict with:
+    - "user_id": the given user_id
+    - "total_events": int
+    - "recent_events": int (events within max_age_hours)
+    - "event_counts": dict mapping event type -> count
+    - "errors": list of error event metadata (or empty list)
+    - "last_event_time": ISO string of the most recent event, or None
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    # TODO: Implement the processing logic here
+    # Filter events for the user, calculate age, aggregate counts,
+    # collect errors, and determine the most recent timestamp.
+    # Handle missing/invalid timestamps and empty input gracefully.
+    
+    pass  # Replace this with the full implementation
+
+> #### 🤖 Assistant
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    """
+    Process a list of user event dictionaries and return a summary.
+    
+    Each event dict has:
+    - "timestamp": ISO 8601 string
+    - "type": str (e.g. "login", "purchase", "view", "error")
+    - "metadata": dict (optional extra fields)
+    
+    Return a dict with:
+    - "user_id": the given user_id
+    - "total_events": int
+    - "recent_events": int (events within max_age_hours)
+    - "event_counts": dict mapping event type -> count
+    - "errors": list of error event metadata (or empty list)
+    - "last_event_time": ISO string of the most recent event, or None
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    summary = {
+        "user_id": user_id,
+        "total_events": 0,
+        "recent_events": 0,
+        "event_counts": {},
+        "errors": [],
+        "last_event_time": None
+    }
+
+    if not events:
+        return summary
+
+    now = datetime.now(timezone.utc)
+    threshold_time = now - timedelta(hours=max_age_hours)
+    
+    valid_timestamps = []
+    
+    for event in events:
+        # Filter by type for error collection
+        event_type = event.get("type")
+        if not event_type:
+            continue
+
+        # Update counts
+        summary["total_events"] += 1
+        summary["event_counts"][event_type] = summary["event_counts"].get(event_type, 0) + 1
+
+        # Handle errors
+        if event_type == "error":
+            summary["errors"].append(event.get("metadata", {}))
+
+        # Parse timestamp
+        ts_str = event.get("timestamp")
+        if ts_str:
+            try:
+                # Handles both 'Z' and '+HH:MM' formats via fromisoformat in Python 3.11+
+                # or basic ISO strings in older versions
+                dt = datetime.fromisoformat(ts_str.replace('Z', '+00:00'))
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                
+                valid_timestamps.append(dt)
+                
+                if dt >= threshold_time:
+                    summary["recent_events"] += 1
+                    
+            except ValueError:
+                continue
+
+    if valid_timestamps:
+        last_dt = max(valid_timestamps)
+        summary["last_event_time"] = last_dt.isoformat().replace("+00:00", "Z")
+
+    return summary
+
+56 t/s, 666 tokens, 12s, 6%
+
+### qwen/qwen3.6-35b-a3b
+
+# Qwen3.6 35B A3B
+Model: qwen/qwen3.6-35b-a3b
+Test: Code Fim 1
+Created: 11/22/2026, 03:12:51 AM
+Exported from: LM Studio (via test script)
+Context 16K
+
+> #### 💬 User
+
+Complete the following Python function. Only output the completed function (no explanations, no extra text, no markdown). Fill in the missing logic where indicated by the comments.
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    """
+    Process a list of user event dictionaries and return a summary.
+    
+    Each event dict has:
+    - "timestamp": ISO 8601 string
+    - "type": str (e.g. "login", "purchase", "view", "error")
+    - "metadata": dict (optional extra fields)
+    
+    Return a dict with:
+    - "user_id": the given user_id
+    - "total_events": int
+    - "recent_events": int (events within max_age_hours)
+    - "event_counts": dict mapping event type -> count
+    - "errors": list of error event metadata (or empty list)
+    - "last_event_time": ISO string of the most recent event, or None
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    # TODO: Implement the processing logic here
+    # Filter events for the user, calculate age, aggregate counts,
+    # collect errors, and determine the most recent timestamp.
+    # Handle missing/invalid timestamps and empty input gracefully.
+    
+    pass  # Replace this with the full implementation
+
+> #### 🤖 Assistant
+
+def process_user_events(events: list[dict], user_id: str, max_age_hours: int = 24) -> dict:
+    """
+    Process a list of user event dictionaries and return a summary.
+    
+    Each event dict has:
+    - "timestamp": ISO 8601 string
+    - "type": str (e.g. "login", "purchase", "view", "error")
+    - "metadata": dict (optional extra fields)
+    
+    Return a dict with:
+    - "user_id": the given user_id
+    - "total_events": int
+    - "recent_events": int (events within max_age_hours)
+    - "event_counts": dict mapping event type -> count
+    - "errors": list of error event metadata (or empty list)
+    - "last_event_time": ISO string of the most recent event, or None
+    """
+    from datetime import datetime, timezone, timedelta
+    
+    # Filter events for the user, calculate age, aggregate counts,
+    # collect errors, and determine the most recent timestamp.
+    # Handle missing/invalid timestamps and empty input gracefully.
+    
+    user_events = [e for e in events if e.get("user_id") == user_id]
+    
+    total_events = len(user_events)
+    event_counts = {}
+    errors = []
+    recent_events = 0
+    last_event_time = None
+    
+    now = datetime.now(timezone.utc)
+    cutoff_time = now - timedelta(hours=max_age_hours)
+    
+    for event in user_events:
+        # Aggregate event counts
+        event_type = event.get("type")
+        if event_type:
+            event_counts[event_type] = event_counts.get(event_type, 0) + 1
+        
+        # Collect error metadata
+        if event_type == "error":
+            metadata = event.get("metadata")
+            if metadata is not None:
+                errors.append(metadata)
+        
+        # Parse timestamp and check recency
+        timestamp_str = event.get("timestamp")
+        if timestamp_str:
+            try:
+                # Handle various ISO 8601 formats
+                ts = datetime.fromisoformat(timestamp_str)
+                # If naive, assume UTC
+                if ts.tzinfo is None:
+                    ts = ts.replace(tzinfo=timezone.utc)
+                
+                # Check if event is within max_age_hours
+                if ts >= cutoff_time:
+                    recent_events += 1
+                
+                # Track the most recent event
+                if last_event_time is None or ts > last_event_time:
+                    last_event_time = ts
+            except (ValueError, TypeError):
+                # Invalid timestamp, skip for recency and last_event_time
+                pass
+    
+    # Format last_event_time back to ISO string
+    if last_event_time is not None:
+        last_event_str = last_event_time.isoformat()
+    else:
+        last_event_str = None
+    
+    return {
+        "user_id": user_id,
+        "total_events": total_events,
+        "recent_events": recent_events,
+        "event_counts": event_counts,
+        "errors": errors,
+        "last_event_time": last_event_str
+    }
+
+43 t/s, 686 tokens, 16s, 6%
+
+## Assistant
+
+{
+  "summary": "Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness. New 27-32B models improved correctness and direct function output but still included docstrings or minor logic issues. The three newest models (9B-35B) showed strong timestamp handling and structure but two skipped user_id filtering while the 35B model performed best overall on correctness.",
+  "takeaways": [
+    "No model produced a fully correct or clean implementation.",
+    "Smaller models had severe syntax and logic bugs.",
+    "Larger models followed the function signature better but still failed core requirements.",
+    "All outputs violated the strict 'only the function' instruction.",
+    "Speed was high across the board but did not correlate with quality.",
+    "Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches.",
+    "27B+ models achieved higher correctness with direct function starts and better timestamp handling.",
+    "Two of the three newest models ignored the user_id filter entirely despite explicit requirements."
+  ],
+  "practical": [
+    "None of the outputs are usable without heavy rewriting.",
+    "High t/s means quick generation but edit time would be long due to bugs.",
+    "Best case is using outputs as rough scaffolding then fixing logic manually.",
+    "Smaller models are too broken for any practical coding assistance.",
+    "2.6B+ models reduce edit time slightly but still require substantial fixes for production use.",
+    "Larger models like qwen2.5-coder-32b-instruct offer the best starting point with fewer edits needed.",
+    "qwen/qwen3.6-35b-a3b provides the strongest new scaffolding for correctness with minimal logic fixes required."
+  ],
+  "notes": [
+    "All models ignored the 'no extra text' rule and included docstrings or wrappers.",
+    "Timestamp handling and user filtering were consistently mishandled.",
+    "qwen2.5-coder-1.5b was the least broken but still required major fixes.",
+    "nemotron-3-nano-4b came closest to the 'only function' output format.",
+    "qwen2.5-coder-32b-instruct produced the cleanest and most correct logic among all tested.",
+    "qwen/qwen3.6-35b-a3b is the strongest new model for user filtering and overall correctness."
+  ],
+  "models": [
+    {
+      "key": "qwen2.5-coder-32b-instruct",
+      "avg_tps": 6,
+      "correctness": 85,
+      "quality": 75,
+      "task_understanding": 90,
+      "instruction_following": 65,
+      "usefulness": 80,
+      "faithfulness": 60,
+      "pros": "Clean direct function with correct filtering, recent count, and error handling.",
+      "cons": "Slow generation speed compared to smaller models.",
+      "notes": "Highest overall correctness and closest to usable without major rewrites."
+    },
+    {
+      "key": "qwen/qwen3-coder-30b",
+      "avg_tps": 61,
+      "correctness": 80,
+      "quality": 70,
+      "task_understanding": 90,
+      "instruction_following": 60,
+      "usefulness": 75,
+      "faithfulness": 55,
+      "pros": "Direct function start with accurate user filtering and timestamp parsing.",
+      "cons": "latest_timestamp calculated before user filter in some paths.",
+      "notes": "One of the better format-compliant outputs with solid correctness."
+    },
+    {
+      "key": "qwen/qwen3.8-27b",
+      "avg_tps": 22,
+      "correctness": 75,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 65,
+      "faithfulness": 35,
+      "pros": "Solid user_id filtering, Z handling, and correct recent/last_event logic.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Strong logic among larger models despite format violation."
+    },
+    {
+      "key": "google/gemma-4-12b",
+      "avg_tps": 81,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 35,
+      "usefulness": 60,
+      "faithfulness": 40,
+      "pros": "Proper user_id filter and correct recent count with Z handling.",
+      "cons": "Includes full docstring and latest_ts may be None on return.",
+      "notes": "One of the stronger new outputs for filtering logic."
+    },
+    {
+      "key": "google/gemma-4-e2b",
+      "avg_tps": 193,
+      "correctness": 70,
+      "quality": 65,
+      "task_understanding": 85,
+      "instruction_following": 55,
+      "usefulness": 70,
+      "faithfulness": 50,
+      "pros": "Direct function with robust timestamp parsing and user filtering.",
+      "cons": "Redundant processing loops and extra error_metadata for invalid timestamps.",
+      "notes": "Fast and reasonably correct but includes unnecessary complexity."
+    },
+    {
+      "key": "granite-4.1-8b",
+      "avg_tps": 124,
+      "correctness": 70,
+      "quality": 60,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 60,
+      "faithfulness": 35,
+      "pros": "Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "Best correctness among new models but still needs edits for format and recent count."
+    },
+    {
+      "key": "lfm2.5-24b-a2b",
+      "avg_tps": 135,
+      "correctness": 70,
+      "quality": 55,
+      "task_understanding": 85,
+      "instruction_following": 30,
+      "usefulness": 55,
+      "faithfulness": 35,
+      "pros": "Strong user_id filtering, Z handling, and correct recent logic.",
+      "cons": "Includes full docstring and extremely long output.",
+      "notes": "Best correctness among new models but violates format rule."
+    },
+    {
+      "key": "microsoft/phi-4",
+      "avg_tps": 80,
+      "correctness": 65,
+      "quality": 60,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Includes user_id filter and handles Z timestamps reasonably.",
+      "cons": "last_event_time comparison has None bug and returns datetime object.",
+      "notes": "Good filtering but needs fixes for return type and edge cases."
+    },
+    {
+      "key": "falcon-h1r-7b",
+      "avg_tps": 102,
+      "correctness": 65,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Properly filters by user_id and handles most aggregation correctly.",
+      "cons": "Includes full docstring and has timezone parsing issues.",
+      "notes": "Very long output; recent check assumes naive datetimes."
+    },
+    {
+      "key": "google/gemma-4-e4b",
+      "avg_tps": 144,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 35,
+      "usefulness": 55,
+      "faithfulness": 40,
+      "pros": "Strong user_id filtering and correct recent event cutoff logic.",
+      "cons": "Includes full docstring and counts total_events before recency filter.",
+      "notes": "Handles naive datetimes reasonably well."
+    },
+    {
+      "key": "lfm2.5-2.6b",
+      "avg_tps": 253,
+      "correctness": 60,
+      "quality": 65,
+      "task_understanding": 80,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 45,
+      "pros": "Solid logic for most requirements including error collection.",
+      "cons": "Includes full docstring and assumes user_id field in events.",
+      "notes": "Good edge-case handling but still needs major edits."
+    },
+    {
+      "key": "qwen/qwen2.5-coder-14b",
+      "avg_tps": 77,
+      "correctness": 60,
+      "quality": 55,
+      "task_understanding": 80,
+      "instruction_following": 25,
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Filters by user_id and handles timestamp parsing.",
+      "cons": "Wrapped in markdown and recent increment inside try block.",
+      "notes": "last_event_time updated before recent check; skips some events."
+    },
+    {
+      "key": "deepseek-coder-6.7b-instruct",
+      "avg_tps": 150,
+      "correctness": 55,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 50,
+      "faithfulness": 45,
+      "pros": "Direct function output with reasonable structure and error handling.",
+      "cons": "Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling.",
+      "notes": "Filters invalid events but assumes 'user' key."
+    },
+    {
+      "key": "nvidia/nemotron-3-nano-4b",
+      "avg_tps": 225,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 50,
+      "usefulness": 50,
+      "faithfulness": 55,
+      "pros": "Starts directly with function definition and filters by user_id.",
+      "cons": "Includes docstring and has string comparison bug on timestamps.",
+      "notes": "Closest to obeying 'only the function' rule among new models."
+    },
+    {
+      "key": "qwen3.5-4b",
+      "avg_tps": 172,
+      "correctness": 55,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 35,
+      "pros": "Clean structure and solid recent event and error handling.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Recent_events logic is correct but total_events counts all events."
+    },
+    {
+      "key": "ornith-1.5-9b",
+      "avg_tps": 162,
+      "correctness": 55,
+      "quality": 50,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Includes user_id filter and handles metadata errors.",
+      "cons": "Wrapped in markdown and recent_events logic is flawed.",
+      "notes": "Filters user but increments recent before valid timestamp check."
+    },
+    {
+      "key": "qwen2.5-coder-7b-instruct",
+      "avg_tps": 144,
+      "correctness": 50,
+      "quality": 65,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Good user_id filtering and clean code structure inside markdown.",
+      "cons": "recent_events and total_events calculations are incorrect.",
+      "notes": "Wrapped in code fence and skips older events for total count."
+    },
+    {
+      "key": "qwen/qwen3-14b",
+      "avg_tps": 78,
+      "correctness": 50,
+      "quality": 60,
+      "task_understanding": 75,
+      "instruction_following": 25,
+      "usefulness": 45,
+      "faithfulness": 30,
+      "pros": "Clean structure and handles timestamp parsing with Z suffix.",
+      "cons": "Includes full docstring and completely omits user_id filtering.",
+      "notes": "Counts all events regardless of user and recent logic is correct."
+    },
+    {
+      "key": "ministral-3-3b-reasoning-2512",
+      "avg_tps": 180,
+      "correctness": 50,
+      "quality": 40,
+      "task_understanding": 75,
+      "instruction_following": 10,
+      "usefulness": 35,
+      "faithfulness": 15,
+      "pros": "Detailed reasoning leads to reasonable core logic.",
+      "cons": "Massive extra text and explanation before any code.",
+      "notes": "Longest output by far; code does not filter by user_id."
+    },
+    {
+      "key": "mamba-codestral-7b-v0.1",
+      "avg_tps": 148,
+      "correctness": 45,
+      "quality": 70,
+      "task_understanding": 65,
+      "instruction_following": 45,
+      "usefulness": 40,
+      "faithfulness": 40,
+      "pros": "Starts directly with function and avoids extra text.",
+      "cons": "Completely ignores user_id filter and has redundant recent logic.",
+      "notes": "last_event_time comparison is broken due to string vs datetime."
+    },
+    {
+      "key": "qwen/qwen3.5-9b",
+      "avg_tps": 119,
+      "correctness": 45,
+      "quality": 60,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles empty input and clean structure with error collection.",
+      "cons": "No user_id filtering and last_event_time always set to last seen.",
+      "notes": "recent_events and total count all events regardless of user."
+    },
+    {
+      "key": "ministral-3-8b-instruct-2512",
+      "avg_tps": 124,
+      "correctness": 45,
+      "quality": 55,
+      "task_understanding": 70,
+      "instruction_following": 15,
+      "usefulness": 40,
+      "faithfulness": 20,
+      "pros": "Handles empty input and has solid structure inside markdown.",
+      "cons": "Wrapped in code fence and skips all user_id filtering.",
+      "notes": "Counts every event regardless of user and includes markdown wrapper."
+    },
+    {
+      "key": "qwen2.5-coder-1.5b-instruct",
+      "avg_tps": 297,
+      "correctness": 45,
+      "quality": 50,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 35,
+      "pros": "Best attempt at filtering, counting, and error collection.",
+      "cons": "Still has bugs in last_event_time and total_events calculation.",
+      "notes": "Closest to functional but requires substantial edits."
+    },
+    {
+      "key": "nvidia_nvidia-nemotron-nano-9b-v2",
+      "avg_tps": 101,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 35,
+      "usefulness": 40,
+      "faithfulness": 30,
+      "pros": "Clean direct function output with solid timestamp and recent logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user filtering at all despite clear requirement."
+    },
+    {
+      "key": "openai/gpt-oss-20b",
+      "avg_tps": 198,
+      "correctness": 40,
+      "quality": 65,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Handles Z timestamps and has clean aggregation logic.",
+      "cons": "Completely ignores user_id filter and counts all events.",
+      "notes": "No user-specific filtering despite explicit requirement."
+    },
+    {
+      "key": "ministral-3-3b-instruct-2512",
+      "avg_tps": 230,
+      "correctness": 40,
+      "quality": 55,
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 40,
+      "faithfulness": 25,
+      "pros": "Clean structure inside markdown block.",
+      "cons": "Ignores user_id filter and uses wrong total_events count.",
+      "notes": "Wrapped in code fence and skips user-specific filtering."
+    },
+    {
+      "key": "essentialai/rnj-1",
+      "avg_tps": 125,
+      "correctness": 40,
+      "quality": 50,
+      "task_understanding": 65,
+      "instruction_following": 20,
+      "usefulness": 35,
+      "faithfulness": 25,
+      "pros": "Includes docstring and attempts cutoff logic with error skipping.",
+      "cons": "Ignores user_id filter entirely and includes full docstring.",
+      "notes": "total_events counts all events and last_event_time update has redundant parsing."
+    },
+    {
+      "key": "lfm2.5-vl-3b",
+      "avg_tps": 287,
+      "correctness": 35,
+      "quality": 45,
+      "task_understanding": 60,
+      "instruction_following": 25,
+      "usefulness": 35,
+      "faithfulness": 30,
+      "pros": "Attempts full processing loop with try/except.",
+      "cons": "Broken user matching and recent_events calculation.",
+      "notes": "Includes docstring and returns malformed last_event_time."
+    },
+    {
+      "key": "deepseek-v4-pro-qwen3.5-9b-uncensored-heretic",
+      "avg_tps": 157,
+      "correctness": 30,
+      "quality": 60,
+      "task_understanding": 60,
+      "instruction_following": 50,
+      "usefulness": 35,
+      "faithfulness": 40,
+      "pros": "Direct function start with clean structure and error collection.",
+      "cons": "Completely omits user_id filtering and counts all events.",
+      "notes": "No user-specific logic despite explicit requirement in prompt."
+    },
+    {
+      "key": "liquid/lfm2-24b-a2b",
+      "avg_tps": 146,
+      "correctness": 30,
+      "quality": 50,
+      "task_understanding": 60,
+      "instruction_following": 20,
+      "usefulness": 30,
+      "faithfulness": 20,
+      "pros": "Direct function output without extra wrappers.",
+      "cons": "Filters on event type instead of user_id and double-counts recent.",
+      "notes": "Ignores user requirement entirely and miscalculates totals."
+    },
+    {
+      "key": "lfm2.5-1.2b-thinking",
+      "avg_tps": 521,
+      "correctness": 30,
+      "quality": 40,
+      "task_understanding": 55,
+      "instruction_following": 25,
+      "usefulness": 30,
+      "faithfulness": 25,
+      "pros": "Used defaultdict and attempted recent event logic.",
+      "cons": "Wrong recent_events value and missing total_events handling.",
+      "notes": "Long output with many tokens but still broken implementation."
+    },
+    {
+      "key": "lfm2.5-1.2b-instruct",
+      "avg_tps": 529,
+      "correctness": 25,
+      "quality": 35,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Attempted age calculation and event counting.",
+      "cons": "Incorrect user matching logic and incomplete filtering.",
+      "notes": "Still returned extra text and had runtime errors in code."
+    },
+    {
+      "key": "lfm2.5-8b-a1b",
+      "avg_tps": 388,
+      "correctness": 20,
+      "quality": 45,
+      "task_understanding": 50,
+      "instruction_following": 20,
+      "usefulness": 25,
+      "faithfulness": 20,
+      "pros": "Fast generation and attempts timestamp parsing.",
+      "cons": "Completely omits user_id filtering and never updates recent_count.",
+      "notes": "Returns total_events as len(events) ignoring the user filter requirement."
+    },
+    {
+      "key": "lfm2.5-350m",
+      "avg_tps": 737,
+      "correctness": 15,
+      "quality": 20,
+      "task_understanding": 35,
+      "instruction_following": 15,
+      "usefulness": 15,
+      "faithfulness": 15,
+      "pros": "Included basic structure and error list.",
+      "cons": "Wrong recent_events calculation and broken return values.",
+      "notes": "Used non-existent variables and ignored most requirements."
+    },
+    {
+      "key": "lfm2.5-230m",
+      "avg_tps": 962,
+      "correctness": 10,
+      "quality": 15,
+      "task_understanding": 30,
+      "instruction_following": 10,
+      "usefulness": 10,
+      "faithfulness": 10,
+      "pros": "Extremely fast generation speed.",
+      "cons": "Code is syntactically broken and logically invalid.",
+      "notes": "Unpacking error on event metadata and nonsensical calculations."
+    },
+    {
+      "key": "qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp",
+      "avg_tps": 104,
+      "correctness": 50,
+      "quality": 70,
+      "task_understanding": 75,
+      "instruction_following": 40,
+      "usefulness": 55,
+      "faithfulness": 35,
+      "pros": "Direct function with good timestamp and error handling.",
+      "cons": "Ignores user_id filter requirement.",
+      "notes": "Includes full docstring and assumes no user filtering needed."
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-qat",
+      "avg_tps": 56,
+      "correctness": 45,
+      "quality": 75,
+      "task_understanding": 70,
+      "instruction_following": 30,
+      "usefulness": 50,
+      "faithfulness": 30,
+      "pros": "Clean structure and robust timestamp parsing.",
+      "cons": "Completely omits user_id filtering.",
+      "notes": "Includes full docstring and processes all events."
+    },
+    {
+      "key": "qwen/qwen3.6-35b-a3b",
+      "avg_tps": 43,
+      "correctness": 85,
+      "quality": 70,
+      "task_understanding": 90,
+      "instruction_following": 40,
+      "usefulness": 75,
+      "faithfulness": 45,
+      "pros": "Correct user_id filtering with solid logic and timestamp handling.",
+      "cons": "Includes full docstring violating the only-function rule.",
+      "notes": "One of the better implementations for correctness among tested models."
     }
   ]
 }

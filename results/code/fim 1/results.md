@@ -2,68 +2,77 @@
 
 ## Summary
 
-Test evaluated five small local models plus five new larger ones on completing a Python event processing function under strict output constraints. All models produced code with logical errors in filtering, timestamp handling, and aggregation; larger models like qwen3.5-4b and falcon-h1r-7b showed better structure and instruction following but none delivered fully correct or immediately usable implementations. New models showed similar patterns with persistent user filtering and recent event logic issues.
+Tested five small local models on a code completion task to implement a user event processing function, plus five new models. All models produced flawed code with logic errors, incorrect filtering, and instruction violations, though larger models showed better structure and partial correctness. New 27-32B models improved correctness and direct function output but still included docstrings or minor logic issues. The three newest models (9B-35B) showed strong timestamp handling and structure but two skipped user_id filtering while the 35B model performed best overall on correctness.
 
 ## Key takeaways
 
-- All outputs contained bugs in timestamp handling, user filtering, and aggregation logic.
-- Smaller models ran faster but produced more malformed code.
-- Instruction following was weak across the board due to extra text or incorrect return keys.
-- No model handled empty input or invalid timestamps gracefully as requested.
-- Larger models improved cleanliness and partial correctness but still failed core requirements.
-- New models continued to assume user_id field in events despite prompt omission.
+- No model produced a fully correct or clean implementation.
+- Smaller models had severe syntax and logic bugs.
+- Larger models followed the function signature better but still failed core requirements.
+- All outputs violated the strict 'only the function' instruction.
+- Speed was high across the board but did not correlate with quality.
+- Newer 2-4B models improved on filtering and edge cases but retained docstrings and user_id mismatches.
+- 27B+ models achieved higher correctness with direct function starts and better timestamp handling.
+- Two of the three newest models ignored the user_id filter entirely despite explicit requirements.
 
 ## Practical notes
 
-- Results require heavy editing or full rewrite before use, negating speed advantages.
-- Faster models (900+ t/s) still need substantial developer time to fix.
-- None are production-ready without major corrections to core logic.
-- Models around 250 t/s offer the best balance of speed and editability among the batch.
-- Newer 6-8B models offer marginal quality gains but still demand significant fixes for user filtering and recency.
+- None of the outputs are usable without heavy rewriting.
+- High t/s means quick generation but edit time would be long due to bugs.
+- Best case is using outputs as rough scaffolding then fixing logic manually.
+- Smaller models are too broken for any practical coding assistance.
+- 2.6B+ models reduce edit time slightly but still require substantial fixes for production use.
+- Larger models like qwen2.5-coder-32b-instruct offer the best starting point with fewer edits needed.
+- qwen/qwen3.6-35b-a3b provides the strongest new scaffolding for correctness with minimal logic fixes required.
 
 ## Additional notes
 
-- All models ignored the strict 'only output the completed function' instruction to varying degrees.
-- Context was unknown for all runs, potentially affecting consistency.
-- Several new models assumed user_id field in events despite prompt omission.
-- deepseek and granite handled timestamps better than most but still failed user filtering.
+- All models ignored the 'no extra text' rule and included docstrings or wrappers.
+- Timestamp handling and user filtering were consistently mishandled.
+- qwen2.5-coder-1.5b was the least broken but still required major fixes.
+- nemotron-3-nano-4b came closest to the 'only function' output format.
+- qwen2.5-coder-32b-instruct produced the cleanest and most correct logic among all tested.
+- qwen/qwen3.6-35b-a3b is the strongest new model for user filtering and overall correctness.
 
 ## Results
 
 | Model | t/s | Correctness | Quality | Task understanding | Instruction following | Usefulness | Faithfulness | Pros | Cons | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| nvidia_nvidia-nemotron-nano-9b-v2 | 101 | 65 | 80 | 70 | 85 | 60 | 80 | Clean function-only output with solid timestamp parsing and empty input handling. | No user filtering and recent_events increments for every parsed event regardless of cutoff. | last_event_time uses latest parsed ts but total_events counts all valid timestamps. |
-| lfm2.5-2.6b | 253 | 65 | 75 | 70 | 80 | 60 | 75 | Clean function output with solid error handling and structure. | Incorrect user filtering assuming user_id in events and recent window based on max_ts. | Best overall among new models for editability. |
-| openai/gpt-oss-20b | 198 | 60 | 75 | 70 | 75 | 55 | 70 | No user_id assumption and solid timestamp parsing with Z handling. | total_events incremented before timestamp validation and recent_events skips invalid ts. | Produced clean function without markdown wrapper. |
-| qwen/qwen3.5-9b | 119 | 60 | 75 | 65 | 85 | 55 | 75 | Clean output, proper empty handling, and Z-suffix timestamp support. | last_event_time set to last processed string instead of most recent and no user filtering. | total_events only counts events with valid timestamps. |
-| qwen2.5-coder-32b-instruct | 6 | 60 | 75 | 65 | 80 | 55 | 70 | Clean direct output and proper user_id filtering with Z handling. | Assumed user_id field in events and last_event_time uses parsed datetime. | total_events incremented only for matching user events. |
-| falcon-h1r-7b | 102 | 60 | 65 | 65 | 85 | 55 | 75 | Correctly implemented user_id filtering from events and graceful error handling. | Assumed user_id field in events contrary to prompt and produced very long output. | Parsing skipped Z suffix handling and used broad except clauses. |
-| qwen/qwen3-14b | 78 | 55 | 70 | 60 | 65 | 50 | 60 | Avoided assuming user_id field and handled Z timestamps reasonably. | last_event_time update logic is inefficient and total_events counts before full validation. | Wrapped in markdown code block violating strict output instruction. |
-| qwen/qwen3.8-27b | 22 | 55 | 70 | 60 | 60 | 50 | 55 | Solid timestamp parsing with Z handling and clean structure. | Assumed user_id field in events and wrapped output in markdown. | total_events counts after user filter but recent_events uses parsed cutoff correctly. |
-| nvidia/nemotron-3-nano-4b | 225 | 55 | 65 | 60 | 85 | 50 | 70 | Clean output and proper user_id filtering. | Errors list populated with invalid events instead of only error-type metadata. | last_event_time not converted to ISO format in return. |
-| google/gemma-4-e4b | 144 | 55 | 60 | 60 | 85 | 50 | 65 | Handled user filtering, error metadata, and timezone-aware timestamps reasonably. | Assumed user_id present in events and total_events counted before full validation. | Included recent check against both cutoff and now but skipped some invalid timestamp cases silently. |
-| qwen2.5-coder-1.5b-instruct | 297 | 55 | 60 | 65 | 50 | 50 | 55 | Closest to correct structure with proper filtering and counts. | total_events used unfiltered length and last_event_time logic is broken. | Slowest but most readable code among the batch. |
-| granite-4.1-8b | 124 | 50 | 70 | 60 | 85 | 45 | 75 | Good timestamp parsing with Z handling and clean code structure. | Assumed user_id field in events and did not filter by user at all. | last_event_time update logic works but total/recent counts ignore user constraint. |
-| qwen3.5-4b | 172 | 50 | 70 | 60 | 90 | 45 | 70 | Strictly followed output format with clean readable code. | Ignored user_id filtering entirely and counted only parsed events. | Used current time for recency without user-specific event filtering. |
-| qwen/qwen3-coder-30b | 61 | 50 | 65 | 55 | 70 | 45 | 60 | Direct function output without markdown and reasonable error skipping. | Assumed user_id field and duplicated timestamp parsing logic. | recent_events recount uses separate loop after initial filter. |
-| google/gemma-4-e2b | 193 | 50 | 60 | 55 | 75 | 45 | 65 | Direct function output and robust timestamp parsing with error collection. | Assumed user_id field and errors list contains non-metadata entries. | recent count uses processing time instead of cutoff for some checks. |
-| google/gemma-4-12b | 81 | 50 | 55 | 60 | 40 | 45 | 50 | Good timestamp parsing with Z handling and error collection. | Included full docstring and filtered by non-existent user_id field. | recent_count uses timedelta comparison but skips invalid timestamps silently. |
-| lfm2.5-24b-a2b | 135 | 45 | 65 | 55 | 50 | 40 | 45 | Proper user_id filtering attempt and good Z-suffix normalization. | Assumed user_id field present and produced excessively long output with extra comments. | last_event_time returned without timezone info in some cases. |
-| deepseek-coder-6.7b-instruct | 150 | 45 | 60 | 55 | 70 | 40 | 65 | Clean function-only output with reasonable structure and error handling. | Assumed non-existent 'user' field for filtering and used naive datetime.now without timezone. | Recent events used local now instead of UTC cutoff. |
-| ornith-1.5-9b | 162 | 45 | 50 | 55 | 30 | 40 | 35 | Detailed edge-case handling and type checks in code. | Wrapped in markdown code block and assumed user_id field for filtering. | recent_events incremented for every event with timestamp, ignoring cutoff. |
-| qwen/qwen2.5-coder-14b | 77 | 45 | 50 | 55 | 25 | 40 | 35 | Attempted user filtering and graceful timestamp error handling. | Wrapped in markdown and filtered by non-existent user_id field. | recent_events calculated inside per-event now comparison inside try block. |
-| ministral-3-3b-reasoning-2512 | 180 | 45 | 35 | 60 | 20 | 35 | 25 | Included detailed edge case handling in code. | Added long explanation text before the function. | Did not filter events by user_id at all. |
-| microsoft/phi-4 | 80 | 40 | 65 | 55 | 70 | 40 | 55 | Clean structure with reasonable error handling for invalid timestamps. | Incorrectly filtered on non-existent user_id field and last_event_time comparison flawed. | Skipped returning early for empty input as some paths returned partial dicts. |
-| ministral-3-3b-instruct-2512 | 230 | 40 | 55 | 55 | 50 | 40 | 45 | Reasonable structure and empty input handling. | Wrapped output in markdown code block violating instructions. | Skipped non-recent events entirely from totals. |
-| ministral-3-8b-instruct-2512 | 124 | 40 | 55 | 55 | 40 | 35 | 45 | Solid empty input handling and timezone-aware timestamp parsing. | Wrapped in markdown code block and performed no user filtering. | Counts all events regardless of user_id. |
-| qwen2.5-coder-7b-instruct | 144 | 40 | 50 | 55 | 30 | 35 | 40 | Attempted proper recent filtering and error collection. | Wrapped output in markdown code block and used incorrect total_events and recent_events calculations. | Skipped older events from all counts instead of separating recent only. |
-| deepseek-v4-pro-qwen3.5-9b-uncensored-heretic | 157 | 35 | 55 | 45 | 80 | 30 | 50 | Direct function output with clean structure and Z handling. | No user_id filtering at all and counts all events regardless of user. | last_event_time tracks most recent across all events. |
-| mamba-codestral-7b-v0.1 | 148 | 35 | 55 | 50 | 80 | 30 | 60 | Produced compact function-only output with basic structure. | No user_id filtering and flawed last_event_time and recent_events logic. | Assumed all events belong to the target user and used naive timestamp comparisons. |
-| essentialai/rnj-1 | 125 | 35 | 50 | 50 | 35 | 30 | 40 | Attempted cutoff logic and error collection with try/except. | Wrapped in markdown, ignored user filtering, and last_event_time update has parsing bug. | total_events incremented before any validation. |
-| lfm2.5-1.2b-instruct | 529 | 35 | 40 | 50 | 45 | 35 | 40 | Better organized code with some correct aggregation. | Flawed user matching and recent event filtering logic. | Returned early in some paths, skipping required fields. |
-| liquid/lfm2-24b-a2b | 146 | 30 | 50 | 45 | 60 | 30 | 50 | Compact output with basic type checks. | Filtered only on event type instead of user and set recent_events equal to total filtered. | Ignored user_id entirely and used naive age calculation without proper cutoff. |
-| lfm2.5-vl-3b | 287 | 30 | 40 | 45 | 70 | 30 | 50 | Followed output format without extra text. | Broken recent_events calculation and uninitialized last_event_time. | Used now incorrectly for age checks. |
-| lfm2.5-8b-a1b | 388 | 25 | 40 | 45 | 55 | 25 | 40 | Fast generation and attempted parse helper for timestamps. | No user filtering, recent_count always zero, and total_events uses all events. | Output much longer than requested with unused valid_events list. |
-| lfm2.5-1.2b-thinking | 521 | 25 | 30 | 40 | 35 | 25 | 30 | Included defaultdict for counts. | Syntax error and incorrect recent_events field value. | Longer output time despite similar size to instruct variant. |
-| lfm2.5-350m | 737 | 20 | 25 | 35 | 30 | 20 | 25 | Attempted basic filtering structure. | Incorrect recent_events calculation and broken return values. | Used undefined variables and wrong datetime logic. |
-| lfm2.5-230m | 962 | 15 | 20 | 30 | 25 | 15 | 20 | Extremely fast generation speed. | Code has multiple syntax and logic errors making it unusable. | Output included extra imports and docstring changes not requested. |
+| qwen2.5-coder-32b-instruct | 6 | 85 | 75 | 90 | 65 | 80 | 60 | Clean direct function with correct filtering, recent count, and error handling. | Slow generation speed compared to smaller models. | Highest overall correctness and closest to usable without major rewrites. |
+| qwen/qwen3.6-35b-a3b | 43 | 85 | 70 | 90 | 40 | 75 | 45 | Correct user_id filtering with solid logic and timestamp handling. | Includes full docstring violating the only-function rule. | One of the better implementations for correctness among tested models. |
+| qwen/qwen3-coder-30b | 61 | 80 | 70 | 90 | 60 | 75 | 55 | Direct function start with accurate user filtering and timestamp parsing. | latest_timestamp calculated before user filter in some paths. | One of the better format-compliant outputs with solid correctness. |
+| qwen/qwen3.8-27b | 22 | 75 | 60 | 85 | 30 | 65 | 35 | Solid user_id filtering, Z handling, and correct recent/last_event logic. | Includes full docstring violating the only-function rule. | Strong logic among larger models despite format violation. |
+| google/gemma-4-12b | 81 | 70 | 65 | 85 | 35 | 60 | 40 | Proper user_id filter and correct recent count with Z handling. | Includes full docstring and latest_ts may be None on return. | One of the stronger new outputs for filtering logic. |
+| google/gemma-4-e2b | 193 | 70 | 65 | 85 | 55 | 70 | 50 | Direct function with robust timestamp parsing and user filtering. | Redundant processing loops and extra error_metadata for invalid timestamps. | Fast and reasonably correct but includes unnecessary complexity. |
+| granite-4.1-8b | 124 | 70 | 60 | 85 | 30 | 60 | 35 | Correct user_id filtering, robust timestamp parsing with Z handling, and clean aggregation. | Includes full docstring violating the only-function rule. | Best correctness among new models but still needs edits for format and recent count. |
+| lfm2.5-24b-a2b | 135 | 70 | 55 | 85 | 30 | 55 | 35 | Strong user_id filtering, Z handling, and correct recent logic. | Includes full docstring and extremely long output. | Best correctness among new models but violates format rule. |
+| microsoft/phi-4 | 80 | 65 | 60 | 80 | 35 | 55 | 40 | Includes user_id filter and handles Z timestamps reasonably. | last_event_time comparison has None bug and returns datetime object. | Good filtering but needs fixes for return type and edge cases. |
+| falcon-h1r-7b | 102 | 65 | 55 | 80 | 35 | 55 | 40 | Properly filters by user_id and handles most aggregation correctly. | Includes full docstring and has timezone parsing issues. | Very long output; recent check assumes naive datetimes. |
+| google/gemma-4-e4b | 144 | 60 | 65 | 80 | 35 | 55 | 40 | Strong user_id filtering and correct recent event cutoff logic. | Includes full docstring and counts total_events before recency filter. | Handles naive datetimes reasonably well. |
+| lfm2.5-2.6b | 253 | 60 | 65 | 80 | 40 | 55 | 45 | Solid logic for most requirements including error collection. | Includes full docstring and assumes user_id field in events. | Good edge-case handling but still needs major edits. |
+| qwen/qwen2.5-coder-14b | 77 | 60 | 55 | 80 | 25 | 50 | 30 | Filters by user_id and handles timestamp parsing. | Wrapped in markdown and recent increment inside try block. | last_event_time updated before recent check; skips some events. |
+| deepseek-coder-6.7b-instruct | 150 | 55 | 65 | 75 | 40 | 50 | 45 | Direct function output with reasonable structure and error handling. | Uses incorrect 'user' field instead of 'user_id' and lacks proper timezone handling. | Filters invalid events but assumes 'user' key. |
+| nvidia/nemotron-3-nano-4b | 225 | 55 | 60 | 75 | 50 | 50 | 55 | Starts directly with function definition and filters by user_id. | Includes docstring and has string comparison bug on timestamps. | Closest to obeying 'only the function' rule among new models. |
+| qwen3.5-4b | 172 | 55 | 60 | 70 | 30 | 50 | 35 | Clean structure and solid recent event and error handling. | Includes full docstring and completely omits user_id filtering. | Recent_events logic is correct but total_events counts all events. |
+| ornith-1.5-9b | 162 | 55 | 50 | 75 | 25 | 45 | 30 | Includes user_id filter and handles metadata errors. | Wrapped in markdown and recent_events logic is flawed. | Filters user but increments recent before valid timestamp check. |
+| qwen3.5-9b-the-defiant-fable-uncensored-heretic-neo-imatrix-max-mtp | 104 | 50 | 70 | 75 | 40 | 55 | 35 | Direct function with good timestamp and error handling. | Ignores user_id filter requirement. | Includes full docstring and assumes no user filtering needed. |
+| qwen2.5-coder-7b-instruct | 144 | 50 | 65 | 75 | 25 | 45 | 30 | Good user_id filtering and clean code structure inside markdown. | recent_events and total_events calculations are incorrect. | Wrapped in code fence and skips older events for total count. |
+| qwen/qwen3-14b | 78 | 50 | 60 | 75 | 25 | 45 | 30 | Clean structure and handles timestamp parsing with Z suffix. | Includes full docstring and completely omits user_id filtering. | Counts all events regardless of user and recent logic is correct. |
+| ministral-3-3b-reasoning-2512 | 180 | 50 | 40 | 75 | 10 | 35 | 15 | Detailed reasoning leads to reasonable core logic. | Massive extra text and explanation before any code. | Longest output by far; code does not filter by user_id. |
+| google/gemma-4-26b-a4b-qat | 56 | 45 | 75 | 70 | 30 | 50 | 30 | Clean structure and robust timestamp parsing. | Completely omits user_id filtering. | Includes full docstring and processes all events. |
+| mamba-codestral-7b-v0.1 | 148 | 45 | 70 | 65 | 45 | 40 | 40 | Starts directly with function and avoids extra text. | Completely ignores user_id filter and has redundant recent logic. | last_event_time comparison is broken due to string vs datetime. |
+| qwen/qwen3.5-9b | 119 | 45 | 60 | 70 | 30 | 40 | 25 | Handles empty input and clean structure with error collection. | No user_id filtering and last_event_time always set to last seen. | recent_events and total count all events regardless of user. |
+| ministral-3-8b-instruct-2512 | 124 | 45 | 55 | 70 | 15 | 40 | 20 | Handles empty input and has solid structure inside markdown. | Wrapped in code fence and skips all user_id filtering. | Counts every event regardless of user and includes markdown wrapper. |
+| qwen2.5-coder-1.5b-instruct | 297 | 45 | 50 | 70 | 30 | 40 | 35 | Best attempt at filtering, counting, and error collection. | Still has bugs in last_event_time and total_events calculation. | Closest to functional but requires substantial edits. |
+| nvidia_nvidia-nemotron-nano-9b-v2 | 101 | 40 | 65 | 70 | 35 | 40 | 30 | Clean direct function output with solid timestamp and recent logic. | Completely ignores user_id filter and counts all events. | No user filtering at all despite clear requirement. |
+| openai/gpt-oss-20b | 198 | 40 | 65 | 70 | 30 | 40 | 25 | Handles Z timestamps and has clean aggregation logic. | Completely ignores user_id filter and counts all events. | No user-specific filtering despite explicit requirement. |
+| ministral-3-3b-instruct-2512 | 230 | 40 | 55 | 65 | 20 | 40 | 25 | Clean structure inside markdown block. | Ignores user_id filter and uses wrong total_events count. | Wrapped in code fence and skips user-specific filtering. |
+| essentialai/rnj-1 | 125 | 40 | 50 | 65 | 20 | 35 | 25 | Includes docstring and attempts cutoff logic with error skipping. | Ignores user_id filter entirely and includes full docstring. | total_events counts all events and last_event_time update has redundant parsing. |
+| lfm2.5-vl-3b | 287 | 35 | 45 | 60 | 25 | 35 | 30 | Attempts full processing loop with try/except. | Broken user matching and recent_events calculation. | Includes docstring and returns malformed last_event_time. |
+| deepseek-v4-pro-qwen3.5-9b-uncensored-heretic | 157 | 30 | 60 | 60 | 50 | 35 | 40 | Direct function start with clean structure and error collection. | Completely omits user_id filtering and counts all events. | No user-specific logic despite explicit requirement in prompt. |
+| liquid/lfm2-24b-a2b | 146 | 30 | 50 | 60 | 20 | 30 | 20 | Direct function output without extra wrappers. | Filters on event type instead of user_id and double-counts recent. | Ignores user requirement entirely and miscalculates totals. |
+| lfm2.5-1.2b-thinking | 521 | 30 | 40 | 55 | 25 | 30 | 25 | Used defaultdict and attempted recent event logic. | Wrong recent_events value and missing total_events handling. | Long output with many tokens but still broken implementation. |
+| lfm2.5-1.2b-instruct | 529 | 25 | 35 | 50 | 20 | 25 | 20 | Attempted age calculation and event counting. | Incorrect user matching logic and incomplete filtering. | Still returned extra text and had runtime errors in code. |
+| lfm2.5-8b-a1b | 388 | 20 | 45 | 50 | 20 | 25 | 20 | Fast generation and attempts timestamp parsing. | Completely omits user_id filtering and never updates recent_count. | Returns total_events as len(events) ignoring the user filter requirement. |
+| lfm2.5-350m | 737 | 15 | 20 | 35 | 15 | 15 | 15 | Included basic structure and error list. | Wrong recent_events calculation and broken return values. | Used non-existent variables and ignored most requirements. |
+| lfm2.5-230m | 962 | 10 | 15 | 30 | 10 | 10 | 10 | Extremely fast generation speed. | Code is syntactically broken and logically invalid. | Unpacking error on event metadata and nonsensical calculations. |

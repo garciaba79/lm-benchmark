@@ -50,3 +50,31 @@ The project now uses json, it might be easier for Grok to evaluate them more acc
 
 - add unit testing to ensure that all scripts are working as expected
 - tests for the scripts, plugins and project
+
+---
+
+### review of the code on 11/23/2026 checking for any issues
+
+No major underlying issues. The evaluation path is carefully built so the harness owns the structured state and the model is forced to return a complete, valid object each time.
+
+A few smaller points are worth knowing.
+
+**Token and size growth**
+Each batch sends the full current results JSON plus the new transcripts, and asks for the full object back. With 30 models and longer notes or pros/cons fields, the prompt and the reply both get large. Grok can handle it at the current batch size, but bigger scenarios raise the chance of hitting an output limit. The code already treats a length-truncated reply as a failure and triggers the repair turn.
+
+**Repair is only one attempt**
+If the second reply is still missing a batch key or fails the schema, that batch stops. The previous results.json is left as it was. You can re-run later and it will resume from the models that already have records.
+
+**No separate top-models list**
+The original markdown had a short top table. The current schema has one models array that is sorted by correctness, then quality. The markdown table is generated from that sorted list. If you still want an explicit top-models section, it would need to be added to the schema and the prompt.
+
+**Table width**
+results.md puts pros, cons, and notes into table cells. Those fields can be long, so the table becomes wide. That is only a display issue; the JSON stays clean.
+
+**Conversation is not sent back**
+Each API call is a single user message that already contains the current results JSON. Earlier turns are saved for the human-readable log but are not included in later requests. That is intentional and keeps context from growing with chat history.
+
+**Schema is strict for OpenAI-compatible backends**
+Grok API and OpenAI get the JSON schema with additionalProperties false and required fields. Anthropic and the CLI do not. Those backends rely only on the prompt, so they are more likely to need the repair path.
+
+The rest of the design (keyed upserts, update versus refresh modes, archive-before-delete, sticky used_ram, three-level prompt and inference lookup) is consistent and defensive. Nothing looks likely to silently drop results or wipe data.

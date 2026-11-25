@@ -29,6 +29,8 @@ The default in `config.py` is `EVAL_BACKEND = "grok_api"` and `EVAL_MODEL = "gro
 
 Anthropic's API requires `max_tokens`. `AnthropicBackend` sends `EVAL_MAX_TOKENS` from `config.py` (default 8192). The OpenAI-compatible backends do not send a max-token cap.
 
+`OpenAICompatibleBackend.get_stats()` returns `requests`, `prompt_tokens`, `completion_tokens`, and `total_tokens` for the whole process. `evaluate.py` stores each scenario's share in `evaluation-<model>.json` under `usage`. A later run adds to the stored counts. `--force` starts them over.
+
 ## How a backend is chosen
 
 `BACKENDS` in `evaluate.py` maps the config name to a label, a key variable, a default base URL, and a kind (`openai`, `anthropic`, or `grok_cli`). `resolve_backend()` loads `.env`, checks `EVAL_MODEL`, and returns the matching class. The model name always comes from `EVAL_MODEL`.

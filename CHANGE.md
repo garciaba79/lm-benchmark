@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2026-11-25
+
+### Judge API usage
+
+`evaluate.py` stores judge request and token counts in `evaluation-<model>.json` under `usage`. The counts belong to that scenario. A later run adds to them. `--force` starts them over. A backend that does not report usage leaves the field out.
+
 ## 2026-11-19
 
 ### Keyed records and non-destructive runs

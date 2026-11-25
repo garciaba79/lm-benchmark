@@ -92,7 +92,7 @@ For every scenario the runner creates a matching folder under `results/`.
 | `stats.json` | Raw numbers, one record per model key |
 | `results.json` | Score table written by `evaluate.py` |
 | `results.md` | Readable table written from `results.json`. The runner creates the markdown only when it is missing |
-| `evaluation-<model>.json` | Evaluation conversation and the list of scored model keys |
+| `evaluation-<model>.json` | Evaluation conversation, scored model keys, and judge API usage |
 | `evaluation-<model>.md` | Readable copy of that conversation |
 | `info.md` | Helper-model prose for this scenario |
 

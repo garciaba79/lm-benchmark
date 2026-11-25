@@ -84,8 +84,8 @@ For every scenario the runner creates a matching folder under `results/`.
 
 | File | Purpose |
 |------|---------|
-| `<model-key>.md` | Full conversation for that model key. The system prompt is not repeated here |
-| `<model-key>.json` | Same conversation for reconstruction. `system_prompt` and `context_length` are fields on the object. The system prompt is not a message |
+| `<model>.md` | Full conversation for that model. The system prompt is not repeated here |
+| `<model>.json` | Same conversation for reconstruction. `system_prompt` and `context_length` are fields on the object. The system prompt is not a message |
 | `models.json` | Historic models tested on this scenario, one record per model key |
 | `test.md` | Overview. The evaluation status section is kept when the runner rewrites the file |
 | `stats.md` | Statistics table generated from `stats.json` |
@@ -94,9 +94,10 @@ For every scenario the runner creates a matching folder under `results/`.
 | `results.md` | Readable table written from `results.json`. The runner creates the markdown only when it is missing |
 | `evaluation-<model>.json` | Evaluation conversation, scored model keys, and judge API usage |
 | `evaluation-<model>.md` | Readable copy of that conversation |
+| `evaluation.json` | Index of the `evaluation-<model>.json` files in this folder. Each entry has `model`, `file`, and `updated` (the file's modification time) |
 | `info.md` | Helper-model prose for this scenario |
 
-A scenario is complete when every key in `scenarios/models.json` has a `<model-key>.md` file here. Extra files, including `evaluation-*.md`, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
+A scenario is complete when every key in `scenarios/models.json` has a `<model>.md` file here. Those `<model>.md` and `<model>.json` names come from that key through `safe_filename`: any other character becomes a hyphen, and the name stops at 100 characters. Extra files, including `evaluation-<model>.md`, are not counted. Historic models that are no longer on the active list can remain in these files. `run.py` updates the key it just tested and does not remove the others. A failed test does not replace a previous good record.
 
 Root stats in `results/stats.json` and `results/stats.md` are rebuilt from the scenario stats after a run that finishes at least one test. A run with nothing to do leaves them alone. `overall_seconds` is the wall-clock time of that run. Each model's `total_seconds` is the sum of its scenario records.
 
@@ -132,11 +133,11 @@ Before any load the script lists currently loaded models via the LM Studio API a
 
 `clean.py` does not run `models.py`. It reads the active list you already have. If that file is missing or has no model keys, it stops and leaves the results alone.
 
-- **archive** — copies `<model-key>.md` and `<model-key>.json` for model keys that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, `results.json`, and `evaluation-*` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
-- **results** — archives first, then deletes those `<model-key>.md` and `<model-key>.json` files from the live folder.
+- **archive** — copies `<model>.md` and `<model>.json` for models that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
+- **results** — archives first, then deletes those `<model>.md` and `<model>.json` files from the live folder.
 - **stats** — archives first, then removes those keys from the live `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats. The tables are rebuilt from the records that remain. The evaluation status section in `test.md` is kept.
 
-`info.md`, `results.md`, `results.json`, and `evaluation-*` stay in the live folder because they describe the scenario, not one model. Their copies in the archive keep the text from the day you archived. Empty result folders are left in place. A markdown file whose key is not in that scenario's `models.json` is left alone.
+`info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` stay in the live folder because they describe the scenario, not one model. Their copies in the archive keep the text from the day you archived. Empty result folders are left in place. A markdown file whose key is not in that scenario's `models.json` is left alone.
 
 ## Files you can edit by hand
 
@@ -144,8 +145,8 @@ Before any load the script lists currently loaded models via the LM Studio API a
 |------|----------------|---------------------|
 | `scenarios/models.json` | Add or remove models you want tested | `models.py` replaces the whole file from LM Studio. `run.py` and `clean.py` only read it |
 | `scenarios/scenarios.json` | Change `mode` | A scan refreshes name, status, and `last_run`, and keeps `mode` |
-| `results/<scenario>/<model-key>.md` | Delete a transcript to make update mode run that model again | Refresh overwrites that key's file. Other keys are not deleted |
-| `results/<scenario>/<model-key>.json` | Same conversation, plus `system_prompt` and `context_length` | Written beside the markdown on a successful test. Delete it with the markdown if you want update mode to run that model again |
+| `results/<scenario>/<model>.md` | Delete a transcript to make update mode run that model again | Refresh overwrites that model's file. Other models are not deleted |
+| `results/<scenario>/<model>.json` | Same conversation, plus `system_prompt` and `context_length` | Written beside the markdown on a successful test. Delete it with the markdown if you want update mode to run that model again |
 | `results/<scenario>/models.json` | Remove a historic model record | A successful test updates that key. A missing record is added back when the transcript exists and the model is on the active list |
 | `results/<scenario>/stats.json` | Edit a model's numbers | The next successful test of that key replaces its record. Other keys stay |
 | `results/stats.json` | Short-lived notes only | The next run that finishes a test rebuilds this file from the scenario stats |

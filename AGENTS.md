@@ -77,14 +77,14 @@ A scenario is any folder under `scenarios/` that contains `test.json`. The id is
 
 - Active list: `scenarios/models.json`. Historic list: `results/<scenario>/models.json`. `run.py` reads the active list and upserts only the key it just tested.
 - Store model, scenario, score, and stats data as JSON lists of objects. Upsert with `utils.upsert_record` and write a list back. A failed test leaves the previous files in place.
-- A scenario is complete when every active model key has `results/<scenario>/<model-key>.md`. Extra markdown (including `evaluation-*.md`) does not count. Choose work from `ready`, `mode`, and whether that markdown file exists. `status` in `scenarios.json` is only the report `scenarios.py` writes.
+- A scenario is complete when every active model key has `results/<scenario>/<model>.md`. Extra markdown (including `evaluation-<model>.md`) does not count. Choose work from `ready`, `mode`, and whether that markdown file exists. `status` in `scenarios.json` is only the report `scenarios.py` writes.
 - Modes: `none` (skip), `update` (write a missing transcript only), `refresh` (overwrite the active list's files). New scenarios get `update`. `FORCE_MODE` overrides every scenario when set.
 - Questions are `question1.md`, `question2.md`, … with no gaps. The loader stops at the first missing number.
 - Resolve `system.md` and `inference.json` from the scenario folder, then each parent, then `scenarios/`. The nearest file replaces the ones above it. An inline `system` string in `test.json` wins. `test.json` can set `"system_prompt": false`.
-- `<model-key>.json` stores `system_prompt` and `context_length` on the object. Messages are user and assistant turns only. The markdown transcript omits the system prompt.
+- `<model>.json` stores `system_prompt` and `context_length` on the object. Messages are user and assistant turns only. The markdown transcript omits the system prompt.
 - Context length is the loaded LM Studio `load_config.context_length`, then the winning `inference.json`, then `DEFAULT_CONTEXT_LENGTH` (16384).
 - `evaluate.py` scores models that already have a transcript and a historic record. A model is scored when its record is in `results.json`. `--force` clears the conversation and replaces `results.json`.
-- `clean.py` reads the active list and does not call `models.py`. A missing or empty active list stops it. Live deletion archives first. `info.md`, `results.md`, `results.json`, and `evaluation-*` stay in the live folder.
+- `clean.py` reads the active list and does not call `models.py`. A missing or empty active list stops it. Live deletion archives first. `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` stay in the live folder.
 - Helper prose goes to `info.md`. `stats.md` and `scenarios.md` are rendered from the records.
 - `used_ram: true` means system RAM rose by at least `RAM_SPILL_THRESHOLD_PERCENT` of `INSTALLED_RAM_GB` while that model ran.
 
@@ -94,7 +94,7 @@ Change a question, `test.json`, `system.md`, or `inference.json` only when the u
 
 `documentation/instructions.md` is sent to the judge on every batch. Edit it when the scoring contract changes.
 
-Hand edits to `scenarios.md`, `stats.md`, `results.md`, and `evaluation-*.md` are overwritten by the next run of the script that owns them. Delete one `<model-key>.md` and its `.json` when the user wants `update` mode to run that model again.
+Hand edits to `scenarios.md`, `stats.md`, `results.md`, and `evaluation-<model>.md` are overwritten by the next run of the script that owns them. Delete one `<model>.md` and its `.json` when the user wants `update` mode to run that model again.
 
 `run.py` keeps the evaluation status section in `test.md`. `evaluate.py` replaces that section.
 

@@ -10,7 +10,7 @@ Each scenario is a folder under `scenarios/` with `test.json` and `question1.md`
 
 - `models.py` replaces the active list in `scenarios/models.json` with the models currently in LM Studio.
 - `scenarios.py` rebuilds `scenarios/scenarios.json` and `scenarios/scenarios.md`, and keeps each scenario's mode. New scenarios start as `update`.
-- `run.py` loads one model at a time, asks the questions in order, and writes `<model-key>.md`, `<model-key>.json`, historic `models.json`, `stats.json`, `stats.md`, and `test.md`.
+- `run.py` loads one model at a time, asks the questions in order, and writes `<model>.md`, `<model>.json`, historic `models.json`, `stats.json`, `stats.md`, and `test.md`.
 - `evaluate.py` ranks a scenario with the backend in `config.py`. The default is the Grok API (`grok_api`, model `grok-4.3`).
 - `clean.py` is the only script that removes live results. It first copies the removed models' transcripts and records into `archive/YYYY MM DD/`, then deletes those keys from the live files.
 
@@ -18,4 +18,4 @@ Each scenario is a folder under `scenarios/` with `test.json` and `question1.md`
 
 `update` fills in missing result files. `refresh` reruns every active model and overwrites those files. `none` skips the scenario. Keep the default at `update`.
 
-A scenario is complete when every active model key has a `<model-key>.md` file. Evaluation notes and other extra markdown do not count.
+A scenario is complete when every model on the active list has a `<model>.md` file. `evaluation-<model>.md` and other extra markdown do not count.

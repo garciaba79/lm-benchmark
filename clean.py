@@ -7,9 +7,10 @@ and does not change that file. Run models.py yourself when you want LM Studio
 to replace the active list.
 
 A model that is still in a scenario's results, but not on the active list, is
-a historic model. Archive copies that model's transcript (.md and .json) and upserts its records
-into the archive JSON files. It also copies scenario-level info.md, results.md,
-results.json, and evaluation files into the archive and leaves those live copies in place.
+a historic model. Archive copies that model's <model>.md and <model>.json and
+upserts its records into the archive JSON files. It also copies scenario-level
+info.md, results.md, results.json, evaluation.json, evaluation-<model>.json,
+and evaluation-<model>.md into the archive and leaves those live copies in place.
 Removing live records always archives first. Models that remain on the active
 list are left in place.
 

@@ -32,7 +32,7 @@ In each scenario results folder:
 - `results.md` — the same scores in a readable table
 - `evaluation-<model>.json` — the conversation, plus `evaluated_keys`, `final_complete`, and `usage`
 - `evaluation-<model>.md` — the same conversation in markdown
-- `evaluation.json` — index of the evaluation files in the folder
+- `evaluation.json` — index of the `evaluation-<model>.json` files in the folder. Each entry has `model`, `file`, and `updated` (the file's modification time)
 - `test.md` — updated with an “Evaluation status” section at the bottom
 
 Each model record stores `key`, `avg_tps`, `correctness`, `quality`, `task_understanding`, `instruction_following`, `usefulness`, `faithfulness`, `pros`, `cons`, and `notes`. Scores are integers from 0 to 100, or `null`. The script fills `key` and `avg_tps` from its own result files. `grok_api` and `openai` ask the API for this JSON shape.
@@ -67,7 +67,7 @@ The script never falls back from one backend to another. If the chosen backend f
 
 A model is scored when its record is in `results.json`. The next run sends only keys that are missing. Each request contains the instructions, the current JSON, and the new transcripts. Older transcripts stay on disk. The script merges the reply by key. A model left out of the reply stays in the file. A reply that drops a new model is sent back once. `--force` clears the conversation and `results.json`.
 
-The script reads `evaluation-<model>.json`. It does not read markdown transcripts. When a scenario finishes, it writes `evaluation-<model>.md` from that JSON.
+The script reads `evaluation-<model>.json`. It does not read markdown transcripts. It rewrites `evaluation-<model>.md` and `evaluation.json` whenever results are published: after each batch, and when every model is already scored.
 
 `usage` in that JSON is the judge API cost for this scenario: `requests`, `prompt_tokens`, `completion_tokens`, and `total_tokens`. A later run that scores only new models adds to those numbers. `--force` starts them over. A backend that does not report usage leaves the field out. The counts are not sent back to the judge.
 

@@ -37,7 +37,7 @@ The percent is how full the context window is after that reply: tokens used so f
 
 - Save the complete turn-by-turn conversation for each model.
 - A hand export can use a filename with the model name and the date.
-- `run.py` writes `results/<scenario>/<model-key>.md` for reading, and `<model-key>.json` for reconstruction. The JSON object holds `system_prompt` and `context_length`. The system prompt is not a message in that file, and it is not copied into the markdown.
+- `run.py` writes `results/<scenario>/<model>.md` for reading, and `<model>.json` for reconstruction. The JSON object holds `system_prompt` and `context_length`. The system prompt is not a message in that file, and it is not copied into the markdown.
 
 #### Collect the test artifacts
 

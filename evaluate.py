@@ -6,7 +6,8 @@ Reads result files from results/<scenario>/, sends them in batches to the
 configured backend, and writes results.json plus a readable results.md.
 The conversation is stored in evaluation-<model>.json (source of truth) and
 evaluation-<model>.md. That JSON also stores usage: the judge requests and
-token counts for this scenario. A model is scored when its record is in
+token counts for this scenario. evaluation.json indexes those
+evaluation-<model>.json files. A model is scored when its record is in
 results.json. test.md gets an evaluation status section.
 
 The backend and model come from config.py. The API key is the one named for

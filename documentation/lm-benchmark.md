@@ -54,16 +54,16 @@ results/
   stats.json                  root stats, rebuilt from scenario stats
   stats.md
   <group>/<scenario>/
-    <model-key>.md            human transcript
-    <model-key>.json          reconstruction transcript
+    <model>.md                human transcript
+    <model>.json              reconstruction transcript
     models.json               historic models for this scenario
     stats.json
     stats.md
     test.md
     results.json              cloud scores, one record per model
     results.md                readable table written from results.json
-    evaluation-<cloud-model>.json
-    evaluation-<cloud-model>.md
+    evaluation-<model>.json
+    evaluation-<model>.md
     evaluation.json
     info.md                   helper prose for this scenario
 
@@ -72,8 +72,8 @@ archive/
     stats.json                root records that were archived that day, merged by key
     stats.md
     results/<group>/<scenario>/
-      <model-key>.md
-      <model-key>.json
+      <model>.md
+      <model>.json
       models.json
       stats.json
       stats.md
@@ -81,7 +81,9 @@ archive/
       info.md                 copy of the live file, when it existed
       results.json            copy of the live file, when it existed
       results.md              copy of the live file, when it existed
-      evaluation-*            copies, when they existed
+      evaluation.json         copy of the live file, when it existed
+      evaluation-<model>.json copy, when it existed
+      evaluation-<model>.md   copy, when it existed
 ```
 
 ## Two model lists
@@ -99,19 +101,19 @@ Set on each scenario in `scenarios/scenarios.json`. `FORCE_MODE` in `config.py` 
 | Mode | Behavior |
 |------|----------|
 | `none` | Skip the scenario. |
-| `update` | Run an active model only when `results/<scenario>/<model-key>.md` is missing. |
+| `update` | Run an active model only when `results/<scenario>/<model>.md` is missing. |
 | `refresh` | Rerun every model on the active list and overwrite those result files. Every other result file stays. |
 
 `update` is the right default. It fills gaps and does not spend another full run on models you already tested. Use `refresh` when the questions or the prompt changed and you want new answers from the current active list. Use `none` to leave a scenario out of this run. `scenarios.py` keeps the mode you set.
 
-A scenario is complete only when every active model key has its `<model-key>.md`. Extra files, including `evaluation-*.md` and hand-written notes, are not counted. Status in `scenarios.json` is `none`, `partial`, or `complete` against the active list.
+A scenario is complete only when every active model key has its `<model>.md`. Extra files, including `evaluation-<model>.md` and hand-written notes, are not counted. Status in `scenarios.json` is `none`, `partial`, or `complete` against the active list.
 
 ## What one successful test writes
 
 For that model key only:
 
-- `<model-key>.md` — title, model key, test name, timestamp, context label such as `16K`, then each user question and assistant reply. A stats line under a reply looks like `42 t/s, 300 tokens, 7s, 12%`. The system prompt is not written into this markdown.
-- `<model-key>.json` — reconstruction file. Shape:
+- `<model>.md` — title, model key, test name, timestamp, context label such as `16K`, then each user question and assistant reply. A stats line under a reply looks like `42 t/s, 300 tokens, 7s, 12%`. The system prompt is not written into this markdown.
+- `<model>.json` — reconstruction file. Shape:
 
 ```json
 {
@@ -177,7 +179,7 @@ LM Studio's `params_string` is used when it parses as a number of billions, such
 
 ## Evaluation
 
-`evaluate.py` reads `<model-key>.md` files. It does not score `evaluation-*.md` or other notes.
+`evaluate.py` reads `<model>.md` files. It does not score `evaluation-<model>.md` or other notes.
 
 `EVAL_BACKEND` defaults to `grok_api`. `EVAL_MODEL` defaults to `grok-4.3`. The model name comes from `config.py`, not from `.env`. Each backend reads one key:
 
@@ -205,12 +207,12 @@ Files written for a finished scenario:
 - `results.md` — that table, sorted by correctness, then quality
 - `evaluation-<model>.json` — the judge conversation, plus `evaluated_keys`, `final_complete`, and `usage` (requests and token counts for this judge on this scenario)
 - `evaluation-<model>.md` — that conversation as markdown, regenerated from the JSON
-- `evaluation.json` — index of those files
+- `evaluation.json` — index of the `evaluation-<model>.json` files. Each entry has `model`, `file`, and `updated` (the file's modification time)
 - `test.md` — an evaluation-status section is added or replaced
 
 A key counts as scored when its record is in `results.json`. Each request sends the instructions, the current JSON, and the new transcripts. The script merges by key and keeps a row the reply omits. `--force` clears the conversation and `results.json`. `--dry-run` prints the plan and writes nothing.
 
-This evaluation JSON is the judge's conversation. It is not the local model's transcript. The local transcript is `<model-key>.json`.
+This evaluation JSON is the judge's conversation. It is not the local model's transcript. The local transcript is `<model>.json`.
 
 ## clean.py
 
@@ -218,14 +220,14 @@ Compare each scenario's historic `models.json` with the active list. A key that 
 
 `archive` copies, and does not delete:
 
-- that model's `<model-key>.md` and `<model-key>.json`
+- that model's `<model>.md` and `<model>.json`
 - that model's object inside the scenario `models.json` and `stats.json`, upserted into the archive copies of those files
 - that model's object from root `results/stats.json`, upserted into `archive/YYYY MM DD/stats.json`
 - a rebuilt archive `stats.md`
 - a short archive `test.md` that lists the archived models
-- copies of the live `info.md`, `results.md`, `results.json`, `evaluation.json`, and `evaluation-*` files
+- copies of the live `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` files
 
-A second archive on the same day upserts the same keys. It does not replace the archive list with only the latest batch. Live `info.md`, `results.md`, `results.json`, and evaluation files stay where they are, because they describe the whole scenario. The archive holds a copy from that day.
+A second archive on the same day upserts the same keys. It does not replace the archive list with only the latest batch. Live `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` stay where they are, because they describe the whole scenario. The archive holds a copy from that day.
 
 `results` and `stats`, including `python clean.py clean`, archive first and then remove the live copies of those model keys. `results` deletes the transcript `.md` and `.json`. `stats` removes the keys from the live scenario `models.json`, `stats.json`, `stats.md`, `test.md`, and the root stats, then rebuilds the tables. The evaluation-status section in the live `test.md` is kept.
 

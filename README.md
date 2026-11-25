@@ -120,4 +120,4 @@ python clean.py stats           # archive, then update stats and model lists
 
 Archive copies each removed model key into `archive/YYYY MM DD/` and merges it into the archive records. A command that removes live records archives first. `info.md`, `results.md`, `results.json`, and `evaluation-*` files are copied into the archive and also left in the live folder.
 
-See [documentation/get-started.md](documentation/get-started.md) for configuration, inference settings, system prompts, hand edits, and hardware detection. Cloud ranking is described in [documentation/evaluation.md](documentation/evaluation.md).
+See [documentation/get-started.md](documentation/get-started.md) for configuration, inference settings, system prompts, hand edits, and hardware detection. Cloud ranking is described in [documentation/evaluation.md](documentation/evaluation.md). Coding agents that work in this repository follow [AGENTS.md](AGENTS.md).

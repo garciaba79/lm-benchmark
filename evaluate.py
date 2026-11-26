@@ -15,7 +15,7 @@ that backend in .env.
 
 Usage:
   python evaluate.py                                        # all scenarios (update mode)
-  python evaluate.py --scenario summary/expedition
+  python evaluate.py --scenario logic/snail
   python evaluate.py --force                                # re-evaluate everything
   python evaluate.py --dry-run
   python evaluate.py --batch-size 3
@@ -817,7 +817,7 @@ def find_scenarios(target: str | None) -> list[Path]:
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate LM Studio test results.")
-    parser.add_argument("--scenario", help="Relative path under results/ (e.g. summary/expedition)")
+    parser.add_argument("--scenario", help="Relative path under results/ (e.g. logic/snail)")
     parser.add_argument("--force", action="store_true", help="Re-evaluate all models even if already done")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be sent without calling the backend")
     parser.add_argument("--batch-size", type=int, default=None, help="Override EVAL_BATCH_SIZE")

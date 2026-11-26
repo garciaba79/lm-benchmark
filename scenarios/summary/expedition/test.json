@@ -1,7 +1,0 @@
-{
-  "name": "summary expedition",
-  "description": "Test how the model is capable of producing an accurate summary.",
-  "test": "summary expedition",
-  "system_prompt": true,
-  "notes": ""
-}

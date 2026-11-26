@@ -1,1 +1,0 @@
-You are a helpful assistant. Answer clearly and follow the user's instructions.

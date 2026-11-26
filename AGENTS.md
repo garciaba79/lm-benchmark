@@ -8,7 +8,7 @@ The scripts are the source of truth. When a doc and a script disagree, follow th
 
 ## Project
 
-Python 3.14 scripts run the same local LM Studio models through the same scenario folders, save the chats and speed numbers, and can send those results to one cloud model for scores. No package, database, test suite, or linter.
+Python 3.14 scripts ask the local models in LM Studio a series of questions, save the answers and the speed numbers, and can send those answers to one cloud model to rank and score them. No package, database, test suite, or linter.
 
 `config.py` exits on import if the interpreter is older than 3.14. Dependencies are `requests` and `psutil`.
 
@@ -16,7 +16,8 @@ Python 3.14 scripts run the same local LM Studio models through the same scenari
 
 | Change | Read |
 | --- | --- |
-| Setup, modes, folders, clean, hand edits | `README.md`, `documentation/get-started.md` |
+| Project introduction | `README.md` |
+| Setup, modes, folders, clean, hand edits | `documentation/get-started.md` |
 | Scoring, resume, judge files | `documentation/evaluation.md` |
 | A backend in `plugins/` | `documentation/plugin.md` |
 | The text the judge receives | `documentation/instructions.md` |
@@ -24,7 +25,7 @@ Python 3.14 scripts run the same local LM Studio models through the same scenari
 | Short form of that briefing | `documentation/summary-app.md` |
 | Running a test by hand in LM Studio | `documentation/workflow.md` |
 
-`todo.md` is personal. `CHANGE.md` is the changelog. `documentation/example/` is a sample scenario, separate from `scenarios/`.
+`todo.md` is personal and gitignored. `CHANGE.md` is the changelog. `documentation/example/` is a sample set of questions, separate from `scenarios/`.
 
 ## Setup
 
@@ -68,8 +69,8 @@ The scripts rewrite these. Change the writer, or edit the one field the writer p
 
 - `scenarios/models.json` is the active list. Only `models.py` replaces it.
 - `scenarios/scenarios.json` keeps the hand-set `mode`.
-- `results/` holds transcripts, stats, and scores. Git tracks this tree on purpose.
-- `archive/` and `meta/` are gitignored.
+- `results/` holds transcripts, stats, and scores. Git tracks this tree on purpose, except the personal folders named in `.gitignore`.
+- `archive/`, `meta/`, and `todo.md` are gitignored.
 
 A scenario is any folder under `scenarios/` that contains `test.json`. The id is the relative path with forward slashes.
 
@@ -119,13 +120,13 @@ Match the file you are editing.
 
 ## Leave these alone
 
-- Do not commit `.env`, `meta/`, `archive/`, or `__pycache__/`.
+- Do not commit `.env`, `meta/`, `archive/`, `todo.md`, or `__pycache__/`.
 - Do not put API keys or machine secrets in `config.py` or in docs.
-- Do not gitignore `results/`.
+- Do not gitignore `results/` as a whole. The personal folders in `.gitignore` stay ignored.
 - Do not delete or rewrite `results/` or `archive/` as a cleanup. `clean.py` is the removal path, and only when the user asks.
 - Do not change `DRY_RUN`, `FORCE_MODE`, `EVAL_BACKEND`, or `EVAL_MODEL` and leave them that way.
 - Do not load or unload LM Studio models, and do not call the xAI, OpenAI, Gemini, or Anthropic APIs, unless the user asked for that run.
-- Do not treat `todo.md` as a backlog. Ask before starting an item from it.
+- Do not treat `todo.md` as a backlog. It is local. Ask before starting an item from it.
 - Do not reformat unrelated code.
 
 ## Commits

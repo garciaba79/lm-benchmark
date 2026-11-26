@@ -17,7 +17,7 @@ The Grok CLI plugin is still available (`EVAL_BACKEND = "grok_cli"`). It is not 
 ## Common options
 
 ```bash
-python evaluate.py --scenario summary/expedition      # one scenario
+python evaluate.py --scenario logic/snail             # one scenario
 python evaluate.py --scenario "code/fim 1"            # one scenario
 python evaluate.py --force                            # re-evaluate everything
 python evaluate.py --dry-run                          # show what would be sent
@@ -71,10 +71,9 @@ The script reads `evaluation-<model>.json`. It does not read markdown transcript
 
 `usage` in that JSON is the judge API cost for this scenario: `requests`, `prompt_tokens`, `completion_tokens`, and `total_tokens`. A later run that scores only new models adds to those numbers. `--force` starts them over. A backend that does not report usage leaves the field out. The counts are not sent back to the judge.
 
-Three hand transcripts that used to be named `grok.md` are now `evaluation-grok-4.3.md`:
+Hand transcripts that used to be named `grok.md` are now `evaluation-grok-4.3.md`. Two of them are in the repo:
 
-- `results/summary/expedition/evaluation-grok-4.3.md`
 - `results/react components/count/evaluation-grok-4.3.md`
 - `results/function/fetch weather/evaluation-grok-4.3.md`
 
-Those three folders have no `evaluation-grok-4.3.json`. The next `evaluate.py` run that scores them with `grok-4.3` will replace that markdown with the new conversation.
+Those folders have no `evaluation-grok-4.3.json`. The next `evaluate.py` run that scores them with `grok-4.3` will replace that markdown with the new conversation.

@@ -41,3 +41,12 @@ meta/
 archive/
 
 # results/ is tracked on purpose.
+
+# Personal notes. Not part of the published project.
+todo.md
+
+# Personal question sets and their saved runs. Kept on this machine.
+scenarios/summary/expedition/
+scenarios/projects/weather app/
+results/summary/expedition/
+results/projects/weather app/

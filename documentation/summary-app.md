@@ -2,9 +2,9 @@
 
 Short description of the project. The full briefing, meant to be pasted to a cloud model, is [lm-benchmark.md](lm-benchmark.md).
 
-Python 3.14 scripts run the same local LM Studio models through the same scenario folders, save the chats and speed numbers, and can ask a cloud model to rank them.
+LM Benchmark tests local models by asking them a series of questions across topics and categories. It saves each model's answers and speed numbers, then can ask a cloud model to evaluate, rank, and score them. Python 3.14.
 
-Each scenario is a folder under `scenarios/` with `test.json` and `question1.md`, `question2.md`, and so on. Optional `system.md` and `inference.json` can sit in the scenario, in a parent group, or in `scenarios/`. Results land in the matching folder under `results/`.
+Each set of questions is a folder under `scenarios/` with `test.json` and `question1.md`, `question2.md`, and so on. Optional `system.md` and `inference.json` can sit in that folder, in a parent group, or in `scenarios/`. The saved answers land in the matching folder under `results/`.
 
 ## Scripts
 

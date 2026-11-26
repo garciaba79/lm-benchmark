@@ -1,6 +1,40 @@
 # Usage
 
-Detailed configuration, modes, and behavior for the LM Studio multi-scenario test project.
+How to set up a run, how the question folders and saved answers are laid out, and which files you can edit by hand. The project introduction is the root [README](../README.md).
+
+## Setup
+
+- Python 3.14. `config.py` exits on import if the interpreter is older.
+- LM Studio, with the local server running. The default address is `http://localhost:1234`.
+- `requests` and `psutil`. The RAM readings use `psutil`.
+
+```bash
+pip install -r requirements.txt
+```
+
+Copy `.env.example` to `.env` when you want cloud scores. Public settings stay in `config.py`. The default backend reads `GROK_API_KEY` only.
+
+## First run
+
+1. Start the LM Studio server.
+2. Edit `config.py` if you need a different base URL, token, or helper model.
+3. Run `python models.py`. That replaces `scenarios/models.json` with the LLMs currently installed. Edit that file if you want a smaller set. Those edits last until the next `models.py` run.
+4. Run `python scenarios.py`.
+5. Set the mode for each set of questions in `scenarios/scenarios.json`. A new one starts as `update`. Later scans keep the mode you set.
+6. Run `python run.py`.
+7. Rank the finished runs with `python evaluate.py`.
+
+`models.py`, `scenarios.py`, and `run.py` take no flags. `run.py` follows `DRY_RUN`, `FORCE_MODE`, and `BASE_URL` in `config.py`. `evaluate.py` accepts `--scenario`, `--force`, `--dry-run`, and `--batch-size`.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `python models.py` | Writes `scenarios/models.json` from the LLMs installed in LM Studio. No flags. |
+| `python scenarios.py` | Rebuilds the list of question folders and keeps each mode. No flags. |
+| `python run.py` | Loads each model, asks the questions, and saves the answers. No flags. `DRY_RUN`, `FORCE_MODE`, and `BASE_URL` are in `config.py`. |
+| `python evaluate.py` | Sends the saved answers to a cloud model and writes the scores. Flags: `--scenario`, `--force`, `--dry-run`, `--batch-size`. |
+| `python clean.py` | Archives models you have removed, then can delete those saved runs. Words: `archive`, `clean`, `results`, `stats`. No words uses the defaults in `config.py`. |
 
 ## Configuration
 
@@ -54,6 +88,18 @@ These are the defaults used by `clean.py` when you run it with no arguments.
 | `RESULTS` | `True` | Remove conversation files for removed models |
 | `STATS`   | `True` | Strip removed models from stats and model lists |
 
+## Modes
+
+Modes are set per set of questions in `scenarios/scenarios.json`. `FORCE_MODE` in `config.py` overrides every one of them when it is set.
+
+| Mode | Behavior |
+|------|----------|
+| `none` | Skip |
+| `update` | Write a result file only when that model does not already have one |
+| `refresh` | Rerun every model on the active list. Overwrites those result files. Leaves every other result alone |
+
+A new set of questions gets `update`.
+
 ## Scenario folder
 
 Each scenario is a folder under `scenarios/` (nested group folders are allowed). Minimum required files:
@@ -77,6 +123,12 @@ The runner looks for `system.md` and `inference.json` in this order (highest fir
 `test.json` can still set `"system_prompt": false` or supply an inline `"system"` string. That inline string wins. Otherwise a `system` string inside the winning `inference.json` is used, and then `system.md`.
 
 If `USE_CUSTOM_INFER` is `False`, LM Studio defaults are used and no inference file is read. The chat request forwards `temperature`, `top_p`, `top_k`, `repeat_penalty`, and `reasoning_effort` when they are set. The nearest inference file replaces the ones above it. The files are not merged field by field.
+
+## Active list and historic record
+
+`scenarios/models.json` is the active list: the models to test now. Only `models.py` replaces it. `run.py` reads it and does not rewrite it.
+
+`results/<scenario>/models.json` is the historic record for that set of questions. A successful test updates the matching model key and leaves the other models in the file. A result folder can hold models that are no longer on the active list. `clean.py` archives those models and removes them from the live results.
 
 ## Results folder
 
@@ -113,7 +165,7 @@ The percent on a chat stats line is `total_tokens` from that reply divided by th
 
 ## Hardware and spill detection
 
-At the start of a run the script records current RAM usage (via `psutil`). While each model is running it tracks peak RAM. If the increase exceeds `RAM_SPILL_THRESHOLD_PERCENT` of `INSTALLED_RAM_GB`, the model’s entry in the root stats is marked `"used_ram": true`.
+At the start of a run the script records current RAM usage (via `psutil`). A run that is not a dry run also writes a machine snapshot to `meta/hardware.json`. That folder is gitignored. While each model is running it tracks peak RAM. If the increase exceeds `RAM_SPILL_THRESHOLD_PERCENT` of `INSTALLED_RAM_GB`, the model’s entry in the root stats is marked `"used_ram": true`.
 
 This is a simple heuristic. It works best when you do not load other large processes during the test run. If `psutil` is not installed the check is skipped.
 
@@ -132,6 +184,16 @@ Before any load the script lists currently loaded models via the LM Studio API a
 ## Cleaning and archiving
 
 `clean.py` does not run `models.py`. It reads the active list you already have. If that file is missing or has no model keys, it stops and leaves the results alone.
+
+```bash
+python clean.py                 # defaults in config.py: archive, then clean
+python clean.py archive         # copy removed-model data only
+python clean.py clean           # archive, then remove result files and update stats
+python clean.py results         # archive, then remove the conversation files
+python clean.py stats           # archive, then update stats and model lists
+```
+
+A command that removes live records archives first. Passing a word turns on only that action, and the removal actions still archive before they delete.
 
 - **archive** — copies `<model>.md` and `<model>.json` for models that are in a scenario's historic `models.json` but not on the active list. It upserts those keys into the archive `models.json` and `stats.json`, and into the archive root stats. It also copies `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` into that archive folder. A second run on the same day updates those keys instead of replacing the archive files. Live files stay.
 - **results** — archives first, then deletes those `<model>.md` and `<model>.json` files from the live folder.

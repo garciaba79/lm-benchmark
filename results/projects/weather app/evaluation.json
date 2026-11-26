@@ -1,9 +1,0 @@
-{
-  "evaluations": [
-    {
-      "model": "grok-4.3",
-      "file": "evaluation-grok-4.3.json",
-      "updated": 1794993512.9676974
-    }
-  ]
-}

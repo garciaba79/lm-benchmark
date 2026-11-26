@@ -4,9 +4,9 @@ Briefing for a cloud model that needs to understand this project without opening
 
 ## What it is
 
-LM Benchmark is a file-based Python 3.14 project. It tests local LLMs in LM Studio on the same scenarios, saves the chats and the speed numbers, and can send those results to a cloud model for a ranked evaluation.
+LM Benchmark tests local models in LM Studio by asking them a series of questions across topics and categories. It saves each model's answers and the speed numbers, and can send those answers to a cloud model to evaluate, rank, and score them. Python 3.14. There is no database.
 
-There is no database. A scenario is a folder of markdown questions. A result is a matching folder of markdown and JSON. Scripts upsert records by key. They write JSON lists, not dicts. A normal run does not delete other models' results. `clean.py` is the only script that removes live results, and it archives those records first.
+A set of questions is a folder of markdown files. The saved answers are a matching folder of markdown and JSON. In the code those folders are `scenarios/` and `results/`. Scripts upsert records by key. They write JSON lists, not dicts. A normal run does not delete other models' results. `clean.py` is the only script that removes live results, and it archives those records first.
 
 `config.py` exits on import when the interpreter is older than Python 3.14. Dependencies are `requests` and `psutil`. LM Studio's local server is expected at `http://localhost:1234`.
 
@@ -247,6 +247,7 @@ An empty or missing active list aborts. Nothing is archived or deleted. A transc
 ## Other documents
 
 - `README.md` — short human introduction
+- `LICENSE` — MIT
 - `documentation/get-started.md` — settings, precedence, and the hand-edit table
 - `documentation/evaluation.md` — how to run the judge
 - `documentation/workflow.md` — the same process done by hand

@@ -1,126 +1,70 @@
-# LM Studio Model Test Harness
+# LM Benchmark
 
-A small set of Python scripts that run the same local models through the same conversations in LM Studio so you can compare them fairly.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.14](https://img.shields.io/badge/python-3.14-blue.svg)](https://www.python.org/downloads/)
 
-You put each test in its own folder under `scenarios/`. The scripts load the models one by one, ask the questions in order, and save the full chat plus speed and memory numbers. Results come out as plain markdown files under `results/`. You can add a new test by making a folder, run only the models that are missing results, or re-run everything. Later you can hand the files to a cloud model for scoring.
+LM Benchmark tests local models by asking them a series of questions across topics and categories. It saves each model's answers, then evaluates, ranks, and scores them. You get a set of small-model results you can read through. They show how different models respond, behave, and perform, and they help you understand their capability and decide which model to use for a task.
 
-## Features
+## Test Example
 
-- Run many models against many scenarios with identical inputs
-- Update mode (run tests for missing results) or refresh mode (run tests for all current models)
-- Optional custom inference settings per scenario, group, or scenarios root
-- System prompt fallback with the same three-level precedence
-- Statistics for the models including tokens per second, time, and if spilled into RAM
-- Snapshot of the models used for each scenario
-- Optional helper model summaries
-- Clean and archive results for models you have removed from LM Studio
+Here is an example of a test that tests the local models on a code completion task.  
 
-## Requirements
+This test is interesting. It simulates the model's ability to fill in the middle (FIM) while writing code.  
+Only certain models have the capability for FIM, but the test is a question and the model should be able to respond reasonably well.  
 
-- Python 3.14
-- LM Studio with the local server running
-- `requests`
-- `psutil` (used for RAM readings and detect if the model spilled into RAM)
+| Model | t/s | Time | Correctness | Quality |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen2.5 Coder 32B Instruct | 6 | 51s | 85 | 75 |
+| Qwen3.6 35B A3B | 43 | 16s | 85 | 70 |
+| Qwen3 Coder 30B | 61 | 8s | 80 | 70 |
+| Gemma 4 E2B | 193 | 5s | 70 | 65 |
+| LFM2.5 2.6B | 253 | 13s | 60 | 65 |
+| Nemotron 3 Nano 4B | 225 | 3s | 55 | 60 |
+| Qwen2.5 Coder 1.5B Instruct | 297 | 2s | 45 | 50 |
+| LFM2.5 230M | 962 | 1s | 10 | 15 |
 
-```bash
-pip install requests psutil
-```
+#### Evaluation Example
 
-## Quick start
+The top model with the best score performed the slowest. Qwen2.5 Coder 32B took 51s at 6 t/s, and the evaluation called it the closest to something you could use without a major rewrite.
 
-1. Start the LM Studio server.
-2. Edit `config.py` if you need a different base URL, token, or helper model.
-3. Run `python models.py` and edit `scenarios/models.json` to keep only the models you want to test.
-4. Create a scenario folder under `scenarios/` containing at least `test.json` and `question1.md`.
-5. Optionally add `system.md` or `inference.json` at the scenario, group, or scenarios root level.
-6. Run `python scenarios.py`.
-7. Set the desired mode for each scenario in `scenarios/scenarios.json` (default for a new scenario is `update`). Later scans keep the mode you set.
-8. Run `python run.py`.
-9. Rank the finished scenarios with `python evaluate.py`. The default backend is the Grok API.
+A few of the smaller models stood out.
 
-Results appear under `results/<scenario-path>/`.
+Gemma 4 E2B scored 70 for correctness, in the same range as models several times its size, and it finished in 5s at 193 t/s. The evaluation called it fast and reasonably correct. It still added extra error handling the question did not ask for.
 
-`scenarios/models.json` is the active list: the models to test now. `models.py` replaces that file with whatever LM Studio currently has installed. Hand edits there are kept until the next `models.py` run. `run.py` reads the active list and does not rewrite it.
+LFM2.5 2.6B scored 60 for correctness and 65 for quality. That sits near several 8B to 14B results. It still wrote a full docstring, which this question did not want.
 
-`results/<scenario>/models.json` is the historic record for that scenario. A successful test updates the matching model key and leaves the other models in the file. Result folders can hold models that are no longer on the active list. `clean.py` is the command that archives those models and removes them from the live results.
+Nemotron 3 Nano 4B scored 55. It was not the most correct model. The evaluation said it came the closest to returning only the function.
 
-## Project layout
+Qwen2.5 Coder 1.5B scored 45. The evaluation called it the least broken of the small models, and the best attempt at the user filter. Quite a few larger models skipped that filter.
 
-```
-config.py
-utils.py
-models.py
-scenarios.py
-run.py
-clean.py
-evaluate.py
-plugins/
-meta/hardware.json
+LFM2.5 230M ran at 962 t/s and finished in 1s. Correctness was 10. The code was syntactically broken.
 
-documentation/
-scenarios/
-  models.json                     ← active list
-  scenarios.json
-  scenarios.md
-  info.md                         ← helper-model prose, when the helper runs
-  system.md                       ← lowest precedence
-  inference.json                  ← lowest precedence
-  function/
-    inference.json                ← group level
-    test1/
-      test.json
-      question1.md
-      system.md                   ← highest precedence
-      inference.json              ← highest precedence
+See the test [question](scenarios/code/fim%201/question1.md)  
+See the test [results](results/code/fim%201/results.md)  
 
-results/
-  stats.json                      ← root stats, rebuilt from scenario stats
-  stats.md
-  function/
-    test1/
-      <model>.md
-      <model>.json
-      models.json                 ← historic models for this scenario
-      stats.json
-      stats.md
-      test.md
-      results.json                ← cloud scores from evaluate.py
-      results.md                  ← readable table written from results.json
-      evaluation-<model>.json
-      evaluation-<model>.md
-      evaluation.json
-      info.md                     ← helper-model prose, when the helper runs
+## Get Started
 
-archive/
-  2026 11 04/                     ← dated archive of models removed from the active list
-    results/
-      ...
-```
+See the documentation to [get started](documentation/get-started.md)
 
-## Modes
+## Documentation
 
-Modes are set per scenario in `scenarios/scenarios.json` (or overridden with `FORCE_MODE` in `config.py`).
+| Document | Description |
+| --- | --- |
+| [Get Started](documentation/get-started.md) | Instructions on how to get started with the benchmark |
+| [Evaluation information](documentation/evaluation.md) | Instructions on how to evaluate models |
+| [Evaluation instructions](documentation/instructions.md) | Instructions for the cloud model evaluation |
+| [Example scenario](documentation/example/examples.md) | An example of a question |
+| [Project briefing](documentation/lm-benchmark.md) | The full description for a model that cannot open the repo i.e. chat agent |
+| [Short briefing](documentation/summary-app.md) | The short form of the project briefing |
+| [Manual evaluation](documentation/workflow.md) | Evaluate the results with a cloud model chat in the browser |
+| [Manual evaluation instructions](documentation/instructions-prompt.md) | The prompt to paste if you score a batch yourself |
+| [Plugins](documentation/plugin.md) | Information for adding new plugins |
+| [Grok CLI](documentation/grok-cli.md) | Evaluate the results with the Grok CLI |
+| [Changelog](CHANGE.md) | What changed |
+| [AGENTS.md](AGENTS.md) | Notes for a coding agent working in this repo |
 
-| Mode      | Behavior |
-|-----------|----------|
-| `none`    | Skip the scenario |
-| `update`  | Run only models that do not already have a result file |
-| `refresh` | Rerun every model on the active list (overwrites those result files; leaves every other result alone) |
+## License
 
-## Cleaning and archiving
-
-After you remove models from LM Studio you can clean the results so they only contain the models that are still installed. 
-
-`clean.py` compares each scenario's historic `models.json` with the active list. It does not run `models.py`. If the active list is missing or has no model keys, it stops and leaves the results alone.
-
-```bash
-python clean.py                 # archive then clean (uses config.py defaults)
-python clean.py archive         # copy removed-model data only
-python clean.py clean           # archive, then remove result files and update stats
-python clean.py results         # archive, then remove conversation files
-python clean.py stats           # archive, then update stats and model lists
-```
-
-Archive copies each removed model into `archive/YYYY MM DD/` and merges it into the archive records. A command that removes live records archives first. `info.md`, `results.md`, `results.json`, `evaluation.json`, `evaluation-<model>.json`, and `evaluation-<model>.md` are copied into the archive and also left in the live folder.
-
-See [documentation/get-started.md](documentation/get-started.md) for configuration, inference settings, system prompts, hand edits, and hardware detection. Cloud ranking is described in [documentation/evaluation.md](documentation/evaluation.md). Coding agents that work in this repository follow [AGENTS.md](AGENTS.md).
+Copyright (c) 2026 BillyJoe Garcia  
+[garciaba79](https://github.com/garciaba79)  
+[MIT](LICENSE)  

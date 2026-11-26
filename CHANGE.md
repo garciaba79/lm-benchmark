@@ -2,6 +2,10 @@
 
 ## 2026-11-25
 
+### Public README and license
+
+The root README is the project introduction. Setup, modes, and cleaning details live in `documentation/get-started.md`. The project is MIT licensed.
+
 ### Judge API usage
 
 `evaluate.py` stores judge request and token counts in `evaluation-<model>.json` under `usage`. The counts belong to that scenario. A later run adds to them. `--force` starts them over. A backend that does not report usage leaves the field out.

@@ -42,8 +42,8 @@ archive/
 
 # results/ is tracked on purpose.
 
-# Personal notes. Not part of the published project.
-todo.md
+# Personal pan and notes. Not part of the published project.
+plan/
 
 # Personal question sets and their saved runs. Kept on this machine.
 scenarios/summary/expedition/

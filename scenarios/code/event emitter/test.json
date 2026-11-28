@@ -1,0 +1,5 @@
+{
+  "name": "Typed Event Emitter",
+  "description": "Pure TypeScript challenge. Implement a generic event emitter with on, off, once, and emit. Tests generics, listener management, and edge cases. No external libraries.",
+  "system_prompt": true
+}

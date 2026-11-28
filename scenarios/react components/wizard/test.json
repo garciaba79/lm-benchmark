@@ -1,0 +1,5 @@
+{
+  "name": "Multi-Step Wizard",
+  "description": "Three-step controlled React wizard with validation, back button, and summary. Tests parent state, controlled inputs, and step logic. No external libraries.",
+  "system_prompt": true
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Settings Panel",
+  "description": "Simple controlled React settings panel with live preview. Tests useState, controlled inputs, and immediate UI updates. No external libraries.",
+  "system_prompt": true
+}

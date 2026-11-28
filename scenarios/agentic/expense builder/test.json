@@ -1,0 +1,5 @@
+{
+  "name": "Agentic Expense Builder",
+  "description": "Seven-question simulated agentic workflow. Model plans a controlled React expense list, implements it, then extends, extracts, tests, and reviews across turns. Tests multi-turn consistency and incremental changes.",
+  "system_prompt": true
+}
